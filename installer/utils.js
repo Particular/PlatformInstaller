@@ -30,7 +30,7 @@ function SelectProduct(aProdId, aProdProperty)
 
 function TickCheckbox(aProdId, aProdProperty)
 {
-    if (external.MsiGetProperty(aProdProperty) == "set")
+    if (external.MsiGetProperty(aProdProperty))
     {
         //alert( external.MsiGetProperty(aProdProperty) );
         $(aProdId).prop('checked', true);

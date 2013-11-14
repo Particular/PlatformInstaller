@@ -15,9 +15,15 @@
 </div>
 
 <form action="">
-<input id="NSB" type="checkbox">NServiceBus<br>
-<input id="SC" type="checkbox">Service Control
+<input id="SP" type="checkbox">Service Pulse<br>
+<input id="SI" type="checkbox">Service Insight<br>
+<input id="SM" type="checkbox">Service Matrix<br>
+<input id="SC" type="checkbox">Service Control<br><br>
+<input id="SAMP" type="checkbox">Samples<br>
+<input id="TOOL" type="checkbox">Tools
 </form>
+
+
 
 <script>
 
@@ -28,12 +34,33 @@ $(document).ready(function(){
 
 
 //control properties based on user selection from HTML
-SelectProduct("#NSB", "NSB_PROP");
+SelectProduct("#SP", "SP_PROP");
+SelectProduct("#SI", "SI_PROP");
+SelectProduct("#SM", "SM_PROP");
 SelectProduct("#SC", "SC_PROP");
 
+SelectProduct("#SAMP", "SAMP_PROP");
+SelectProduct("#TOOL", "TOOL_PROP");
+
+
+//load HTML based on installer searches, initialize view when installer is launched
+TickCheckbox("#SP", "SP_SEARCH");
+TickCheckbox("#SI", "SI_SEARCH");
+TickCheckbox("#SM", "SM_SEARCH");
+TickCheckbox("#SC", "SC_SEARCH");
+
+TickCheckbox("#SAMP", "SAMP_SEARCH");
+TickCheckbox("#TOOL", "TOOL_SEARCH");
+
+
 //load HTML based on properties values
-TickCheckbox("#NSB", "NSB_PROP");
+TickCheckbox("#SP", "SP_PROP");
+TickCheckbox("#SI", "SI_PROP");
+TickCheckbox("#SM", "SM_PROP");
 TickCheckbox("#SC", "SC_PROP");
+
+TickCheckbox("#SAMP", "SAMP_PROP");
+TickCheckbox("#TOOL", "TOOL_PROP");
 
 </script>
 

@@ -79,7 +79,7 @@
     <ROW Dialog_="SelectProducts" Control="PreparingLabel" Type="Text" X="35" Y="114" Width="104" Height="11" Attributes="196611" Text="Preparing installation" TextStyle="Labels" Order="800"/>
     <ROW Dialog_="SelectProducts" Control="InstallingLabel" Type="Text" X="35" Y="138" Width="104" Height="11" Attributes="196611" Text="Installing" TextStyle="Labels" Order="900"/>
     <ROW Dialog_="SelectProducts" Control="FinalizingLabel" Type="Text" X="35" Y="162" Width="104" Height="11" Attributes="196611" Text="Finalizing installation" TextStyle="Labels" Order="1000"/>
-    <ROW Dialog_="SelectProducts" Control="HtmlHost_1" Type="HtmlHost" X="149" Y="42" Width="377" Height="293" Attributes="3" Text="http://dl.dropboxusercontent.com/u/5392761/Elance/NServiceBus/sample/checkboxSample.html" Order="1100" ExtType="HtmlHost"/>
+    <ROW Dialog_="SelectProducts" Control="HtmlHost_1" Type="HtmlHost" X="149" Y="42" Width="377" Height="293" Attributes="3" Text="file:///[&amp;products.html]" Order="1100" ExtType="HtmlHost"/>
     <ATTRIBUTE name="FixedSizeBitmaps" value="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiControlEventComponent">
@@ -108,13 +108,13 @@
     <ROW Dialog_="SelectProducts" Control_="Cancel" Event="SpawnDialog" Argument="CancelDlg" Condition="1" Ordering="100"/>
     <ROW Dialog_="SelectProducts" Control_="Next" Event="NewDialog" Argument="FolderDlg" Condition="AI_INSTALL" Ordering="10"/>
     <ROW Dialog_="SelectProducts" Control_="Back" Event="NewDialog" Argument="WelcomeDlg" Condition="AI_INSTALL" Ordering="1"/>
-    <ROW Dialog_="FatalError" Control_="Finish" Event="DoAction" Argument="AI_RemoveTempFiles" Condition="1" Ordering="102"/>
-    <ROW Dialog_="UserExit" Control_="Finish" Event="DoAction" Argument="AI_RemoveTempFiles" Condition="1" Ordering="101"/>
     <ROW Dialog_="SelectProducts" Control_="Next" Event="[MSG_PROP]" Argument="You have set the property NSB_PROP" Condition="AI_INSTALL AND ( NSB_PROP )" Ordering="2"/>
     <ROW Dialog_="SelectProducts" Control_="Next" Event="[MSG_PROP]" Argument="You have set the property SC_PROP" Condition="AI_INSTALL AND ( SC_PROP )" Ordering="4"/>
     <ROW Dialog_="SelectProducts" Control_="Next" Event="[MSG_PROP]" Argument="You have set the properties NSBPROP and SC_PROP" Condition="AI_INSTALL AND ( SC_PROP AND NSB_PROP )" Ordering="6"/>
     <ROW Dialog_="SelectProducts" Control_="Next" Event="DoAction" Argument="MessageBox" Condition="AI_INSTALL AND ( SC_PROP OR NSB_PROP )" Ordering="9"/>
     <ROW Dialog_="SelectProducts" Control_="Next" Event="DoAction" Argument="AI_DATA_SETTER_1" Condition="AI_INSTALL" Ordering="8"/>
+    <ROW Dialog_="FatalError" Control_="Finish" Event="DoAction" Argument="AI_RemoveTempFiles" Condition="1" Ordering="102"/>
+    <ROW Dialog_="UserExit" Control_="Finish" Event="DoAction" Argument="AI_RemoveTempFiles" Condition="1" Ordering="101"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
     <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH_ORIGINAL" Target="[AI_SETUPEXEPATH]"/>
@@ -160,11 +160,7 @@
     <ROW Action="AI_ResolveKnownFolders" Sequence="52"/>
     <ROW Action="AI_ResolveLocalizedCredentials" Sequence="51"/>
     <ROW Action="AI_RemoveExternalUIStub" Condition="(REMOVE=&quot;ALL&quot;) AND ((VersionNT &gt; 500) OR((VersionNT = 500) AND (ServicePackLevel &gt;= 4)))" Sequence="1503"/>
-    <ROW Action="InstallFinalize" Sequence="6599" SeqType="0" MsiKey="InstallFinalize"/>
-    <ROW Action="AI_ExtractTempFiles" Sequence="1001"/>
-    <ROW Action="AI_RemoveTempFiles" Sequence="6600"/>
-    <ROW Action="AI_RemoveAllTempFiles" Sequence="1502"/>
-    <ROW Action="AI_DATA_SETTER" Sequence="1501"/>
+    <ROW Action="InstallFinalize" Sequence="6598" SeqType="0" MsiKey="InstallFinalize"/>
     <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Sequence="99" Builds="DefaultBuild"/>
     <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="101" Builds="DefaultBuild"/>
     <ROW Action="AI_DeleteCadLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="199" Builds="DefaultBuild"/>
@@ -173,19 +169,23 @@
     <ROW Action="AI_FindExeLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="196" Builds="DefaultBuild"/>
     <ROW Action="AI_ExtractLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="1549" Builds="DefaultBuild"/>
     <ROW Action="AI_DeleteRLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="1548" Builds="DefaultBuild"/>
-    <ROW Action="AI_DeleteLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="6598" Builds="DefaultBuild"/>
+    <ROW Action="AI_DeleteLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="6597" Builds="DefaultBuild"/>
     <ROW Action="AI_ExtractFiles" Sequence="3998" Builds="DefaultBuild"/>
     <ROW Action="AI_DATA_SETTER_2" Sequence="3997"/>
     <ROW Action="AI_EstimateExtractFiles" Sequence="3999" Builds="DefaultBuild"/>
+    <ROW Action="AI_ExtractTempFiles" Sequence="1001"/>
+    <ROW Action="AI_RemoveTempFiles" Sequence="6599"/>
+    <ROW Action="AI_RemoveAllTempFiles" Sequence="1502"/>
+    <ROW Action="AI_DATA_SETTER" Sequence="1501"/>
     <ATTRIBUTE name="RegisterProduct" value="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstallUISequenceComponent">
     <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="749"/>
     <ROW Action="AI_ResolveKnownFolders" Sequence="52"/>
     <ROW Action="AI_ResolveLocalizedCredentials" Sequence="51"/>
-    <ROW Action="AI_ExtractTempFiles" Sequence="1001"/>
     <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Sequence="99"/>
     <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="101"/>
+    <ROW Action="AI_ExtractTempFiles" Sequence="1001"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
     <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsType9XDisplay]" DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="DefaultBuild"/>
@@ -207,6 +207,7 @@
     <ROW UpgradeCode="[|UpgradeCode]" VersionMin="[|ProductVersion]" Attributes="2" ActionProperty="AI_NEWERPRODUCTFOUND"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.TempFileComponent">
-    <ROW FileId="checkboxsample.html" Name="checkb~1.htm|checkboxSample.html" Directory_="TempFolder" Property="AI_CHECKBOXSAMPLE.HTML" Options="0" Data="checkboxSample.html"/>
+    <ROW FileId="frame.css" Name="frame.css" Directory_="TempFolder" Property="AI_FRAME.CSS" Options="0" Data="frame.css"/>
+    <ROW FileId="products.html" Name="produc~1.htm|products.html" Directory_="TempFolder" Property="AI_PRODUCTS.HTML" Options="0" Data="products.html"/>
   </COMPONENT>
 </DOCUMENT>

@@ -4,6 +4,7 @@
 <head>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="utils.js"></script>
 
 </head>
 
@@ -14,53 +15,25 @@
 </div>
 
 <form action="">
-<input id="NSB" type="checkbox" name="Product" value="NSB">NServiceBus<br>
-<input id="SC" type="checkbox" name="Product" value="SC">Service Control
+<input id="NSB" type="checkbox">NServiceBus<br>
+<input id="SC" type="checkbox">Service Control
 </form>
 
 <script>
 
+//animation if the HTML takes to long to load
 $(document).ready(function(){
     $('#loadingMessage').hide();
 });
 
 
-$("#NSB").click(function() {
-    // this function will get executed every time the #home element is clicked (or tab-spacebar changed)
-    if($(this).is(":checked")) // "this" refers to the element that fired the event
-    {
-        external.MsiSetProperty('NSB_PROP', 'set');
-    }
-    else
-    {
-            // delete property
-        external.MsiSetProperty('NSB_PROP', '[~]');
-    }
-});
+//control properties based on user selection from HTML
+SelectProduct("#NSB", "NSB_PROP");
+SelectProduct("#SC", "SC_PROP");
 
-$("#SC").click(function() {
-    // this function will get executed every time the #home element is clicked (or tab-spacebar changed)
-    if($(this).is(":checked")) // "this" refers to the element that fired the event
-    {
-        external.MsiSetProperty('SC_PROP', 'set');
-    }
-    else
-    {
-              // delete property
-        external.MsiSetProperty('SC_PROP', '[~]');
-    }
-});
-
-if (external.MsiGetProperty('NSB_PROP') == "set")
-{
-//alert( external.MsiGetProperty('NSB_PROP') );
-$('#NSB').prop('checked', true);
-}
-
-if (external.MsiGetProperty('SC_PROP') == "set")
-{
-$('#SC').prop('checked', true);
-}
+//load HTML based on properties values
+TickCheckbox("#NSB", "NSB_PROP");
+TickCheckbox("#SC", "SC_PROP");
 
 </script>
 

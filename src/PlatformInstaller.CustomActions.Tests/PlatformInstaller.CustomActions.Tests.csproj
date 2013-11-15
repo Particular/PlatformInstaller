@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="CustomActionContext.cs" />
     <Compile Include="DownloadApplicationTests.cs" />
+    <Compile Include="DownloadNugetTests.cs" />
     <Compile Include="DownloadSampleTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -5,7 +5,6 @@
     using System.IO;
     using System.Linq;
     using System.Net;
-    using System.Runtime.InteropServices;
     using System.Security.Principal;
     using System.Text;
     using Ionic.Zip;
@@ -13,6 +12,51 @@
 
     public class CustomActions
     {
+
+        [CustomAction]
+        public static ActionResult DownloadNuget(Session session)
+        {
+            Log(session, "Begin custom action DownloadApplication");
+
+            var nugetName = session.Get("NUGET_NAME");
+
+            var targetDir = session.Get("TARGET_NUGET_DIR");
+
+
+            var urlToDownload = string.Format("http://nuget.org/api/v2/package/{0}", nugetName);
+
+
+            var tempDownloadPath = Path.GetTempFileName();
+
+
+            DownloadUrl(urlToDownload, tempDownloadPath);
+
+
+            using (var zipFile = ZipFile.Read(tempDownloadPath))
+            {
+                zipFile.ToList().ForEach(entry =>
+                {
+                    var fileName = entry.FileName;
+
+                    if (fileName.EndsWith(".exe") || fileName.EndsWith(".dll"))
+                    {
+                        entry.FileName = fileName.Split('/').Last();
+
+                        Console.Out.WriteLine(entry.FileName);
+                        entry.Extract(targetDir, ExtractExistingFileAction.OverwriteSilently);
+                    }
+
+                });
+
+            }
+
+            Log(session, "NuGet " + nugetName + " extracted to " + targetDir);
+
+            return ActionResult.Success;
+        }
+
+
+
         [CustomAction]
         public static ActionResult DownloadSelectedApplications(Session session)
         {

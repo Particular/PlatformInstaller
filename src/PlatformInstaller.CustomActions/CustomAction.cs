@@ -5,8 +5,10 @@
     using System.IO;
     using System.Linq;
     using System.Net;
+    using System.Runtime.InteropServices;
     using System.Security.Principal;
     using System.Text;
+    using Ionic.Zip;
     using Microsoft.Deployment.WindowsInstaller;
 
     public class CustomActions
@@ -15,46 +17,69 @@
         [CustomAction]
         public static ActionResult DownloadSamples(Session session)
         {
-            Log(session, "Begin custom action ValidateUrl");
+            Log(session, "Begin custom action DownloadSamples");
 
             var repositoryId = session.Get("SAMPLE_REPOSITORY");
+            var repoName = repositoryId.Split('/').Last();
 
-            var targetDir = session.Get("TARGET_DOWNLOAD_DIR");
+            var targetDir = session.Get("TARGET_SAMPLE_DIR");
 
             var urlToDownload = string.Format("http://github.com/{0}/archive/master.zip", repositoryId);
 
-            var targetPath = Path.Combine(targetDir, repositoryId.Replace("/", "_") + ".zip");
 
+
+            var zipFileName = Path.GetTempFileName();
+
+            var tempDownloadPath = Path.Combine(targetDir, zipFileName);
+
+            DownloadUrl(urlToDownload, tempDownloadPath);
+
+
+            using (var zipFile = ZipFile.Read(tempDownloadPath))
+            {
+                zipFile.ToList().ForEach(entry =>
+                {
+                    var fileName = entry.FileName.Replace(repoName + "-master/", "");
+
+                    if (!string.IsNullOrEmpty(fileName) && 
+                        !fileName.StartsWith(".") && //no . files
+                        fileName.Contains("/")) // nothing in the root
+                    {
+                        entry.FileName = entry.FileName.Replace(repoName + "-master/", "");
+
+                        Console.Out.WriteLine(entry.FileName);
+                        entry.Extract(targetDir, ExtractExistingFileAction.OverwriteSilently);
+                    }
+
+                });
+               
+            }
+
+            Log(session, "Sample " + repositoryId + " extracted to " + targetDir);
+
+            return ActionResult.Success;
+        }
+
+        static void Unzip(string tempDownloadPath, Func<ZipEntry, string> extractTo)
+        {
+            using (var zipFile = ZipFile.Read(tempDownloadPath))
+            {
+                foreach (var entry in zipFile)
+                {
+                    Console.Out.WriteLine(entry.FileName);
+                    entry.Extract(extractTo(entry), ExtractExistingFileAction.OverwriteSilently);
+                }
+            }
+        }
+
+        static void DownloadUrl(string urlToDownload, string targetPath)
+        {
             using (var client = new WebClient())
             {
                 client.DownloadFile(urlToDownload, targetPath);
             }
-
-
-            Log(session, "End custom action ValidateUrl");
-
-            return ActionResult.Success;
         }
 
-        [CustomAction]
-        public static ActionResult UnpackSamples(Session session)
-        {
-            Log(session, "Begin custom action ValidateUrl");
-
-            //var repositoryId = session.Get("SAMPLE_REPOSITORY");
-            //var urlToDownload = string.Format("http://github.com/{0}/archive/master.zip", repositoryId);
-
-            //var targetPath = Path.Combine(Path.GetTempPath(), repositoryId.Replace("/", "_") + ".zip");
-
-            //using (var client = new WebClient())
-            //{
-            //    client.DownloadFile(urlToDownload, targetPath);
-            //}
-
-            Log(session, "End custom action ValidateUrl");
-
-            return ActionResult.Success;
-        }
 
 
         [CustomAction]
@@ -113,7 +138,7 @@
             }
         }
 
-       
+
 
 
         [CustomAction]
@@ -147,7 +172,7 @@
 
                     if (!string.IsNullOrEmpty(version))
                     {
-                        session.Set("REPORTED_VERSION",version.Split(' ').First());
+                        session.Set("REPORTED_VERSION", version.Split(' ').First());
                     }
                 }
 

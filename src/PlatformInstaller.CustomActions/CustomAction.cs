@@ -13,6 +13,48 @@
 
     public class CustomActions
     {
+        [CustomAction]
+        public static ActionResult DownloadApplication(Session session)
+        {
+            Log(session, "Begin custom action DownloadApplication");
+
+            var appName = session.Get("APPLICATION_NAME");
+
+            var targetDir = session.Get("TARGET_APP_DIR");
+
+
+            var urlToDownload = string.Format("http://chocolatey.org/api/v2/package/{0}", appName);
+
+
+            var tempDownloadPath = Path.GetTempFileName();
+
+
+            DownloadUrl(urlToDownload, tempDownloadPath);
+
+
+            using (var zipFile = ZipFile.Read(tempDownloadPath))
+            {
+                zipFile.ToList().ForEach(entry =>
+                {
+                    var fileName = entry.FileName;
+
+                    if (fileName.EndsWith(".exe"))
+                    {
+                        entry.FileName = fileName.Split('/').Last();
+
+                        Console.Out.WriteLine(entry.FileName);
+                        entry.Extract(targetDir, ExtractExistingFileAction.OverwriteSilently);
+                    }
+
+                });
+
+            }
+
+            Log(session, "App " + appName + " extracted to " + targetDir);
+
+            return ActionResult.Success;
+        }
+
 
         [CustomAction]
         public static ActionResult DownloadSamples(Session session)
@@ -30,18 +72,17 @@
 
             var zipFileName = Path.GetTempFileName();
 
-            var tempDownloadPath = Path.Combine(targetDir, zipFileName);
 
-            DownloadUrl(urlToDownload, tempDownloadPath);
+            DownloadUrl(urlToDownload, zipFileName);
 
 
-            using (var zipFile = ZipFile.Read(tempDownloadPath))
+            using (var zipFile = ZipFile.Read(zipFileName))
             {
                 zipFile.ToList().ForEach(entry =>
                 {
                     var fileName = entry.FileName.Replace(repoName + "-master/", "");
 
-                    if (!string.IsNullOrEmpty(fileName) && 
+                    if (!string.IsNullOrEmpty(fileName) &&
                         !fileName.StartsWith(".") && //no . files
                         fileName.Contains("/")) // nothing in the root
                     {
@@ -52,7 +93,7 @@
                     }
 
                 });
-               
+
             }
 
             Log(session, "Sample " + repositoryId + " extracted to " + targetDir);
@@ -60,17 +101,6 @@
             return ActionResult.Success;
         }
 
-        static void Unzip(string tempDownloadPath, Func<ZipEntry, string> extractTo)
-        {
-            using (var zipFile = ZipFile.Read(tempDownloadPath))
-            {
-                foreach (var entry in zipFile)
-                {
-                    Console.Out.WriteLine(entry.FileName);
-                    entry.Extract(extractTo(entry), ExtractExistingFileAction.OverwriteSilently);
-                }
-            }
-        }
 
         static void DownloadUrl(string urlToDownload, string targetPath)
         {

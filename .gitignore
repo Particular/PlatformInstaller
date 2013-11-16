@@ -2,6 +2,8 @@
 [Bb]in/
 [Oo]bj/
 
+binaries
+
 # mstest test results
 TestResults
 

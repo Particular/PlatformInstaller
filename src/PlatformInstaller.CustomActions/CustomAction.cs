@@ -65,7 +65,7 @@
             if ( !String.IsNullOrEmpty(selectedProd) )
             {
                 session["APPLICATION_NAME"] = session["SC_PROD_NAME"];
-                session["TARGET_APP_DIR"]   = session["SC_INSTALL_DIR"];
+                session["EXTRACTION_APP_DIR"] = session["TempFolder"] + "ServiceControl";
                 
                 session.DoAction("DownloadApplication"); 
             }
@@ -74,7 +74,7 @@
             if ( !String.IsNullOrEmpty(selectedProd) )
             {
                 session["APPLICATION_NAME"] = session["SI_PROD_NAME"];
-                session["TARGET_APP_DIR"] = session["SI_INSTALL_DIR"];
+                session["EXTRACTION_APP_DIR"] = session["TempFolder"] + "ServiceInsight";
 
                 session.DoAction("DownloadApplication");
             }
@@ -83,7 +83,7 @@
             if ( !String.IsNullOrEmpty(selectedProd) )
             {
                 session["APPLICATION_NAME"] = session["SP_PROD_NAME"];
-                session["TARGET_APP_DIR"] = session["SP_INSTALL_DIR"];
+                session["EXTRACTION_APP_DIR"] = session["TempFolder"] + "ServicePulse";
 
                 session.DoAction("DownloadApplication");
             }
@@ -91,8 +91,8 @@
             selectedProd = session["SM_PROP"];
             if ( !String.IsNullOrEmpty(selectedProd) )
             {
-                session["APPLICATION_NAME"] = session["SP_PROD_NAME"];
-                session["TARGET_APP_DIR"] = session["SM_INSTALL_DIR"];
+                session["APPLICATION_NAME"] = session["SM_PROD_NAME"];
+                session["EXTRACTION_APP_DIR"] = session["TempFolder"] + "ServiceMatrix";
 
                 session.DoAction("DownloadApplication");
             }
@@ -174,7 +174,7 @@
 
             var appName = session.Get("APPLICATION_NAME");
 
-            var targetDir = session.Get("TARGET_APP_DIR");
+            var extractionDir = session.Get("EXTRACTION_APP_DIR");
 
 
             var urlToDownload = string.Format("http://chocolatey.org/api/v2/package/{0}", appName);
@@ -197,7 +197,7 @@
                         entry.FileName = fileName.Split('/').Last();
 
                         Console.Out.WriteLine(entry.FileName);
-                        entry.Extract(targetDir, ExtractExistingFileAction.OverwriteSilently);
+                        entry.Extract(extractionDir, ExtractExistingFileAction.OverwriteSilently);
                     }
 
                 });

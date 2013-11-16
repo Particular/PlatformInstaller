@@ -43,10 +43,19 @@ function TickCheckbox(aProdId, aProdProperty)
  */
 
 
-function InitProdNamesProps()
+function InitProdandRepoNamesProps()
 {
+    //prod names
     external.MsiSetProperty("SI_PROD_NAME", 'ServiceInsight');
     external.MsiSetProperty("SC_PROD_NAME", 'ServiceControl');
     external.MsiSetProperty("SP_PROD_NAME", 'ServicePulse');
     external.MsiSetProperty("SM_PROD_NAME", 'ServiceMatrix');
+
+
+    //repo names
+    external.MsiSetProperty("NSB_REPO_NAME", 'Particular/NServiceBus');
+    external.MsiSetProperty("SC_REPO_NAME", 'Particular/ServiceControl');
+    external.MsiSetProperty("SI_REPO_NAME", 'Particular/ServiceInsight');
+    external.MsiSetProperty("SM_REPO_NAME", 'Particular/ServiceMatrix');
+    external.MsiSetProperty("SP_REPO_NAME", 'Particular/ServicePulse');
 }

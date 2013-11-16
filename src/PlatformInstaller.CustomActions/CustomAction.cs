@@ -14,7 +14,7 @@
     public class CustomActions
     {
         [CustomAction]
-        public static ActionResult InstallSelectedApplications(Session session)
+        public static ActionResult DownloadSelectedApplications(Session session)
         {
 
             string selectedProd = session["SC_PROP"];
@@ -27,7 +27,7 @@
             }
 
             selectedProd = session["SI_PROP"];
-            if (!String.IsNullOrEmpty(selectedProd))
+            if ( !String.IsNullOrEmpty(selectedProd) )
             {
                 session["APPLICATION_NAME"] = session["SI_PROD_NAME"];
                 session["TARGET_APP_DIR"] = session["SI_INSTALL_DIR"];
@@ -36,7 +36,7 @@
             }
 
             selectedProd = session["SP_PROP"];
-            if (!String.IsNullOrEmpty(selectedProd))
+            if ( !String.IsNullOrEmpty(selectedProd) )
             {
                 session["APPLICATION_NAME"] = session["SP_PROD_NAME"];
                 session["TARGET_APP_DIR"] = session["SP_INSTALL_DIR"];
@@ -45,7 +45,7 @@
             }
 
             selectedProd = session["SM_PROP"];
-            if (!String.IsNullOrEmpty(selectedProd))
+            if ( !String.IsNullOrEmpty(selectedProd) )
             {
                 session["APPLICATION_NAME"] = session["SP_PROD_NAME"];
                 session["TARGET_APP_DIR"] = session["SM_INSTALL_DIR"];
@@ -55,6 +55,72 @@
 
             return ActionResult.Success;
         }
+
+
+        [CustomAction]
+        public static ActionResult DownloadSamplesforSelectedApplications(Session session)
+        {
+
+            string selectedSamples = session["SAMP_PROP"];
+
+            string selectedProd = session["SC_PROP"];
+            if (!String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(selectedSamples))
+            {
+                session["SAMPLE_REPOSITORY"] = session["SC_REPO_NAME"];
+                session["TARGET_SAMPLE_DIR"] = session["SC_INSTALL_DIR"] + "\\samples";
+
+                session.DoAction("DownloadSamples");
+            }
+
+            selectedProd = session["SI_PROP"];
+            if ( !String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(selectedSamples) )
+            {
+                session["SAMPLE_REPOSITORY"] = session["SI_REPO_NAME"];
+                session["TARGET_SAMPLE_DIR"] = session["SI_INSTALL_DIR"] + "\\samples";
+
+                session.DoAction("DownloadSamples");
+            }
+
+            selectedProd = session["SP_PROP"];
+            if ( !String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(selectedSamples) )
+            {
+                session["SAMPLE_REPOSITORY"] = session["SP_REPO_NAME"];
+                session["TARGET_SAMPLE_DIR"] = session["SP_INSTALL_DIR"] + "\\samples";
+
+                session.DoAction("DownloadSamples");
+            }
+
+            selectedProd = session["SM_PROP"];
+            if ( !String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(selectedSamples) )
+            {
+                session["SAMPLE_REPOSITORY"] = session["SM_REPO_NAME"];
+                session["TARGET_SAMPLE_DIR"] = session["SM_INSTALL_DIR"] + "\\samples";
+
+                session.DoAction("DownloadSamples");
+            }
+            
+            selectedProd = session["NSB_PROP"];
+            if ( !String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(selectedSamples) )
+            {
+                session["SAMPLE_REPOSITORY"] = session["NSB_REPO_NAME"];
+                session["TARGET_SAMPLE_DIR"] = session["NSB_INSTALL_DIR"] + "\\samples";
+
+                session.DoAction("DownloadSamples");
+            }
+
+
+            return ActionResult.Success;
+        }
+
+
+        [CustomAction]
+        public static ActionResult DownloadTools(Session session)
+        {
+            //TODO 
+
+            return ActionResult.Success;
+        }
+
 
 
         [CustomAction]

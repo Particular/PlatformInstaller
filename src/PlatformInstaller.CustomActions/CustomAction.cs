@@ -209,7 +209,10 @@
             var extractionDir = session.Get("EXTRACTION_APP_DIR");
 
 
-            var urlToDownload = string.Format("http://chocolatey.org/api/v2/package/{0}", appName);
+            //var urlToDownload = string.Format("http://chocolatey.org/api/v2/package/{0}", appName);
+
+            // URL used for testing, TO BE commented for product builds
+            var urlToDownload = string.Format("http://dl.dropboxusercontent.com/u/5392761/Elance/NServiceBus/bundles/", appName + ".zip");
 
 
             var tempDownloadPath = Path.GetTempFileName();

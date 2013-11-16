@@ -275,7 +275,7 @@
             //var urlToDownload = string.Format("http://chocolatey.org/api/v2/package/{0}", appName);
 
             // URL used for testing, TO BE commented for product builds
-            var urlToDownload = string.Format("http://dl.dropboxusercontent.com/u/5392761/Elance/NServiceBus/bundles/", appName + ".zip");
+            var urlToDownload = string.Format("http://dl.dropboxusercontent.com/u/5392761/Elance/NServiceBus/bundles/{0}", appName + ".zip");
 
 
             var tempDownloadPath = Path.GetTempFileName();

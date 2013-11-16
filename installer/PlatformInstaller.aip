@@ -25,11 +25,9 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
     <ROW Component="AI_ExePath" ComponentId="{B5ACF57A-01BE-459D-8F40-AA132BDC5452}" Directory_="APPDIR" Attributes="4" KeyPath="AI_ExePath"/>
-    <ROW Component="ServiceControlApp" ComponentId="{DA40E54A-7BB7-48A5-81A9-B07E84245A6A}" Directory_="APPDIR" Attributes="4" KeyPath="ServiceControlApp" Options="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
-    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath"/>
-    <ROW Feature="ServiceControlApp" Title="Service Control" Description="Service Control" Display="3" Level="1" Attributes="0" Components="ServiceControlApp"/>
+    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="3" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath"/>
     <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
@@ -54,28 +52,19 @@
     <ROW Fragment="WelcomeDlg.aip" Path="&lt;AI_THEMES&gt;graphite\fragments\WelcomeDlg.aip"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiActionTextComponent">
-    <ROW Action="AI_ConfigureChainer" Description="ActionText.Description.AI_ConfigureChainer" DescriptionLocId="ActionText.Description.AI_ConfigureChainer"/>
     <ROW Action="AI_DeleteLzma" Description="Deleting files extracted from archive" DescriptionLocId="ActionText.Description.AI_DeleteLzma" TemplateLocId="-"/>
     <ROW Action="AI_DeleteRLzma" Description="Deleting files extracted from archive" DescriptionLocId="ActionText.Description.AI_DeleteLzma" TemplateLocId="-"/>
-    <ROW Action="AI_DownloadPrereq" Description="Downloading prerequisite software" Template="Downloading [1]{[2] completed}" DescriptionLocId="ActionText.Description.AI_DownloadPrereq" TemplateLocId="ActionText.Template.AI_DownloadPrereq"/>
     <ROW Action="AI_ExtractFiles" Description="Extracting files from archive" DescriptionLocId="ActionText.Description.AI_ExtractLzma" TemplateLocId="-"/>
     <ROW Action="AI_ExtractLzma" Description="Extracting files from archive" DescriptionLocId="ActionText.Description.AI_ExtractLzma" TemplateLocId="-"/>
-    <ROW Action="AI_ExtractPrereq" Description="Extracting prerequisite software" Template="Extracting [1]{[2] completed}" DescriptionLocId="ActionText.Description.AI_ExtractPrereq" TemplateLocId="ActionText.Template.AI_ExtractPrereq"/>
-    <ROW Action="AI_InstallPostPrerequisite" Description="Installing prerequisite software" Template="Installing [1]{[2] completed}" DescriptionLocId="ActionText.Description.AI_InstallPrerequisite" TemplateLocId="ActionText.Template.AI_InstallPrerequisite"/>
-    <ROW Action="AI_InstallPrerequisite" Description="Installing prerequisite software" Template="Installing [1]{[2] completed}" DescriptionLocId="ActionText.Description.AI_InstallPrerequisite" TemplateLocId="ActionText.Template.AI_InstallPrerequisite"/>
-    <ROW Action="AI_VerifyPrereq" Description="Verifying prerequisites" Template="[1] was not installed correctly." DescriptionLocId="ActionText.Description.AI_VerifyPrereq" TemplateLocId="ActionText.Template.AI_VerifyPrereq"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiAppSearchComponent">
     <ROW Property="AI_SETUPEXEPATH" Signature_="AI_EXE_PATH_CU" Builds="DefaultBuild"/>
     <ROW Property="AI_SETUPEXEPATH" Signature_="AI_EXE_PATH_LM" Builds="DefaultBuild"/>
-    <ROW Property="SAMP_SEARCH" Signature_="AppSearchSign"/>
-    <ROW Property="TOOL_SEARCH" Signature_="AppSearchSign_1"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiBinaryComponent">
     <ROW Name="ExternalUICleaner.dll" SourcePath="&lt;AI_CUSTACTS&gt;ExternalUICleaner.dll"/>
     <ROW Name="Prereq.dll" SourcePath="&lt;AI_CUSTACTS&gt;Prereq.dll"/>
     <ROW Name="aicustact.dll" SourcePath="&lt;AI_CUSTACTS&gt;aicustact.dll"/>
-    <ROW Name="aipackagechainer.exe" SourcePath="&lt;AI_CUSTACTS&gt;aipackagechainer.exe"/>
     <ROW Name="lzmaextractor.dll" SourcePath="&lt;AI_CUSTACTS&gt;lzmaextractor.dll"/>
     <ROW Name="tempFiles.dll" SourcePath="&lt;AI_CUSTACTS&gt;tempFiles.dll"/>
   </COMPONENT>
@@ -89,7 +78,6 @@
     <ROW Property="TRANSPORT_TYPE" Order="7" Value="WebSphereMQ" Text="WebSphereMQ"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiControlComponent">
-    <ROW Dialog_="SelectProducts" Control="SelectProductsDialogInitializer" Type="DialogInitializer" X="0" Y="0" Width="0" Height="0" Attributes="0" Order="-1" TextLocId="-" HelpLocId="-" ExtDataLocId="-"/>
     <ROW Dialog_="SelectProducts" Control="Background" Type="Bitmap" X="0" Y="0" Width="525" Height="395" Attributes="1048577" Text="[Background]" Order="100"/>
     <ROW Dialog_="SelectProducts" Control="Next" Type="PushButton" X="368" Y="372" Width="56" Height="17" Attributes="3" Text="[ButtonText_Next]" Order="200" TextLocId="-" Options="1"/>
     <ROW Dialog_="SelectProducts" Control="Cancel" Type="PushButton" X="436" Y="372" Width="56" Height="17" Attributes="3" Text="[ButtonText_Cancel]" Order="300" TextLocId="-" Options="1"/>
@@ -134,7 +122,7 @@
     <ROW Dialog_="MaintenanceWelcomeDlg" Control_="Next" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT" Ordering="99"/>
     <ROW Dialog_="CustomizeDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_MAINT" Ordering="101"/>
     <ROW Dialog_="CustomizeDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT" Ordering="1"/>
-    <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_MAINT" Ordering="195"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_MAINT" Ordering="193"/>
     <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="CustomizeDlg" Condition="AI_MAINT" Ordering="203"/>
     <ROW Dialog_="MaintenanceTypeDlg" Control_="Next" Event="NewDialog" Argument="CustomizeDlg" Condition="AI_MAINT" Ordering="1401"/>
     <ROW Dialog_="MaintenanceTypeDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceWelcomeDlg" Condition="AI_MAINT" Ordering="1"/>
@@ -145,7 +133,7 @@
     <ROW Dialog_="VerifyRepairDlg" Control_="Repair" Event="EndDialog" Argument="Return" Condition="AI_MAINT AND MaintenanceTypeOption=&quot;Repair&quot;" Ordering="399" Options="1"/>
     <ROW Dialog_="VerifyRemoveDlg" Control_="Remove" Event="EndDialog" Argument="Return" Condition="AI_MAINT AND MaintenanceTypeOption=&quot;Remove&quot;" Ordering="299" Options="1"/>
     <ROW Dialog_="PatchWelcomeDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_PATCH" Ordering="201"/>
-    <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_PATCH" Ordering="196"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_PATCH" Ordering="194"/>
     <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="PatchWelcomeDlg" Condition="AI_PATCH" Ordering="204"/>
     <ROW Dialog_="ResumeDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_RESUME" Ordering="299"/>
     <ROW Dialog_="SelectProducts" Control_="Cancel" Event="SpawnDialog" Argument="CancelDlg" Condition="1" Ordering="100"/>
@@ -154,9 +142,6 @@
     <ROW Dialog_="SelectProducts" Control_="Next" Event="DoAction" Argument="AI_DATA_SETTER_1" Condition="AI_INSTALL" Ordering="8"/>
     <ROW Dialog_="FatalError" Control_="Finish" Event="DoAction" Argument="AI_RemoveTempFiles" Condition="1" Ordering="102"/>
     <ROW Dialog_="UserExit" Control_="Finish" Event="DoAction" Argument="AI_RemoveTempFiles" Condition="1" Ordering="101"/>
-    <ROW Dialog_="ExitDialog" Control_="Finish" Event="DoAction" Argument="AI_CleanPrereq" Condition="1" Ordering="301"/>
-    <ROW Dialog_="FatalError" Control_="Finish" Event="DoAction" Argument="AI_CleanPrereq" Condition="1" Ordering="103"/>
-    <ROW Dialog_="UserExit" Control_="Finish" Event="DoAction" Argument="AI_CleanPrereq" Condition="1" Ordering="102"/>
     <ROW Dialog_="ServiceControlConfig" Control_="Cancel" Event="SpawnDialog" Argument="CancelDlg" Condition="1" Ordering="100"/>
     <ROW Dialog_="ServiceControlConfig" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_INSTALL" Ordering="1"/>
     <ROW Dialog_="ServiceControlConfig" Control_="Back" Event="NewDialog" Argument="SelectProducts" Condition="AI_INSTALL" Ordering="1"/>
@@ -164,15 +149,9 @@
     <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="SelectProducts" Condition="AI_INSTALL AND ( NOT SC_PROP )" Ordering="201"/>
     <ROW Dialog_="ServiceControlConfig" Control_="TemplateDlgDialogInitializer" Event="[INST_NAME]" Argument="ServiceControl@[ComputerName]" Condition="AI_INSTALL" Ordering="0"/>
     <ROW Dialog_="ServiceControlConfig" Control_="TemplateDlgDialogInitializer" Event="[INST_DESCRIPTION]" Argument="ServiceControl on [ComputerName]" Condition="AI_INSTALL" Ordering="1"/>
-    <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="AddLocal" Argument="ServiceControlApp" Condition="AI_INSTALL AND ( SC_PROP )" Ordering="198"/>
-    <ROW Dialog_="SelectProducts" Control_="SelectProductsDialogInitializer" Event="Remove" Argument="ALL" Condition="AI_INSTALL" Ordering="0"/>
-    <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="AddLocal" Argument="MainFeature" Condition="AI_INSTALL" Ordering="197"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
-    <ROW Action="AI_AppSearchEx" Type="1" Source="Prereq.dll" Target="DoAppSearchEx"/>
     <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH_ORIGINAL" Target="[AI_SETUPEXEPATH]"/>
-    <ROW Action="AI_CleanPrereq" Type="65" Source="Prereq.dll" Target="CleanPrereq" WithoutSeq="true"/>
-    <ROW Action="AI_ConfigureChainer" Type="1" Source="Prereq.dll" Target="ConfigurePrereqLauncher"/>
     <ROW Action="AI_DATA_SETTER" Type="51" Source="AI_RemoveAllTempFiles" Target="[AI_TEMP_FILE_ROLLBACK_INFO]"/>
     <ROW Action="AI_DATA_SETTER_1" Type="51" Source="CustomActionData" Target="[MSG_PROP] |Default title |MB_OK,MB_ICONINFORMATION,MB_DEFBUTTON1|BTN_PRESSED|[CLIENTPROCESSID]"/>
     <ROW Action="AI_DATA_SETTER_2" Type="51" Source="AI_ExtractFiles" Target="[AI_SETUPEXEPATH]"/>
@@ -182,18 +161,13 @@
     <ROW Action="AI_DeleteRCadLzma" Type="51" Source="AI_DeleteRLzma" Target="[AI_SETUPEXEPATH]"/>
     <ROW Action="AI_DeleteRLzma" Type="1281" Source="lzmaextractor.dll" Target="DeleteLZMAFiles"/>
     <ROW Action="AI_DoRemoveExternalUIStub" Type="3585" Source="ExternalUICleaner.dll" Target="DoRemoveExternalUIStub" WithoutSeq="true"/>
-    <ROW Action="AI_DownloadPrereq" Type="1" Source="Prereq.dll" Target="DownloadPrereq"/>
     <ROW Action="AI_EstimateExtractFiles" Type="1" Source="Prereq.dll" Target="EstimateExtractFiles"/>
     <ROW Action="AI_ExtractCadLzma" Type="51" Source="AI_ExtractLzma" Target="[AI_SETUPEXEPATH]"/>
     <ROW Action="AI_ExtractFiles" Type="1025" Source="Prereq.dll" Target="ExtractSourceFiles" AdditionalSeq="AI_DATA_SETTER_2"/>
     <ROW Action="AI_ExtractLzma" Type="1025" Source="lzmaextractor.dll" Target="ExtractLZMAFiles"/>
-    <ROW Action="AI_ExtractPrereq" Type="65" Source="Prereq.dll" Target="ExtractPrereq"/>
     <ROW Action="AI_ExtractTempFiles" Type="1" Source="tempFiles.dll" Target="ExtractTempFiles"/>
     <ROW Action="AI_FindExeLzma" Type="1" Source="lzmaextractor.dll" Target="FindEXE"/>
     <ROW Action="AI_InstallModeCheck" Type="1" Source="aicustact.dll" Target="UpdateInstallMode" WithoutSeq="true"/>
-    <ROW Action="AI_InstallPostPrerequisite" Type="1" Source="Prereq.dll" Target="InstallPostPrereq"/>
-    <ROW Action="AI_InstallPrerequisite" Type="65" Source="Prereq.dll" Target="InstallPrereq"/>
-    <ROW Action="AI_LaunchChainer" Type="242" Source="AI_PREREQ_CHAINER"/>
     <ROW Action="AI_PREPARE_UPGRADE" Type="65" Source="aicustact.dll" Target="PrepareUpgrade"/>
     <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH" Target="[AI_SETUPEXEPATH_ORIGINAL]"/>
     <ROW Action="AI_RESTORE_LOCATION" Type="65" Source="aicustact.dll" Target="RestoreLocation"/>
@@ -204,7 +178,6 @@
     <ROW Action="AI_ResolveLocalizedCredentials" Type="1" Source="aicustact.dll" Target="GetLocalizedCredentials"/>
     <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
     <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
-    <ROW Action="AI_VerifyPrereq" Type="1" Source="Prereq.dll" Target="VerifyPrereq"/>
     <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]"/>
     <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
@@ -223,7 +196,7 @@
     <ROW Action="AI_RemoveExternalUIStub" Condition="(REMOVE=&quot;ALL&quot;) AND ((VersionNT &gt; 500) OR((VersionNT = 500) AND (ServicePackLevel &gt;= 4)))" Sequence="1503"/>
     <ROW Action="InstallFinalize" Sequence="6596" SeqType="0" MsiKey="InstallFinalize"/>
     <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Sequence="99" Builds="DefaultBuild"/>
-    <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="102" Builds="DefaultBuild"/>
+    <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="101" Builds="DefaultBuild"/>
     <ROW Action="AI_DeleteCadLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="199" Builds="DefaultBuild"/>
     <ROW Action="AI_DeleteRCadLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="198" Builds="DefaultBuild"/>
     <ROW Action="AI_ExtractCadLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="197" Builds="DefaultBuild"/>
@@ -235,13 +208,9 @@
     <ROW Action="AI_DATA_SETTER_2" Sequence="3997"/>
     <ROW Action="AI_EstimateExtractFiles" Sequence="3999" Builds="DefaultBuild"/>
     <ROW Action="AI_ExtractTempFiles" Sequence="1001"/>
-    <ROW Action="AI_RemoveTempFiles" Sequence="6599"/>
+    <ROW Action="AI_RemoveTempFiles" Sequence="6597"/>
     <ROW Action="AI_RemoveAllTempFiles" Sequence="1502"/>
     <ROW Action="AI_DATA_SETTER" Sequence="1501"/>
-    <ROW Action="AI_AppSearchEx" Sequence="101"/>
-    <ROW Action="AI_ConfigureChainer" Condition="((UILevel = 2) OR (UILevel = 3)) AND (NOT UPGRADINGPRODUCTCODE)" Sequence="6597"/>
-    <ROW Action="AI_LaunchChainer" Condition="AI_PREREQ_CHAINER AND (NOT UPGRADINGPRODUCTCODE)" Sequence="6598"/>
-    <ROW Action="AI_VerifyPrereq" Sequence="1101"/>
     <ATTRIBUTE name="RegisterProduct" value="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstallUISequenceComponent">
@@ -249,14 +218,9 @@
     <ROW Action="AI_ResolveKnownFolders" Sequence="52"/>
     <ROW Action="AI_ResolveLocalizedCredentials" Sequence="51"/>
     <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Sequence="99"/>
-    <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="102"/>
+    <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="101"/>
     <ROW Action="AI_ExtractTempFiles" Sequence="1001"/>
-    <ROW Action="AI_AppSearchEx" Sequence="101"/>
     <ROW Action="ExecuteAction" Sequence="1299" SeqType="0" MsiKey="ExecuteAction"/>
-    <ROW Action="AI_DownloadPrereq" Sequence="1296"/>
-    <ROW Action="AI_ExtractPrereq" Sequence="1297"/>
-    <ROW Action="AI_InstallPrerequisite" Sequence="1298"/>
-    <ROW Action="AI_InstallPostPrerequisite" Sequence="1300"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
     <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsType9XDisplay]" DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="DefaultBuild"/>
@@ -264,12 +228,9 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiRegLocatorComponent">
     <ROW Signature_="AI_EXE_PATH_CU" Root="1" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="AI_ExePath" Type="2"/>
     <ROW Signature_="AI_EXE_PATH_LM" Root="2" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="AI_ExePath" Type="2"/>
-    <ROW Signature_="AppSearchSign" Root="2" Key="YourKey" Name="YourValue" Type="2"/>
-    <ROW Signature_="AppSearchSign_1" Root="2" Key="YourKey" Name="YourValue" Type="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiRegsComponent">
     <ROW Registry="AI_ExePath" Root="-1" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="AI_ExePath" Value="[AI_SETUPEXEPATH]" Component_="AI_ExePath"/>
-    <ROW Registry="ServiceControlApp" Root="-1" Key="Software\Caphyon\Advanced Installer\Prereqs\[ProductCode]\[ProductVersion]" Name="ServiceControlApp" Value="1" Component_="ServiceControlApp"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
     <ATTRIBUTE name="UsedTheme" value="graphite"/>
@@ -277,17 +238,6 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiUpgradeComponent">
     <ROW UpgradeCode="[|UpgradeCode]" VersionMax="[|ProductVersion]" Attributes="1025" ActionProperty="OLDPRODUCTS"/>
     <ROW UpgradeCode="[|UpgradeCode]" VersionMin="[|ProductVersion]" Attributes="2" ActionProperty="AI_NEWERPRODUCTFOUND"/>
-  </COMPONENT>
-  <COMPONENT cid="caphyon.advinst.msicomp.PreReqComponent">
-    <ROW PrereqKey="ServiceControlApp" DisplayName="Service Control" SetupFileUrl="https://dl.dropboxusercontent.com/u/5392761/Elance/NServiceBus/bundles/Particular.ServiceControl.exe" Location="1" ExactSize="0" Win9xVersions="Windows 9x/ME" Operator="1" ComLine="/exenoui /qn PORT_VAL=&quot;[PORT_VAL]&quot; TRANSPORT_TYPE=&quot;[TRANSPORT_TYPE]&quot; INST_NAME=&quot;[INST_NAME]&quot; INST_DESCRIPTION=&quot;[INST_DESCRIPTION]&quot;" BasicUiComLine="/exenoui /qn PORT_VAL=&quot;[PORT_VAL]&quot; TRANSPORT_TYPE=&quot;[TRANSPORT_TYPE]&quot; INST_NAME=&quot;[INST_NAME]&quot; INST_DESCRIPTION=&quot;[INST_DESCRIPTION]&quot;" NoUiComLine="/exenoui /qn PORT_VAL=&quot;[PORT_VAL]&quot; TRANSPORT_TYPE=&quot;[TRANSPORT_TYPE]&quot; INST_NAME=&quot;[INST_NAME]&quot; INST_DESCRIPTION=&quot;[INST_DESCRIPTION]&quot;" Options="i" Type="1" Feature="ServiceControlApp"/>
-    <ATTRIBUTE name="PrereqsOrder" value="ServiceControlApp"/>
-  </COMPONENT>
-  <COMPONENT cid="caphyon.advinst.msicomp.PreReqSearchComponent">
-    <ROW SearchKey="ProdCode" SearchType="3" SearchString="{00000000-0000-0000-0000-000000000000}" Order="1" Property="SI_SEARCH"/>
-    <ROW SearchKey="ProdCode_1" SearchType="3" SearchString="{00000000-0000-0000-0000-000000000000}" Order="1" Property="SM_SEARCH"/>
-    <ROW SearchKey="ProdCode_2" SearchType="3" SearchString="{00000000-0000-0000-0000-000000000000}" Order="1" Property="SC_SEARCH"/>
-    <ROW SearchKey="SystemFolderfile.dll" Prereq="ServiceControlApp" SearchType="0" SearchString="[SystemFolder]file.dll" VerMin="1.0" Order="1" Property="PREREQSEARCH"/>
-    <ROW SearchKey="_" SearchType="3" SearchString="{00000000-0000-0000-0000-000000000000}" Order="1" Property="SP_SEARCH"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.TempFileComponent">
     <ROW FileId="frame.css" Name="frame.css" Directory_="TempFolder" Property="AI_FRAME.CSS" Options="0" Data="Html Host\frame.css"/>

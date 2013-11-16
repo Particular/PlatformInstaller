@@ -14,6 +14,50 @@
     public class CustomActions
     {
         [CustomAction]
+        public static ActionResult InstallSelectedApplications(Session session)
+        {
+
+            string selectedProd = session["SC_PROP"];
+            if ( !String.IsNullOrEmpty(selectedProd) )
+            {
+                session["APPLICATION_NAME"] = session["SC_PROD_NAME"];
+                session["TARGET_APP_DIR"]   = session["SC_INSTALL_DIR"];
+                
+                session.DoAction("DownloadApplication"); 
+            }
+
+            selectedProd = session["SI_PROP"];
+            if (!String.IsNullOrEmpty(selectedProd))
+            {
+                session["APPLICATION_NAME"] = session["SI_PROD_NAME"];
+                session["TARGET_APP_DIR"] = session["SI_INSTALL_DIR"];
+
+                session.DoAction("DownloadApplication");
+            }
+
+            selectedProd = session["SP_PROP"];
+            if (!String.IsNullOrEmpty(selectedProd))
+            {
+                session["APPLICATION_NAME"] = session["SP_PROD_NAME"];
+                session["TARGET_APP_DIR"] = session["SP_INSTALL_DIR"];
+
+                session.DoAction("DownloadApplication");
+            }
+
+            selectedProd = session["SM_PROP"];
+            if (!String.IsNullOrEmpty(selectedProd))
+            {
+                session["APPLICATION_NAME"] = session["SP_PROD_NAME"];
+                session["TARGET_APP_DIR"] = session["SM_INSTALL_DIR"];
+
+                session.DoAction("DownloadApplication");
+            }
+
+            return ActionResult.Success;
+        }
+
+
+        [CustomAction]
         public static ActionResult DownloadApplication(Session session)
         {
             Log(session, "Begin custom action DownloadApplication");

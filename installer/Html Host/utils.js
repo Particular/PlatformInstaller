@@ -36,3 +36,17 @@ function TickCheckbox(aProdId, aProdProperty)
         $(aProdId).prop('checked', true);
     }
 }
+
+/*
+ * Method used to set initial products names, identical with what is on Chocolatey,
+ * to be used by the "InstallSelectedApplications" custom action.
+ */
+
+
+function InitProdNamesProps()
+{
+    external.MsiSetProperty("SI_PROD_NAME", 'ServiceInsight');
+    external.MsiSetProperty("SC_PROD_NAME", 'ServiceControl');
+    external.MsiSetProperty("SP_PROD_NAME", 'ServicePulse');
+    external.MsiSetProperty("SM_PROD_NAME", 'ServiceMatrix');
+}

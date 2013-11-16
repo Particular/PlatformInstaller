@@ -15,6 +15,10 @@
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="Platform Installer"/>
     <ROW Property="ProductVersion" Value="1.0.0" Type="32"/>
+    <ROW Property="SC_PRODCODE" Value="{12BDB3E7-3A70-410A-A2C0-43037E33E3E6}"/>
+    <ROW Property="SI_PRODCODE" Value="{6F29C354-F8C6-4F8B-BD85-63BB59E5E3FD}"/>
+    <ROW Property="SM_PRODCODE" Value="{C24E09CF-0927-4547-A22E-6892C80F8829}"/>
+    <ROW Property="SP_PRODCODE" Value="{BAE534DC-0605-4EC0-8E26-561E9107485B}"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="TRANSPORT_TYPE" Value="NServiceBus.Msmq, NServiceBus.Core"/>
     <ROW Property="UpgradeCode" Value="{527F3DE8-6A58-4F52-BB30-D605134BA839}"/>
@@ -63,6 +67,8 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiAppSearchComponent">
     <ROW Property="AI_SETUPEXEPATH" Signature_="AI_EXE_PATH_CU" Builds="DefaultBuild"/>
     <ROW Property="AI_SETUPEXEPATH" Signature_="AI_EXE_PATH_LM" Builds="DefaultBuild"/>
+    <ROW Property="TOOL_SEARCH" Signature_="AppSearchSign"/>
+    <ROW Property="SAMP_SEARCH" Signature_="AppSearchSign_1"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiBinaryComponent">
     <ROW Name="ExternalUICleaner.dll" SourcePath="&lt;AI_CUSTACTS&gt;ExternalUICleaner.dll"/>
@@ -154,6 +160,7 @@
     <ROW Dialog_="ServiceControlConfig" Control_="TemplateDlgDialogInitializer" Event="[INST_DESCRIPTION]" Argument="ServiceControl on [ComputerName]" Condition="AI_INSTALL" Ordering="1"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
+    <ROW Action="AI_AppSearchEx" Type="1" Source="Prereq.dll" Target="DoAppSearchEx"/>
     <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH_ORIGINAL" Target="[AI_SETUPEXEPATH]"/>
     <ROW Action="AI_DATA_SETTER" Type="51" Source="AI_RemoveAllTempFiles" Target="[AI_TEMP_FILE_ROLLBACK_INFO]"/>
     <ROW Action="AI_DATA_SETTER_1" Type="51" Source="CustomActionData" Target="[MSG_PROP] |Default title |MB_OK,MB_ICONINFORMATION,MB_DEFBUTTON1|BTN_PRESSED|[CLIENTPROCESSID]"/>
@@ -199,7 +206,7 @@
     <ROW Action="AI_RemoveExternalUIStub" Condition="(REMOVE=&quot;ALL&quot;) AND ((VersionNT &gt; 500) OR((VersionNT = 500) AND (ServicePackLevel &gt;= 4)))" Sequence="1503"/>
     <ROW Action="InstallFinalize" Sequence="6596" SeqType="0" MsiKey="InstallFinalize"/>
     <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Sequence="99" Builds="DefaultBuild"/>
-    <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="101" Builds="DefaultBuild"/>
+    <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="102" Builds="DefaultBuild"/>
     <ROW Action="AI_DeleteCadLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="199" Builds="DefaultBuild"/>
     <ROW Action="AI_DeleteRCadLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="198" Builds="DefaultBuild"/>
     <ROW Action="AI_ExtractCadLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="197" Builds="DefaultBuild"/>
@@ -214,6 +221,7 @@
     <ROW Action="AI_RemoveTempFiles" Sequence="6597"/>
     <ROW Action="AI_RemoveAllTempFiles" Sequence="1502"/>
     <ROW Action="AI_DATA_SETTER" Sequence="1501"/>
+    <ROW Action="AI_AppSearchEx" Sequence="101"/>
     <ATTRIBUTE name="RegisterProduct" value="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstallUISequenceComponent">
@@ -221,9 +229,10 @@
     <ROW Action="AI_ResolveKnownFolders" Sequence="52"/>
     <ROW Action="AI_ResolveLocalizedCredentials" Sequence="51"/>
     <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Sequence="99"/>
-    <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="101"/>
+    <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="102"/>
     <ROW Action="AI_ExtractTempFiles" Sequence="1001"/>
     <ROW Action="ExecuteAction" Sequence="1299" SeqType="0" MsiKey="ExecuteAction"/>
+    <ROW Action="AI_AppSearchEx" Sequence="101"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
     <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsType9XDisplay]" DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="DefaultBuild"/>
@@ -241,6 +250,12 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiUpgradeComponent">
     <ROW UpgradeCode="[|UpgradeCode]" VersionMax="[|ProductVersion]" Attributes="1025" ActionProperty="OLDPRODUCTS"/>
     <ROW UpgradeCode="[|UpgradeCode]" VersionMin="[|ProductVersion]" Attributes="2" ActionProperty="AI_NEWERPRODUCTFOUND"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.PreReqSearchComponent">
+    <ROW SearchKey="ProdCode" SearchType="3" SearchString="{6F29C354-F8C6-4F8B-BD85-63BB59E5E3FD}" Order="1" Property="SI_SEARCH"/>
+    <ROW SearchKey="ProdCode_1" SearchType="3" SearchString="{C24E09CF-0927-4547-A22E-6892C80F8829}" Order="1" Property="SM_SEARCH"/>
+    <ROW SearchKey="ProdCode_2" SearchType="3" SearchString="{BAE534DC-0605-4EC0-8E26-561E9107485B}" Order="1" Property="SP_SEARCH"/>
+    <ROW SearchKey="_" SearchType="3" SearchString="{12BDB3E7-3A70-410A-A2C0-43037E33E3E6}" Order="1" Property="SC_SEARCH"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.TempFileComponent">
     <ROW FileId="frame.css" Name="frame.css" Directory_="TempFolder" Property="AI_FRAME.CSS" Options="0" Data="Html Host\frame.css"/>

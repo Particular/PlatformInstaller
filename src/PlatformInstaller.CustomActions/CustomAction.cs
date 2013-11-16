@@ -204,7 +204,7 @@
 
             }
 
-            Log(session, "App " + appName + " extracted to " + targetDir);
+            Log(session, "App " + appName + " extracted to " + extractionDir);
 
             return ActionResult.Success;
         }
@@ -226,6 +226,10 @@
 
             var zipFileName = Path.GetTempFileName();
 
+            //adding property that will be used to report application dowload progress
+            // the HTML host leasons for MsiPropertyChanged installer event, so we can update the progress bar when a property gets set
+            string propName = session["DOWNLOAD_PROP_NAME"];
+            session[propName] = "set";
 
             DownloadUrl(urlToDownload, zipFileName);
 
@@ -269,14 +273,15 @@
         [CustomAction]
         public static ActionResult RunExe(Session session)
         {
-            var customActionData = session[CustomActionData.PropertyName];
+            var installerPath = session["INSTALLER_PATH"];
 
-            var startInfo = new ProcessStartInfo(customActionData)
+            var startInfo = new ProcessStartInfo(installerPath)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
+                Arguments = session["INSTALLER_COMMANDLINE"],
                 WorkingDirectory = Path.GetTempPath()
             };
 
@@ -303,6 +308,11 @@
                         error.AppendLine(e.Data);
                     }
                 };
+
+                //adding property that will be used to report application install progress
+                // the HTML host leasons for MsiPropertyChanged installer event, so we can update the progress bar when a property gets set
+                string propName = session["INSTALL_PROP_NAME"];
+                session[propName] = "set";
 
                 process.Start();
                 process.BeginOutputReadLine();

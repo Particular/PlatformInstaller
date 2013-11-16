@@ -34,6 +34,7 @@ function TickCheckbox(aProdId, aProdProperty)
     {
         //alert( external.MsiGetProperty(aProdProperty) );
         $(aProdId).prop('checked', true);
+        external.MsiSetProperty(aProdId.substr(1) + '_PROP', 'set');
     }
 }
 

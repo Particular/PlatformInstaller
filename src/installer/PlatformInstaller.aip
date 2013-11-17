@@ -72,6 +72,7 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiBinaryComponent">
     <ROW Name="ExternalUICleaner.dll" SourcePath="&lt;AI_CUSTACTS&gt;ExternalUICleaner.dll"/>
+    <ROW Name="PlatformInstaller.CustomActions.CA.dll" SourcePath="..\..\binaries\PlatformInstaller.CustomActions.CA.dll"/>
     <ROW Name="Prereq.dll" SourcePath="&lt;AI_CUSTACTS&gt;Prereq.dll"/>
     <ROW Name="aicustact.dll" SourcePath="&lt;AI_CUSTACTS&gt;aicustact.dll"/>
     <ROW Name="lzmaextractor.dll" SourcePath="&lt;AI_CUSTACTS&gt;lzmaextractor.dll"/>
@@ -98,6 +99,7 @@
     <ROW Dialog_="SelectProducts" Control="InstallingLabel" Type="Text" X="35" Y="138" Width="104" Height="11" Attributes="196611" Text="Installing" TextStyle="Labels" Order="900"/>
     <ROW Dialog_="SelectProducts" Control="FinalizingLabel" Type="Text" X="35" Y="162" Width="104" Height="11" Attributes="196611" Text="Finalizing installation" TextStyle="Labels" Order="1000"/>
     <ROW Dialog_="SelectProducts" Control="HtmlHost_1" Type="HtmlHost" X="149" Y="42" Width="377" Height="293" Attributes="3" Text="file:///[&amp;products.html]" Order="1100" ExtType="HtmlHost"/>
+    <ROW Dialog_="SelectProducts" Control="PushButton_1" Type="PushButton" X="54" Y="276" Width="56" Height="17" Attributes="3" Text="Debug" Order="1200"/>
     <ROW Dialog_="ServiceControlConfig" Control="TemplateDlgDialogInitializer" Type="DialogInitializer" X="0" Y="0" Width="0" Height="0" Attributes="0" Order="-1" TextLocId="-" HelpLocId="-" ExtDataLocId="-"/>
     <ROW Dialog_="ServiceControlConfig" Control="Background" Type="Bitmap" X="0" Y="0" Width="525" Height="395" Attributes="1048577" Text="[Background]" Order="100"/>
     <ROW Dialog_="ServiceControlConfig" Control="Next" Type="PushButton" X="368" Y="372" Width="56" Height="17" Attributes="3" Text="[ButtonText_Next]" Order="200" TextLocId="-" Options="1"/>
@@ -158,6 +160,7 @@
     <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="SelectProducts" Condition="AI_INSTALL AND ( NOT SC_PROP )" Ordering="201"/>
     <ROW Dialog_="ServiceControlConfig" Control_="TemplateDlgDialogInitializer" Event="[INST_NAME]" Argument="ServiceControl@[ComputerName]" Condition="AI_INSTALL" Ordering="0"/>
     <ROW Dialog_="ServiceControlConfig" Control_="TemplateDlgDialogInitializer" Event="[INST_DESCRIPTION]" Argument="ServiceControl on [ComputerName]" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="SelectProducts" Control_="PushButton_1" Event="DoAction" Argument="PlatformInstaller.CustomActions.CA.dll" Condition="AI_INSTALL" Ordering="0"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
     <ROW Action="AI_AppSearchEx" Type="1" Source="Prereq.dll" Target="DoAppSearchEx"/>
@@ -188,9 +191,12 @@
     <ROW Action="AI_ResolveLocalizedCredentials" Type="1" Source="aicustact.dll" Target="GetLocalizedCredentials"/>
     <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
     <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
+    <ROW Action="DownloadandInstallSelectedApplications" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadandInstallSelectedApplications"/>
+    <ROW Action="PlatformInstaller.CustomActions.CA.dll" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="TestAct" WithoutSeq="true"/>
     <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]"/>
     <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
+    <ROW Action="UninstallApplications" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="UninstallApplications" WithoutSeq="true"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiDialogComponent">
     <ROW Dialog="SelectProducts" HCentering="50" VCentering="50" Width="525" Height="395" Attributes="3" Title="[ProductName] [Setup]" Control_Default="Next" Control_Cancel="Cancel"/>
@@ -222,6 +228,7 @@
     <ROW Action="AI_RemoveAllTempFiles" Sequence="1502"/>
     <ROW Action="AI_DATA_SETTER" Sequence="1501"/>
     <ROW Action="AI_AppSearchEx" Sequence="101"/>
+    <ROW Action="DownloadandInstallSelectedApplications" Condition="( NOT Installed )" Sequence="3601"/>
     <ATTRIBUTE name="RegisterProduct" value="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstallUISequenceComponent">
@@ -259,6 +266,11 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.TempFileComponent">
     <ROW FileId="frame.css" Name="frame.css" Directory_="TempFolder" Property="AI_FRAME.CSS" Options="0" Data="Html Host\frame.css"/>
+    <ROW FileId="ionic.zip.dll" Name="IonicZ~1.dll|Ionic.Zip.dll" Directory_="TempFolder" Property="AI_IONIC.ZIP.DLL" Options="0" Data="..\..\binaries\Ionic.Zip.dll"/>
+    <ROW FileId="ionic.zip.xml" Name="IonicZ~1.xml|Ionic.Zip.xml" Directory_="TempFolder" Property="AI_IONIC.ZIP.XML" Options="0" Data="..\..\binaries\Ionic.Zip.xml"/>
+    <ROW FileId="microsoft.deployment.windowsinsta_1" Name="Micros~1.xml|Microsoft.Deployment.WindowsInstaller.xml" Directory_="TempFolder" Property="AI_MICROSOFT.DEPLOYMENT.WINDOWSINSTA_1" Options="0" Data="..\..\binaries\Microsoft.Deployment.WindowsInstaller.xml"/>
+    <ROW FileId="microsoft.deployment.windowsinstall" Name="Micros~1.dll|Microsoft.Deployment.WindowsInstaller.dll" Directory_="TempFolder" Property="AI_MICROSOFT.DEPLOYMENT.WINDOWSINSTALL" Options="0" Data="..\..\binaries\Microsoft.Deployment.WindowsInstaller.dll"/>
+    <ROW FileId="platforminstaller.customactions.ca." Name="Platfo~1.dll|PlatformInstaller.CustomActions.CA.dll" Directory_="TempFolder" Property="AI_PLATFORMINSTALLER.CUSTOMACTIONS.CA." Options="0" Data="..\..\binaries\PlatformInstaller.CustomActions.CA.dll"/>
     <ROW FileId="products.html" Name="produc~1.htm|products.html" Directory_="TempFolder" Property="AI_PRODUCTS.HTML" Options="0" Data="Html Host\products.html"/>
     <ROW FileId="utils.js" Name="utils.js" Directory_="TempFolder" Property="AI_UTILS.JS" Options="0" Data="Html Host\utils.js"/>
   </COMPONENT>

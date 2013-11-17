@@ -105,11 +105,18 @@
             return ActionResult.Success;
         }
 
-
+        [CustomAction]
+        public static ActionResult TestAct(Session session)
+        {
+            session["TEST"] = "dddd";
+            return ActionResult.Success;
+        }
 
         [CustomAction]
         public static ActionResult DownloadandInstallSelectedApplications(Session session)
         {
+            Log(session, "Begin custom action DownloadandInstallSelectedApplications");
+
             string[] fullFilePaths;
             string selectedProd = session["SC_PROP"];
             if ( !String.IsNullOrEmpty(selectedProd) )
@@ -186,6 +193,8 @@
 
                 session.DoAction("RunExe");
             }
+
+            Log(session, "End custom action DownloadandInstallSelectedApplications");
 
             return ActionResult.Success;
         }

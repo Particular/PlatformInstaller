@@ -75,3 +75,16 @@ function ToogleSIandSPCheckboxes() {
     $("input.ckb").attr("disabled", true);    
   }
 }
+
+// Because IE does not work correctly with Toggle() from jQuery
+// The below should work, but still is not. In Chrome it works
+
+function Toggle(aClassname){
+    var elem = $(aClassname)[0];
+    if(elem.style.display == 'none')
+         $(aClassname).show();
+    else
+    {
+         $(aClassname).hide();               
+    }
+}

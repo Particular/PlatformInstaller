@@ -15,11 +15,12 @@
 </div>
 
 <form action="">
-<input id="SP" type="checkbox">Service Pulse<br>
-<input id="SI" type="checkbox">Service Insight<br>
+<input id="NSB" type="checkbox">NServiceBus<br>
+<input id="SC" type="checkbox" id="ckb">Service Control<br>
+<input id="SI" type="checkbox" class="ckb">Service Insight <text id="ScCkb"><i>(Requires Service Control)</i></text><br>
+<input id="SP" type="checkbox" class="ckb">Service Pulse <text id="SiCkb"><i>(Requires Service Control)</i></text><br>
 <input id="SM" type="checkbox">Service Matrix<br>
-<input id="SC" type="checkbox">Service Control<br><br>
-<input id="SAMP" type="checkbox">Samples<br>
+<input id="SAMP" type="checkbox" >Samples<br>
 <input id="TOOL" type="checkbox">Tools
 </form>
 
@@ -32,32 +33,45 @@ $(document).ready(function(){
     $('#loadingMessage').hide();
 });
 
+// event for checkbox selection
+ToogleSIandSPCheckboxes();
+$("#SC").click(ToogleSIandSPCheckboxes);
+$("#SC").click(function (){
+  $("#ScCkb").toggle();
+  $("#SiCkb").toggle();
+});
 
 //control properties based on user selection from HTML
-SelectProduct("#SP", "SP_PROP");
-SelectProduct("#SI", "SI_PROP");
-SelectProduct("#SM", "SM_PROP");
+SelectProduct("#NSB", "NSB_PROP");
 SelectProduct("#SC", "SC_PROP");
+SelectProduct("#SI", "SI_PROP");
+SelectProduct("#SP", "SP_PROP");
+SelectProduct("#SM", "SM_PROP");
+
 
 SelectProduct("#SAMP", "SAMP_PROP");
 SelectProduct("#TOOL", "TOOL_PROP");
 
 
 //load HTML based on installer searches, initialize view when installer is launched
-TickCheckbox("#SP", "SP_SEARCH");
-TickCheckbox("#SI", "SI_SEARCH");
-TickCheckbox("#SM", "SM_SEARCH");
+TickCheckbox("#NSB", "NSB_SEARCH");
 TickCheckbox("#SC", "SC_SEARCH");
+TickCheckbox("#SI", "SI_SEARCH");
+TickCheckbox("#SP", "SP_SEARCH");
+TickCheckbox("#SM", "SM_SEARCH");
+
 
 TickCheckbox("#SAMP", "SAMP_SEARCH");
 TickCheckbox("#TOOL", "TOOL_SEARCH");
 
 
 //load HTML based on properties values
-TickCheckbox("#SP", "SP_PROP");
-TickCheckbox("#SI", "SI_PROP");
-TickCheckbox("#SM", "SM_PROP");
+TickCheckbox("#NSB", "NSB_PROP");
 TickCheckbox("#SC", "SC_PROP");
+TickCheckbox("#SI", "SI_PROP");
+TickCheckbox("#SP", "SP_PROP");
+TickCheckbox("#SM", "SM_PROP");
+
 
 TickCheckbox("#SAMP", "SAMP_PROP");
 TickCheckbox("#TOOL", "TOOL_PROP");

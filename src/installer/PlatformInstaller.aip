@@ -69,6 +69,7 @@
     <ROW Property="AI_SETUPEXEPATH" Signature_="AI_EXE_PATH_LM" Builds="DefaultBuild"/>
     <ROW Property="TOOL_SEARCH" Signature_="AppSearchSign"/>
     <ROW Property="SAMP_SEARCH" Signature_="AppSearchSign_1"/>
+    <ROW Property="NSB_SEARCH" Signature_="AppSearchSign_2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiBinaryComponent">
     <ROW Name="ExternalUICleaner.dll" SourcePath="&lt;AI_CUSTACTS&gt;ExternalUICleaner.dll"/>

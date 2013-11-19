@@ -161,7 +161,7 @@
     <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="SelectProducts" Condition="AI_INSTALL AND ( NOT SC_PROP )" Ordering="201"/>
     <ROW Dialog_="ServiceControlConfig" Control_="TemplateDlgDialogInitializer" Event="[INST_NAME]" Argument="ServiceControl@[ComputerName]" Condition="AI_INSTALL" Ordering="0"/>
     <ROW Dialog_="ServiceControlConfig" Control_="TemplateDlgDialogInitializer" Event="[INST_DESCRIPTION]" Argument="ServiceControl on [ComputerName]" Condition="AI_INSTALL" Ordering="1"/>
-    <ROW Dialog_="SelectProducts" Control_="PushButton_1" Event="DoAction" Argument="PlatformInstaller.CustomActions.CA.dll" Condition="AI_INSTALL" Ordering="0"/>
+    <ROW Dialog_="SelectProducts" Control_="PushButton_1" Event="DoAction" Argument="PlatformInstaller.CustomActions.CA.dll_1" Condition="AI_INSTALL" Ordering="0"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
     <ROW Action="AI_AppSearchEx" Type="1" Source="Prereq.dll" Target="DoAppSearchEx"/>
@@ -193,7 +193,7 @@
     <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
     <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
     <ROW Action="DownloadandInstallSelectedApplications" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadandInstallSelectedApplications"/>
-    <ROW Action="PlatformInstaller.CustomActions.CA.dll" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="TestAct" WithoutSeq="true"/>
+    <ROW Action="PlatformInstaller.CustomActions.CA.dll_1" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="TestAct" WithoutSeq="true"/>
     <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]"/>
     <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
@@ -267,10 +267,6 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.TempFileComponent">
     <ROW FileId="frame.css" Name="frame.css" Directory_="TempFolder" Property="AI_FRAME.CSS" Options="0" Data="Html Host\frame.css"/>
-    <ROW FileId="ionic.zip.dll" Name="IonicZ~1.dll|Ionic.Zip.dll" Directory_="TempFolder" Property="AI_IONIC.ZIP.DLL" Options="0" Data="..\..\binaries\Ionic.Zip.dll"/>
-    <ROW FileId="ionic.zip.xml" Name="IonicZ~1.xml|Ionic.Zip.xml" Directory_="TempFolder" Property="AI_IONIC.ZIP.XML" Options="0" Data="..\..\binaries\Ionic.Zip.xml"/>
-    <ROW FileId="microsoft.deployment.windowsinsta_1" Name="Micros~1.xml|Microsoft.Deployment.WindowsInstaller.xml" Directory_="TempFolder" Property="AI_MICROSOFT.DEPLOYMENT.WINDOWSINSTA_1" Options="0" Data="..\..\binaries\Microsoft.Deployment.WindowsInstaller.xml"/>
-    <ROW FileId="microsoft.deployment.windowsinstall" Name="Micros~1.dll|Microsoft.Deployment.WindowsInstaller.dll" Directory_="TempFolder" Property="AI_MICROSOFT.DEPLOYMENT.WINDOWSINSTALL" Options="0" Data="..\..\binaries\Microsoft.Deployment.WindowsInstaller.dll"/>
     <ROW FileId="platforminstaller.customactions.ca." Name="Platfo~1.dll|PlatformInstaller.CustomActions.CA.dll" Directory_="TempFolder" Property="AI_PLATFORMINSTALLER.CUSTOMACTIONS.CA." Options="0" Data="..\..\binaries\PlatformInstaller.CustomActions.CA.dll"/>
     <ROW FileId="products.html" Name="produc~1.htm|products.html" Directory_="TempFolder" Property="AI_PRODUCTS.HTML" Options="0" Data="Html Host\products.html"/>
     <ROW FileId="utils.js" Name="utils.js" Directory_="TempFolder" Property="AI_UTILS.JS" Options="0" Data="Html Host\utils.js"/>

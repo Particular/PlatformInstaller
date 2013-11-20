@@ -28,6 +28,8 @@
 
 <script>
 
+InitProdandRepoNamesProps();
+
 //animation if the HTML takes to long to load
 $(document).ready(function(){
     $('#loadingMessage').hide();
@@ -40,6 +42,7 @@ $("#SC").click(function (){
   Toggle("#ScCkb");
   Toggle("#SiCkb");
 });
+
 
 //control properties based on user selection from HTML
 SelectProduct("#NSB", "NSB_PROP");

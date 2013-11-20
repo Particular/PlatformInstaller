@@ -105,18 +105,13 @@
             return ActionResult.Success;
         }
 
-        [CustomAction]
-        public static ActionResult TestAct(Session session)
-        {
-            session["TEST"] = "dddd";
-            return ActionResult.Success;
-        }
+
 
         [CustomAction]
         public static ActionResult DownloadandInstallSelectedApplications(Session session)
         {
             Log(session, "Begin custom action DownloadandInstallSelectedApplications");
-
+            
             string[] fullFilePaths;
             string selectedProd = session["SC_PROP"];
             if ( !String.IsNullOrEmpty(selectedProd) )
@@ -193,7 +188,7 @@
 
                 session.DoAction("RunExe");
             }
-
+            
             Log(session, "End custom action DownloadandInstallSelectedApplications");
 
             return ActionResult.Success;
@@ -203,6 +198,7 @@
         [CustomAction]
         public static ActionResult DownloadSamplesforSelectedApplications(Session session)
         {
+            Log(session, "Begin custom action DownloadSamplesforSelectedApplications");
 
             string selectedSamples = session["SAMP_PROP"];
 
@@ -256,6 +252,7 @@
                 session.DoAction("DownloadSamples");
             }
 
+            Log(session, "End custom action DownloadSamplesforSelectedApplications");
 
             return ActionResult.Success;
         }
@@ -336,7 +333,8 @@
             //adding property that will be used to report application dowload progress
             // the HTML host leasons for MsiPropertyChanged installer event, so we can update the progress bar when a property gets set
             string propName = session["DOWNLOAD_PROP_NAME"];
-            session[propName] = "set";
+            if ( !String.IsNullOrEmpty(propName) )
+                session[propName] = "set";
 
             DownloadUrl(urlToDownload, zipFileName);
 
@@ -419,7 +417,8 @@
                 //adding property that will be used to report application install progress
                 // the HTML host leasons for MsiPropertyChanged installer event, so we can update the progress bar when a property gets set
                 string propName = session["INSTALLER_PROP_NAME"];
-                session[propName] = "set";
+                if ( !String.IsNullOrEmpty(propName) )
+                    session[propName] = "set";
 
                 process.Start();
                 process.BeginOutputReadLine();

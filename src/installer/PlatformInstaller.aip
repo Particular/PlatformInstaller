@@ -161,10 +161,10 @@
     <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="SelectProducts" Condition="AI_INSTALL AND ( NOT SC_PROP )" Ordering="201"/>
     <ROW Dialog_="ServiceControlConfig" Control_="TemplateDlgDialogInitializer" Event="[INST_NAME]" Argument="ServiceControl@[ComputerName]" Condition="AI_INSTALL" Ordering="0"/>
     <ROW Dialog_="ServiceControlConfig" Control_="TemplateDlgDialogInitializer" Event="[INST_DESCRIPTION]" Argument="ServiceControl on [ComputerName]" Condition="AI_INSTALL" Ordering="1"/>
-    <ROW Dialog_="SelectProducts" Control_="PushButton_1" Event="DoAction" Argument="PlatformInstaller.CustomActions.CA.dll_1" Condition="AI_INSTALL" Ordering="6"/>
     <ROW Dialog_="SelectProducts" Control_="PushButton_1" Event="[APPLICATION_NAME]" Argument="ServiceControl" Condition="AI_INSTALL" Ordering="1"/>
     <ROW Dialog_="SelectProducts" Control_="PushButton_1" Event="[EXTRACTION_APP_DIR]" Argument="[TempFolder]ServiceControl" Condition="AI_INSTALL" Ordering="3"/>
     <ROW Dialog_="SelectProducts" Control_="PushButton_1" Event="[SC_INSTALL_DIR]" Argument="[TempFolder]" Condition="AI_INSTALL" Ordering="5"/>
+    <ROW Dialog_="SelectProducts" Control_="PushButton_1" Event="DoAction" Argument="DownloadApplication" Condition="AI_INSTALL" Ordering="6"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
     <ROW Action="AI_AppSearchEx" Type="1" Source="Prereq.dll" Target="DoAppSearchEx"/>
@@ -196,16 +196,18 @@
     <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
     <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
     <ROW Action="DownloadApplication" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadApplication" WithoutSeq="true"/>
+    <ROW Action="DownloadInstall_SelectedApps" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadandInstallSelectedApps" WithoutSeq="true"/>
     <ROW Action="DownloadNuget" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadNuget" WithoutSeq="true"/>
     <ROW Action="DownloadSamples" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadSamples" WithoutSeq="true"/>
     <ROW Action="DownloadSamples_for_SelectedApps" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadSamplesforSelectedApplications" WithoutSeq="true"/>
     <ROW Action="DownloadTools" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadTools" WithoutSeq="true"/>
     <ROW Action="DownloadandInstallSelectedApplications" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadandInstallSelectedApplications"/>
-    <ROW Action="PlatformInstaller.CustomActions.CA.dll_1" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadandInstallSelectedApplications" WithoutSeq="true"/>
     <ROW Action="RunExe" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="RunExe" WithoutSeq="true"/>
     <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]"/>
     <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
+    <ROW Action="TestCa" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="TestCa" WithoutSeq="true"/>
+    <ROW Action="TestSetProp" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="TestSetProp" WithoutSeq="true"/>
     <ROW Action="UninstallApplications" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="UninstallApplications" WithoutSeq="true"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiDialogComponent">

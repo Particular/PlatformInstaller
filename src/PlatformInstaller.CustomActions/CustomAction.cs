@@ -105,16 +105,14 @@
             return ActionResult.Success;
         }
 
-
-
         [CustomAction]
-        public static ActionResult DownloadandInstallSelectedApplications(Session session)
+        public static ActionResult DownloadandInstallSelectedApps(Session session)
         {
             Log(session, "Begin custom action DownloadandInstallSelectedApplications");
-            
+
             string[] fullFilePaths;
             string selectedProd = session["SC_PROP"];
-            if ( !String.IsNullOrEmpty(selectedProd) )
+            if (!String.IsNullOrEmpty(selectedProd))
             {
                 //download application
                 session["APPLICATION_NAME"] = session["SC_PROD_NAME"];
@@ -133,7 +131,7 @@
             }
 
             selectedProd = session["SI_PROP"];
-            if ( !String.IsNullOrEmpty(selectedProd) )
+            if (!String.IsNullOrEmpty(selectedProd))
             {
                 //download application
                 session["APPLICATION_NAME"] = session["SI_PROD_NAME"];
@@ -152,7 +150,7 @@
             }
 
             selectedProd = session["SP_PROP"];
-            if ( !String.IsNullOrEmpty(selectedProd) )
+            if (!String.IsNullOrEmpty(selectedProd))
             {
                 //download application
                 session["APPLICATION_NAME"] = session["SP_PROD_NAME"];
@@ -171,8 +169,8 @@
             }
 
             selectedProd = session["SM_PROP"];
-            if ( !String.IsNullOrEmpty(selectedProd) )
-            {   
+            if (!String.IsNullOrEmpty(selectedProd))
+            {
                 //download application
                 session["APPLICATION_NAME"] = session["SM_PROD_NAME"];
                 session["EXTRACTION_APP_DIR"] = session["TempFolder"] + "ServiceMatrix";
@@ -188,13 +186,14 @@
 
                 session.DoAction("RunExe");
             }
-            
+
             Log(session, "End custom action DownloadandInstallSelectedApplications");
 
             return ActionResult.Success;
         }
 
 
+        
         [CustomAction]
         public static ActionResult DownloadSamplesforSelectedApplications(Session session)
         {
@@ -315,6 +314,42 @@
 
 
         [CustomAction]
+        public static ActionResult TestCa(Session session)
+        {
+            session.DoAction("TestSetProp");
+
+            string[] fullFilePaths;
+            string selectedProd = session["SC_PROP"];
+            if (!String.IsNullOrEmpty(selectedProd))
+            {
+                //download application
+                session["APPLICATION_NAME"] = session["SC_PROD_NAME"];
+                session["EXTRACTION_APP_DIR"] = session["TempFolder"] + "ServiceControl";
+                session["DOWNLOAD_PROP_NAME"] = "DWLD_SC";
+
+                session.DoAction("DownloadApplication");
+
+                //install application
+                fullFilePaths = Directory.GetFiles(session["EXTRACTION_APP_DIR"]);
+                session["INSTALLER_PATH"] = fullFilePaths[0];
+                session["INSTALLER_COMMANDLINE"] = "";
+                session["INSTALLER_PROP_NAME"] = "INST_SC";
+
+                session.DoAction("RunExe");
+            }
+
+            return ActionResult.Success;
+        }
+
+        [CustomAction]
+        public static ActionResult TestSetProp(Session session)
+        {
+            session["PROP"]="test";
+
+            return  ActionResult.Success;
+        }
+
+        [CustomAction]
         public static ActionResult DownloadSamples(Session session)
         {
             Log(session, "Begin custom action DownloadSamples");
@@ -333,7 +368,7 @@
             //adding property that will be used to report application dowload progress
             // the HTML host leasons for MsiPropertyChanged installer event, so we can update the progress bar when a property gets set
             string propName = session["DOWNLOAD_PROP_NAME"];
-            if ( !String.IsNullOrEmpty(propName) )
+            if (!String.IsNullOrEmpty(propName))
                 session[propName] = "set";
 
             DownloadUrl(urlToDownload, zipFileName);
@@ -364,7 +399,7 @@
             return ActionResult.Success;
         }
 
-
+        
         static void DownloadUrl(string urlToDownload, string targetPath)
         {
             using (var client = new WebClient())

@@ -53,12 +53,9 @@
   <ItemGroup>
     <Compile Include="CustomAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="CustomAction.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CustomAction.config">
-      <SubType>
-      </SubType>
-    </Content>
     <None Include="ripple.dependencies.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

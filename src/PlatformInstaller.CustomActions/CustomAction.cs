@@ -105,94 +105,6 @@
             return ActionResult.Success;
         }
 
-        [CustomAction]
-        public static ActionResult DownloadandInstallSelectedApps(Session session)
-        {
-            Log(session, "Begin custom action DownloadandInstallSelectedApplications");
-
-            string[] fullFilePaths;
-            string selectedProd = session["SC_PROP"];
-            if (!String.IsNullOrEmpty(selectedProd))
-            {
-                //download application
-                session["APPLICATION_NAME"] = session["SC_PROD_NAME"];
-                session["EXTRACTION_APP_DIR"] = session["TempFolder"] + "ServiceControl";
-                session["DOWNLOAD_PROP_NAME"] = "DWLD_SC";
-
-                session.DoAction("DownloadApplication");
-
-                //install application
-                fullFilePaths = Directory.GetFiles(session["EXTRACTION_APP_DIR"]);
-                session["INSTALLER_PATH"] = fullFilePaths[0];
-                session["INSTALLER_COMMANDLINE"] = "";
-                session["INSTALLER_PROP_NAME"] = "INST_SC";
-
-                session.DoAction("RunExe");
-            }
-
-            selectedProd = session["SI_PROP"];
-            if (!String.IsNullOrEmpty(selectedProd))
-            {
-                //download application
-                session["APPLICATION_NAME"] = session["SI_PROD_NAME"];
-                session["EXTRACTION_APP_DIR"] = session["TempFolder"] + "ServiceInsight";
-                session["DOWNLOAD_PROP_NAME"] = "DWLD_SI";
-
-                session.DoAction("DownloadApplication");
-
-                //install application
-                fullFilePaths = Directory.GetFiles(session["EXTRACTION_APP_DIR"]);
-                session["INSTALLER_PATH"] = fullFilePaths[0];
-                session["INSTALLER_COMMANDLINE"] = "";
-                session["INSTALLER_PROP_NAME"] = "INST_SI";
-
-                session.DoAction("RunExe");
-            }
-
-            selectedProd = session["SP_PROP"];
-            if (!String.IsNullOrEmpty(selectedProd))
-            {
-                //download application
-                session["APPLICATION_NAME"] = session["SP_PROD_NAME"];
-                session["EXTRACTION_APP_DIR"] = session["TempFolder"] + "ServicePulse";
-                session["DOWNLOAD_PROP_NAME"] = "DWLD_SP";
-
-                session.DoAction("DownloadApplication");
-
-                //install application
-                fullFilePaths = Directory.GetFiles(session["EXTRACTION_APP_DIR"]);
-                session["INSTALLER_PATH"] = fullFilePaths[0];
-                session["INSTALLER_COMMANDLINE"] = "";
-                session["INSTALLER_PROP_NAME"] = "INST_SP";
-
-                session.DoAction("RunExe");
-            }
-
-            selectedProd = session["SM_PROP"];
-            if (!String.IsNullOrEmpty(selectedProd))
-            {
-                //download application
-                session["APPLICATION_NAME"] = session["SM_PROD_NAME"];
-                session["EXTRACTION_APP_DIR"] = session["TempFolder"] + "ServiceMatrix";
-                session["DOWNLOAD_PROP_NAME"] = "DWLD_SM";
-
-                session.DoAction("DownloadApplication");
-
-                //install application
-                fullFilePaths = Directory.GetFiles(session["EXTRACTION_APP_DIR"]);
-                session["INSTALLER_PATH"] = fullFilePaths[0];
-                session["INSTALLER_COMMANDLINE"] = "";
-                session["INSTALLER_PROP_NAME"] = "INST_SM";
-
-                session.DoAction("RunExe");
-            }
-
-            Log(session, "End custom action DownloadandInstallSelectedApplications");
-
-            return ActionResult.Success;
-        }
-
-
         
         [CustomAction]
         public static ActionResult DownloadSamplesforSelectedApplications(Session session)
@@ -314,10 +226,8 @@
 
 
         [CustomAction]
-        public static ActionResult TestCa(Session session)
+        public static ActionResult InstallApps(Session session)
         {
-            session.DoAction("TestSetProp");
-
             string[] fullFilePaths;
             string selectedProd = session["SC_PROP"];
             if (!String.IsNullOrEmpty(selectedProd))
@@ -338,16 +248,70 @@
                 session.DoAction("RunExe");
             }
 
+            selectedProd = session["SI_PROP"];
+            if (!String.IsNullOrEmpty(selectedProd))
+            {
+                //download application
+                session["APPLICATION_NAME"] = session["SI_PROD_NAME"];
+                session["EXTRACTION_APP_DIR"] = session["TempFolder"] + "ServiceInsight";
+                session["DOWNLOAD_PROP_NAME"] = "DWLD_SI";
+
+                session.DoAction("DownloadApplication");
+
+                //install application
+                fullFilePaths = Directory.GetFiles(session["EXTRACTION_APP_DIR"]);
+                session["INSTALLER_PATH"] = fullFilePaths[0];
+                session["INSTALLER_COMMANDLINE"] = "";
+                session["INSTALLER_PROP_NAME"] = "INST_SI";
+
+                session.DoAction("RunExe");
+            }
+
+            selectedProd = session["SP_PROP"];
+            if (!String.IsNullOrEmpty(selectedProd))
+            {
+                //download application
+                session["APPLICATION_NAME"] = session["SP_PROD_NAME"];
+                session["EXTRACTION_APP_DIR"] = session["TempFolder"] + "ServicePulse";
+                session["DOWNLOAD_PROP_NAME"] = "DWLD_SP";
+
+                session.DoAction("DownloadApplication");
+
+                //install application
+                fullFilePaths = Directory.GetFiles(session["EXTRACTION_APP_DIR"]);
+                session["INSTALLER_PATH"] = fullFilePaths[0];
+                session["INSTALLER_COMMANDLINE"] = "";
+                session["INSTALLER_PROP_NAME"] = "INST_SP";
+
+                session.DoAction("RunExe");
+            }
+
+            selectedProd = session["SM_PROP"];
+            if (!String.IsNullOrEmpty(selectedProd))
+            {
+                //download application
+                session["APPLICATION_NAME"] = session["SM_PROD_NAME"];
+                session["EXTRACTION_APP_DIR"] = session["TempFolder"] + "ServiceMatrix";
+                session["DOWNLOAD_PROP_NAME"] = "DWLD_SM";
+
+                session.DoAction("DownloadApplication");
+
+                //install application
+                fullFilePaths = Directory.GetFiles(session["EXTRACTION_APP_DIR"]);
+                session["INSTALLER_PATH"] = fullFilePaths[0];
+                session["INSTALLER_COMMANDLINE"] = "";
+                session["INSTALLER_PROP_NAME"] = "INST_SM";
+
+                session.DoAction("RunExe");
+            }
+
+            Log(session, "End custom action DownloadandInstallSelectedApplications");
+
+            
             return ActionResult.Success;
         }
 
-        [CustomAction]
-        public static ActionResult TestSetProp(Session session)
-        {
-            session["PROP"]="test";
 
-            return  ActionResult.Success;
-        }
 
         [CustomAction]
         public static ActionResult DownloadSamples(Session session)

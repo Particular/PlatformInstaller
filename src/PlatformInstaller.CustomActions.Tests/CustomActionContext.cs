@@ -32,7 +32,13 @@
 
             CustomActions.LogAction = (session1, s) => { };
             CustomActions.SetAction = (session1, key, value) => { session[key] = value; };
-            CustomActions.GetAction = (s, key) => session[key];
+            CustomActions.GetAction = (s, key) =>
+            {
+                string value;
+                session.TryGetValue(key, out value);
+
+                return value;
+            };
         }
 
         protected Dictionary<string, string> session;

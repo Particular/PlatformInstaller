@@ -1,4 +1,6 @@
-﻿namespace PlatformInstaller.CustomActions
+﻿using System.Collections.Generic;
+
+namespace PlatformInstaller.CustomActions
 {
     using System;
     using System.Diagnostics;
@@ -64,17 +66,17 @@
 
             string selectedProd = session["SI_PROP"];
             string prodSearch = session["SI_SEARCH"];
-            if ( String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch) )
+            if (String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
             {
                 session["INSTALLER_COMMANDLINE"] = "/x" + session["SI_PRODCODE"] + "/qn";
                 session["INSTALLER_PROP_NAME"] = "UNINST_SI";
                 //uninstall app
-                session.DoAction("RunExe"); 
+                session.DoAction("RunExe");
             }
 
             selectedProd = session["SP_PROP"];
             prodSearch = session["SP_SEARCH"];
-            if ( String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch) )
+            if (String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
             {
                 session["INSTALLER_COMMANDLINE"] = "/x" + session["SP_PRODCODE"] + "/qn";
                 session["INSTALLER_PROP_NAME"] = "UNINST_SP";
@@ -84,7 +86,7 @@
 
             selectedProd = session["SC_PROP"];
             prodSearch = session["SC_SEARCH"];
-            if ( String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch) )
+            if (String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
             {
                 session["INSTALLER_COMMANDLINE"] = "/x" + session["SC_PRODCODE"] + "/qn";
                 session["INSTALLER_PROP_NAME"] = "UNINST_SC";
@@ -94,18 +96,18 @@
 
             selectedProd = session["SM_PROP"];
             prodSearch = session["SM_SEARCH"];
-            if ( String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch) )
+            if (String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
             {
                 session["INSTALLER_COMMANDLINE"] = "/x" + session["SM_PRODCODE"] + "/qn";
                 session["INSTALLER_PROP_NAME"] = "UNINST_SM";
                 //uninstall app
                 session.DoAction("RunExe");
             }
-            
+
             return ActionResult.Success;
         }
 
-        
+
         [CustomAction]
         public static ActionResult DownloadSamplesforSelectedApplications(Session session)
         {
@@ -116,47 +118,27 @@
             string selectedProd = session["SC_PROP"];
             if (!String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(selectedSamples))
             {
-                session["SAMPLE_REPOSITORY"] = session["SC_REPO_NAME"];
-                session["TARGET_SAMPLE_DIR"] = session["SC_INSTALL_DIR"] + "\\samples";
-                session["DOWNLOAD_PROP_NAME"] = "DWLD_SC_SAMP";
-
-                session.DoAction("DownloadSamples");
             }
 
             selectedProd = session["SI_PROP"];
-            if ( !String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(selectedSamples) )
+            if (!String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(selectedSamples))
             {
-                session["SAMPLE_REPOSITORY"] = session["SI_REPO_NAME"];
-                session["TARGET_SAMPLE_DIR"] = session["SI_INSTALL_DIR"] + "\\samples";
-                session["DOWNLOAD_PROP_NAME"] = "DWLD_SI_SAMP";
-
-                session.DoAction("DownloadSamples");
             }
 
             selectedProd = session["SP_PROP"];
-            if ( !String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(selectedSamples) )
+            if (!String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(selectedSamples))
             {
-                session["SAMPLE_REPOSITORY"] = session["SP_REPO_NAME"];
-                session["TARGET_SAMPLE_DIR"] = session["SP_INSTALL_DIR"] + "\\samples";
-                session["DOWNLOAD_PROP_NAME"] = "DWLD_SP_SAMP";
-
-                session.DoAction("DownloadSamples");
             }
 
             selectedProd = session["SM_PROP"];
-            if ( !String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(selectedSamples) )
+            if (!String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(selectedSamples))
             {
-                session["SAMPLE_REPOSITORY"] = session["SM_REPO_NAME"];
-                session["TARGET_SAMPLE_DIR"] = session["SM_INSTALL_DIR"] + "\\samples";
-                session["DOWNLOAD_PROP_NAME"] = "DWLD_SM_SAMP";
-
-                session.DoAction("DownloadSamples");
             }
-            
+
             selectedProd = session["NSB_PROP"];
-            if ( !String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(selectedSamples) )
+            if (!String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(selectedSamples))
             {
-                session["SAMPLE_REPOSITORY"] = session["NSB_REPO_NAME"];
+                session["SAMPLE_APPLICATION"] = "nservicebus";
                 session["TARGET_SAMPLE_DIR"] = session["NSB_INSTALL_DIR"] + "\\samples";
                 session["DOWNLOAD_PROP_NAME"] = "DWLD_NSB_SAMP";
 
@@ -307,7 +289,7 @@
 
             Log(session, "End custom action DownloadandInstallSelectedApplications");
 
-            
+
             return ActionResult.Success;
         }
 
@@ -318,22 +300,62 @@
         {
             Log(session, "Begin custom action DownloadSamples");
 
-            var repositoryId = session.Get("SAMPLE_REPOSITORY");
+            var targetDir = session.Get("TARGET_SAMPLE_DIR");
+
+            var application = session.Get("SAMPLE_APPLICATION");
+
+            foreach (var repoToDownload in GetSampleReposForApp(application))
+            {
+                //adding property that will be used to report application dowload progress
+                // the HTML host leasons for MsiPropertyChanged installer event, so we can update the progress bar when a property gets set
+                string propName = session.Get("DOWNLOAD_PROP_NAME");
+                if (!String.IsNullOrEmpty(propName))
+                {
+                    session.Set(propName, "set");
+                }
+
+
+                DownloadSampleRepo(repoToDownload, targetDir);
+
+                Log(session, "Sample " + repoToDownload + " extracted to " + targetDir);
+
+            }
+
+
+
+            return ActionResult.Success;
+        }
+
+        private static IEnumerable<string> GetSampleReposForApp(string application)
+        {
+            switch (application.ToLower())
+            {
+                case "nservicebus":
+                    return new[]
+                    {
+                        "Particular/NServiceBus.NHibernate.Samples",
+                        "Particular/NServiceBus.SqlServer.Samples",
+                        "Particular/NServiceBus.RabbitMQ.Samples",
+                        "Particular/NServiceBus.ActiveMQ.Samples",
+                        "Particular/NServiceBus.Msmq.Samples",
+                        "Particular/NServiceBus.Azure.Samples"
+                    };
+                default:
+                    throw new InvalidOperationException("Unknown app - " + application);
+            }
+        }
+
+        private static void DownloadSampleRepo(string repositoryId, string targetDir)
+        {
             var repoName = repositoryId.Split('/').Last();
 
-            var targetDir = session.Get("TARGET_SAMPLE_DIR");
 
             var urlToDownload = string.Format("http://github.com/{0}/archive/master.zip", repositoryId);
 
 
-
             var zipFileName = Path.GetTempFileName();
 
-            //adding property that will be used to report application dowload progress
-            // the HTML host leasons for MsiPropertyChanged installer event, so we can update the progress bar when a property gets set
-            string propName = session["DOWNLOAD_PROP_NAME"];
-            if (!String.IsNullOrEmpty(propName))
-                session[propName] = "set";
+
 
             DownloadUrl(urlToDownload, zipFileName);
 
@@ -353,17 +375,11 @@
                         Console.Out.WriteLine(entry.FileName);
                         entry.Extract(targetDir, ExtractExistingFileAction.OverwriteSilently);
                     }
-
                 });
-
             }
-
-            Log(session, "Sample " + repositoryId + " extracted to " + targetDir);
-
-            return ActionResult.Success;
         }
 
-        
+
         static void DownloadUrl(string urlToDownload, string targetPath)
         {
             using (var client = new WebClient())
@@ -416,7 +432,7 @@
                 //adding property that will be used to report application install progress
                 // the HTML host leasons for MsiPropertyChanged installer event, so we can update the progress bar when a property gets set
                 string propName = session["INSTALLER_PROP_NAME"];
-                if ( !String.IsNullOrEmpty(propName) )
+                if (!String.IsNullOrEmpty(propName))
                     session[propName] = "set";
 
                 process.Start();

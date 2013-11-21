@@ -12,7 +12,7 @@ namespace PlatformInstaller.CustomActions.Tests
         {
             var targetDir = CreateDirForTesting("Samples");
 
-            session["SAMPLE_REPOSITORY"] = "Particular/NServiceBus.SqlServer.Samples";
+            session["SAMPLE_APPLICATION"] = "nservicebus";
             session["TARGET_SAMPLE_DIR"] = targetDir;
 
 

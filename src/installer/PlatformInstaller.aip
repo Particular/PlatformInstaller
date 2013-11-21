@@ -161,9 +161,6 @@
     <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="SelectProducts" Condition="AI_INSTALL AND ( NOT SC_PROP )" Ordering="201"/>
     <ROW Dialog_="ServiceControlConfig" Control_="TemplateDlgDialogInitializer" Event="[INST_NAME]" Argument="ServiceControl@[ComputerName]" Condition="AI_INSTALL" Ordering="0"/>
     <ROW Dialog_="ServiceControlConfig" Control_="TemplateDlgDialogInitializer" Event="[INST_DESCRIPTION]" Argument="ServiceControl on [ComputerName]" Condition="AI_INSTALL" Ordering="1"/>
-    <ROW Dialog_="SelectProducts" Control_="PushButton_1" Event="[APPLICATION_NAME]" Argument="ServiceControl" Condition="AI_INSTALL" Ordering="1"/>
-    <ROW Dialog_="SelectProducts" Control_="PushButton_1" Event="[EXTRACTION_APP_DIR]" Argument="[TempFolder]ServiceControl" Condition="AI_INSTALL" Ordering="3"/>
-    <ROW Dialog_="SelectProducts" Control_="PushButton_1" Event="[SC_INSTALL_DIR]" Argument="[TempFolder]" Condition="AI_INSTALL" Ordering="5"/>
     <ROW Dialog_="SelectProducts" Control_="PushButton_1" Event="DoAction" Argument="DownloadInstall_SelectedApps_NoSeq" Condition="AI_INSTALL" Ordering="6"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">

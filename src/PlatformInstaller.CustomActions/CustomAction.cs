@@ -220,18 +220,38 @@ namespace PlatformInstaller.CustomActions
         public static ActionResult InstallApps(Session session)
         {
             string[] fullFilePaths;
-            string selectedProd = session["SC_PROP"];
+            string selectedProd = session["NSB_PROP"];
+            if (!String.IsNullOrEmpty(selectedProd))
+            {
+                //download application
+                session["APPLICATION_NAME"] = session["NSB_PROD_NAME"];
+                session["TARGET_APP_DIR"] = session["TempFolder"] + "NServiceBus";
+                session["DOWNLOAD_PROP_NAME"] = "DWLD_NSB";
+
+                session.DoAction("DownloadApplication");
+
+                //install application
+                fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR"]);
+                session["INSTALLER_PATH"] = fullFilePaths[0];
+                session["INSTALLER_COMMANDLINE"] = "";
+                session["INSTALLER_PROP_NAME"] = "INST_NSB";
+
+                session.DoAction("RunExe");
+            }
+
+
+            selectedProd = session["SC_PROP"];
             if (!String.IsNullOrEmpty(selectedProd))
             {
                 //download application
                 session["APPLICATION_NAME"] = session["SC_PROD_NAME"];
-                session["EXTRACTION_APP_DIR"] = session["TempFolder"] + "ServiceControl";
+                session["TARGET_APP_DIR"] = session["TempFolder"] + "ServiceControl";
                 session["DOWNLOAD_PROP_NAME"] = "DWLD_SC";
 
                 session.DoAction("DownloadApplication");
 
                 //install application
-                fullFilePaths = Directory.GetFiles(session["EXTRACTION_APP_DIR"]);
+                fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR"]);
                 session["INSTALLER_PATH"] = fullFilePaths[0];
                 session["INSTALLER_COMMANDLINE"] = "";
                 session["INSTALLER_PROP_NAME"] = "INST_SC";
@@ -244,13 +264,13 @@ namespace PlatformInstaller.CustomActions
             {
                 //download application
                 session["APPLICATION_NAME"] = session["SI_PROD_NAME"];
-                session["EXTRACTION_APP_DIR"] = session["TempFolder"] + "ServiceInsight";
+                session["TARGET_APP_DIR"] = session["TempFolder"] + "ServiceInsight";
                 session["DOWNLOAD_PROP_NAME"] = "DWLD_SI";
 
                 session.DoAction("DownloadApplication");
 
                 //install application
-                fullFilePaths = Directory.GetFiles(session["EXTRACTION_APP_DIR"]);
+                fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR"]);
                 session["INSTALLER_PATH"] = fullFilePaths[0];
                 session["INSTALLER_COMMANDLINE"] = "";
                 session["INSTALLER_PROP_NAME"] = "INST_SI";
@@ -263,13 +283,13 @@ namespace PlatformInstaller.CustomActions
             {
                 //download application
                 session["APPLICATION_NAME"] = session["SP_PROD_NAME"];
-                session["EXTRACTION_APP_DIR"] = session["TempFolder"] + "ServicePulse";
+                session["TARGET_APP_DIR"] = session["TempFolder"] + "ServicePulse";
                 session["DOWNLOAD_PROP_NAME"] = "DWLD_SP";
 
                 session.DoAction("DownloadApplication");
 
                 //install application
-                fullFilePaths = Directory.GetFiles(session["EXTRACTION_APP_DIR"]);
+                fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR"]);
                 session["INSTALLER_PATH"] = fullFilePaths[0];
                 session["INSTALLER_COMMANDLINE"] = "";
                 session["INSTALLER_PROP_NAME"] = "INST_SP";
@@ -282,13 +302,13 @@ namespace PlatformInstaller.CustomActions
             {
                 //download application
                 session["APPLICATION_NAME"] = session["SM_PROD_NAME"];
-                session["EXTRACTION_APP_DIR"] = session["TempFolder"] + "ServiceMatrix";
+                session["TARGET_APP_DIR"] = session["TempFolder"] + "ServiceMatrix";
                 session["DOWNLOAD_PROP_NAME"] = "DWLD_SM";
 
                 session.DoAction("DownloadApplication");
 
                 //install application
-                fullFilePaths = Directory.GetFiles(session["EXTRACTION_APP_DIR"]);
+                fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR"]);
                 session["INSTALLER_PATH"] = fullFilePaths[0];
                 session["INSTALLER_COMMANDLINE"] = "";
                 session["INSTALLER_PROP_NAME"] = "INST_SM";

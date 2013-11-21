@@ -1,4 +1,6 @@
-﻿namespace PlatformInstaller.CustomActions.Tests
+﻿using System.Security.AccessControl;
+
+namespace PlatformInstaller.CustomActions.Tests
 {
     using System;
     using System.Collections.Generic;
@@ -17,6 +19,7 @@
                 Directory.Delete(targetDir, true);
             }
 
+         
             Directory.CreateDirectory(targetDir);
 
             Console.Out.WriteLine(targetDir + " prepared");

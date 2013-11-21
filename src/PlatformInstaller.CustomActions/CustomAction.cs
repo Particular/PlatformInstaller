@@ -168,38 +168,47 @@ namespace PlatformInstaller.CustomActions
 
             var appName = session.Get("APPLICATION_NAME");
 
-            var extractionDir = session.Get("EXTRACTION_APP_DIR");
+            var extractionDir = session.Get("TARGET_APP_DIR");
 
 
-            //var urlToDownload = string.Format("http://chocolatey.org/api/v2/package/{0}", appName);
+            var appInfoUrl = string.Format("http://particular.net/api/products/{0}/current", appName);
 
             // URL used for testing, TO BE commented for product builds
-            var urlToDownload = string.Format("http://dl.dropboxusercontent.com/u/5392761/Elance/NServiceBus/bundles/{0}", appName + ".zip");
+            //var urlToDownload = string.Format("http://dl.dropboxusercontent.com/u/5392761/Elance/NServiceBus/bundles/{0}", appName + ".zip");
 
 
-            var tempDownloadPath = Path.GetTempFileName();
+            string urlToDownload = null;
 
-
-            DownloadUrl(urlToDownload, tempDownloadPath);
-
-
-            using (var zipFile = ZipFile.Read(tempDownloadPath))
+            using (var client = new WebClient())
             {
-                zipFile.ToList().ForEach(entry =>
+                string json;
+                try
                 {
-                    var fileName = entry.FileName;
+                    json = client.DownloadString(appInfoUrl);
+                }
+                catch (WebException)
+                {
+                    appInfoUrl = string.Format("http://particular.net/api/products/{0}/prerelease", appName);
 
-                    if (fileName.EndsWith(".exe"))
-                    {
-                        entry.FileName = fileName.Split('/').Last();
+                    json = client.DownloadString(appInfoUrl);
 
-                        Console.Out.WriteLine(entry.FileName);
-                        entry.Extract(extractionDir, ExtractExistingFileAction.OverwriteSilently);
-                    }
-
-                });
-
+                }
+                
+            
+         
+                urlToDownload = json
+                    .Replace("\"", "")
+                    .Split(new[] { "Uri:" }, StringSplitOptions.RemoveEmptyEntries)
+                    .Last()
+                    .Split(',')
+                    .First()
+                 ;
             }
+
+            var fileName = urlToDownload.Split('/').Last();
+
+            DownloadUrl(urlToDownload, Path.Combine(extractionDir, fileName));
+
 
             Log(session, "App " + appName + " extracted to " + extractionDir);
 

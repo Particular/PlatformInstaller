@@ -1,4 +1,6 @@
-﻿namespace PlatformInstaller.CustomActions.Tests
+﻿using System.Linq;
+
+namespace PlatformInstaller.CustomActions.Tests
 {
     using System.IO;
     using Microsoft.Deployment.WindowsInstaller;
@@ -8,11 +10,39 @@
     public class DownloadApplicationTests : CustomActionContext
     {
         [Test, Explicit()]
-        public void DownloadApplication()
+        public void DownloadNServiceBus()
         {
-            var targetDir = CreateDirForTesting("Applications");
+            DownloadApp("NServiceBus");
+        }
 
-            session["APPLICATION_NAME"] = "Console2";//just for testing
+        
+        [Test, Explicit()]
+        public void DownloadServiceMatrix()
+        {
+            DownloadApp("ServiceMatrix");
+
+        }
+
+        [Test, Explicit()]
+        public void DownloadServiceControl()
+        {
+            DownloadApp("ServiceControl");
+
+        }
+
+
+        [Test, Explicit()]
+        public void DownloadServicePulse()
+        {
+            DownloadApp("ServicePulse");
+
+        }
+
+        ActionResult DownloadApp(string app)
+        {
+            var targetDir = CreateDirForTesting("Application-" + app);
+
+            session["APPLICATION_NAME"] = app;
             session["TARGET_APP_DIR"] = targetDir;
 
 
@@ -20,7 +50,10 @@
 
             Assert.AreEqual(ActionResult.Success, result);
 
-            Assert.True(File.Exists(Path.Combine(targetDir, "Console.exe")));
+            Assert.True(Directory.EnumerateFiles(targetDir)
+                .Any(f => f.Contains("Particular." + app)));
+            return result;
         }
+
     }
 }

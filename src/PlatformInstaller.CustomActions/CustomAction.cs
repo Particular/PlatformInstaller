@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace PlatformInstaller.CustomActions
 {
@@ -170,11 +171,12 @@ namespace PlatformInstaller.CustomActions
 
             var extractionDir = session.Get("TARGET_APP_DIR");
 
+          //  MessageBox.Show("Please attach a debugger to rundll32.exe.", "Attach");
 
             var appInfoUrl = string.Format("http://particular.net/api/products/{0}/current", appName);
 
             // URL used for testing, TO BE commented for product builds
-            //var urlToDownload = string.Format("http://dl.dropboxusercontent.com/u/5392761/Elance/NServiceBus/bundles/{0}", appName + ".zip");
+            //var appInfoUrl = string.Format("http://dl.dropboxusercontent.com/u/5392761/Elance/NServiceBus/bundles/{0}", appName + ".zip");
 
 
             string urlToDownload = null;
@@ -206,9 +208,9 @@ namespace PlatformInstaller.CustomActions
             }
 
             var fileName = urlToDownload.Split('/').Last();
-
+            
+            CreateDir(extractionDir);
             DownloadUrl(urlToDownload, Path.Combine(extractionDir, fileName));
-
 
             Log(session, "App " + appName + " extracted to " + extractionDir);
 
@@ -225,7 +227,7 @@ namespace PlatformInstaller.CustomActions
             {
                 //download application
                 session["APPLICATION_NAME"] = session["NSB_PROD_NAME"];
-                session["TARGET_APP_DIR"] = session["TempFolder"] + "NServiceBus";
+                session["TARGET_APP_DIR"] = session["TempFolder"] + "Application-" + session["NSB_PROD_NAME"];
                 session["DOWNLOAD_PROP_NAME"] = "DWLD_NSB";
 
                 session.DoAction("DownloadApplication");
@@ -245,7 +247,7 @@ namespace PlatformInstaller.CustomActions
             {
                 //download application
                 session["APPLICATION_NAME"] = session["SC_PROD_NAME"];
-                session["TARGET_APP_DIR"] = session["TempFolder"] + "ServiceControl";
+                session["TARGET_APP_DIR"] = session["TempFolder"] + "Application-" + session["SC_PROD_NAME"];
                 session["DOWNLOAD_PROP_NAME"] = "DWLD_SC";
 
                 session.DoAction("DownloadApplication");
@@ -264,7 +266,7 @@ namespace PlatformInstaller.CustomActions
             {
                 //download application
                 session["APPLICATION_NAME"] = session["SI_PROD_NAME"];
-                session["TARGET_APP_DIR"] = session["TempFolder"] + "ServiceInsight";
+                session["TARGET_APP_DIR"] = session["TempFolder"] + "Application-" + session["SI_PROD_NAME"];
                 session["DOWNLOAD_PROP_NAME"] = "DWLD_SI";
 
                 session.DoAction("DownloadApplication");
@@ -283,7 +285,7 @@ namespace PlatformInstaller.CustomActions
             {
                 //download application
                 session["APPLICATION_NAME"] = session["SP_PROD_NAME"];
-                session["TARGET_APP_DIR"] = session["TempFolder"] + "ServicePulse";
+                session["TARGET_APP_DIR"] = session["TempFolder"] + "Application-" + session["SP_PROD_NAME"];
                 session["DOWNLOAD_PROP_NAME"] = "DWLD_SP";
 
                 session.DoAction("DownloadApplication");
@@ -302,7 +304,7 @@ namespace PlatformInstaller.CustomActions
             {
                 //download application
                 session["APPLICATION_NAME"] = session["SM_PROD_NAME"];
-                session["TARGET_APP_DIR"] = session["TempFolder"] + "ServiceMatrix";
+                session["TARGET_APP_DIR"] = session["TempFolder"] + "Application-" + session["SM_PROD_NAME"];
                 session["DOWNLOAD_PROP_NAME"] = "DWLD_SM";
 
                 session.DoAction("DownloadApplication");
@@ -540,6 +542,17 @@ namespace PlatformInstaller.CustomActions
 
             return ActionResult.Success;
         }
+
+        static void CreateDir(string targetDir)
+        {
+            if (Directory.Exists(targetDir))
+            {
+                Directory.Delete(targetDir, true);
+            }
+            
+            Directory.CreateDirectory(targetDir);
+        }
+
 
         static void Log(Session session, string message)
         {

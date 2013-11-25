@@ -69,7 +69,7 @@ namespace PlatformInstaller.CustomActions
             string prodSearch = session["SI_SEARCH"];
             if (String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
             {
-                session["INSTALLER_COMMANDLINE"] = "/x" + session["SI_PRODCODE"] + "/qn";
+                session["INSTALLER_COMMANDLINE"] = "/x " + session["SI_PRODCODE"] + " /qn";
                 session["INSTALLER_PROP_NAME"] = "UNINST_SI";
                 //uninstall app
                 session.DoAction("RunExe");
@@ -79,7 +79,7 @@ namespace PlatformInstaller.CustomActions
             prodSearch = session["SP_SEARCH"];
             if (String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
             {
-                session["INSTALLER_COMMANDLINE"] = "/x" + session["SP_PRODCODE"] + "/qn";
+                session["INSTALLER_COMMANDLINE"] = "/x " + session["SP_PRODCODE"] + " /qn";
                 session["INSTALLER_PROP_NAME"] = "UNINST_SP";
                 //uninstall app
                 session.DoAction("RunExe");
@@ -89,7 +89,7 @@ namespace PlatformInstaller.CustomActions
             prodSearch = session["SC_SEARCH"];
             if (String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
             {
-                session["INSTALLER_COMMANDLINE"] = "/x" + session["SC_PRODCODE"] + "/qn";
+                session["INSTALLER_COMMANDLINE"] = "/x " + session["SC_PRODCODE"] + " /qn";
                 session["INSTALLER_PROP_NAME"] = "UNINST_SC";
                 //uninstall app
                 session.DoAction("RunExe");
@@ -99,7 +99,7 @@ namespace PlatformInstaller.CustomActions
             prodSearch = session["SM_SEARCH"];
             if (String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
             {
-                session["INSTALLER_COMMANDLINE"] = "/x" + session["SM_PRODCODE"] + "/qn";
+                session["INSTALLER_COMMANDLINE"] = "/x " + session["SM_PRODCODE"] + " /qn";
                 session["INSTALLER_PROP_NAME"] = "UNINST_SM";
                 //uninstall app
                 session.DoAction("RunExe");
@@ -223,7 +223,8 @@ namespace PlatformInstaller.CustomActions
         {
             string[] fullFilePaths;
             string selectedProd = session["NSB_PROP"];
-            if (!String.IsNullOrEmpty(selectedProd))
+            string prodSearch = session["NSB_SEARCH"];
+            if (!String.IsNullOrEmpty(selectedProd) && String.IsNullOrEmpty(prodSearch))
             {
                 //download application
                 session["APPLICATION_NAME"] = session["NSB_PROD_NAME"];
@@ -243,7 +244,8 @@ namespace PlatformInstaller.CustomActions
 
 
             selectedProd = session["SC_PROP"];
-            if (!String.IsNullOrEmpty(selectedProd))
+            prodSearch = session["SC_SEARCH"];
+            if (!String.IsNullOrEmpty(selectedProd) && String.IsNullOrEmpty(prodSearch))
             {
                 //download application
                 session["APPLICATION_NAME"] = session["SC_PROD_NAME"];
@@ -262,7 +264,8 @@ namespace PlatformInstaller.CustomActions
             }
 
             selectedProd = session["SI_PROP"];
-            if (!String.IsNullOrEmpty(selectedProd))
+            prodSearch = session["SI_SEARCH"];
+            if (!String.IsNullOrEmpty(selectedProd) && String.IsNullOrEmpty(prodSearch))
             {
                 //download application
                 session["APPLICATION_NAME"] = session["SI_PROD_NAME"];
@@ -281,7 +284,8 @@ namespace PlatformInstaller.CustomActions
             }
 
             selectedProd = session["SP_PROP"];
-            if (!String.IsNullOrEmpty(selectedProd))
+            prodSearch = session["SP_SEARCH"];
+            if (!String.IsNullOrEmpty(selectedProd) && String.IsNullOrEmpty(prodSearch))
             {
                 //download application
                 session["APPLICATION_NAME"] = session["SP_PROD_NAME"];
@@ -300,7 +304,8 @@ namespace PlatformInstaller.CustomActions
             }
 
             selectedProd = session["SM_PROP"];
-            if (!String.IsNullOrEmpty(selectedProd))
+            prodSearch = session["SM_SEARCH"];
+            if (!String.IsNullOrEmpty(selectedProd) && String.IsNullOrEmpty(prodSearch))
             {
                 //download application
                 session["APPLICATION_NAME"] = session["SM_PROD_NAME"];

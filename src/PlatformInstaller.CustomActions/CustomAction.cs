@@ -64,23 +64,16 @@ namespace PlatformInstaller.CustomActions
         {
             string msiexecPath = session["SystemFolder"] + "msiexec.exe";
             session["INSTALLER_PATH"] = msiexecPath;
-
-            string selectedProd = session["SI_PROP"];
-            string prodSearch = session["SI_SEARCH"];
+            string userMessage = "Uninstalling {0}.";
+            string finalMessage= "";
+            
+            string selectedProd = session["NSB_PROP"];
+            string prodSearch = session["NSB_SEARCH"];
             if (String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
             {
-                session["INSTALLER_COMMANDLINE"] = "/x " + session["SI_PRODCODE"] + " /qn";
-                session["INSTALLER_PROP_NAME"] = "UNINST_SI";
-                //uninstall app
-                session.DoAction("RunExe");
-            }
-
-            selectedProd = session["SP_PROP"];
-            prodSearch = session["SP_SEARCH"];
-            if (String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
-            {
-                session["INSTALLER_COMMANDLINE"] = "/x " + session["SP_PRODCODE"] + " /qn";
-                session["INSTALLER_PROP_NAME"] = "UNINST_SP";
+                session["INSTALLER_COMMANDLINE"] = "/x " + session["NSB_PRODCODE"] + " /qn";
+                finalMessage = string.Format(userMessage, session["NSB_PROD_NAME"]);
+                StatusMessage(session, finalMessage);
                 //uninstall app
                 session.DoAction("RunExe");
             }
@@ -90,7 +83,30 @@ namespace PlatformInstaller.CustomActions
             if (String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
             {
                 session["INSTALLER_COMMANDLINE"] = "/x " + session["SC_PRODCODE"] + " /qn";
-                session["INSTALLER_PROP_NAME"] = "UNINST_SC";
+                finalMessage = string.Format(userMessage, session["SC_PROD_NAME"]);
+                StatusMessage(session, finalMessage);
+                //uninstall app
+                session.DoAction("RunExe");
+            }
+
+            selectedProd = session["SI_PROP"];
+            prodSearch = session["SI_SEARCH"];
+            if (String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
+            {
+                session["INSTALLER_COMMANDLINE"] = "/x " + session["SI_PRODCODE"] + " /qn";
+                finalMessage = string.Format(userMessage, session["SI_PROD_NAME"]);
+                StatusMessage(session, finalMessage);
+                //uninstall app
+                session.DoAction("RunExe");
+            }
+
+            selectedProd = session["SP_PROP"];
+            prodSearch = session["SP_SEARCH"];
+            if (String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
+            {
+                session["INSTALLER_COMMANDLINE"] = "/x " + session["SP_PRODCODE"] + " /qn";
+                finalMessage = string.Format(userMessage, session["SP_PROD_NAME"]);
+                StatusMessage(session, finalMessage);
                 //uninstall app
                 session.DoAction("RunExe");
             }
@@ -100,7 +116,8 @@ namespace PlatformInstaller.CustomActions
             if (String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
             {
                 session["INSTALLER_COMMANDLINE"] = "/x " + session["SM_PRODCODE"] + " /qn";
-                session["INSTALLER_PROP_NAME"] = "UNINST_SM";
+                finalMessage = string.Format(userMessage, session["SM_PROD_NAME"]);
+                StatusMessage(session, finalMessage);
                 //uninstall app
                 session.DoAction("RunExe");
             }
@@ -141,7 +158,6 @@ namespace PlatformInstaller.CustomActions
             {
                 session["SAMPLE_APPLICATION"] = "nservicebus";
                 session["TARGET_SAMPLE_DIR"] = session["NSB_INSTALL_DIR"] + "\\samples";
-                session["DOWNLOAD_PROP_NAME"] = "DWLD_NSB_SAMP";
 
                 session.DoAction("DownloadSamples");
             }
@@ -222,6 +238,10 @@ namespace PlatformInstaller.CustomActions
         public static ActionResult InstallApps(Session session)
         {
             string[] fullFilePaths;
+            string installUserMessage = "Installing {0}.";
+            string downloadUserMessage = "Downloading {0}.";
+            string finalMessage = "";
+
             string selectedProd = session["NSB_PROP"];
             string prodSearch = session["NSB_SEARCH"];
             if (!String.IsNullOrEmpty(selectedProd) && String.IsNullOrEmpty(prodSearch))
@@ -229,7 +249,8 @@ namespace PlatformInstaller.CustomActions
                 //download application
                 session["APPLICATION_NAME"] = session["NSB_PROD_NAME"];
                 session["TARGET_APP_DIR"] = session["TempFolder"] + "Application-" + session["NSB_PROD_NAME"];
-                session["DOWNLOAD_PROP_NAME"] = "DWLD_NSB";
+                finalMessage = string.Format(downloadUserMessage, session["NSB_PROD_NAME"]);
+                StatusMessage(session, finalMessage);
 
                 session.DoAction("DownloadApplication");
 
@@ -237,7 +258,8 @@ namespace PlatformInstaller.CustomActions
                 fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR"]);
                 session["INSTALLER_PATH"] = fullFilePaths[0];
                 session["INSTALLER_COMMANDLINE"] = "";
-                session["INSTALLER_PROP_NAME"] = "INST_NSB";
+                finalMessage = string.Format(installUserMessage, session["NSB_PROD_NAME"]);
+                StatusMessage(session, finalMessage);
 
                 session.DoAction("RunExe");
             }
@@ -250,7 +272,8 @@ namespace PlatformInstaller.CustomActions
                 //download application
                 session["APPLICATION_NAME"] = session["SC_PROD_NAME"];
                 session["TARGET_APP_DIR"] = session["TempFolder"] + "Application-" + session["SC_PROD_NAME"];
-                session["DOWNLOAD_PROP_NAME"] = "DWLD_SC";
+                finalMessage = string.Format(downloadUserMessage, session["SC_PROD_NAME"]);
+                StatusMessage(session, finalMessage);
 
                 session.DoAction("DownloadApplication");
 
@@ -258,7 +281,8 @@ namespace PlatformInstaller.CustomActions
                 fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR"]);
                 session["INSTALLER_PATH"] = fullFilePaths[0];
                 session["INSTALLER_COMMANDLINE"] = "";
-                session["INSTALLER_PROP_NAME"] = "INST_SC";
+                finalMessage = string.Format(installUserMessage, session["SC_PROD_NAME"]);
+                StatusMessage(session, finalMessage);
 
                 session.DoAction("RunExe");
             }
@@ -270,7 +294,8 @@ namespace PlatformInstaller.CustomActions
                 //download application
                 session["APPLICATION_NAME"] = session["SI_PROD_NAME"];
                 session["TARGET_APP_DIR"] = session["TempFolder"] + "Application-" + session["SI_PROD_NAME"];
-                session["DOWNLOAD_PROP_NAME"] = "DWLD_SI";
+                finalMessage = string.Format(downloadUserMessage, session["SI_PROD_NAME"]);
+                StatusMessage(session, finalMessage);
 
                 session.DoAction("DownloadApplication");
 
@@ -278,7 +303,8 @@ namespace PlatformInstaller.CustomActions
                 fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR"]);
                 session["INSTALLER_PATH"] = fullFilePaths[0];
                 session["INSTALLER_COMMANDLINE"] = "";
-                session["INSTALLER_PROP_NAME"] = "INST_SI";
+                finalMessage = string.Format(installUserMessage, session["SI_PROD_NAME"]);
+                StatusMessage(session, finalMessage);
 
                 session.DoAction("RunExe");
             }
@@ -290,7 +316,8 @@ namespace PlatformInstaller.CustomActions
                 //download application
                 session["APPLICATION_NAME"] = session["SP_PROD_NAME"];
                 session["TARGET_APP_DIR"] = session["TempFolder"] + "Application-" + session["SP_PROD_NAME"];
-                session["DOWNLOAD_PROP_NAME"] = "DWLD_SP";
+                finalMessage = string.Format(downloadUserMessage, session["SP_PROD_NAME"]);
+                StatusMessage(session, finalMessage);
 
                 session.DoAction("DownloadApplication");
 
@@ -298,8 +325,9 @@ namespace PlatformInstaller.CustomActions
                 fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR"]);
                 session["INSTALLER_PATH"] = fullFilePaths[0];
                 session["INSTALLER_COMMANDLINE"] = "";
-                session["INSTALLER_PROP_NAME"] = "INST_SP";
-
+                finalMessage = string.Format(installUserMessage, session["SP_PROD_NAME"]);
+                StatusMessage(session, finalMessage);
+                
                 session.DoAction("RunExe");
             }
 
@@ -310,7 +338,8 @@ namespace PlatformInstaller.CustomActions
                 //download application
                 session["APPLICATION_NAME"] = session["SM_PROD_NAME"];
                 session["TARGET_APP_DIR"] = session["TempFolder"] + "Application-" + session["SM_PROD_NAME"];
-                session["DOWNLOAD_PROP_NAME"] = "DWLD_SM";
+                finalMessage = string.Format(downloadUserMessage, session["SM_PROD_NAME"]);
+                StatusMessage(session, finalMessage);
 
                 session.DoAction("DownloadApplication");
 
@@ -318,7 +347,8 @@ namespace PlatformInstaller.CustomActions
                 fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR"]);
                 session["INSTALLER_PATH"] = fullFilePaths[0];
                 session["INSTALLER_COMMANDLINE"] = "";
-                session["INSTALLER_PROP_NAME"] = "INST_SM";
+                finalMessage = string.Format(installUserMessage, session["SM_PROD_NAME"]);
+                StatusMessage(session, finalMessage);
 
                 session.DoAction("RunExe");
             }
@@ -342,25 +372,14 @@ namespace PlatformInstaller.CustomActions
 
             foreach (var repoToDownload in GetSampleReposForApp(application))
             {
-                //adding property that will be used to report application dowload progress
-                // the HTML host leasons for MsiPropertyChanged installer event, so we can update the progress bar when a property gets set
-                string propName = session.Get("DOWNLOAD_PROP_NAME");
-                if (!String.IsNullOrEmpty(propName))
-                {
-                    session.Set(propName, "set");
-                }
-
-
                 DownloadSampleRepo(repoToDownload, targetDir);
 
                 Log(session, "Sample " + repoToDownload + " extracted to " + targetDir);
-
             }
-
-
-
+            
             return ActionResult.Success;
         }
+
 
         private static IEnumerable<string> GetSampleReposForApp(string application)
         {
@@ -465,12 +484,6 @@ namespace PlatformInstaller.CustomActions
                     }
                 };
 
-                //adding property that will be used to report application install progress
-                // the HTML host leasons for MsiPropertyChanged installer event, so we can update the progress bar when a property gets set
-                string propName = session["INSTALLER_PROP_NAME"];
-                if (!String.IsNullOrEmpty(propName))
-                    session[propName] = "set";
-
                 process.Start();
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
@@ -547,6 +560,18 @@ namespace PlatformInstaller.CustomActions
 
             return ActionResult.Success;
         }
+
+        internal static void StatusMessage(Session session, string status)
+        {
+            Record record = new Record(3);
+            record[1] = "callAddProgressInfo";
+            record[2] = status;
+            record[3] = "Incrementing tick [1] of [2]";
+
+            session.Message(InstallMessage.ActionStart, record);
+            Application.DoEvents();
+        }
+
 
         static void CreateDir(string targetDir)
         {

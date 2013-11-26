@@ -15,6 +15,7 @@
     <ROW Property="ALLUSERS" Value="1"/>
     <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
     <ROW Property="Manufacturer" Value="Particular Software"/>
+    <ROW Property="NSB_PRODCODE" Value="{6D0463B9-5EDA-4709-ABCD-9FE27CBEDFDF}"/>
     <ROW Property="PORT_VAL" Value="33333"/>
     <ROW Property="ProductCode" Value="1033:{75B109F9-191E-4894-A178-6D17CBC099BD} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>

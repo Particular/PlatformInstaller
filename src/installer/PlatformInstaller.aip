@@ -98,7 +98,6 @@
     <ROW Dialog_="InstallDlg" Control="PushButton_1" Type="PushButton" X="18" Y="370" Width="56" Height="17" Attributes="3" Text="Debug" Order="1100"/>
     <ROW Dialog_="MsiRMFilesInUse" Control="Cancel" Type="ImageButton" X="163" Y="359" Width="78" Height="28" Attributes="2" Text="[NextCancelButtons]" TextStyle="[MetroButtonText]" Order="100" MsiKey="MsiRMFilesInUse#Cancel" Options="1" ExtType="ImageButton" ExtData="[ButtonText_Cancel]" ExtDataLocId="-"/>
     <ROW Dialog_="PatchWelcomeDlg" Control="PatchWelcomeDlgDialogInitializer" Type="DialogInitializer" X="0" Y="0" Width="0" Height="0" Attributes="0" Order="-1" TextLocId="-" HelpLocId="-" ExtDataLocId="-"/>
-    <ROW Dialog_="ProgressDlg" Control="ProgressDlgDialogInitializer" Type="DialogInitializer" X="0" Y="0" Width="0" Height="0" Attributes="0" Order="-1" TextLocId="-" HelpLocId="-" ExtDataLocId="-"/>
     <ROW Dialog_="VerifyReadyDlg" Control="Cancel" Type="ImageButton" X="163" Y="359" Width="78" Height="28" Attributes="2" Text="[NextCancelButtons]" TextStyle="[MetroButtonText]" Order="100" MsiKey="VerifyReadyDlg#Cancel" Options="1" ExtType="ImageButton" ExtData="[ButtonText_Cancel]" ExtDataLocId="-"/>
     <ROW Dialog_="VerifyReadyDlg" Control="Back" Type="PushButton" X="5" Y="381" Width="11" Height="11" Attributes="2" Text="Control.Text.VerifyReadyDlg#Back" Help="Back|" Order="200" TextLocId="Control.Text.VerifyReadyDlg#Back" HelpLocId="Air.Control.Help#Back" MsiKey="VerifyReadyDlg#Back" Options="1" ExtType="PushButton" ExtData="[ButtonText_Back]" ExtDataLocId="-"/>
     <ROW Dialog_="VerifyReadyDlg" Control="ReadyToInstall" Type="Text" X="17" Y="105" Width="312" Height="19" Attributes="196611" Text="Ready to Install" TextStyle="[SubTitleStyle]" Order="400" TextLocId="Control.Text.VerifyReadyDlg#Title" MsiKey="VerifyReadyDlg#ReadyToInstall"/>
@@ -175,9 +174,7 @@
     <ROW Dialog_="PatchWelcomeDlg" Control_="Back" Event="[Text_Next]" Argument="[AI_Text_Next_Orig]" Condition="AI_PATCH" Ordering="1" Options="2"/>
     <ROW Dialog_="FatalError" Control_="Finish" Event="DoAction" Argument="AI_RemoveTempFiles" Condition="1" Ordering="201"/>
     <ROW Dialog_="UserExit" Control_="Finish" Event="DoAction" Argument="AI_RemoveTempFiles" Condition="1" Ordering="101"/>
-    <ROW Dialog_="InstallDlg" Control_="PushButton_1" Event="DoAction" Argument="DownloadInstall_SelectedApps" Condition="AI_INSTALL" Ordering="0"/>
-    <ROW Dialog_="ProgressDlg" Control_="ProgressDlgDialogInitializer" Event="DoAction" Argument="DownloadInstall_SelectedApps" Condition="AI_INSTALL" Ordering="0"/>
-    <ROW Dialog_="ProgressDlg" Control_="ProgressDlgDialogInitializer" Event="DoAction" Argument="UninstallApplications" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="InstallDlg" Control_="PushButton_1" Event="DoAction" Argument="DownloadInstall_SelectedApp_withoutSeqs" Condition="AI_INSTALL" Ordering="0"/>
     <ATTRIBUTE name="DeletedRows" value="InstallDlg#Browse#[_BrowseProperty]#APPDIR#1@InstallDlg#Browse#SpawnDialog#BrowseDlg#1@InstallDlg#InstallButton#[AiEventsControl]#Next#1@InstallDlg#InstallButton#SetTargetPath#APPDIR#AI_INSTALL"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
@@ -210,16 +207,18 @@
     <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
     <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
     <ROW Action="DownloadApplication" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadApplication" WithoutSeq="true"/>
-    <ROW Action="DownloadInstall_SelectedApps" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="InstallApps" WithoutSeq="true"/>
+    <ROW Action="DownloadInstall_SelectedApp_withoutSeqs" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="InstallApps" WithoutSeq="true"/>
     <ROW Action="DownloadNuget" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadNuget" WithoutSeq="true"/>
     <ROW Action="DownloadSamples" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadSamples" WithoutSeq="true"/>
     <ROW Action="DownloadSamples_for_SelectedApps" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadSamplesforSelectedApplications" WithoutSeq="true"/>
     <ROW Action="DownloadTools" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadTools" WithoutSeq="true"/>
+    <ROW Action="DownloadandInstall_Apps" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="InstallApps"/>
     <ROW Action="RunExe" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="RunExe" WithoutSeq="true"/>
     <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]"/>
     <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
-    <ROW Action="UninstallApplications" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="UninstallApplications" WithoutSeq="true"/>
+    <ROW Action="UninstallApplications_withoutSeq" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="UninstallApplications" WithoutSeq="true"/>
+    <ROW Action="Uninstall_Apps" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="UninstallApplications"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiDialogComponent">
     <ROW Dialog="InstallDlg" HCentering="50" VCentering="50" Width="345" Height="400" Attributes="3" Title="[ProductName] [Setup]" Control_Default="Back" Control_Cancel="Cancel" TitleLocId="Dialog.InstallDlg" MsiKey="InstallDlg"/>
@@ -264,6 +263,8 @@
     <ROW Action="InstallDlg" Condition="AI_INSTALL" Sequence="1230" SeqType="3" MsiKey="WelcomeDlg"/>
     <ROW Action="MaintenanceTypeDlg" Condition="AI_MAINT" Sequence="1250" SeqType="3" MsiKey="MaintenanceTypeDlg"/>
     <ROW Action="AI_ChooseTextStyles" Sequence="74"/>
+    <ROW Action="DownloadandInstall_Apps" Condition="( NOT Installed )" Sequence="1281"/>
+    <ROW Action="Uninstall_Apps" Condition="( NOT Installed )" Sequence="1282"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
     <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsType9XDisplay]" DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="DefaultBuild"/>

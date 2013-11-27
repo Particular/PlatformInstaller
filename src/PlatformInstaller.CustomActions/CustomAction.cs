@@ -74,6 +74,7 @@ namespace PlatformInstaller.CustomActions
                 session["INSTALLER_COMMANDLINE"] = "/x " + session["NSB_PRODCODE"] + " /qn";
                 finalMessage = string.Format(userMessage, session["NSB_PROD_NAME"]);
                 StatusMessage(session, finalMessage);
+                IncrementProgressBar(session, 2); // we use 2 units for the percentage parameters because here we have only one action, i.e. just uninstall, without no download
                 //uninstall app
                 session.DoAction("RunExe");
             }
@@ -85,6 +86,7 @@ namespace PlatformInstaller.CustomActions
                 session["INSTALLER_COMMANDLINE"] = "/x " + session["SC_PRODCODE"] + " /qn";
                 finalMessage = string.Format(userMessage, session["SC_PROD_NAME"]);
                 StatusMessage(session, finalMessage);
+                IncrementProgressBar(session, 2);
                 //uninstall app
                 session.DoAction("RunExe");
             }
@@ -96,6 +98,7 @@ namespace PlatformInstaller.CustomActions
                 session["INSTALLER_COMMANDLINE"] = "/x " + session["SI_PRODCODE"] + " /qn";
                 finalMessage = string.Format(userMessage, session["SI_PROD_NAME"]);
                 StatusMessage(session, finalMessage);
+                IncrementProgressBar(session, 2);
                 //uninstall app
                 session.DoAction("RunExe");
             }
@@ -107,6 +110,7 @@ namespace PlatformInstaller.CustomActions
                 session["INSTALLER_COMMANDLINE"] = "/x " + session["SP_PRODCODE"] + " /qn";
                 finalMessage = string.Format(userMessage, session["SP_PROD_NAME"]);
                 StatusMessage(session, finalMessage);
+                IncrementProgressBar(session, 2);
                 //uninstall app
                 session.DoAction("RunExe");
             }
@@ -118,6 +122,7 @@ namespace PlatformInstaller.CustomActions
                 session["INSTALLER_COMMANDLINE"] = "/x " + session["SM_PRODCODE"] + " /qn";
                 finalMessage = string.Format(userMessage, session["SM_PROD_NAME"]);
                 StatusMessage(session, finalMessage);
+                IncrementProgressBar(session, 2);
                 //uninstall app
                 session.DoAction("RunExe");
             }
@@ -130,6 +135,9 @@ namespace PlatformInstaller.CustomActions
         public static ActionResult DownloadSamplesforSelectedApplications(Session session)
         {
             Log(session, "Begin custom action DownloadSamplesforSelectedApplications");
+
+            string userMessage = "Downloading samples for {0}.";
+            string finalMessage = "";
 
             string selectedSamples = session["SAMP_PROP"];
 
@@ -158,6 +166,10 @@ namespace PlatformInstaller.CustomActions
             {
                 session["SAMPLE_APPLICATION"] = "nservicebus";
                 session["TARGET_SAMPLE_DIR"] = session["NSB_INSTALL_DIR"] + "\\samples";
+
+                finalMessage = string.Format(userMessage, session["NSB_PROD_NAME"]);
+                StatusMessage(session, finalMessage);
+                IncrementProgressBar(session, 2); // the same as for the uninstall, it is just one operation
 
                 session.DoAction("DownloadSamples");
             }
@@ -251,6 +263,7 @@ namespace PlatformInstaller.CustomActions
                 session["TARGET_APP_DIR"] = session["TempFolder"] + "Application-" + session["NSB_PROD_NAME"];
                 finalMessage = string.Format(downloadUserMessage, session["NSB_PROD_NAME"]);
                 StatusMessage(session, finalMessage);
+                IncrementProgressBar(session);
 
                 session.DoAction("DownloadApplication");
 
@@ -260,6 +273,7 @@ namespace PlatformInstaller.CustomActions
                 session["INSTALLER_COMMANDLINE"] = "";
                 finalMessage = string.Format(installUserMessage, session["NSB_PROD_NAME"]);
                 StatusMessage(session, finalMessage);
+                IncrementProgressBar(session);
 
                 session.DoAction("RunExe");
             }
@@ -274,6 +288,7 @@ namespace PlatformInstaller.CustomActions
                 session["TARGET_APP_DIR"] = session["TempFolder"] + "Application-" + session["SC_PROD_NAME"];
                 finalMessage = string.Format(downloadUserMessage, session["SC_PROD_NAME"]);
                 StatusMessage(session, finalMessage);
+                IncrementProgressBar(session);
 
                 session.DoAction("DownloadApplication");
 
@@ -283,6 +298,7 @@ namespace PlatformInstaller.CustomActions
                 session["INSTALLER_COMMANDLINE"] = "";
                 finalMessage = string.Format(installUserMessage, session["SC_PROD_NAME"]);
                 StatusMessage(session, finalMessage);
+                IncrementProgressBar(session);
 
                 session.DoAction("RunExe");
             }
@@ -296,6 +312,7 @@ namespace PlatformInstaller.CustomActions
                 session["TARGET_APP_DIR"] = session["TempFolder"] + "Application-" + session["SI_PROD_NAME"];
                 finalMessage = string.Format(downloadUserMessage, session["SI_PROD_NAME"]);
                 StatusMessage(session, finalMessage);
+                IncrementProgressBar(session);
 
                 session.DoAction("DownloadApplication");
 
@@ -305,6 +322,7 @@ namespace PlatformInstaller.CustomActions
                 session["INSTALLER_COMMANDLINE"] = "";
                 finalMessage = string.Format(installUserMessage, session["SI_PROD_NAME"]);
                 StatusMessage(session, finalMessage);
+                IncrementProgressBar(session);
 
                 session.DoAction("RunExe");
             }
@@ -318,6 +336,7 @@ namespace PlatformInstaller.CustomActions
                 session["TARGET_APP_DIR"] = session["TempFolder"] + "Application-" + session["SP_PROD_NAME"];
                 finalMessage = string.Format(downloadUserMessage, session["SP_PROD_NAME"]);
                 StatusMessage(session, finalMessage);
+                IncrementProgressBar(session);
 
                 session.DoAction("DownloadApplication");
 
@@ -327,6 +346,7 @@ namespace PlatformInstaller.CustomActions
                 session["INSTALLER_COMMANDLINE"] = "";
                 finalMessage = string.Format(installUserMessage, session["SP_PROD_NAME"]);
                 StatusMessage(session, finalMessage);
+                IncrementProgressBar(session);
                 
                 session.DoAction("RunExe");
             }
@@ -340,6 +360,7 @@ namespace PlatformInstaller.CustomActions
                 session["TARGET_APP_DIR"] = session["TempFolder"] + "Application-" + session["SM_PROD_NAME"];
                 finalMessage = string.Format(downloadUserMessage, session["SM_PROD_NAME"]);
                 StatusMessage(session, finalMessage);
+                IncrementProgressBar(session);
 
                 session.DoAction("DownloadApplication");
 
@@ -349,6 +370,7 @@ namespace PlatformInstaller.CustomActions
                 session["INSTALLER_COMMANDLINE"] = "";
                 finalMessage = string.Format(installUserMessage, session["SM_PROD_NAME"]);
                 StatusMessage(session, finalMessage);
+                IncrementProgressBar(session);
 
                 session.DoAction("RunExe");
             }
@@ -561,7 +583,24 @@ namespace PlatformInstaller.CustomActions
             return ActionResult.Success;
         }
 
-        internal static void StatusMessage(Session session, string status)
+
+        [CustomAction]
+        public static ActionResult InitialiseProgressBar(Session session)
+        {
+            Log(session, "Begin custom action InitialiseProgressBar");
+
+            int totalStatements = Int32.Parse(session["CHANGED_SELECTIONS"]);// the property is set by the HTML host
+
+            //set the number of segments for the progress bar. doubled because we have download and install actions
+            ResetProgressBar(session, totalStatements*2);
+
+            Log(session, "End custom action InitialiseProgressBar");
+
+            return ActionResult.Success;
+        }
+        
+
+        public static void StatusMessage(Session session, string status)
         {
             Record record = new Record(3);
             record[1] = "callAddProgressInfo";
@@ -581,7 +620,7 @@ namespace PlatformInstaller.CustomActions
             return session.Message(InstallMessage.Progress, record);
         }
 
-        public static MessageResult IncrementProgressBar(Session session, int progressPercentage)
+        public static MessageResult IncrementProgressBar(Session session, int progressPercentage = 1 /*1 by default, i.e. one unit for each download or install action*/)
         {
             var record = new Record(3);
             record[1] = 2; // "ProgressReport" message 

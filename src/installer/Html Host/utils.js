@@ -1,4 +1,25 @@
 /*
+ *global variable, and helper methods, used to count how many product selections have changes,
+* used later on during the installation for progress reporting
+ */
+
+var changedSelections = 0;
+
+function IncrementSelectionsCount()
+{
+    changedSelections++;
+    external.MsiSetProperty("CHANGED_SELECTIONS", changedSelections.toString());
+}
+
+
+function DecrementSelectionsCount()
+{
+    changedSelections--;
+    external.MsiSetProperty("CHANGED_SELECTIONS", changedSelections.toString());   
+}
+
+
+/*
  * Method used to set installer properties based user selection
  * from the HTML view.
  *
@@ -12,11 +33,13 @@ function SelectProduct(aProdId, aProdProperty)
     if($(this).is(":checked"))
     {
         external.MsiSetProperty(aProdProperty, 'set');
+        IncrementSelectionsCount();
     }
     else
     {
             // delete property
         external.MsiSetProperty(aProdProperty, '[~]');
+        DecrementSelectionsCount();
     }
 
   });
@@ -35,6 +58,7 @@ function TickCheckbox(aProdId, aProdProperty)
         //alert( external.MsiGetProperty(aProdProperty) );
         $(aProdId).prop('checked', true);
         external.MsiSetProperty(aProdId.substr(1) + '_PROP', 'set');
+        IncrementSelectionsCount();
     }
 }
 
@@ -59,8 +83,7 @@ function InitProdandRepoNamesProps()
     external.MsiSetProperty("SC_REPO_NAME", 'Particular/ServiceControl');
     external.MsiSetProperty("SI_REPO_NAME", 'Particular/ServiceInsight');
     external.MsiSetProperty("SP_REPO_NAME", 'Particular/ServicePulse');
-    external.MsiSetProperty("SM_REPO_NAME", 'Particular/ServiceMatrix');
-    
+    external.MsiSetProperty("SM_REPO_NAME", 'Particular/ServiceMatrix');   
 }
 
 

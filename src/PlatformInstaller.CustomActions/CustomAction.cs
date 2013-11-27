@@ -571,6 +571,24 @@ namespace PlatformInstaller.CustomActions
             session.Message(InstallMessage.ActionStart, record);
             Application.DoEvents();
         }
+                
+        public static MessageResult ResetProgressBar(Session session, int totalStatements)
+        {
+            var record = new Record(3);
+            record[1] = 0; // "Reset" message 
+            record[2] = totalStatements;  // total ticks 
+            record[3] = 0; // forward motion 
+            return session.Message(InstallMessage.Progress, record);
+        }
+
+        public static MessageResult IncrementProgressBar(Session session, int progressPercentage)
+        {
+            var record = new Record(3);
+            record[1] = 2; // "ProgressReport" message 
+            record[2] = progressPercentage; // ticks to increment 
+            record[3] = 0; // ignore 
+            return session.Message(InstallMessage.Progress, record);
+        }
 
 
         static void CreateDir(string targetDir)

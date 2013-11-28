@@ -117,8 +117,8 @@
     <ATTRIBUTE name="FixedSizeBitmaps" value="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiControlConditionComponent">
-    <ROW Dialog_="InstallDlg" Control_="Next" Action="Enable" Condition="NSB_PROP OR NSB_SEARCH OR SC_PROP OR SC_SEARCH OR SP_PROP OR SP_SEARCH OR SI_PROP OR SI_SEARCH OR SM_PROP OR SM_SEARCH" MsiKey="InstallDlg#Next#Enable#AGREE_CHECKBOX"/>
-    <ROW Dialog_="InstallDlg" Control_="Next" Action="Disable" Condition="NOT NSB_PROP AND NOT NSB_SEARCH AND NOT SC_PROP AND NOT SC_SEARCH AND NOT SP_PROP AND NOT SP_SEARCH AND NOT SI_PROP AND NOT SI_SEARCH AND NOT SM_PROP AND NOT SM_SEARCH" MsiKey="InstallDlg#Next#Disable#NOT AGREE_CHECKBOX"/>
+    <ROW Dialog_="InstallDlg" Control_="Next" Action="Enable" Condition="CHANGED_SELECTIONS AND CHANGED_SELECTIONS&lt;&gt;&quot;0&quot;" MsiKey="InstallDlg#Next#Enable#AGREE_CHECKBOX"/>
+    <ROW Dialog_="InstallDlg" Control_="Next" Action="Disable" Condition="NOT CHANGED_SELECTIONS OR CHANGED_SELECTIONS=&quot;0&quot;" MsiKey="InstallDlg#Next#Disable#NOT AGREE_CHECKBOX"/>
     <ATTRIBUTE name="DeletedRows" value="InstallDlg#InstallButton#Enable#AGREE_CHECKBOX@InstallDlg#InstallButton#Disable#NOT AGREE_CHECKBOX@InstallDlg#InstallButton#Hide#(Text_Next &lt;&gt; Text_Install) AND (InstallDlg)@InstallDlg#Next#Show#(Text_Next &lt;&gt; Text_Install) AND (InstallDlg)"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiControlEventComponent">

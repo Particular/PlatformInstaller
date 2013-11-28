@@ -12,12 +12,44 @@ function IncrementSelectionsCount()
 }
 
 
-function DecrementSelectionsCount()
+function DecrementIncrementSelectionsCount(aProdProperty)
 {
-    changedSelections--;
+    if (aProdProperty == "NSB_PROP" && StringIsEmpty(external.MsiGetProperty("NSB_SEARCH")))
+        changedSelections--;
+    else if (aProdProperty == "NSB_PROP" && external.MsiGetProperty("NSB_SEARCH"))
+        changedSelections++;
+        
+    if (aProdProperty == "SC_PROP" && StringIsEmpty(external.MsiGetProperty("SC_SEARCH")))
+        changedSelections--;
+    else if (aProdProperty == "SC_PROP" && external.MsiGetProperty("SC_SEARCH"))
+        changedSelections++;
+
+   if (aProdProperty == "SI_PROP" && StringIsEmpty(external.MsiGetProperty("SI_SEARCH")))
+        changedSelections--;
+    else if (aProdProperty == "SI_PROP" && external.MsiGetProperty("SI_SEARCH"))
+        changedSelections++;        
+      
+   if (aProdProperty == "SP_PROP" && StringIsEmpty(external.MsiGetProperty("SP_SEARCH")))
+        changedSelections--;
+    else if (aProdProperty == "SP_PROP" && external.MsiGetProperty("SP_SEARCH"))
+        changedSelections++;        
+        
+   if (aProdProperty == "SAMP_PROP" && StringIsEmpty(external.MsiGetProperty("SAMP_SEARCH")))
+        changedSelections--;
+    else if (aProdProperty == "SAMP_PROP" && external.MsiGetProperty("SAMP_SEARCH"))
+        changedSelections++;        
+        
+   if (aProdProperty == "TOOL_PROP" && StringIsEmpty(external.MsiGetProperty("TOOL_SEARCH")))
+        changedSelections--;
+    else if (aProdProperty == "TOOL_PROP" && external.MsiGetProperty("TOOL_SEARCH"))
+        changedSelections++;        
+   
     external.MsiSetProperty("CHANGED_SELECTIONS", changedSelections.toString());   
 }
 
+function StringIsEmpty(aString) {
+    return (!aString || 0 === aString.length);
+}
 
 /*
  * Method used to set installer properties based user selection
@@ -39,7 +71,7 @@ function SelectProduct(aProdId, aProdProperty)
     {
             // delete property
         external.MsiSetProperty(aProdProperty, '[~]');
-        DecrementSelectionsCount();
+        DecrementIncrementSelectionsCount(aProdProperty);
     }
 
   });
@@ -57,8 +89,7 @@ function TickCheckbox(aProdId, aProdProperty)
     {
         //alert( external.MsiGetProperty(aProdProperty) );
         $(aProdId).prop('checked', true);
-        external.MsiSetProperty(aProdId.substr(1) + '_PROP', 'set');
-        IncrementSelectionsCount();
+        external.MsiSetProperty(aProdId.substr(1) + '_PROP', 'set');        
     }
 }
 

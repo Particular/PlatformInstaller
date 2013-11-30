@@ -341,7 +341,7 @@ namespace PlatformInstaller.CustomActions
             Log(session, "Begin custom action InstallApps");
 
             string[] fullFilePaths;
-            string installUserMessage = "Installing {0}.";
+            string installUserMessage = "Downloading applications and installing {0}.";
             string finalMessage = "";
 
             string selectedProd = session["NSB_PROP"];
@@ -360,7 +360,7 @@ namespace PlatformInstaller.CustomActions
                     session["INSTALLER_PATH"] = fullFilePaths[0];
                     session["INSTALLER_COMMANDLINE"] = "";
                     finalMessage = string.Format(installUserMessage, session["NSB_PROD_NAME"]);
-                    StatusMessageActionData(session, finalMessage);
+                    StatusMessage(session, finalMessage);
 
                     session.DoAction("RunExe");
                     IncrementProgressBar(session);
@@ -384,7 +384,7 @@ namespace PlatformInstaller.CustomActions
                     session["INSTALLER_PATH"] = fullFilePaths[0];
                     session["INSTALLER_COMMANDLINE"] = "";
                     finalMessage = string.Format(installUserMessage, session["SC_PROD_NAME"]);
-                    StatusMessageActionData(session, finalMessage);
+                    StatusMessage(session, finalMessage);
 
                     session.DoAction("RunExe");
                     IncrementProgressBar(session);
@@ -409,7 +409,7 @@ namespace PlatformInstaller.CustomActions
                     session["INSTALLER_PATH"] = fullFilePaths[0];
                     session["INSTALLER_COMMANDLINE"] = "";
                     finalMessage = string.Format(installUserMessage, session["SI_PROD_NAME"]);
-                    StatusMessageActionData(session, finalMessage);
+                    StatusMessage(session, finalMessage);
 
                     session.DoAction("RunExe");
                     IncrementProgressBar(session);
@@ -432,7 +432,7 @@ namespace PlatformInstaller.CustomActions
                     session["INSTALLER_PATH"] = fullFilePaths[0];
                     session["INSTALLER_COMMANDLINE"] = "";
                     finalMessage = string.Format(installUserMessage, session["SP_PROD_NAME"]);
-                    StatusMessageActionData(session, finalMessage);
+                    StatusMessage(session, finalMessage);
 
                     session.DoAction("RunExe");
                     IncrementProgressBar(session);
@@ -456,7 +456,7 @@ namespace PlatformInstaller.CustomActions
                     session["INSTALLER_PATH"] = fullFilePaths[0];
                     session["INSTALLER_COMMANDLINE"] = "";
                     finalMessage = string.Format(installUserMessage, session["SM_PROD_NAME"]);
-                    StatusMessageActionData(session, finalMessage);
+                    StatusMessage(session, finalMessage);
                     
                     session.DoAction("RunExe");
                     IncrementProgressBar(session);
@@ -736,6 +736,9 @@ namespace PlatformInstaller.CustomActions
             session.Message(InstallMessage.ActionStart, record);
         }
 
+        /*
+         * NOT WORKING, Don't know why :(
+         */
         public static void StatusMessageActionData(Session session, string status)
         {
             Record record = new Record(1);

@@ -99,8 +99,9 @@
     <ROW Dialog_="InstallDlg" Control="PushButton_1" Type="PushButton" X="18" Y="370" Width="56" Height="17" Attributes="3" Text="Debug" Order="1100"/>
     <ROW Dialog_="MsiRMFilesInUse" Control="Cancel" Type="ImageButton" X="163" Y="359" Width="78" Height="28" Attributes="2" Text="[NextCancelButtons]" TextStyle="[MetroButtonText]" Order="100" MsiKey="MsiRMFilesInUse#Cancel" Options="1" ExtType="ImageButton" ExtData="[ButtonText_Cancel]" ExtDataLocId="-"/>
     <ROW Dialog_="PatchWelcomeDlg" Control="PatchWelcomeDlgDialogInitializer" Type="DialogInitializer" X="0" Y="0" Width="0" Height="0" Attributes="0" Order="-1" TextLocId="-" HelpLocId="-" ExtDataLocId="-"/>
-    <ROW Dialog_="ProgressDlg" Control="ActionText" Type="Text" X="17" Y="191" Width="309" Height="23" Attributes="196611" TextStyle="DefaultTextBlack" Order="500" MsiKey="ProgressDlg#ActionText"/>
+    <ROW Dialog_="ProgressDlg" Control="ActionText" Type="Text" X="17" Y="191" Width="309" Height="17" Attributes="196611" TextStyle="DefaultTextBlack" Order="500" MsiKey="ProgressDlg#ActionText"/>
     <ROW Dialog_="ProgressDlg" Control="StatusLabel" Type="Text" X="17" Y="171" Width="45" Height="13" Attributes="196611" Text="Status:" TextStyle="DefaultTextBlack" Order="1100" TextLocId="Control.Text.ProgressDlg#StatusLabel" MsiKey="ProgressDlg#StatusLabel"/>
+    <ROW Dialog_="ProgressDlg" Control="Text_2" Type="Text" X="67" Y="171" Width="262" Height="13" Attributes="196611" TextStyle="DefaultTextBlack" Order="1300"/>
     <ROW Dialog_="VerifyReadyDlg" Control="Cancel" Type="ImageButton" X="163" Y="359" Width="78" Height="28" Attributes="2" Text="[NextCancelButtons]" TextStyle="[MetroButtonText]" Order="100" MsiKey="VerifyReadyDlg#Cancel" Options="1" ExtType="ImageButton" ExtData="[ButtonText_Cancel]" ExtDataLocId="-"/>
     <ROW Dialog_="VerifyReadyDlg" Control="Back" Type="PushButton" X="5" Y="381" Width="11" Height="11" Attributes="2" Text="Control.Text.VerifyReadyDlg#Back" Help="Back|" Order="200" TextLocId="Control.Text.VerifyReadyDlg#Back" HelpLocId="Air.Control.Help#Back" MsiKey="VerifyReadyDlg#Back" Options="1" ExtType="PushButton" ExtData="[ButtonText_Back]" ExtDataLocId="-"/>
     <ROW Dialog_="VerifyReadyDlg" Control="ReadyToInstall" Type="Text" X="17" Y="105" Width="312" Height="19" Attributes="196611" Text="Ready to Install" TextStyle="[SubTitleStyle]" Order="400" TextLocId="Control.Text.VerifyReadyDlg#Title" MsiKey="VerifyReadyDlg#ReadyToInstall"/>
@@ -209,15 +210,17 @@
     <ROW Action="AI_ResolveLocalizedCredentials" Type="1" Source="aicustact.dll" Target="GetLocalizedCredentials"/>
     <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
     <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
-    <ROW Action="DownloadApplication" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadApplication" WithoutSeq="true"/>
+    <ROW Action="CanBeInstalled" Type="65" Source="PlatformInstaller.CustomActions.CA.dll" Target="CanBeInstalled" WithoutSeq="true"/>
+    <ROW Action="DownloadApplication" Type="65" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadApplication" WithoutSeq="true"/>
     <ROW Action="DownloadInstall_SelectedApp_withoutSeqs" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="InstallApps" WithoutSeq="true"/>
     <ROW Action="DownloadNuget" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadNuget" WithoutSeq="true"/>
     <ROW Action="DownloadSamples" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadSamples" WithoutSeq="true"/>
     <ROW Action="DownloadSamples_for_SelectedApps" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadSamplesforSelectedApplications" WithoutSeq="true"/>
     <ROW Action="DownloadTools" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadTools" WithoutSeq="true"/>
-    <ROW Action="DownloadandInstall_Apps" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="InstallApps"/>
+    <ROW Action="Download_Apps" Type="129" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadApps"/>
     <ROW Action="InitialiseProgressBar" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="InitialiseProgressBar"/>
-    <ROW Action="RunExe" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="RunExe" WithoutSeq="true"/>
+    <ROW Action="Install_Apps" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="InstallApps"/>
+    <ROW Action="RunExe" Type="65" Source="PlatformInstaller.CustomActions.CA.dll" Target="RunExe" WithoutSeq="true"/>
     <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]"/>
     <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
@@ -226,6 +229,9 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiDialogComponent">
     <ROW Dialog="InstallDlg" HCentering="50" VCentering="50" Width="345" Height="400" Attributes="3" Title="[ProductName] [Setup]" Control_Default="Back" Control_Cancel="Cancel" TitleLocId="Dialog.InstallDlg" MsiKey="InstallDlg"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiEventMappingComponent">
+    <ROW Dialog_="ProgressDlg" Control_="Text_2" Event="ActionData" Attribute="Text"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
     <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>
@@ -267,9 +273,10 @@
     <ROW Action="InstallDlg" Condition="AI_INSTALL" Sequence="1230" SeqType="3" MsiKey="WelcomeDlg"/>
     <ROW Action="MaintenanceTypeDlg" Condition="AI_MAINT" Sequence="1250" SeqType="3" MsiKey="MaintenanceTypeDlg"/>
     <ROW Action="AI_ChooseTextStyles" Sequence="74"/>
-    <ROW Action="DownloadandInstall_Apps" Condition="( NOT Installed )" Sequence="1282"/>
-    <ROW Action="Uninstall_Apps" Condition="( NOT Installed )" Sequence="1283"/>
+    <ROW Action="Download_Apps" Condition="( NOT Installed )" Sequence="1282"/>
+    <ROW Action="Uninstall_Apps" Condition="( NOT Installed )" Sequence="1284"/>
     <ROW Action="InitialiseProgressBar" Condition="( NOT Installed )" Sequence="1281"/>
+    <ROW Action="Install_Apps" Condition="( NOT Installed )" Sequence="1283"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
     <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsType9XDisplay]" DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="DefaultBuild"/>

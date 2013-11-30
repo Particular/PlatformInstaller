@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace PlatformInstaller.CustomActions
@@ -194,6 +195,10 @@ namespace PlatformInstaller.CustomActions
         public static ActionResult DownloadApplication(Session session)
         {
             Log(session, "Begin custom action DownloadApplication");
+            
+            // property used to check if the download is complete or not
+            // must be the first thing executed, otherwise the value of the property PRODUCT_PROP could be overwritten
+            string productProp = session["PRODUCT_PROP"];
 
             var appName = session.Get("APPLICATION_NAME");
 
@@ -241,18 +246,22 @@ namespace PlatformInstaller.CustomActions
             DownloadUrl(urlToDownload, Path.Combine(extractionDir, fileName));
 
             Log(session, "App " + appName + " extracted to " + extractionDir);
+            
+            if ( !String.IsNullOrEmpty(productProp) )
+                session[productProp] = "DownloadComplete";
 
             return ActionResult.Success;
         }
 
 
         [CustomAction]
-        public static ActionResult InstallApps(Session session)
+        public static ActionResult DownloadApps(Session session)
         {
+            Log(session, "Begin custom action DownloadApps");
+
             string[] fullFilePaths;
-            string installUserMessage = "Installing {0}.";
-            string downloadUserMessage = "Downloading {0}.";
-            string finalMessage = "";
+            string downloadUserMessage = "Downloading selected applications";
+            StatusMessage(session, downloadUserMessage);
 
             string selectedProd = session["NSB_PROP"];
             string prodSearch = session["NSB_SEARCH"];
@@ -261,21 +270,10 @@ namespace PlatformInstaller.CustomActions
                 //download application
                 session["APPLICATION_NAME"] = session["NSB_PROD_NAME"];
                 session["TARGET_APP_DIR"] = session["TempFolder"] + "Application-" + session["NSB_PROD_NAME"];
-                finalMessage = string.Format(downloadUserMessage, session["NSB_PROD_NAME"]);
-                StatusMessage(session, finalMessage);
-                IncrementProgressBar(session);
-
+                session["TARGET_APP_DIR_NSB"] = session["TARGET_APP_DIR"]; // used to launch the installer as TARGET_APP_DIR is overwritten by the next download
+                session["PRODUCT_PROP"] = "NSB_DOWNLOAD";
+                
                 session.DoAction("DownloadApplication");
-
-                //install application
-                fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR"]);
-                session["INSTALLER_PATH"] = fullFilePaths[0];
-                session["INSTALLER_COMMANDLINE"] = "";
-                finalMessage = string.Format(installUserMessage, session["NSB_PROD_NAME"]);
-                StatusMessage(session, finalMessage);
-                IncrementProgressBar(session);
-
-                session.DoAction("RunExe");
             }
 
 
@@ -286,21 +284,10 @@ namespace PlatformInstaller.CustomActions
                 //download application
                 session["APPLICATION_NAME"] = session["SC_PROD_NAME"];
                 session["TARGET_APP_DIR"] = session["TempFolder"] + "Application-" + session["SC_PROD_NAME"];
-                finalMessage = string.Format(downloadUserMessage, session["SC_PROD_NAME"]);
-                StatusMessage(session, finalMessage);
-                IncrementProgressBar(session);
+                session["TARGET_APP_DIR_SC"] = session["TARGET_APP_DIR"]; // used to launch the installer as TARGET_APP_DIR is overwritten by the next download
+                session["PRODUCT_PROP"] = "SC_DOWNLOAD";
 
                 session.DoAction("DownloadApplication");
-
-                //install application
-                fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR"]);
-                session["INSTALLER_PATH"] = fullFilePaths[0];
-                session["INSTALLER_COMMANDLINE"] = "";
-                finalMessage = string.Format(installUserMessage, session["SC_PROD_NAME"]);
-                StatusMessage(session, finalMessage);
-                IncrementProgressBar(session);
-
-                session.DoAction("RunExe");
             }
 
             selectedProd = session["SI_PROP"];
@@ -310,21 +297,10 @@ namespace PlatformInstaller.CustomActions
                 //download application
                 session["APPLICATION_NAME"] = session["SI_PROD_NAME"];
                 session["TARGET_APP_DIR"] = session["TempFolder"] + "Application-" + session["SI_PROD_NAME"];
-                finalMessage = string.Format(downloadUserMessage, session["SI_PROD_NAME"]);
-                StatusMessage(session, finalMessage);
-                IncrementProgressBar(session);
+                session["TARGET_APP_DIR_SI"] = session["TARGET_APP_DIR"]; // used to launch the installer as TARGET_APP_DIR is overwritten by the next download
+                session["PRODUCT_PROP"] = "SI_DOWNLOAD";
 
                 session.DoAction("DownloadApplication");
-
-                //install application
-                fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR"]);
-                session["INSTALLER_PATH"] = fullFilePaths[0];
-                session["INSTALLER_COMMANDLINE"] = "";
-                finalMessage = string.Format(installUserMessage, session["SI_PROD_NAME"]);
-                StatusMessage(session, finalMessage);
-                IncrementProgressBar(session);
-
-                session.DoAction("RunExe");
             }
 
             selectedProd = session["SP_PROP"];
@@ -334,21 +310,10 @@ namespace PlatformInstaller.CustomActions
                 //download application
                 session["APPLICATION_NAME"] = session["SP_PROD_NAME"];
                 session["TARGET_APP_DIR"] = session["TempFolder"] + "Application-" + session["SP_PROD_NAME"];
-                finalMessage = string.Format(downloadUserMessage, session["SP_PROD_NAME"]);
-                StatusMessage(session, finalMessage);
-                IncrementProgressBar(session);
+                session["TARGET_APP_DIR_SP"] = session["TARGET_APP_DIR"]; // used to launch the installer as TARGET_APP_DIR is overwritten by the next download
+                session["PRODUCT_PROP"] = "SP_DOWNLOAD";
 
                 session.DoAction("DownloadApplication");
-
-                //install application
-                fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR"]);
-                session["INSTALLER_PATH"] = fullFilePaths[0];
-                session["INSTALLER_COMMANDLINE"] = "";
-                finalMessage = string.Format(installUserMessage, session["SP_PROD_NAME"]);
-                StatusMessage(session, finalMessage);
-                IncrementProgressBar(session);
-                
-                session.DoAction("RunExe");
             }
 
             selectedProd = session["SM_PROP"];
@@ -358,29 +323,151 @@ namespace PlatformInstaller.CustomActions
                 //download application
                 session["APPLICATION_NAME"] = session["SM_PROD_NAME"];
                 session["TARGET_APP_DIR"] = session["TempFolder"] + "Application-" + session["SM_PROD_NAME"];
-                finalMessage = string.Format(downloadUserMessage, session["SM_PROD_NAME"]);
-                StatusMessage(session, finalMessage);
-                IncrementProgressBar(session);
+                session["TARGET_APP_DIR_SM"] = session["TARGET_APP_DIR"]; // used to launch the installer as TARGET_APP_DIR is overwritten by the next download
+                session["PRODUCT_PROP"] = "SM_DOWNLOAD";
 
                 session.DoAction("DownloadApplication");
-
-                //install application
-                fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR"]);
-                session["INSTALLER_PATH"] = fullFilePaths[0];
-                session["INSTALLER_COMMANDLINE"] = "";
-                finalMessage = string.Format(installUserMessage, session["SM_PROD_NAME"]);
-                StatusMessage(session, finalMessage);
-                IncrementProgressBar(session);
-
-                session.DoAction("RunExe");
             }
 
-            Log(session, "End custom action DownloadandInstallSelectedApplications");
+            Log(session, "End custom action DownloadApps");
+            
+            return ActionResult.Success;
+        }
+
+
+        [CustomAction]
+        public static ActionResult InstallApps(Session session)
+        {
+            Log(session, "Begin custom action InstallApps");
+
+            string[] fullFilePaths;
+            string installUserMessage = "Installing {0}.";
+            string finalMessage = "";
+
+            string selectedProd = session["NSB_PROP"];
+            string prodSearch = session["NSB_SEARCH"];
+            if (!String.IsNullOrEmpty(selectedProd) && String.IsNullOrEmpty(prodSearch))
+            {
+                //increment progress bar to indicate download action
+                IncrementProgressBar(session);
+
+                session["DOWNLOAD_CONFIRMATION_PROP"] = "NSB_DOWNLOAD";
+                session.DoAction("CanBeInstalled");
+                if (!String.IsNullOrEmpty(session["INSTALLER_VALID"]))
+                {
+                    //install application
+                    fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR_NSB"]);
+                    session["INSTALLER_PATH"] = fullFilePaths[0];
+                    session["INSTALLER_COMMANDLINE"] = "";
+                    finalMessage = string.Format(installUserMessage, session["NSB_PROD_NAME"]);
+                    StatusMessageActionData(session, finalMessage);
+
+                    session.DoAction("RunExe");
+                    IncrementProgressBar(session);
+                }
+            }
+
+
+            selectedProd = session["SC_PROP"];
+            prodSearch = session["SC_SEARCH"];
+            if (!String.IsNullOrEmpty(selectedProd) && String.IsNullOrEmpty(prodSearch))
+            {
+                //increment progress bar to indicate download action
+                IncrementProgressBar(session);
+
+                session["DOWNLOAD_CONFIRMATION_PROP"] = "SC_DOWNLOAD";
+                session.DoAction("CanBeInstalled");
+                if (!String.IsNullOrEmpty(session["INSTALLER_VALID"]))
+                {
+                    //install application
+                    fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR_SC"]);
+                    session["INSTALLER_PATH"] = fullFilePaths[0];
+                    session["INSTALLER_COMMANDLINE"] = "";
+                    finalMessage = string.Format(installUserMessage, session["SC_PROD_NAME"]);
+                    StatusMessageActionData(session, finalMessage);
+
+                    session.DoAction("RunExe");
+                    IncrementProgressBar(session);
+
+                }
+
+            }
+
+            selectedProd = session["SI_PROP"];
+            prodSearch = session["SI_SEARCH"];
+            if (!String.IsNullOrEmpty(selectedProd) && String.IsNullOrEmpty(prodSearch))
+            {
+                //increment progress bar to indicate download action
+                IncrementProgressBar(session);
+
+                session["DOWNLOAD_CONFIRMATION_PROP"] = "SI_DOWNLOAD";
+                session.DoAction("CanBeInstalled");
+                if (!String.IsNullOrEmpty(session["INSTALLER_VALID"]))
+                {
+                    //install application
+                    fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR_SI"]);
+                    session["INSTALLER_PATH"] = fullFilePaths[0];
+                    session["INSTALLER_COMMANDLINE"] = "";
+                    finalMessage = string.Format(installUserMessage, session["SI_PROD_NAME"]);
+                    StatusMessageActionData(session, finalMessage);
+
+                    session.DoAction("RunExe");
+                    IncrementProgressBar(session);
+                }
+            }
+
+            selectedProd = session["SP_PROP"];
+            prodSearch = session["SP_SEARCH"];
+            if (!String.IsNullOrEmpty(selectedProd) && String.IsNullOrEmpty(prodSearch))
+            {
+                //increment progress bar to indicate download action
+                IncrementProgressBar(session);
+
+                session["DOWNLOAD_CONFIRMATION_PROP"] = "SP_DOWNLOAD";
+                session.DoAction("CanBeInstalled");
+                if (!String.IsNullOrEmpty(session["INSTALLER_VALID"]))
+                {
+                    //install application
+                    fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR__SP"]);
+                    session["INSTALLER_PATH"] = fullFilePaths[0];
+                    session["INSTALLER_COMMANDLINE"] = "";
+                    finalMessage = string.Format(installUserMessage, session["SP_PROD_NAME"]);
+                    StatusMessageActionData(session, finalMessage);
+
+                    session.DoAction("RunExe");
+                    IncrementProgressBar(session);
+                }
+
+            }
+
+            selectedProd = session["SM_PROP"];
+            prodSearch = session["SM_SEARCH"];
+            if (!String.IsNullOrEmpty(selectedProd) && String.IsNullOrEmpty(prodSearch))
+            {
+                //increment progress bar to indicate download action
+                IncrementProgressBar(session);
+
+                session["DOWNLOAD_CONFIRMATION_PROP"] = "SM_DOWNLOAD";
+                session.DoAction("CanBeInstalled");
+                if (!String.IsNullOrEmpty(session["INSTALLER_VALID"]))
+                {
+                    //install application
+                    fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR_SM"]);
+                    session["INSTALLER_PATH"] = fullFilePaths[0];
+                    session["INSTALLER_COMMANDLINE"] = "";
+                    finalMessage = string.Format(installUserMessage, session["SM_PROD_NAME"]);
+                    StatusMessageActionData(session, finalMessage);
+                    
+                    session.DoAction("RunExe");
+                    IncrementProgressBar(session);
+                }
+            }
+
+            Log(session, "End custom action InstallApps");
 
 
             return ActionResult.Success;
         }
-
 
 
         [CustomAction]
@@ -598,7 +685,46 @@ namespace PlatformInstaller.CustomActions
 
             return ActionResult.Success;
         }
-        
+
+
+        [CustomAction]
+        public static ActionResult CanBeInstalled(Session session)
+        {
+            Log(session, "Begin custom action CanBeInstalled");
+
+            /*
+             * Checks and waits for the download to be complete before launching the installer.
+             */
+
+            int retries = 450; // retry/wait for 15 minutes for each app to download
+            string productProp = session["DOWNLOAD_CONFIRMATION_PROP"];
+            
+            //reset the property, which can be set by previous call
+            session["INSTALLER_VALID"] = "";
+
+            while (true)
+            {
+                if (--retries == 0)
+                {
+                    Log(session, "Begin custom action CanBeInstalled");
+
+                    return ActionResult.Success;
+                }
+                else if (!String.IsNullOrEmpty(session[productProp]))
+                {
+                    session["INSTALLER_VALID"] = "set";
+                    
+                    Log(session, "End custom action CanBeInstalled");
+
+                    return ActionResult.Success;
+                }
+
+                else
+
+                    Thread.Sleep(2000); // wait 2 seconds and check again if the download is complete
+            }
+        }
+
 
         public static void StatusMessage(Session session, string status)
         {
@@ -608,9 +734,16 @@ namespace PlatformInstaller.CustomActions
             record[3] = "Incrementing tick [1] of [2]";
 
             session.Message(InstallMessage.ActionStart, record);
-            Application.DoEvents();
         }
-                
+
+        public static void StatusMessageActionData(Session session, string status)
+        {
+            Record record = new Record(1);
+            record[1] = status;
+
+            session.Message(InstallMessage.ActionData, record);
+        }
+        
         public static MessageResult ResetProgressBar(Session session, int totalStatements)
         {
             var record = new Record(3);

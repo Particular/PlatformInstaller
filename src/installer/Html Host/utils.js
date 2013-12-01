@@ -5,10 +5,18 @@
 
 var changedSelections = 0;
 
-function IncrementSelectionsCount()
+function IncrementSelectionsCount(aProdId)
 {
-    changedSelections++;
-    external.MsiSetProperty("CHANGED_SELECTIONS", changedSelections.toString());
+    if ( external.MsiGetProperty(aProdId.substr(1) + '_SEARCH') )
+        {            
+            changedSelections--; // this is the case where the user unchecks and checks back an installed component 
+        }
+    else
+        {
+            changedSelections++;            
+        }
+
+    external.MsiSetProperty("CHANGED_SELECTIONS", changedSelections.toString());    
 }
 
 
@@ -65,7 +73,7 @@ function SelectProduct(aProdId, aProdProperty)
     if($(this).is(":checked"))
     {
         external.MsiSetProperty(aProdProperty, 'set');
-        IncrementSelectionsCount();
+        IncrementSelectionsCount(aProdId);
     }
     else
     {

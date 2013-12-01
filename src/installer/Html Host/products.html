@@ -35,13 +35,6 @@ $(document).ready(function(){
     $('#loadingMessage').hide();
 });
 
-// event for checkbox selection
-ToogleSIandSPCheckboxes();
-$("#SC").click(ToogleSIandSPCheckboxes);
-$("#SC").click(function (){
-  Toggle("#ScCkb");
-  Toggle("#SiCkb");
-});
 
 
 //control properties based on user selection from HTML
@@ -67,6 +60,12 @@ TickCheckbox("#SM", "SM_SEARCH");
 
 TickCheckbox("#SAMP", "SAMP_SEARCH");
 TickCheckbox("#TOOL", "TOOL_SEARCH");
+
+
+// event for checkbox selection
+LoadToogleSIandSPCheckboxes();
+$("#SC").click(ToogleSIandSPCheckboxes);
+
 
 
 //load HTML based on properties values

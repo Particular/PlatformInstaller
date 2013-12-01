@@ -85,6 +85,24 @@ function SelectProduct(aProdId, aProdProperty)
   });
 }
 
+
+/*
+ * Method used to use uncheck and delete property for a control.
+ * Usefull when toogling controls based on another's control state.
+ * 
+ * example of call:  DeSelectProduct("#controlId", "CONTROL_PROP");
+ */
+function DeSelectProduct(aProdId, aProdProperty)
+{
+   if(external.MsiGetProperty(aProdProperty))
+    {
+        external.MsiSetProperty(aProdProperty, '[~]');
+        $(aProdId).removeAttr("checked");  
+        DecrementIncrementSelectionsCount(aProdProperty);
+    }
+}
+
+
 /*
  * Method used to tick a checknox based on the value of a property.
  *
@@ -133,6 +151,21 @@ function InitProdandRepoNamesProps()
 
 function ToogleSIandSPCheckboxes() {
   if (this.checked) {
+    $("input.ckb").removeAttr("disabled");    
+  } else {
+    $("input.ckb").attr("disabled", true);
+    DeSelectProduct("#SI", "SI_PROP");
+    DeSelectProduct("#SP", "SP_PROP");    
+  }
+}
+
+
+/*
+ * Method used to enabled/disable SI and SP checkboxes based on SC search, just when the installer is launched.
+ */
+
+function LoadToogleSIandSPCheckboxes() {
+  if (external.MsiGetProperty("SC_SEARCH")) {
     $("input.ckb").removeAttr("disabled");    
   } else {
     $("input.ckb").attr("disabled", true);    

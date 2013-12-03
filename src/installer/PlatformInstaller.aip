@@ -212,8 +212,9 @@
     <ROW Action="DownloadApplication" Type="65" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadApplication" WithoutSeq="true"/>
     <ROW Action="DownloadInstall_SelectedApp_withoutSeqs" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="InstallApps" WithoutSeq="true"/>
     <ROW Action="DownloadNuget" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadNuget" WithoutSeq="true"/>
+    <ROW Action="DownloadNugetPackages" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadNugetPackages"/>
     <ROW Action="DownloadSamples" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadSamples" WithoutSeq="true"/>
-    <ROW Action="DownloadSamples_for_SelectedApps" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadSamplesforSelectedApplications" WithoutSeq="true"/>
+    <ROW Action="DownloadSamples_for_SelectedApps" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadSamplesforSelectedApplications"/>
     <ROW Action="DownloadTools" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadTools" WithoutSeq="true"/>
     <ROW Action="Download_Apps" Type="129" Source="PlatformInstaller.CustomActions.CA.dll" Target="DownloadApps"/>
     <ROW Action="InitialiseProgressBar" Type="1" Source="PlatformInstaller.CustomActions.CA.dll" Target="InitialiseProgressBar"/>
@@ -272,9 +273,11 @@
     <ROW Action="MaintenanceTypeDlg" Condition="AI_MAINT" Sequence="1250" SeqType="3" MsiKey="MaintenanceTypeDlg"/>
     <ROW Action="AI_ChooseTextStyles" Sequence="74"/>
     <ROW Action="Download_Apps" Condition="( NOT Installed )" Sequence="1282"/>
-    <ROW Action="Uninstall_Apps" Condition="( NOT Installed )" Sequence="1284"/>
+    <ROW Action="Uninstall_Apps" Condition="( NOT Installed )" Sequence="1286"/>
     <ROW Action="InitialiseProgressBar" Condition="( NOT Installed )" Sequence="1281"/>
     <ROW Action="Install_Apps" Condition="( NOT Installed )" Sequence="1283"/>
+    <ROW Action="DownloadNugetPackages" Condition="( NOT Installed )" Sequence="1285"/>
+    <ROW Action="DownloadSamples_for_SelectedApps" Condition="( NOT Installed )" Sequence="1284"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
     <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsType9XDisplay]" DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="DefaultBuild"/>
@@ -292,6 +295,13 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiUpgradeComponent">
     <ROW UpgradeCode="[|UpgradeCode]" VersionMax="[|ProductVersion]" Attributes="1025" ActionProperty="OLDPRODUCTS"/>
     <ROW UpgradeCode="[|UpgradeCode]" VersionMin="[|ProductVersion]" Attributes="2" ActionProperty="AI_NEWERPRODUCTFOUND"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.NotesComponent">
+    <ROW Type="1" DisplayString="Download_Apps" Note="Custom action that downloads the select packages one by one, preparing the installer to execute them.&#13;&#10;&#13;&#10;The custom actions &quot;Install_Apps&quot; will then check to see the downloads are complete verying a custom property for each product, for example &quot;NSB_DOWNLOAD&quot;." TargetMsiRow="Download_Apps" TableName="InstallUISequence"/>
+    <ROW Type="1" DisplayString="Install_Apps" Note="The custom actions &quot;Install_Apps&quot; will check to see the downloads done by &quot;Download_Apps&quot; custom action are complete verying a custom property for each product, for example &quot;NSB_DOWNLOAD&quot;.&#13;&#10;After this is launches the installations, one by one." TargetMsiRow="Install_Apps" TableName="InstallUISequence"/>
+    <ROW Type="1" DisplayString="DownloadNugetPackages" Note="Downloading nugets for NSB product." TargetMsiRow="DownloadNugetPackages" TableName="InstallUISequence"/>
+    <ROW Type="1" DisplayString="DownloadSamples_for_SelectedApps" Note="Downloading the samples for NSB product." TargetMsiRow="DownloadSamples_for_SelectedApps" TableName="InstallUISequence"/>
+    <ROW Type="1" DisplayString="Uninstall_Apps" Note="Uninstalls/removes resources from the machine based on the user&apos;s selection in the installer dialog. &#13;&#10;&#13;&#10;If nothing is scheduled to be removed the custom action will exit immediately." TargetMsiRow="Uninstall_Apps" TableName="InstallUISequence"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.PreReqSearchComponent">
     <ROW SearchKey="ProdCode" SearchType="3" SearchString="{6F29C354-F8C6-4F8B-BD85-63BB59E5E3FD}" Order="1" Property="SI_SEARCH"/>

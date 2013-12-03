@@ -59,6 +59,31 @@ namespace PlatformInstaller.CustomActions
             return ActionResult.Success;
         }
 
+        [CustomAction]
+        public static ActionResult DownloadNugetPackages(Session session)
+        {
+            Log(session, "Begin custom action DownloadNugetPackages");
+
+            string installUserMessage = "Downloading and installing {0} nugets.";
+            string finalMessage = "";
+            
+            string selectedProd = session["NSB_PROP"];
+            if (!String.IsNullOrEmpty(selectedProd) /*&& !String.IsNullOrEmpty(selectedNugets)*/)
+            {
+                session["NUGET_NAME"] = "NServiceBus.Interfaces";
+                session["TARGET_NUGET_DIR"] = session["ProgramFilesFolder"] + "Particular Software\\NServiceBus\\nugets";
+
+                finalMessage = string.Format(installUserMessage, session["NSB_PROD_NAME"]);
+                StatusMessage(session, finalMessage);
+
+                session.DoAction("DownloadNuget");
+            }
+
+            Log(session, "End custom action DownloadNugetPackages");
+
+            return ActionResult.Success;
+        }
+
 
         [CustomAction]
         public static ActionResult UninstallApplications(Session session)
@@ -166,7 +191,7 @@ namespace PlatformInstaller.CustomActions
             if (!String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(selectedSamples))
             {
                 session["SAMPLE_APPLICATION"] = "nservicebus";
-                session["TARGET_SAMPLE_DIR"] = session["NSB_INSTALL_DIR"] + "\\samples";
+                session["TARGET_SAMPLE_DIR"] = session["ProgramFilesFolder"] + "Particular Software\\NServiceBus\\samples";
 
                 finalMessage = string.Format(userMessage, session["NSB_PROD_NAME"]);
                 StatusMessage(session, finalMessage);

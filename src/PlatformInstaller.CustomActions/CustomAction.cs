@@ -84,6 +84,59 @@ namespace PlatformInstaller.CustomActions
             return ActionResult.Success;
         }
 
+        [CustomAction]
+        public static ActionResult DownloadHelperDll(Session session)
+        {
+            Log(session, "Begin custom action DownloadHelperDll");
+
+            string installUserMessage = "Downloading installer resources.";
+            string finalMessage = "";
+
+            string selectedProd = session["NSB_PROP"];
+            if (!String.IsNullOrEmpty(selectedProd))
+            {
+                finalMessage = string.Format(installUserMessage, session["NSB_PROD_NAME"]);
+                StatusMessage(session, finalMessage);
+
+                string extractionDir = session["TempFolder"];
+                string fileName = "NServiceBus.Powershell.dll";
+                string urlToDownload =
+                    "http://particular.net/api/products/NServiceBus/custacts/NServiceBus.Powershell.dll"; // MUST be updated to a valid URL
+                
+                CreateDir(extractionDir);
+                DownloadUrl(urlToDownload, Path.Combine(extractionDir, fileName));
+            }
+
+            Log(session, "End custom action DownloadHelperDll");
+
+            return ActionResult.Success;
+        }
+
+        
+        [CustomAction]
+        public static ActionResult InstallSelectedTransportType(Session session)
+        {
+            Log(session, "Begin custom action InstallSelectedTransportType");
+
+            string installUserMessage = "Installing {0} transport.";
+            string finalMessage = "";
+
+            string selectedProd = session["NSB_PROP"];
+            if (!String.IsNullOrEmpty(selectedProd))
+            {
+                finalMessage = string.Format(installUserMessage, "MSMQ");
+                StatusMessage(session, finalMessage);
+
+               // TO DO for Andreas
+                // load NServiceBus.Powershell.dll from %temp%NServiceBus.Powershell.dll
+                // call method to install MSMQ transport
+            }
+
+            Log(session, "End custom action InstallSelectedTransportType");
+
+            return ActionResult.Success;
+        }
+
 
         [CustomAction]
         public static ActionResult UninstallApplications(Session session)
@@ -283,8 +336,7 @@ namespace PlatformInstaller.CustomActions
         public static ActionResult DownloadApps(Session session)
         {
             Log(session, "Begin custom action DownloadApps");
-
-            string[] fullFilePaths;
+            
             string downloadUserMessage = "Downloading selected applications";
             StatusMessage(session, downloadUserMessage);
 

@@ -56,7 +56,7 @@ function DecrementIncrementSelectionsCount(aProdProperty)
 }
 
 
-function StringIsEmpty(aString) 
+function StringIsEmpty(aString)
 {
     return (!aString || 0 === aString.length);
 }
@@ -100,7 +100,7 @@ function DeSelectProduct(aProdId, aProdProperty)
    if(external.MsiGetProperty(aProdProperty))
     {
         external.MsiSetProperty(aProdProperty, '[~]');
-        $(aProdId).removeAttr("checked");  
+        $(aProdId).removeAttr("checked");
         DecrementIncrementSelectionsCount(aProdProperty);
     }
 }
@@ -121,7 +121,7 @@ function TickCheckbox(aProdId, aProdProperty)
     {
         //alert( external.MsiGetProperty(aProdProperty) );
         $(aProdId).prop('checked', true);
-        external.MsiSetProperty(aProdId.substr(1) + '_PROP', 'set');        
+        external.MsiSetProperty(aProdId.substr(1) + '_PROP', 'set');
     }
 }
 
@@ -136,7 +136,7 @@ function InitProdandRepoNamesProps()
     //prod names
     external.MsiSetProperty("NSB_PROD_NAME", 'NServiceBus');
     external.MsiSetProperty("SC_PROD_NAME", 'ServiceControl');
-    external.MsiSetProperty("SI_PROD_NAME", 'ServiceInsight');    
+    external.MsiSetProperty("SI_PROD_NAME", 'ServiceInsight');
     external.MsiSetProperty("SP_PROD_NAME", 'ServicePulse');
     external.MsiSetProperty("SM_PROD_NAME", 'ServiceMatrix');
 
@@ -145,7 +145,7 @@ function InitProdandRepoNamesProps()
     external.MsiSetProperty("SC_REPO_NAME", 'Particular/ServiceControl');
     external.MsiSetProperty("SI_REPO_NAME", 'Particular/ServiceInsight');
     external.MsiSetProperty("SP_REPO_NAME", 'Particular/ServicePulse');
-    external.MsiSetProperty("SM_REPO_NAME", 'Particular/ServiceMatrix');   
+    external.MsiSetProperty("SM_REPO_NAME", 'Particular/ServiceMatrix');
 }
 
 
@@ -157,7 +157,7 @@ function InitProdandRepoNamesProps()
 function ToogleSIandSPCheckboxes() 
 {
   if (this.checked) {
-    $("input.ckb").removeAttr("disabled");    
+    $("input.ckb").removeAttr("disabled");
   } else {
     $("input.ckb").attr("disabled", true);
     DeSelectProduct("#SI", "SI_PROP");
@@ -214,12 +214,13 @@ function SilentInstallOption()
         if($(this).is(":checked"))
         {
             // set property
-            external.MsiSetProperty("INSTALL_APPS_SILENT", 'set');        
+            external.MsiSetProperty("INSTALL_APPS_SILENT", 'set');
         }
         else
         {
             // delete property
-            external.MsiSetProperty("INSTALL_APPS_SILENT", '[~]');        
+            external.MsiSetProperty("INSTALL_APPS_SILENT", '[~]');
         }
     });
 }
+

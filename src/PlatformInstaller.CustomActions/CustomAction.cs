@@ -441,7 +441,8 @@ namespace PlatformInstaller.CustomActions
                     fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR_NSB"]);
                     session["INSTALLER_PATH"] = fullFilePaths[0];
                     var nsbInstalPath = installPathPI + "\\NServiceBus\\v" + session["VERSION_FROM_PI"];
-                    session["INSTALLER_COMMANDLINE"] = "APPDIR=" + "\"" + nsbInstalPath +"\"" + " VERSION_FROM_PI=" + "\"" + versionFromPI +"\" ";
+                    session["INSTALLER_COMMANDLINE"] = "APPDIR=" + "\"" + nsbInstalPath +"\"" + " VERSION_FROM_PI=" + "\"" + versionFromPI +"\"" +
+                                                        " ERROR_Q=\"error\"" + " AUDIT_Q=\"audit\"" + " INSTALL_RAVEND=\"install\"" + " RAVEN_PORT=\"8080\""; // default NSB install options
 
                     if (isSilentInstall)
                         session["INSTALLER_COMMANDLINE"] = silentUICommandLinePrefix + session["INSTALLER_COMMANDLINE"];
@@ -469,7 +470,9 @@ namespace PlatformInstaller.CustomActions
                     //install application
                     fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR_SC"]);
                     session["INSTALLER_PATH"] = fullFilePaths[0];
-                    session["INSTALLER_COMMANDLINE"] = "APPDIR=" + "\"" + installPathPI + "\\ServiceControl" +  "\"";
+                    session["INSTALLER_COMMANDLINE"] = "APPDIR=" + "\"" + installPathPI + "\\ServiceControl" +  "\"" +
+                                                       " PORT_VAL=\"33333\"" + " TRANSPORT_TYPE=\"NServiceBus.Msmq, NServiceBus.Core\"" +            // default service options
+                                                       " INST_NAME=\"ServiceControl\"" + " INST_DESCRIPTION=\"Management support for NServiceBus\"";
 
                     if (isSilentInstall)
                         session["INSTALLER_COMMANDLINE"] = silentUICommandLinePrefix + session["INSTALLER_COMMANDLINE"];
@@ -498,7 +501,8 @@ namespace PlatformInstaller.CustomActions
                     //install application
                     fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR_SI"]);
                     session["INSTALLER_PATH"] = fullFilePaths[0];
-                    session["INSTALLER_COMMANDLINE"] = "APPDIR=" + "\"" + installPathPI + "\\ServiceInsight" + "\"";
+                    session["INSTALLER_COMMANDLINE"] = "APPDIR=" + "\"" + installPathPI + "\\ServiceInsight" + "\"" +
+                                                       " DESK_SH=\"create\"" + " ALL_PROGRAMS_SH=\"create\"";// SI default options to create desktop and all programs shortcuts
 
                     if (isSilentInstall)
                         session["INSTALLER_COMMANDLINE"] = silentUICommandLinePrefix + session["INSTALLER_COMMANDLINE"];
@@ -525,7 +529,8 @@ namespace PlatformInstaller.CustomActions
                     //install application
                     fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR__SP"]);
                     session["INSTALLER_PATH"] = fullFilePaths[0];
-                    session["INSTALLER_COMMANDLINE"] = "APPDIR=" + "\"" + installPathPI + "\\ServicePulse" + "\"";
+                    session["INSTALLER_COMMANDLINE"] = "APPDIR=" + "\"" + installPathPI + "\\ServicePulse" + "\"" +
+                                                       " INST_URI_PULSE=\"http://localhost:8082\"" + " INST_URI=\"http://localhost:33333/api/\""; // default parameters (URIs) for SP installer
 
                     if (isSilentInstall)
                         session["INSTALLER_COMMANDLINE"] = silentUICommandLinePrefix + session["INSTALLER_COMMANDLINE"];
@@ -553,7 +558,8 @@ namespace PlatformInstaller.CustomActions
                     //install application
                     fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR_SM"]);
                     session["INSTALLER_PATH"] = fullFilePaths[0];
-                    session["INSTALLER_COMMANDLINE"] = "APPDIR=" + "\"" + installPathPI + "\\ServiceMatrix" + "\"";
+                    session["INSTALLER_COMMANDLINE"] = "APPDIR=" + "\"" + installPathPI + "\\ServiceMatrix" + "\"" +
+                                                       " INSTALL_VS_2010=\"toInstall\"" + " INSTALL_VS_2012=\"toInstall\""; // default options for SM installer to install the VS extension for  both VS 2012 and 2010 is the corespondent VS version is found on the machine
 
                     if (isSilentInstall)
                         session["INSTALLER_COMMANDLINE"] = silentUICommandLinePrefix + session["INSTALLER_COMMANDLINE"];

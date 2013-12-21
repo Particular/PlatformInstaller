@@ -421,6 +421,7 @@ namespace PlatformInstaller.CustomActions
             string installUserMessage = "Downloading applications and installing {0}.";
             string finalMessage = "";
 
+            var silentUICommandLinePrefix = "/exenoui /qn ";
             var versionFromPI = session["VERSION_FROM_PI"];
             var installPathPI = session["APPDIR_PI"];
             bool isSilentInstall = !String.IsNullOrEmpty(session["INSTALL_APPS_SILENT"]);
@@ -441,6 +442,10 @@ namespace PlatformInstaller.CustomActions
                     session["INSTALLER_PATH"] = fullFilePaths[0];
                     var nsbInstalPath = installPathPI + "\\NServiceBus\\v" + session["VERSION_FROM_PI"];
                     session["INSTALLER_COMMANDLINE"] = "APPDIR=" + "\"" + nsbInstalPath +"\"" + " VERSION_FROM_PI=" + "\"" + versionFromPI +"\" ";
+
+                    if (isSilentInstall)
+                        session["INSTALLER_COMMANDLINE"] = silentUICommandLinePrefix + session["INSTALLER_COMMANDLINE"];
+
                     finalMessage = string.Format(installUserMessage, session["NSB_PROD_NAME"]);
                     StatusMessage(session, finalMessage);
 
@@ -464,7 +469,11 @@ namespace PlatformInstaller.CustomActions
                     //install application
                     fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR_SC"]);
                     session["INSTALLER_PATH"] = fullFilePaths[0];
-                    session["INSTALLER_COMMANDLINE"] = "";
+                    session["INSTALLER_COMMANDLINE"] = "APPDIR=" + "\"" + installPathPI + "\\ServiceControl" +  "\"";
+
+                    if (isSilentInstall)
+                        session["INSTALLER_COMMANDLINE"] = silentUICommandLinePrefix + session["INSTALLER_COMMANDLINE"];
+
                     finalMessage = string.Format(installUserMessage, session["SC_PROD_NAME"]);
                     StatusMessage(session, finalMessage);
 
@@ -489,7 +498,11 @@ namespace PlatformInstaller.CustomActions
                     //install application
                     fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR_SI"]);
                     session["INSTALLER_PATH"] = fullFilePaths[0];
-                    session["INSTALLER_COMMANDLINE"] = "";
+                    session["INSTALLER_COMMANDLINE"] = "APPDIR=" + "\"" + installPathPI + "\\ServiceInsight" + "\"";
+
+                    if (isSilentInstall)
+                        session["INSTALLER_COMMANDLINE"] = silentUICommandLinePrefix + session["INSTALLER_COMMANDLINE"];
+
                     finalMessage = string.Format(installUserMessage, session["SI_PROD_NAME"]);
                     StatusMessage(session, finalMessage);
 
@@ -512,7 +525,11 @@ namespace PlatformInstaller.CustomActions
                     //install application
                     fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR__SP"]);
                     session["INSTALLER_PATH"] = fullFilePaths[0];
-                    session["INSTALLER_COMMANDLINE"] = "";
+                    session["INSTALLER_COMMANDLINE"] = "APPDIR=" + "\"" + installPathPI + "\\ServicePulse" + "\"";
+
+                    if (isSilentInstall)
+                        session["INSTALLER_COMMANDLINE"] = silentUICommandLinePrefix + session["INSTALLER_COMMANDLINE"];
+
                     finalMessage = string.Format(installUserMessage, session["SP_PROD_NAME"]);
                     StatusMessage(session, finalMessage);
 
@@ -536,7 +553,11 @@ namespace PlatformInstaller.CustomActions
                     //install application
                     fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR_SM"]);
                     session["INSTALLER_PATH"] = fullFilePaths[0];
-                    session["INSTALLER_COMMANDLINE"] = "";
+                    session["INSTALLER_COMMANDLINE"] = "APPDIR=" + "\"" + installPathPI + "\\ServiceMatrix" + "\"";
+
+                    if (isSilentInstall)
+                        session["INSTALLER_COMMANDLINE"] = silentUICommandLinePrefix + session["INSTALLER_COMMANDLINE"];
+
                     finalMessage = string.Format(installUserMessage, session["SM_PROD_NAME"]);
                     StatusMessage(session, finalMessage);
                     

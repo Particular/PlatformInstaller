@@ -5,21 +5,39 @@
 
 var changedSelections = 0;
 
+
+function CountSelections(aProdProp)
+{
+    if ( external.MsiGetProperty(aProdProp) )
+        {
+            changedSelections++;
+        }
+    else
+        {
+            changedSelections--;
+        }
+
+     external.MsiSetProperty("CHANGED_SELECTIONS", changedSelections.toString());
+}
+
+
+
+// NOT used for the moment, new design requires other code
 function IncrementSelectionsCount(aProdId)
 {
     if ( external.MsiGetProperty(aProdId.substr(1) + '_SEARCH') )
-        {            
+        {
             changedSelections--; // this is the case where the user unchecks and checks back an installed component 
         }
     else
         {
-            changedSelections++;            
+            changedSelections++;
         }
 
-    external.MsiSetProperty("CHANGED_SELECTIONS", changedSelections.toString());    
+    external.MsiSetProperty("CHANGED_SELECTIONS", changedSelections.toString());
 }
 
-
+// NOT used for the moment, new design requires other code
 function DecrementIncrementSelectionsCount(aProdProperty)
 {
     if (aProdProperty == "NSB_PROP" && StringIsEmpty(external.MsiGetProperty("NSB_SEARCH")))
@@ -76,13 +94,15 @@ function SelectProduct(aProdId, aProdProperty)
     if($(this).is(":checked"))
     {
         external.MsiSetProperty(aProdProperty, 'set');
-        IncrementSelectionsCount(aProdId);
+        CountSelections(aProdProperty);
+        //IncrementSelectionsCount(aProdId);
     }
     else
     {
             // delete property
         external.MsiSetProperty(aProdProperty, '[~]');
-        DecrementIncrementSelectionsCount(aProdProperty);
+        CountSelections(aProdProperty);
+        //DecrementIncrementSelectionsCount(aProdProperty);
     }
 
   });
@@ -101,7 +121,8 @@ function DeSelectProduct(aProdId, aProdProperty)
     {
         external.MsiSetProperty(aProdProperty, '[~]');
         $(aProdId).removeAttr("checked");
-        DecrementIncrementSelectionsCount(aProdProperty);
+        CountSelections(aProdProperty);
+        //DecrementIncrementSelectionsCount(aProdProperty);
     }
 }
 
@@ -154,14 +175,14 @@ function InitProdandRepoNamesProps()
  * 
  */
 
-function ToogleSIandSPCheckboxes() 
+function ToogleSIandSPCheckboxes()
 {
   if (this.checked) {
     $("input.ckb").removeAttr("disabled");
   } else {
     $("input.ckb").attr("disabled", true);
     DeSelectProduct("#SI", "SI_PROP");
-    DeSelectProduct("#SP", "SP_PROP");    
+    DeSelectProduct("#SP", "SP_PROP");
   }
 }
 
@@ -170,12 +191,12 @@ function ToogleSIandSPCheckboxes()
  * Method used to enabled/disable SI and SP checkboxes based on SC search, just when the installer is launched.
  */
 
-function LoadToogleSIandSPCheckboxes() 
+function LoadToogleSIandSPCheckboxes()
 {
   if (external.MsiGetProperty("SC_SEARCH")) {
-    $("input.ckb").removeAttr("disabled");    
+    $("input.ckb").removeAttr("disabled");
   } else {
-    $("input.ckb").attr("disabled", true);    
+    $("input.ckb").attr("disabled", true);
   }
 }
 
@@ -189,7 +210,7 @@ function Toggle(aClassname)
          $(aClassname).show();
     else
     {
-         $(aClassname).hide();               
+         $(aClassname).hide();
     }
 }
 
@@ -198,10 +219,10 @@ function Toggle(aClassname)
  */
 
 function InitSilentInstallOption()
-{     
+{
 
     if (external.MsiGetProperty("INSTALL_APPS_SILENT"))
-    {        
+    {
         $("#S_INST").prop('checked', true);
     }
 }
@@ -232,7 +253,7 @@ function SilentInstallOption()
 
 function DismissChanges()
 {
-    //TODO
+    //TODO by Mark
 }
 
 function SetInstallOptions(frame)
@@ -242,9 +263,14 @@ function SetInstallOptions(frame)
    external.MsiSetProperty("APPDIR_PI", frame.InstallPath.value);
 
    //show/hide installation components
-    // Mark should do this, I tried but could not get it working
+    // Mark should do this, I tried but could not get it working correctly
     // basically it needs to hide all the other checkboxes from the UI, as visible in
     // the designs from sergio
+
+    // the ID of the checkbox controlling this is SHOW_OPTIONS
+
+
+
 }
 
 function InitializeInstallPath()
@@ -252,3 +278,64 @@ function InitializeInstallPath()
     var elem = document.getElementById("APPDIR_PI");
     elem.value = external.MsiGetProperty("APPDIR_PI");
 }
+
+
+/* 
+
+These methods must be finished by mark, as explained below. Also please uncomment
+their calls from the HTML file. 
+
+function SelectAllProducts()
+{  // only if no product is already installed
+  if (StringIsEmpty(external.MsiGetProperty("NSB_SEARCH")) &&
+      StringIsEmpty(external.MsiGetProperty("SC_SEARCH"))  &&
+      StringIsEmpty(external.MsiGetProperty("SI_SEARCH"))  &&
+      StringIsEmpty(external.MsiGetProperty("SP_SEARCH"))  &&
+      StringIsEmpty(external.MsiGetProperty("SM_SEARCH")))
+  {
+    external.MsiSetProperty('NSB_PROP', 'set');
+    external.MsiSetProperty('SC_PROP', 'set');
+    external.MsiSetProperty('SI_PROP', 'set');
+    external.MsiSetProperty('SP_PROP', 'set');
+    external.MsiSetProperty('SM_PROP', 'set');
+  }
+  else
+  {
+    // we should show the entire list of products for the user by default
+    // showing which is installed and which isn't
+
+    // here Mark should add code to automatically show the detailed list of products
+  }
+}
+
+
+function ToogleProducts()
+{
+    // here mark must hide show products based on the folowing ifs
+    if (StringIsEmpty(external.MsiGetProperty("NSB_SEARCH"))
+
+        //hide checkbox with id NSB and show the one with ID NSB_REM
+        // else, the other way around
+
+    if (StringIsEmpty(external.MsiGetProperty("SC_SEARCH"))
+
+        //hide checkbox with id SC and show the one with ID SC_REM
+        // else, the other way around
+
+    if (StringIsEmpty(external.MsiGetProperty("SI_SEARCH"))
+
+        //hide checkbox with id SI and show the one with ID SI_REM
+        // else, the other way around
+
+    if (StringIsEmpty(external.MsiGetProperty("SP_SEARCH"))
+
+        //hide checkbox with id SP and show the one with ID SP_REM
+        // else, the other way around
+
+    if (StringIsEmpty(external.MsiGetProperty("SM_SEARCH"))
+
+        //hide checkbox with id SM and show the one with ID SM_REM
+        // else, the other way around
+}
+
+*/

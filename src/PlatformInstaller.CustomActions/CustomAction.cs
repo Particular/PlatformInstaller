@@ -148,9 +148,9 @@ namespace PlatformInstaller.CustomActions
             string userMessage = "Uninstalling {0}.";
             string finalMessage= "";
             
-            string selectedProd = session["NSB_PROP"];
+            string selectedProd = session["NSB_REM_PROP"];
             string prodSearch = session["NSB_SEARCH"];
-            if (String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
+            if (!String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
             {
                 session["INSTALLER_COMMANDLINE"] = "/x " + session["NSB_PRODCODE"] + " /qn";
                 finalMessage = string.Format(userMessage, session["NSB_PROD_NAME"]);
@@ -160,9 +160,9 @@ namespace PlatformInstaller.CustomActions
                 session.DoAction("RunExe");
             }
 
-            selectedProd = session["SC_PROP"];
+            selectedProd = session["SC_REM_PROP"];
             prodSearch = session["SC_SEARCH"];
-            if (String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
+            if (!String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
             {
                 session["INSTALLER_COMMANDLINE"] = "/x " + session["SC_PRODCODE"] + " /qn";
                 finalMessage = string.Format(userMessage, session["SC_PROD_NAME"]);
@@ -172,9 +172,9 @@ namespace PlatformInstaller.CustomActions
                 session.DoAction("RunExe");
             }
 
-            selectedProd = session["SI_PROP"];
+            selectedProd = session["SI_REM_PROP"];
             prodSearch = session["SI_SEARCH"];
-            if (String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
+            if (!String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
             {
                 session["INSTALLER_COMMANDLINE"] = "/x " + session["SI_PRODCODE"] + " /qn";
                 finalMessage = string.Format(userMessage, session["SI_PROD_NAME"]);
@@ -184,9 +184,9 @@ namespace PlatformInstaller.CustomActions
                 session.DoAction("RunExe");
             }
 
-            selectedProd = session["SP_PROP"];
+            selectedProd = session["SP_REM_PROP"];
             prodSearch = session["SP_SEARCH"];
-            if (String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
+            if (!String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
             {
                 session["INSTALLER_COMMANDLINE"] = "/x " + session["SP_PRODCODE"] + " /qn";
                 finalMessage = string.Format(userMessage, session["SP_PROD_NAME"]);
@@ -196,9 +196,9 @@ namespace PlatformInstaller.CustomActions
                 session.DoAction("RunExe");
             }
 
-            selectedProd = session["SM_PROP"];
+            selectedProd = session["SM_REM_PROP"];
             prodSearch = session["SM_SEARCH"];
-            if (String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
+            if (!String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(prodSearch))
             {
                 session["INSTALLER_COMMANDLINE"] = "/x " + session["SM_PRODCODE"] + " /qn";
                 finalMessage = string.Format(userMessage, session["SM_PROD_NAME"]);

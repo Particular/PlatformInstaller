@@ -55,7 +55,9 @@ function DecrementIncrementSelectionsCount(aProdProperty)
     external.MsiSetProperty("CHANGED_SELECTIONS", changedSelections.toString());   
 }
 
-function StringIsEmpty(aString) {
+
+function StringIsEmpty(aString) 
+{
     return (!aString || 0 === aString.length);
 }
 
@@ -68,6 +70,7 @@ function StringIsEmpty(aString) {
 
 function SelectProduct(aProdId, aProdProperty)
 {
+
     $(aProdId).click(function() {
 
     if($(this).is(":checked"))
@@ -137,7 +140,6 @@ function InitProdandRepoNamesProps()
     external.MsiSetProperty("SP_PROD_NAME", 'ServicePulse');
     external.MsiSetProperty("SM_PROD_NAME", 'ServiceMatrix');
 
-
     //repo names
     external.MsiSetProperty("NSB_REPO_NAME", 'Particular/NServiceBus');
     external.MsiSetProperty("SC_REPO_NAME", 'Particular/ServiceControl');
@@ -152,7 +154,8 @@ function InitProdandRepoNamesProps()
  * 
  */
 
-function ToogleSIandSPCheckboxes() {
+function ToogleSIandSPCheckboxes() 
+{
   if (this.checked) {
     $("input.ckb").removeAttr("disabled");    
   } else {
@@ -167,7 +170,8 @@ function ToogleSIandSPCheckboxes() {
  * Method used to enabled/disable SI and SP checkboxes based on SC search, just when the installer is launched.
  */
 
-function LoadToogleSIandSPCheckboxes() {
+function LoadToogleSIandSPCheckboxes() 
+{
   if (external.MsiGetProperty("SC_SEARCH")) {
     $("input.ckb").removeAttr("disabled");    
   } else {
@@ -178,7 +182,8 @@ function LoadToogleSIandSPCheckboxes() {
 // Because IE does not work correctly with Toggle() from jQuery
 // The below should work, but still is not. In Chrome it works
 
-function Toggle(aClassname){
+function Toggle(aClassname)
+{
     var elem = $(aClassname)[0];
     if(elem.style.display == 'none')
          $(aClassname).show();
@@ -189,29 +194,32 @@ function Toggle(aClassname){
 }
 
 /*
- * The following two methosd are used to initialize and control the option for silent UI installs
+ * The following two methods are used to initialize and control the option for silent UI installs
  */
 
-function InitSilentInstallOption(){     
+function InitSilentInstallOption()
+{     
 
     if (external.MsiGetProperty("INSTALL_APPS_SILENT"))
     {        
-        $("S_INST").prop('checked', true);
+        $("#S_INST").prop('checked', true);
     }
 }
 
-function SilentInstallOption(){
+function SilentInstallOption()
+{
     
-    $("S_INST").click(function() {
+    $("#S_INST").click(function() {
 
-    if($(this).is(":checked"))
-    {
-        // set property
-        external.MsiSetProperty("INSTALL_APPS_SILENT", 'set');        
-    }
-    else
-    {
-        // delete property
-        external.MsiSetProperty("INSTALL_APPS_SILENT", '[~]');        
-    }
+        if($(this).is(":checked"))
+        {
+            // set property
+            external.MsiSetProperty("INSTALL_APPS_SILENT", 'set');        
+        }
+        else
+        {
+            // delete property
+            external.MsiSetProperty("INSTALL_APPS_SILENT", '[~]');        
+        }
+    });
 }

@@ -71,7 +71,7 @@ namespace PlatformInstaller.CustomActions
             if (!String.IsNullOrEmpty(selectedProd) /*&& !String.IsNullOrEmpty(selectedNugets)*/)
             {
                 session["NUGET_NAME"] = "NServiceBus.Interfaces";
-                session["TARGET_NUGET_DIR"] = session["ProgramFilesFolder"] + "Particular Software\\NServiceBus\\nugets";
+                session["TARGET_NUGET_DIR"] = session["APPDIR_PI"] + "\\NServiceBus\\v" + session["VERSION_FROM_PI"] + "\\Tools";
 
                 finalMessage = string.Format(installUserMessage, session["NSB_PROD_NAME"]);
                 StatusMessage(session, finalMessage);
@@ -244,7 +244,7 @@ namespace PlatformInstaller.CustomActions
             if (!String.IsNullOrEmpty(selectedProd) && !String.IsNullOrEmpty(selectedSamples))
             {
                 session["SAMPLE_APPLICATION"] = "nservicebus";
-                session["TARGET_SAMPLE_DIR"] = session["ProgramFilesFolder"] + "Particular Software\\NServiceBus\\samples";
+                session["TARGET_SAMPLE_DIR"] = session["APPDIR_PI"] + "\\NServiceBus\\v" + session["VERSION_FROM_PI"] + "\\samples";
 
                 finalMessage = string.Format(userMessage, session["NSB_PROD_NAME"]);
                 StatusMessage(session, finalMessage);
@@ -421,7 +421,8 @@ namespace PlatformInstaller.CustomActions
             string installUserMessage = "Downloading applications and installing {0}.";
             string finalMessage = "";
 
-            var versionFromPI = "4.3"; // This MUST be updated with a method that will get the version fromthe servers.
+            var versionFromPI = session["VERSION_FROM_PI"];
+            var installPathPI = session["APPDIR_PI"];
 
             string selectedProd = session["NSB_PROP"];
             string prodSearch = session["NSB_SEARCH"];
@@ -437,7 +438,8 @@ namespace PlatformInstaller.CustomActions
                     //install application
                     fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR_NSB"]);
                     session["INSTALLER_PATH"] = fullFilePaths[0];
-                    session["INSTALLER_COMMANDLINE"] = "VERSION_FROM_PI=" + "\"" + versionFromPI +"\"";
+                    var nsbInstalPath = installPathPI + "\\NServiceBus\\v" + session["VERSION_FROM_PI"];
+                    session["INSTALLER_COMMANDLINE"] = "APPDIR=" + "\"" + nsbInstalPath +"\"" + " VERSION_FROM_PI=" + "\"" + versionFromPI +"\" ";
                     finalMessage = string.Format(installUserMessage, session["NSB_PROD_NAME"]);
                     StatusMessage(session, finalMessage);
 
@@ -761,6 +763,18 @@ namespace PlatformInstaller.CustomActions
             ResetProgressBar(session, totalStatements*2);
 
             Log(session, "End custom action InitialiseProgressBar");
+
+            return ActionResult.Success;
+        }
+
+        [CustomAction]
+        public static ActionResult GetVersion(Session session)
+        {
+            Log(session, "Begin custom action GetVersion");
+
+            session["VERSION_FROM_PI"] = "4.3"; // This MUST be updated with a method that will get the version fromthe servers.
+
+            Log(session, "End custom action GetVersion");
 
             return ActionResult.Success;
         }

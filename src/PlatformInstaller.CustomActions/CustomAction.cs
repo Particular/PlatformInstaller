@@ -421,6 +421,8 @@ namespace PlatformInstaller.CustomActions
             string installUserMessage = "Downloading applications and installing {0}.";
             string finalMessage = "";
 
+            var versionFromPI = "4.3"; // This MUST be updated with a method that will get the version fromthe servers.
+
             string selectedProd = session["NSB_PROP"];
             string prodSearch = session["NSB_SEARCH"];
             if (!String.IsNullOrEmpty(selectedProd) && String.IsNullOrEmpty(prodSearch))
@@ -435,7 +437,7 @@ namespace PlatformInstaller.CustomActions
                     //install application
                     fullFilePaths = Directory.GetFiles(session["TARGET_APP_DIR_NSB"]);
                     session["INSTALLER_PATH"] = fullFilePaths[0];
-                    session["INSTALLER_COMMANDLINE"] = "";
+                    session["INSTALLER_COMMANDLINE"] = "VERSION_FROM_PI=" + "\"" + versionFromPI +"\"";
                     finalMessage = string.Format(installUserMessage, session["NSB_PROD_NAME"]);
                     StatusMessage(session, finalMessage);
 

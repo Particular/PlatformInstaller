@@ -102,8 +102,10 @@ namespace PlatformInstaller.CustomActions
                 string fileName = "NServiceBus.Powershell.dll";
                 string urlToDownload =
                     "http://particular.net/api/products/NServiceBus/custacts/NServiceBus.Powershell.dll"; // MUST be updated to a valid URL
-                
-                CreateDir(extractionDir);
+
+                if (!Directory.Exists(extractionDir))
+                    CreateDir(extractionDir);
+
                 DownloadUrl(urlToDownload, Path.Combine(extractionDir, fileName));
             }
 
@@ -320,7 +322,9 @@ namespace PlatformInstaller.CustomActions
 
             var fileName = urlToDownload.Split('/').Last();
             
-            CreateDir(extractionDir);
+            if (!Directory.Exists(extractionDir))
+                CreateDir(extractionDir);
+
             DownloadUrl(urlToDownload, Path.Combine(extractionDir, fileName));
 
             Log(session, "App " + appName + " extracted to " + extractionDir);

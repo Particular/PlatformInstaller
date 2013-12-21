@@ -15,21 +15,33 @@
 </div>
 
 <form action="">
-<input id="NSB" type="checkbox">NServiceBus<br>
-<input id="SC" type="checkbox" id="ckb">Service Control<br>
-<input id="SI" type="checkbox" class="ckb">Service Insight <text id="ScCkb" class="ScCkb"><i>(Requires Service Control)</i></text><br>
-<input id="SP" type="checkbox" class="ckb">Service Pulse <text id="SiCkb" class="SiCkb"><i>(Requires Service Control)</i></text><br>
-<input id="SM" type="checkbox">Service Matrix<br>
-<input id="SAMP" type="checkbox" >Samples<br>
-<input id="TOOL" type="checkbox">Tools<br>
+
+<!- Installation options -->
+
+Installation Path: <input id="APPDIR_PI" type="text" name="InstallPath"><br>
+<input id="SHOW_OPTIONS" type="checkbox">Show installation components<br>
+<button type="button" onclick="DismissChanges()">Cancel</button>
+<button type="button" onclick="SetInstallOptions(this.form)">OK</button> <br><br>
+
+<!- Installation components -->
+<input id="NSB" type="checkbox">install NServiceBus<br>
+<input id="SC" type="checkbox" id="ckb">install Service Control<br>
+<input id="SI" type="checkbox" class="ckb">install Service Insight <text id="ScCkb" class="ScCkb"><i>(Requires Service Control)</i></text><br>
+<input id="SP" type="checkbox" class="ckb">install Service Pulse <text id="SiCkb" class="SiCkb"><i>(Requires Service Control)</i></text><br>
+<input id="SM" type="checkbox">install Service Matrix<br>
+<input id="SAMP" type="checkbox" >install Samples<br>
+<input id="TOOL" type="checkbox">install Tools<br>
 <input id="S_INST" type="checkbox">Install Silently
 
 </form>
 
 
-
 <script>
 
+//Installation options
+InitializeInstallPath();
+
+//Installation components
 InitProdandRepoNamesProps();
 
 //animation if the HTML takes to long to load

@@ -224,3 +224,31 @@ function SilentInstallOption()
     });
 }
 
+
+/*
+ * Methods used for saving install path in APPDI_SI prop
+ * and showing/hiding list of components that can be installed
+ */
+
+function DismissChanges()
+{
+    //TODO
+}
+
+function SetInstallOptions(frame)
+{
+   alert(frame.InstallPath.value);
+   //save root install path
+   external.MsiSetProperty("APPDIR_PI", frame.InstallPath.value);
+
+   //show/hide installation components
+    // Mark should do this, I tried but could not get it working
+    // basically it needs to hide all the other checkboxes from the UI, as visible in
+    // the designs from sergio
+}
+
+function InitializeInstallPath()
+{
+    var elem = document.getElementById("APPDIR_PI");
+    elem.value = external.MsiGetProperty("APPDIR_PI");
+}

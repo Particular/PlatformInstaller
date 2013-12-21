@@ -423,6 +423,7 @@ namespace PlatformInstaller.CustomActions
 
             var versionFromPI = session["VERSION_FROM_PI"];
             var installPathPI = session["APPDIR_PI"];
+            bool isSilentInstall = !String.IsNullOrEmpty(session["INSTALL_APPS_SILENT"]);
 
             string selectedProd = session["NSB_PROP"];
             string prodSearch = session["NSB_SEARCH"];

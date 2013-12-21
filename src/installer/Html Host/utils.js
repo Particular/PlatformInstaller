@@ -107,6 +107,9 @@ function DeSelectProduct(aProdId, aProdProperty)
  * Method used to tick a checknox based on the value of a property.
  *
  * example of call:  TickCheckbox("#checkboId", "CHECKBOX_PROP");
+ *
+ * note that each product ID and property are the same, except the property names end with "_PROP", 
+ * this is MANDATORY for the code to work
  */
 
 function TickCheckbox(aProdId, aProdProperty)
@@ -182,5 +185,33 @@ function Toggle(aClassname){
     else
     {
          $(aClassname).hide();               
+    }
+}
+
+/*
+ * The following two methosd are used to initialize and control the option for silent UI installs
+ */
+
+function InitSilentInstallOption(){     
+
+    if (external.MsiGetProperty("INSTALL_APPS_SILENT"))
+    {        
+        $("S_INST").prop('checked', true);
+    }
+}
+
+function SilentInstallOption(){
+    
+    $("S_INST").click(function() {
+
+    if($(this).is(":checked"))
+    {
+        // set property
+        external.MsiSetProperty("INSTALL_APPS_SILENT", 'set');        
+    }
+    else
+    {
+        // delete property
+        external.MsiSetProperty("INSTALL_APPS_SILENT", '[~]');        
     }
 }

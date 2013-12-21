@@ -21,7 +21,9 @@
 <input id="SP" type="checkbox" class="ckb">Service Pulse <text id="SiCkb" class="SiCkb"><i>(Requires Service Control)</i></text><br>
 <input id="SM" type="checkbox">Service Matrix<br>
 <input id="SAMP" type="checkbox" >Samples<br>
-<input id="TOOL" type="checkbox">Tools
+<input id="TOOL" type="checkbox">Tools<br>
+<input id="S_INST" type="checkbox">Install Silently
+
 </form>
 
 
@@ -35,6 +37,11 @@ $(document).ready(function(){
     $('#loadingMessage').hide();
 });
 
+// Init initial UI for silent install option
+InitSilentInstallOption();
+
+// control UI level of packages
+SilentInstallOption();
 
 
 //control properties based on user selection from HTML

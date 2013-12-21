@@ -95,6 +95,7 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiControlComponent">
     <ROW Dialog_="BrowseDlg" Control="ProductLogo" Type="Bitmap" X="17" Y="8" Width="180" Height="47" Attributes="1" Text="[AppLogoIcon]" Order="1200"/>
     <ROW Dialog_="CustomizeDlg" Control="CustomizeDlgDialogInitializer" Type="DialogInitializer" X="0" Y="0" Width="0" Height="0" Attributes="0" Order="-1" TextLocId="-" HelpLocId="-" ExtDataLocId="-"/>
+    <ROW Dialog_="ExitDialog" Control="Description" Type="Text" X="17" Y="105" Width="310" Height="31" Attributes="196611" Text="[ProductName] has been successfully configured." Order="700" TextLocId="Spring.Control.Text.ExitDialog#Description" MsiKey="ExitDialog#Description"/>
     <ROW Dialog_="ExitDialog" Control="ReadmeButton" Type="ImageButton" X="77" Y="155" Width="92" Height="123" Attributes="3" Text="[ViewReadMeButton]" Order="800" MsiKey="ExitDialog#ReadmeButton" ExtType="ImageButton"/>
     <ROW Dialog_="ExitDialog" Control="MetroReadmeText" Type="Text" X="83" Y="278" Width="86" Height="16" Attributes="196611" Text="Readme" Order="900" TextLocId="Metro.Control.Text.ExitDialog#Readme" MsiKey="ExitDialog#MetroReadmeText"/>
     <ROW Dialog_="ExitDialog" Control="RunButton" Type="ImageButton" X="176" Y="155" Width="92" Height="123" Attributes="3" Text="[MetroRunApplicationButton]" Order="1000" MsiKey="ExitDialog#RunButton" ExtType="ImageButton"/>
@@ -102,7 +103,7 @@
     <ROW Dialog_="ExitDialog" Control="AdvInst" Type="Text" X="5" Y="388" Width="74" Height="11" Attributes="196611" Text="Advanced Installer" TextStyle="[BrandingStyle]" Order="1200" MsiKey="ExitDialog#AdvInst"/>
     <ROW Dialog_="ExitDialog" Control="ProductLogo" Type="Bitmap" X="17" Y="8" Width="180" Height="47" Attributes="1" Text="[AppLogoIcon]" Order="1300"/>
     <ROW Dialog_="FatalError" Control="ProductLogo" Type="Bitmap" X="17" Y="8" Width="180" Height="47" Attributes="1" Text="[AppLogoIcon]" Order="1000"/>
-    <ROW Dialog_="InstallDlg" Control="Next" Type="ImageButton" X="251" Y="359" Width="78" Height="28" Attributes="3" Text="[NextCancelButtons]" TextStyle="[MetroButtonText]" Order="300" MsiKey="InstallDlg#Next" Options="1" ExtType="ImageButton" ExtData="[ButtonText_Next]" ExtDataLocId="-"/>
+    <ROW Dialog_="InstallDlg" Control="Next" Type="ImageButton" X="239" Y="359" Width="90" Height="28" Attributes="3" Text="[NextCancelButtons]" TextStyle="[MetroButtonText]" Order="300" MsiKey="InstallDlg#Next" Options="1" ExtType="ImageButton" ExtData="Apply" ExtDataLocId="-"/>
     <ROW Dialog_="InstallDlg" Control="YouMustAgreeCtrl" Type="Hyperlink" X="17" Y="289" Width="311" Height="33" Attributes="65538" Text="You must agree to the &lt;a href=&quot;&quot;&gt;Licenses terms and conditions&lt;/a&gt; before you can install [ProductName]." TextStyle="[HyperlinkFont]" Order="500" TextLocId="Metro.Control.Text.WelcomeDlg#YouMustAgreeCtrl" MsiKey="InstallDlg#YouMustAgreeCtrl"/>
     <ROW Dialog_="InstallDlg" Control="AdvInst" Type="Text" X="5" Y="388" Width="74" Height="11" Attributes="196611" Text="Advanced Installer" TextStyle="[BrandingStyle]" Order="600" MsiKey="InstallDlg#AdvInst"/>
     <ROW Dialog_="InstallDlg" Control="HtmlHost_1" Type="HtmlHost" X="1" Y="69" Width="343" Height="282" Attributes="3" Text="file:///[&amp;products.html]" Order="700" ExtType="HtmlHost" ExtAttributes="2"/>
@@ -117,11 +118,12 @@
     <ROW Dialog_="PrepareDlg" Control="ProductLogo" Type="Bitmap" X="83" Y="68" Width="180" Height="47" Attributes="1" Text="[AppLogoIcon]" Order="600" MsiKey="PrepareDlg#ProductLogo"/>
     <ROW Dialog_="PrepareDlg" Control="Text_1" Type="Text" X="47" Y="179" Width="260" Height="13" Attributes="65539" Property="TEXT_1_PROP" Text="Copyright © 2014 Particular Software Limited. All rights reserved." TextStyle="[SubnoteFontGray_Custom]" Order="700"/>
     <ROW Dialog_="ProgressDlg" Control="ActionText" Type="Text" X="17" Y="191" Width="309" Height="17" Attributes="196611" TextStyle="DefaultTextBlack" Order="500" MsiKey="ProgressDlg#ActionText"/>
-    <ROW Dialog_="ProgressDlg" Control="Text" Type="Text" X="17" Y="105" Width="312" Height="30" Attributes="196611" Text="Please wait while the [Wizard] [Progress2] [ProductName].  This may take several minutes." Order="700" TextLocId="Control.Text.ProgressDlg#Text" MsiKey="ProgressDlg#Text"/>
+    <ROW Dialog_="ProgressDlg" Control="Text" Type="Text" X="17" Y="108" Width="312" Height="30" Attributes="196611" Text="Please wait while the the machine is configured. This may take several minutes." Order="700" TextLocId="Control.Text.ProgressDlg#Text" MsiKey="ProgressDlg#Text"/>
     <ROW Dialog_="ProgressDlg" Control="StatusLabel" Type="Text" X="17" Y="171" Width="45" Height="13" Attributes="196611" Text="Status:" TextStyle="DefaultTextBlack" Order="800" TextLocId="Control.Text.ProgressDlg#StatusLabel" MsiKey="ProgressDlg#StatusLabel"/>
     <ROW Dialog_="ProgressDlg" Control="AdvInst" Type="Text" X="5" Y="388" Width="74" Height="11" Attributes="196611" Text="Advanced Installer" TextStyle="[BrandingStyle]" Order="900" MsiKey="ProgressDlg#AdvInst"/>
     <ROW Dialog_="ProgressDlg" Control="Text_2" Type="Text" X="67" Y="171" Width="262" Height="13" Attributes="196611" TextStyle="DefaultTextBlack" Order="1000"/>
     <ROW Dialog_="ProgressDlg" Control="ProductLogo" Type="Bitmap" X="17" Y="8" Width="180" Height="47" Attributes="1" Text="[AppLogoIcon]" Order="1100"/>
+    <ROW Dialog_="ProgressDlg" Control="Text_1" Type="Text" X="15" Y="84" Width="182" Height="24" Attributes="65539" Property="TEXT_1_PROP_1" Text="Applying changes" TextStyle="ImageButtonDark" Order="1200"/>
     <ROW Dialog_="SpawnDialog" Control="Bitmap" Type="Bitmap" X="0" Y="0" Width="330" Height="200" Attributes="1" Text="[Background]" Order="100"/>
     <ROW Dialog_="SpawnDialog" Control="Text" Type="Text" X="26" Y="24" Width="234" Height="45" Attributes="196611" Text="The following dependencies need to be installed:" TextStyle="ImageButtonDark" Order="200"/>
     <ROW Dialog_="SpawnDialog" Control="AdvInst" Type="Text" X="5" Y="388" Width="74" Height="11" Attributes="196611" Text="Advanced Installer" TextStyle="[BrandingStyle]" Order="300"/>
@@ -153,7 +155,7 @@
     <ATTRIBUTE name="DeletedRows" value="ExitDialog#ProductNameTitle#Hide#NOT AIEXTERNALUI@InstallDlg#InstallButton#Enable#AGREE_CHECKBOX@InstallDlg#InstallButton#Disable#NOT AGREE_CHECKBOX@InstallDlg#InstallButton#Hide#(Text_Next &lt;&gt; Text_Install) AND (InstallDlg)@InstallDlg#Next#Show#(Text_Next &lt;&gt; Text_Install) AND (InstallDlg)@ProgressDlg#ProductNameTitle#Hide#NOT AIEXTERNALUI@PrepareDlg#ProductNameTitle#Hide#NOT AIEXTERNALUI@BrowseDlg#ProductNameTitle#Hide#NOT AIEXTERNALUI@FatalError#ProductNameTitle#Hide#NOT AIEXTERNALUI@UserExit#ProductNameTitle#Hide#NOT AIEXTERNALUI"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiControlEventComponent">
-    <ROW Dialog_="InstallDlg" Control_="Next" Event="EndDialog" Argument="Return" Condition="AI_INSTALL AND ( USER_AGREE )" Ordering="305"/>
+    <ROW Dialog_="InstallDlg" Control_="Next" Event="EndDialog" Argument="Return" Condition="AI_INSTALL AND ( USER_AGREE OR (NOT NSB_PROP) OR NSB_SEARCH )" Ordering="305"/>
     <ROW Dialog_="InstallDlg" Control_="YouMustAgreeCtrl" Event="NewDialog" Argument="LicenseAgreementDlg" Condition="AI_INSTALL AND AiLicenseAgreement" Ordering="201"/>
     <ROW Dialog_="LicenseAgreementDlg" Control_="Back" Event="NewDialog" Argument="InstallDlg" Condition="AI_INSTALL AND AiLicenseAgreement" Ordering="1"/>
     <ROW Dialog_="LicenseAgreementDlg" Control_="Next" Event="EndDialog" Argument="Return" Condition="AI_INSTALL AND AiLicenseAgreement" Ordering="101"/>
@@ -174,7 +176,7 @@
     <ROW Dialog_="InstallDlg" Control_="InstallDlgDialogInitializer" Event="[AI_ButtonText_Next_Orig]" Argument="[ButtonText_Next]" Condition="AI_INSTALL" Ordering="105" Options="2"/>
     <ROW Dialog_="InstallDlg" Control_="InstallDlgDialogInitializer" Event="[ButtonText_Next]" Argument="[[AI_CommitButton]]" Condition="AI_INSTALL" Ordering="106" Options="2"/>
     <ROW Dialog_="InstallDlg" Control_="InstallDlgDialogInitializer" Event="[AI_Text_Next_Orig]" Argument="[Text_Next]" Condition="AI_INSTALL" Ordering="107" Options="2"/>
-    <ROW Dialog_="InstallDlg" Control_="InstallDlgDialogInitializer" Event="[Text_Next]" Argument="[Text_Install]" Condition="AI_INSTALL" Ordering="108" Options="2"/>
+    <ROW Dialog_="InstallDlg" Control_="InstallDlgDialogInitializer" Event="[Text_Next]" Argument="Apply Changes" Condition="AI_INSTALL" Ordering="108" Options="2"/>
     <ROW Dialog_="InstallDlg" Control_="YouMustAgreeCtrl" Event="[ButtonText_Next]" Argument="[AI_ButtonText_Next_Orig]" Condition="AI_INSTALL" Ordering="202" Options="2"/>
     <ROW Dialog_="InstallDlg" Control_="YouMustAgreeCtrl" Event="[Text_Next]" Argument="[AI_Text_Next_Orig]" Condition="AI_INSTALL" Ordering="203" Options="2"/>
     <ROW Dialog_="InstallDlg" Control_="Back" Event="[ButtonText_Next]" Argument="[AI_ButtonText_Next_Orig]" Condition="AI_INSTALL" Ordering="0" Options="2"/>
@@ -210,7 +212,7 @@
     <ROW Dialog_="UserExit" Control_="Finish" Event="DoAction" Argument="AI_RemoveTempFiles" Condition="1" Ordering="101"/>
     <ROW Dialog_="InstallDlg" Control_="InstallDlgDialogInitializer" Event="[APPDIR_PI]" Argument="[ProgramFilesFolder]Particular Software\" Condition="AI_INSTALL" Ordering="98"/>
     <ROW Dialog_="InstallDlg" Control_="InstallDlgDialogInitializer" Event="[INSTALL_APPS_SILENT]" Argument="set" Condition="AI_INSTALL" Ordering="99"/>
-    <ROW Dialog_="InstallDlg" Control_="Next" Event="SpawnDialog" Argument="SpawnDialog" Condition="AI_INSTALL AND ( NOT USER_AGREE )" Ordering="304"/>
+    <ROW Dialog_="InstallDlg" Control_="Next" Event="SpawnDialog" Argument="SpawnDialog" Condition="AI_INSTALL AND ( NOT USER_AGREE AND (NBS_PROP AND NOT NSB_SEARCH) )" Ordering="304"/>
     <ROW Dialog_="SpawnDialog" Control_="Yes" Event="EndDialog" Argument="Return" Condition="1" Ordering="102"/>
     <ROW Dialog_="SpawnDialog" Control_="Yes" Event="[USER_AGREE]" Argument="set" Condition="1" Ordering="101"/>
     <ROW Dialog_="SpawnDialog" Control_="No" Event="EndDialog" Argument="Return" Condition="1" Ordering="100"/>

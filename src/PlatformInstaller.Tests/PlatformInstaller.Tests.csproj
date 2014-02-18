@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="ApprovalTestConfig.cs" />
     <Compile Include="Chocolatey\ChocolateyInstallerTests.cs" />
+    <Compile Include="Chocolatey\PowerShellVersionTests.cs" />
     <Compile Include="Chocolatey\ProcessRunnerTests.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Chocolatey\PackageManagerTests.cs" />

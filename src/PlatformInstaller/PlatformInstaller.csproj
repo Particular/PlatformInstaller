@@ -85,6 +85,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Chocolatey\ChocolateyInstaller.cs" />
+    <Compile Include="Chocolatey\PowerShellVersion.cs" />
     <Compile Include="Chocolatey\ProcessRunner.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

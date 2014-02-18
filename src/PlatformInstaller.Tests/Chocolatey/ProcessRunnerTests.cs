@@ -18,6 +18,7 @@ public class ProcessRunnerTests
         processRunner.RunProcessAsync().Wait();
         ObjectApprover.VerifyWithJson(outputList);
     }
+
     [Test]
     public void VerifyErrorReceived()
     {

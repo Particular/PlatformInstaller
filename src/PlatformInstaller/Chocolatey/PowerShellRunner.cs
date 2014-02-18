@@ -9,8 +9,8 @@ public class PowerShellRunner : IDisposable
     Pipeline pipeLine;
     PipelineReader<PSObject> outPut;
     bool hasData;
-    public event Action<string> OutputChanged = x => { };
-    public event Action RunFinished = () => { };
+    public Action<string> OutputChanged = x => { };
+    public Action RunFinished = () => { };
 
     public PowerShellRunner()
     {

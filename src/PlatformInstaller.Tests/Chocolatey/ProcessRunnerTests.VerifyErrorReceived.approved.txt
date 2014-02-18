@@ -1,0 +1,6 @@
+﻿[
+    "System error 67 has occurred.",
+    "",
+    "The network name cannot be found.",
+    ""
+]

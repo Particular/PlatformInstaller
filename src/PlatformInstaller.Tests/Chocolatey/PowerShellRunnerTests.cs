@@ -5,12 +5,6 @@ using NUnit.Framework;
 [TestFixture]
 public class PowerShellRunnerTests
 {
-    [Test]
-    public void IfCanRunCommand()
-    {
-        var runAsync = new PowerShellRunner();
-        runAsync.Run("write test");
-    }
 
     [Test]
     public void IfCanRunCommandAndReturnOutput()
@@ -18,14 +12,14 @@ public class PowerShellRunnerTests
         var runAsync = new PowerShellRunner();
         var result = "";
         var waitHandle = new AutoResetEvent(false);
-        runAsync.OutputChanged += (x) =>
+        runAsync.OutputChanged += x =>
         {
             result = x;
             waitHandle.Set();
         };
         runAsync.Run("write test");
 
-        waitHandle.ThrowIfHandleTimesOut(TimeSpan.FromSeconds(10));
+        waitHandle.WaitForTimeout(TimeSpan.FromSeconds(10));
 
         Assert.AreEqual("test\r\n", result);
     }
@@ -42,7 +36,7 @@ public class PowerShellRunnerTests
             waitHandle.Set();
         };
         runSync.Run("write test");
-        waitHandle.ThrowIfHandleTimesOut(TimeSpan.FromSeconds(10));
+        waitHandle.WaitForTimeout(TimeSpan.FromSeconds(10));
         Assert.AreEqual(1, result);
     }
 
@@ -58,7 +52,7 @@ public class PowerShellRunnerTests
             waitHandle.Set();
         };
         runSync.Run("write");
-        waitHandle.ThrowIfHandleTimesOut(TimeSpan.FromSeconds(10));
+        waitHandle.WaitForTimeout(TimeSpan.FromSeconds(10));
         Assert.AreEqual(1, result);
     }
 
@@ -68,13 +62,13 @@ public class PowerShellRunnerTests
         var runSync = new PowerShellRunner();
         var result = "";
         var waitHandle = new AutoResetEvent(false);
-        runSync.OutputChanged += (x) =>
+        runSync.OutputChanged += x =>
         {
             result = x;
             waitHandle.Set();
         };
         runSync.Run("write");
-        waitHandle.ThrowIfHandleTimesOut(TimeSpan.FromSeconds(10));
+        waitHandle.WaitForTimeout(TimeSpan.FromSeconds(10));
         Assert.AreEqual("No output", result);
     }
 
@@ -90,7 +84,7 @@ public class PowerShellRunnerTests
             waitHandle.Set();
         };
         runSync.Run("thingdingding");
-        waitHandle.ThrowIfHandleTimesOut(TimeSpan.FromSeconds(10));
+        waitHandle.WaitForTimeout(TimeSpan.FromSeconds(10));
         Assert.AreEqual(1, result);
     }
 
@@ -100,13 +94,13 @@ public class PowerShellRunnerTests
         var runSync = new PowerShellRunner();
         var result = "";
         var waitHandle = new AutoResetEvent(false);
-        runSync.OutputChanged += (x) =>
+        runSync.OutputChanged += x =>
         {
             result = x;
             waitHandle.Set();
         };
         runSync.Run("thingdingding");
-        waitHandle.ThrowIfHandleTimesOut(TimeSpan.FromSeconds(10));
+        waitHandle.WaitForTimeout(TimeSpan.FromSeconds(10));
         Assert.AreEqual("No output", result);
     }
 }

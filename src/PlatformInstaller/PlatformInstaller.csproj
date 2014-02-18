@@ -92,7 +92,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Chocolatey\PackageInstaller.cs" />
+    <Compile Include="Chocolatey\PackageManager.cs" />
     <Compile Include="Chocolatey\PowerShellRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

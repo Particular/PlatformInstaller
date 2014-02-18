@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Threading;
+using System.Linq;
+using System.Management.Automation;
 using NUnit.Framework;
 
 [TestFixture]
@@ -7,100 +8,40 @@ public class PowerShellRunnerTests
 {
 
     [Test]
-    public void IfCanRunCommandAndReturnOutput()
+    public void VerifyOutputIsWritten()
     {
-        var runAsync = new PowerShellRunner();
+        var runAsync = new PowerShellRunner("write test");
         var result = "";
-        var waitHandle = new AutoResetEvent(false);
-        runAsync.OutputChanged += x =>
+        runAsync.OutputDataReceived = x =>
         {
             result = x;
-            waitHandle.Set();
         };
-        runAsync.Run("write test");
+        runAsync.Run().Wait();
 
-        waitHandle.WaitForTimeout(TimeSpan.FromSeconds(10));
-
-        Assert.AreEqual("test\r\n", result);
+        Assert.AreEqual("test", result);
     }
 
     [Test]
-    public void IfCanRunCommandAndRaiseEventRunFinished()
+    public void VerifyErrorIsWritten()
     {
-        var runSync = new PowerShellRunner();
-        var result = 0;
-        var waitHandle = new AutoResetEvent(false);
-        runSync.RunFinished += () =>
-        {
-            result = 1;
-            waitHandle.Set();
-        };
-        runSync.Run("write test");
-        waitHandle.WaitForTimeout(TimeSpan.FromSeconds(10));
-        Assert.AreEqual(1, result);
-    }
-
-    [Test]
-    public void IfCanRunCommandWithNoOutputAndEventRunFinishedIsRaised()
-    {
-        var runSync = new PowerShellRunner();
-        var result = 0;
-        var waitHandle = new AutoResetEvent(false);
-        runSync.RunFinished += () =>
-        {
-            result = 1;
-            waitHandle.Set();
-        };
-        runSync.Run("write");
-        waitHandle.WaitForTimeout(TimeSpan.FromSeconds(10));
-        Assert.AreEqual(1, result);
-    }
-
-    [Test]
-    public void IfCanRunCommandWithNoOutputAndEventOutputChangedIsRaised()
-    {
-        var runSync = new PowerShellRunner();
+        var runAsync = new PowerShellRunner("Write-Error \"oops\"");
         var result = "";
-        var waitHandle = new AutoResetEvent(false);
-        runSync.OutputChanged += x =>
+        runAsync.OutputErrorReceived = x =>
         {
             result = x;
-            waitHandle.Set();
         };
-        runSync.Run("write");
-        waitHandle.WaitForTimeout(TimeSpan.FromSeconds(10));
-        Assert.AreEqual("No output", result);
+        runAsync.Run().Wait();
+
+        Assert.AreEqual("oops", result);
     }
 
     [Test]
-    public void IfCanRunWrongCommandAndEventRunFinishedIsRaised()
+    public void VerifyAnInvalidCommandThrowsCommandNotFoundException()
     {
-        var runSync = new PowerShellRunner();
-        var result = 0;
-        var waitHandle = new AutoResetEvent(false);
-        runSync.RunFinished += () =>
-        {
-            result = 1;
-            waitHandle.Set();
-        };
-        runSync.Run("thingdingding");
-        waitHandle.WaitForTimeout(TimeSpan.FromSeconds(10));
-        Assert.AreEqual(1, result);
+        var runSync = new PowerShellRunner("thingdingding");
+        var task = runSync.Run();
+        var exception = Assert.Throws<AggregateException>(task.Wait);
+        Assert.IsInstanceOf<CommandNotFoundException>(exception.InnerExceptions.First());
     }
 
-    [Test]
-    public void IfCanRunWrongCommandWithNoOutputAndEventOutputChangedIsRaised()
-    {
-        var runSync = new PowerShellRunner();
-        var result = "";
-        var waitHandle = new AutoResetEvent(false);
-        runSync.OutputChanged += x =>
-        {
-            result = x;
-            waitHandle.Set();
-        };
-        runSync.Run("thingdingding");
-        waitHandle.WaitForTimeout(TimeSpan.FromSeconds(10));
-        Assert.AreEqual("No output", result);
-    }
 }

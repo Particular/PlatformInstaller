@@ -1,66 +1,65 @@
 ﻿using System;
-using System.Management.Automation;
+using System.Diagnostics;
 using System.Management.Automation.Runspaces;
-using Anotar.Serilog;
+using System.Threading.Tasks;
 
 public class PowerShellRunner : IDisposable
 {
+    string command;
     Runspace runSpace;
     Pipeline pipeLine;
-    PipelineReader<PSObject> outPut;
-    bool hasData;
-    public Action<string> OutputChanged = x => { };
-    public Action RunFinished = () => { };
+    public Action<string> OutputDataReceived = x => { };
+    public Action<string> OutputErrorReceived = x => { };
+    TaskCompletionSource<object> completionSource;
 
-    public PowerShellRunner()
+    public PowerShellRunner(string command)
     {
+        this.command = command;
+    }
+
+    public Task Run()
+    {
+        completionSource = new TaskCompletionSource<object>();
         runSpace = RunspaceFactory.CreateRunspace();
         runSpace.Open();
-    }
-
-    public void Run(String command)
-    {
-        LogTo.Information("Running command: {0}", command);
         pipeLine = runSpace.CreatePipeline(command);
         pipeLine.Input.Close();
-        outPut = pipeLine.Output;
-        outPut.DataReady += (x, y) => OutputDataReady();
+        pipeLine.Output.DataReady += (x, y) => ReadOutput();
+        pipeLine.Error.DataReady += (x, y) => ReadError();
+        pipeLine.StateChanged += pipeLine_StateChanged;
         pipeLine.InvokeAsync();
+        return completionSource.Task;
     }
 
-    public void OnOutputChanged(string output)
+    void pipeLine_StateChanged(object sender, PipelineStateEventArgs e)
     {
-        LogTo.Debug("Output changed: {0}", output);
-        OutputChanged(output);
-    }
-
-
-    void OutputDataReady()
-    {
-        LogTo.Debug("Output ready");
-        var data = pipeLine.Output.NonBlockingRead();
-        if (data.Count > 0)
+        if (e.PipelineStateInfo.Reason != null)
         {
-            LogTo.Debug("Has data");
-            hasData = true;
-            foreach (var d in data)
-            {
-                LogTo.Debug("data: {0}", d);
-                OnOutputChanged(d + Environment.NewLine);
-            }
-
-        }
-        if (!pipeLine.Output.EndOfPipeline)
-        {
+            Debug.WriteLine(e.PipelineStateInfo.Reason);
+            completionSource.TrySetException(e.PipelineStateInfo.Reason);
             return;
         }
-        if (!hasData)
+        if (e.PipelineStateInfo.State == PipelineState.Completed)
         {
-            LogTo.Debug("No output");
-            OnOutputChanged("No output");
+            completionSource.TrySetResult(null);
         }
-        LogTo.Debug("Run finished");
-        RunFinished();
+    }
+
+
+    void ReadOutput()
+    {
+        foreach (var output in pipeLine.Output.NonBlockingRead())
+        {
+            OutputDataReceived(output.ToString());
+        }
+    }
+
+    void ReadError()
+    {
+        foreach (var error in pipeLine.Error.NonBlockingRead())
+        {
+            OutputErrorReceived(error.ToString());
+        }
     }
 
     public void Dispose()

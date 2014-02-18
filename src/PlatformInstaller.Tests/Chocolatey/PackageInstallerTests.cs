@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Diagnostics;
+using NUnit.Framework;
 
 [TestFixture]
 public class PackageInstallerTests
@@ -7,8 +8,15 @@ public class PackageInstallerTests
     [Explicit("Integration")]
     public void Install()
     {
-       var packageInstaller = new PackageInstaller(new PowerShellRunner());
-       packageInstaller.InstallPackage("Pester");
+       // var powerShellRunner = new PowerShellRunner { OutputDataReceived = Foo };
+       // var packageInstaller = new PackageInstaller(powerShellRunner);
+       //packageInstaller.InstallPackage("Pester");
+    }
+
+    void Foo(string obj)
+    {
+        Debug.WriteLine(obj);
+
     }
 
     [Test]

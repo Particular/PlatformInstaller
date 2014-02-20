@@ -4,6 +4,7 @@ using NUnit.Framework;
 using ObjectApproval;
 
 [TestFixture]
+[Explicit]
 public class ProcessRunnerTests
 {
 

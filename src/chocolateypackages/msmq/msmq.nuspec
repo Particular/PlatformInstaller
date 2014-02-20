@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata>
+    <id>nservicebus.msmq</id>
+    <title>NServiceBus.MSMQ</title>
+    <version>1.0.20140220</version>
+    <authors>Particular Software</authors>
+    <owners>Particular Software</owners>
+    <summary>Enable Windows MSMQ-Server Feature for NServiceBus</summary>
+    <description>Enables Microsoft Message Queue Server</description>
+    <projectUrl>https://github.com/Particular/PlatformInstaller</projectUrl>
+    <tags>particular nservicebus msmq server</tags>
+    <dependencies>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+</package>

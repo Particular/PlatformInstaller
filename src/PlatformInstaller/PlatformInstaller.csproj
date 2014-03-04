@@ -41,6 +41,10 @@
       <HintPath>..\packages\Anotar.Serilog.Fody.2.7.4.0\Lib\portable-net4+sl4+wp7+windows8\Anotar.Serilog.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Caliburn.Micro, Version=1.5.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\net45\Caliburn.Micro.dll</HintPath>
+    </Reference>
     <Reference Include="Janitor">
       <HintPath>..\packages\Janitor.Fody.0.6.0.0\Lib\portable-net4+sl4+wp7+win8+MonoAndroid16+MonoTouch40\Janitor.dll</HintPath>
       <Private>False</Private>
@@ -60,6 +64,9 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Management.Automation" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -77,8 +84,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppBootstrapper.cs" />
     <Compile Include="AssemblyLocation.cs" />
-    <Page Include="MainWindow.xaml">
+    <Page Include="AppView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -89,9 +97,9 @@
     <Compile Include="Chocolatey\ChocolateyInstaller.cs" />
     <Compile Include="Chocolatey\PowerShellVersion.cs" />
     <Compile Include="Chocolatey\ProcessRunner.cs" />
-    <Compile Include="MainModel.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="AppViewModel.cs" />
+    <Compile Include="AppView.xaml.cs">
+      <DependentUpon>AppView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

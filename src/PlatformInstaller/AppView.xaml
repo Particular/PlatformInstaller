@@ -1,0 +1,39 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Default="clr-namespace:"
+        xmlns:cal="http://www.caliburnproject.org"
+        x:Class="PlatformInstaller.AppView"
+        Title="MainWindow" Height="458" Width="623">
+    <Grid>
+       
+        <TextBox x:Name="output" Margin="116,54,10,10" TextWrapping="Wrap" Text="{Binding Path=OutputText}" IsReadOnly="True" IsReadOnlyCaretVisible="True"/>
+        <StackPanel HorizontalAlignment="Left" Height="199" Margin="10,100,0,0" VerticalAlignment="Top" Width="100">
+            <Button Content="Msmq" 
+                cal:Message.Attach="[Event Click] = [Action InstallMsmq()]"
+                IsEnabled="{Binding CanInstall, Mode=TwoWay}"/>
+            <Button Content="DTC" 
+                cal:Message.Attach="[Event Click] = [Action InstallDtc()]"
+                IsEnabled="{Binding CanInstall, Mode=TwoWay}"/>
+            <Button Content="PerfCounters" 
+                cal:Message.Attach="[Event Click] = [Action InstallPerfCounters()]"
+                IsEnabled="{Binding CanInstall, Mode=TwoWay}"/>
+            <Button Content="RavenDb" 
+                cal:Message.Attach="[Event Click] = [Action InstallRavenDb()]"
+                IsEnabled="{Binding CanInstall, Mode=TwoWay}"/>
+            <Button Content="ServiceControl" 
+                cal:Message.Attach="[Event Click] = [Action InstallServiceControl()]"
+                IsEnabled="{Binding CanInstall, Mode=TwoWay}"/>
+            <Button Content="ServicePulse" 
+                cal:Message.Attach="[Event Click] = [Action InstallServicePulse()]"
+                IsEnabled="{Binding CanInstall, Mode=TwoWay}"/>
+            <Button Content="ServiceInsight" 
+                cal:Message.Attach="[Event Click] = [Action InstallServiceInsight()]"
+                IsEnabled="{Binding CanInstall, Mode=TwoWay}"/>
+            <Button Content="ServiceMatrix" 
+                cal:Message.Attach="[Event Click] = [Action InstallServiceMatrix()]"
+                IsEnabled="{Binding CanInstall, Mode=TwoWay}"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

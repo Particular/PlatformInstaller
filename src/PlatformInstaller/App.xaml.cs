@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
 using Serilog;
-using Strike;
 
 namespace PlatformInstaller
 {
@@ -18,4 +17,5 @@ namespace PlatformInstaller
                 .CreateLogger();
         }
     }
+
 }

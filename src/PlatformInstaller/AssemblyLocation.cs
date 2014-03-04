@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Strike
+namespace PlatformInstaller
 {
     static class AssemblyLocation
     {

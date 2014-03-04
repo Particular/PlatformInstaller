@@ -18,7 +18,7 @@ public class MainViewModel
     public async void InstallMsmq()
     {
         OutputText = "";
-        var packageInstaller = new PackageManager("Pester")
+        var packageInstaller = new PackageManager("NServicebus.Msmq")
         {
             OutputDataReceived = s =>
             {

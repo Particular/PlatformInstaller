@@ -5,7 +5,7 @@ using PropertyChanged;
 namespace PlatformInstaller
 {
     [ImplementPropertyChanged]
-    public class AppViewModel
+    public class MainViewModel
     {
         public string OutputText { get; set; }
         public bool CanInstall = true;

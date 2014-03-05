@@ -5,9 +5,9 @@ namespace PlatformInstaller
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class AppView : Window
+    public partial class MainView : Window
     {
-        public AppView()
+        public MainView()
         {
             InitializeComponent();
         }

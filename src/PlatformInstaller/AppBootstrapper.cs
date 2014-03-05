@@ -2,7 +2,7 @@
 
 namespace PlatformInstaller
 {
-    public class AppBootstrapper : Bootstrapper<AppViewModel>
+    public class AppBootstrapper : Bootstrapper<MainViewModel>
     {
     }
 }

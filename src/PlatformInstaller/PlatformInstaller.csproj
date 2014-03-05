@@ -86,7 +86,7 @@
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="AssemblyLocation.cs" />
-    <Page Include="AppView.xaml">
+    <Page Include="MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -97,9 +97,9 @@
     <Compile Include="Chocolatey\ChocolateyInstaller.cs" />
     <Compile Include="Chocolatey\PowerShellVersion.cs" />
     <Compile Include="Chocolatey\ProcessRunner.cs" />
-    <Compile Include="AppViewModel.cs" />
-    <Compile Include="AppView.xaml.cs">
-      <DependentUpon>AppView.xaml</DependentUpon>
+    <Compile Include="MainViewModel.cs" />
+    <Compile Include="MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

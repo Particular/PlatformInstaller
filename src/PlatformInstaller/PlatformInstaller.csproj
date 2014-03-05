@@ -41,6 +41,9 @@
       <HintPath>..\packages\Anotar.Serilog.Fody.2.7.4.0\Lib\portable-net4+sl4+wp7+windows8\Anotar.Serilog.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.3.0\lib\net40\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="Caliburn.Micro, Version=1.5.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\net45\Caliburn.Micro.dll</HintPath>

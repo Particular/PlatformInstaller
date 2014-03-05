@@ -12,7 +12,7 @@ namespace PlatformInstaller
 
         public async void InstallServiceInsight()
         {
-            await InstallPackage("ServiceInsight");
+            await InstallPackage("ServiceInsight.install");
         }
         public bool CanInstallServiceInsight
         {
@@ -21,7 +21,7 @@ namespace PlatformInstaller
 
         public async void InstallServiceControl()
         {
-            await InstallPackage("ServiceControl");
+            await InstallPackage("ServiceControl.install");
         }
         public bool CanInstallServiceControl
         {
@@ -30,7 +30,7 @@ namespace PlatformInstaller
 
         public async void InstallServicePulse()
         {
-            await InstallPackage("ServicePulse");
+            await InstallPackage("ServicePulse.install");
         }
         public bool CanInstallServicePulse
         {
@@ -39,7 +39,7 @@ namespace PlatformInstaller
 
         public async void InstallServiceMatrix()
         {
-            await InstallPackage("ServiceMatrix");
+            await InstallPackage("ServiceMatrix.install");
         }
         public bool CanInstallServiceMatrix
         {

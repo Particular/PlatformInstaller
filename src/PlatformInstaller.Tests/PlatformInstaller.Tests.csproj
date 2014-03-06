@@ -44,8 +44,9 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="ObjectApproval">
-      <HintPath>..\packages\ObjectApproval.0.1.2\Lib\NET40\ObjectApproval.dll</HintPath>
+    <Reference Include="ObjectApproval, Version=0.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ObjectApproval.0.1.4\Lib\NET40\ObjectApproval.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

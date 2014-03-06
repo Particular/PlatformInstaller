@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 public class PackageManager
@@ -14,7 +15,15 @@ public class PackageManager
 
     public Task Install()
     {
-        var runner = new PowerShellRunner("cinst " + packageName)
+        var parameters = new Dictionary<string, object>
+        {
+                {"command", "install"},
+                {"packageNames", packageName},
+                {"source", @"C:\ChocolateyResourceCache;http://chocolatey.org/api/v2"},
+                {"verbosity", true},
+                {"pre", true}
+        };
+        var runner = new PowerShellRunner(@"C:\Chocolatey\chocolateyinstall\chocolatey.ps1" , parameters)
         {
             OutputDataReceived = OutputDataReceived,
             OutputErrorReceived = OutputErrorReceived,
@@ -24,7 +33,12 @@ public class PackageManager
 
     public Task Uninstall()
     {
-        var runner = new PowerShellRunner("cuninst " + packageName)
+        var parameters = new Dictionary<string, object>
+        {
+                {"command", "uninstall"},
+                {"packageNames", packageName}
+        };
+        var runner = new PowerShellRunner(@"C:\Chocolatey\chocolateyinstall\chocolatey.ps1" , parameters)
         {
             OutputDataReceived = OutputDataReceived,
             OutputErrorReceived = OutputErrorReceived,

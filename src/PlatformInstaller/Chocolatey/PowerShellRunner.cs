@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Management.Automation.Runspaces;
 using System.Threading.Tasks;
@@ -6,15 +7,17 @@ using System.Threading.Tasks;
 public class PowerShellRunner : IDisposable
 {
     string command;
+    Dictionary<string, object> parameters;
     Runspace runSpace;
-    Pipeline pipeLine;
+    Pipeline pipeline;
     public Action<string> OutputDataReceived = x => { };
     public Action<string> OutputErrorReceived = x => { };
     TaskCompletionSource<object> completionSource;
 
-    public PowerShellRunner(string command)
+    public PowerShellRunner(string command, Dictionary<string,object> parameters)
     {
         this.command = command;
+        this.parameters = parameters;
     }
 
     public Task Run()
@@ -22,16 +25,23 @@ public class PowerShellRunner : IDisposable
         completionSource = new TaskCompletionSource<object>();
         runSpace = RunspaceFactory.CreateRunspace();
         runSpace.Open();
-        pipeLine = runSpace.CreatePipeline(command);
-        pipeLine.Input.Close();
-        pipeLine.Output.DataReady += (x, y) => ReadOutput();
-        pipeLine.Error.DataReady += (x, y) => ReadError();
-        pipeLine.StateChanged += pipeLine_StateChanged;
-        pipeLine.InvokeAsync();
+        pipeline = runSpace.CreatePipeline();
+
+        var psCommand = new Command(command);
+        foreach (var commandArg in parameters)
+        {
+            psCommand.Parameters.Add(commandArg.Key, commandArg.Value);
+        }
+        pipeline.Commands.Add(psCommand);
+        pipeline.Input.Close();
+        pipeline.Output.DataReady += (x, y) => ReadOutput();
+        pipeline.Error.DataReady += (x, y) => ReadError();
+        pipeline.StateChanged += PipelineStateChanged;
+        pipeline.Invoke();
         return completionSource.Task;
     }
 
-    void pipeLine_StateChanged(object sender, PipelineStateEventArgs e)
+    void PipelineStateChanged(object sender, PipelineStateEventArgs e)
     {
         if (e.PipelineStateInfo.Reason != null)
         {
@@ -48,7 +58,7 @@ public class PowerShellRunner : IDisposable
 
     void ReadOutput()
     {
-        foreach (var output in pipeLine.Output.NonBlockingRead())
+        foreach (var output in pipeline.Output.NonBlockingRead())
         {
             OutputDataReceived(output.ToString());
         }
@@ -56,7 +66,7 @@ public class PowerShellRunner : IDisposable
 
     void ReadError()
     {
-        foreach (var error in pipeLine.Error.NonBlockingRead())
+        foreach (var error in pipeline.Error.NonBlockingRead())
         {
             OutputErrorReceived(error.ToString());
         }

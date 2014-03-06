@@ -37,7 +37,7 @@ public class PowerShellRunner : IDisposable
         pipeline.Output.DataReady += (x, y) => ReadOutput();
         pipeline.Error.DataReady += (x, y) => ReadError();
         pipeline.StateChanged += PipelineStateChanged;
-        pipeline.Invoke();
+        pipeline.InvokeAsync();
         return completionSource.Task;
     }
 

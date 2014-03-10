@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Threading.Tasks;
-using Microsoft.PowerShell;
 
 public class PowerShellRunner : IDisposable
 {
@@ -12,9 +10,8 @@ public class PowerShellRunner : IDisposable
     Dictionary<string, object> parameters;
     Runspace runSpace;
     Pipeline pipeline;
-    public Action<ProgressRecord> OutputProgessReceived = x => { };
-    public Action<PowerShellOutputLine> OutputDataReceived = x => { };
-    public Action<PowerShellOutputLine> OutputErrorReceived = x => { };
+    public Action<string> OutputDataReceived = x => { };
+    public Action<string> OutputErrorReceived = x => { };
     TaskCompletionSource<object> completionSource;
 
     public PowerShellRunner(string command, Dictionary<string,object> parameters)
@@ -26,14 +23,10 @@ public class PowerShellRunner : IDisposable
     public Task Run()
     {
         completionSource = new TaskCompletionSource<object>();
-
-        var host = new PlatformInstallerPSHost(this);
-        
-        runSpace = RunspaceFactory.CreateRunspace(host);
+        runSpace = RunspaceFactory.CreateRunspace();
         runSpace.Open();
-        
         pipeline = runSpace.CreatePipeline();
-       
+
         var psCommand = new Command(command);
         foreach (var commandArg in parameters)
         {
@@ -67,7 +60,7 @@ public class PowerShellRunner : IDisposable
     {
         foreach (var output in pipeline.Output.NonBlockingRead())
         {
-            OutputDataReceived( new PowerShellOutputLine(output.ToString(), PowerShellLineType.Output));
+            OutputDataReceived(output.ToString());
         }
     }
 
@@ -75,7 +68,7 @@ public class PowerShellRunner : IDisposable
     {
         foreach (var error in pipeline.Error.NonBlockingRead())
         {
-            OutputErrorReceived(new PowerShellOutputLine(error.ToString(), PowerShellLineType.Error));
+            OutputErrorReceived(error.ToString());
         }
     }
 

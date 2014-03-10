@@ -3,10 +3,103 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:cal="http://www.caliburnproject.org"
         x:Class="PlatformInstaller.MainView"
-        Title="MainWindow" Height="458" Width="623">
-    <Grid>
-       
-        <TextBox x:Name="output" Margin="116,54,10,10" TextWrapping="Wrap" Text="{Binding Path=OutputText}" IsReadOnly="True" IsReadOnlyCaretVisible="True"/>
+        Title="MainWindow" Height="508" Width="400" WindowStyle="None" AllowsTransparency="True" >
+    <Window.Resources>
+        <DataTemplate x:Key="ProductItemTemplate">
+            <Grid Margin="0 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="{Binding Image}" Grid.Column="0" Stretch="None" HorizontalAlignment="Left"/>
+                <CheckBox IsChecked="{Binding Selected}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="Blue"/>
+            </Grid>
+        </DataTemplate>
+        <Style x:Key="{x:Type CheckBox}" TargetType="{x:Type CheckBox}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <BulletDecorator Background="Transparent">
+                            <BulletDecorator.Bullet>
+                                <Border x:Name="Border" 
+                                   Width="18" 
+                                   Height="18" 
+                                   CornerRadius="0" 
+                                   BorderThickness="2"
+                                   BorderBrush="#2EA3C4">
+                                    <Path 
+                                        Width="11" Height="11" 
+                                        x:Name="CheckMark"
+                                        SnapsToDevicePixels="False" 
+                                        Stroke="#2EA3C4"
+                                        StrokeThickness="2"
+                                        Data="M 0 5 L 5 11 M 3 11 L 11 0" />
+                                </Border>
+                            </BulletDecorator.Bullet>
+                            <ContentPresenter Margin="4,0,0,0"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Left"
+                                  RecognizesAccessKey="True"/>
+                        </BulletDecorator>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="false">
+                                <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="{x:Null}">
+                                <Setter TargetName="CheckMark" Property="Data" Value="M 0 7 L 7 0" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="#BAE3EF" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="#7ABFD3" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#6ABFC3" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="Border" Property="Background" Value="#EEEEEE" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#AAAAAA" />
+                                <Setter Property="Foreground" Value="#888888"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Border BorderBrush="#20000000" BorderThickness="3">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30px" />
+                <RowDefinition Height="50px" />
+                <RowDefinition Height="70px" />
+                <RowDefinition/>
+                <RowDefinition Height="60px"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" MouseLeftButtonDown="Grid_MouseLeftButtonDown" Background="White">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="9*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="X" FontSize="10" Grid.Column="1" Margin="18 -1 18 11" Foreground="Gray" FontWeight="Bold" BorderBrush="Transparent" />
+            </Grid>
+            <Image Source="/Images/particularHeader.png" Grid.Row="1" HorizontalAlignment="Left" Margin="20 0 0 0" Stretch="None" VerticalAlignment="Center" />
+            <StackPanel Grid.Row="2" Margin="20 0" VerticalAlignment="Center">
+                <TextBlock FontSize="18" FontWeight="Bold">Install the Particular Software Suite</TextBlock>
+                <TextBlock Foreground="Gray">This installer will download and install Particula products.</TextBlock>
+            </StackPanel>
+            <ItemsControl Grid.Row="3" ItemTemplate="{StaticResource ProductItemTemplate}" ItemsSource="{Binding Products}" Margin="20 10"/>
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2.5*" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="1" Content="Install" Margin="20" Background="#2EA3C4" Foreground="White" BorderBrush="#1D729B" />
+            </Grid>
+
+            <!--<TextBox x:Name="output" Margin="116,54,10,10" TextWrapping="Wrap" Text="{Binding Path=OutputText}" IsReadOnly="True" IsReadOnlyCaretVisible="True"/>
         <StackPanel HorizontalAlignment="Left" Height="199" Margin="10,100,0,0" VerticalAlignment="Top" Width="100">
             <Button Content="Msmq"  Name="InstallMsmq"/>
             <Button Content="DTC" 
@@ -30,7 +123,8 @@
             <Button Content="ServiceMatrix" 
                 cal:Message.Attach="[Event Click] = [Action InstallServiceMatrix()]"
                 />
-        </StackPanel>
+        </StackPanel>-->
 
-    </Grid>
+        </Grid>
+    </Border>
 </Window>

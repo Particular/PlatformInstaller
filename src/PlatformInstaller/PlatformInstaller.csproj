@@ -24,6 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -97,6 +98,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Chocolatey\ChocolateyInstaller.cs" />
+    <Compile Include="Chocolatey\PowerShellOutputLine.cs" />
+    <Compile Include="Chocolatey\PlatformInstallerPSHostRawUserInterface.cs" />
+    <Compile Include="Chocolatey\PlatformInstallerPSHostUI.cs" />
+    <Compile Include="Chocolatey\PlatformInstallerPSHost.cs" />
     <Compile Include="Chocolatey\PowerShellVersion.cs" />
     <Compile Include="Chocolatey\ProcessRunner.cs" />
     <Compile Include="MainViewModel.cs" />
@@ -107,6 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chocolatey\PackageManager.cs" />
+    <Compile Include="Chocolatey\PowerShellLineType.cs" />
     <Compile Include="Chocolatey\PowerShellRunner.cs" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>

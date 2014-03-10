@@ -12,6 +12,5 @@ namespace PlatformInstaller
         {
             this.DragMove();
         }
-
     }
 }

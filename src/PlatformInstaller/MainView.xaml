@@ -98,39 +98,6 @@
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="1" Content="Install" Margin="20" Background="#2EA3C4" Foreground="White" BorderBrush="#1D729B" />
             </Grid>
-
-            <!--<TextBox x:Name="output" Margin="116,54,10,10" TextWrapping="Wrap" Text="{Binding Path=OutputText}" IsReadOnly="True" IsReadOnlyCaretVisible="True"/>
-=======
-        Title="MainWindow" Height="458" Width="623">
-    <Grid>
-
-        <TextBox x:Name="output" Margin="116,54,10,10" TextWrapping="Wrap" Text="{Binding Path=ProgressService.OutputText}" IsReadOnly="True" IsReadOnlyCaretVisible="True"/>
->>>>>>> add progress service
-        <StackPanel HorizontalAlignment="Left" Height="199" Margin="10,100,0,0" VerticalAlignment="Top" Width="100">
-            <Button Content="Msmq"  Name="InstallMsmq"/>
-            <Button Content="DTC" 
-                cal:Message.Attach="[Event Click] = [Action InstallDtc()]"
-                />
-            <Button Content="PerfCounters" 
-                cal:Message.Attach="[Event Click] = [Action InstallPerfCounters()]"
-                />
-            <Button Content="RavenDb" 
-                cal:Message.Attach="[Event Click] = [Action InstallRavenDb()]"
-                />
-            <Button Content="ServiceControl" 
-                cal:Message.Attach="[Event Click] = [Action InstallServiceControl()]"
-                />
-            <Button Content="ServicePulse" 
-                cal:Message.Attach="[Event Click] = [Action InstallServicePulse()]"
-                />
-            <Button Content="ServiceInsight" 
-                cal:Message.Attach="[Event Click] = [Action InstallServiceInsight()]"
-                />
-            <Button Content="ServiceMatrix" 
-                cal:Message.Attach="[Event Click] = [Action InstallServiceMatrix()]"
-                />
-        </StackPanel>-->
-
         </Grid>
     </Border>
 </Window>

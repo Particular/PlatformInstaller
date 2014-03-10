@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Threading.Tasks;
-using Microsoft.PowerShell;
 
 public class PowerShellRunner : IDisposable
 {

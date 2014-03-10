@@ -1,13 +1,9 @@
 ﻿using System.IO;
-using System.Windows;
 using Serilog;
 
 namespace PlatformInstaller
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+    public partial class App
     {
         public App()
         {

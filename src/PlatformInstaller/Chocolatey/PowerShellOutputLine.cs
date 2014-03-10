@@ -6,7 +6,8 @@
         Type = type;
         NewLine = newLine;
     }
-    public string Text { get; private set; }
-    public PowerShellLineType Type { get; private set; }
-    public bool NewLine { get; private set; }
+
+    public string Text;
+    public PowerShellLineType Type;
+    public bool NewLine;
 }

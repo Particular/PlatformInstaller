@@ -2,40 +2,41 @@
 using System.Globalization;
 using System.Management.Automation.Host;
 using System.Reflection;
+using System.Threading;
 
 public class PlatformInstallerPSHost : PSHost
 {
-    private readonly CultureInfo _originalCultureInfo = System.Threading.Thread.CurrentThread.CurrentCulture;
-    private readonly PlatformInstallerPSHostUI _hostUI;
+    CultureInfo originalCultureInfo = Thread.CurrentThread.CurrentCulture;
+    PlatformInstallerPSHostUI hostUI;
 
     public PlatformInstallerPSHost(PowerShellRunner runner)
     {
-        _hostUI = new PlatformInstallerPSHostUI(runner);
+        hostUI = new PlatformInstallerPSHostUI(runner);
     }
 
 
     public override PSHostUserInterface UI
     {
-        get { return _hostUI; }
+        get { return hostUI; }
     }
 
     public override CultureInfo CurrentCulture
     {
-        get { return _originalCultureInfo; }
+        get { return originalCultureInfo; }
     }
 
-    private readonly CultureInfo _originalUiCultureInfo = System.Threading.Thread.CurrentThread.CurrentUICulture;
+    CultureInfo originalUiCultureInfo = Thread.CurrentThread.CurrentUICulture;
 
     public override CultureInfo CurrentUICulture
     {
-        get { return _originalUiCultureInfo; }
+        get { return originalUiCultureInfo; }
     }
 
-    private readonly Guid _hostInstanceId = Guid.NewGuid();
+    Guid hostInstanceId = Guid.NewGuid();
 
     public override Guid InstanceId
     {
-        get { return _hostInstanceId; }
+        get { return hostInstanceId; }
     }
 
     public override string Name

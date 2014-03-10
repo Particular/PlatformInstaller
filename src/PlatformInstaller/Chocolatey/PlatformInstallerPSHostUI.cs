@@ -8,12 +8,11 @@ using System.Security;
 internal class PlatformInstallerPSHostUI : PSHostUserInterface
 {
 
-    PowerShellRunner _runner;
+    PowerShellRunner runner;
 
     public PlatformInstallerPSHostUI(PowerShellRunner runner)
     {
-        _runner = runner;
-
+        this.runner = runner;
     }
 
     public override string ReadLine()
@@ -28,42 +27,42 @@ internal class PlatformInstallerPSHostUI : PSHostUserInterface
 
     public override void Write(string value)
     {
-        _runner.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Output, false));
+        runner.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Output, false));
     }
 
     public override void Write(ConsoleColor foregroundColor, ConsoleColor backgroundColor, string value)
     {
-        _runner.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Output, false));   
+        runner.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Output, false));   
     }
 
     public override void WriteLine(string value)
     {
-        _runner.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Output));
+        runner.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Output));
     }
 
     public override void WriteErrorLine(string value)
     {
-        _runner.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Error));
+        runner.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Error));
     }
 
     public override void WriteDebugLine(string value)
     {
-        _runner.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Debug));
+        runner.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Debug));
     }
 
     public override void WriteProgress(long sourceId, ProgressRecord record)
     {
-        _runner.OutputProgessReceived(record);
+        runner.OutputProgessReceived(record);
     }
 
     public override void WriteVerboseLine(string value)
     {
-        _runner.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Verbose));
+        runner.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Verbose));
     }
 
     public override void WriteWarningLine(string value)
     {
-        _runner.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Warning));
+        runner.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Warning));
     }
 
     public override Dictionary<string, PSObject> Prompt(string caption, string message, Collection<FieldDescription> descriptions)

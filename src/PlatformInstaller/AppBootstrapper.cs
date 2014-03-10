@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Autofac;
 using Caliburn.Micro;
 
@@ -33,12 +32,12 @@ namespace PlatformInstaller
             object instance;
             if (string.IsNullOrWhiteSpace(key))
             {
-                if (Container.TryResolve(service, out instance))
+                if (ContainerFactory.Container.TryResolve(service, out instance))
                     return instance;
             }
             else
             {
-                if (Container.TryResolveNamed(key, service, out instance))
+                if (ContainerFactory.Container.TryResolveNamed(key, service, out instance))
                     return instance;
             }
             throw new Exception(string.Format("Could not locate any instances of contract {0}.", key ?? service.Name));

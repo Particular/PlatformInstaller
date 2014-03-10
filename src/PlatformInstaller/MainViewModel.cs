@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using PropertyChanged;
+using System.Collections.Generic;
 
 namespace PlatformInstaller
 {
@@ -9,6 +11,33 @@ namespace PlatformInstaller
     {
         public string OutputText { get; set; }
         public bool CanInstall = true;
+        private IPackageDiscoveryService packageDiscovery;
+        private IEnumerable<IPackage> products;
+
+        public MainViewModel(IPackageDiscoveryService packageDiscovery)
+        {
+            this.packageDiscovery = packageDiscovery;
+        }
+
+        public IEnumerable<IPackage> Products
+        {
+            get
+            {
+                if (this.products == null)
+                {
+                    products = Flatten(packageDiscovery.GetServices());
+                }
+                return products;
+            }
+        }
+
+        private IEnumerable<IPackage> Flatten(IEnumerable<IPackage> products)
+        {
+            if (products == null)
+                return null;
+
+            return products.Concat(products.SelectMany(e => Flatten(e.Children) ?? new List<IPackage>()));
+        }
 
         public async void InstallServiceInsight()
         {
@@ -89,7 +118,7 @@ namespace PlatformInstaller
             CanInstall = false;
             var packageInstaller = new PackageManager(packageName)
             {
-                OutputDataReceived = s => { OutputText += s.Text + ((s.NewLine) ? Environment.NewLine : ""); }
+                OutputDataReceived = s => { OutputText += s + Environment.NewLine; }
             };
             await packageInstaller.Install();
             CanInstall = true;

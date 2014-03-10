@@ -22,6 +22,9 @@ namespace PlatformInstaller
               .Where(type => type.Name.EndsWith("View"))
               .AsSelf()
               .InstancePerDependency();
+
+            builder.RegisterType<HardcodedPackageService>().AsImplementedInterfaces().SingleInstance();
+
             Container = builder.Build();
         }
 

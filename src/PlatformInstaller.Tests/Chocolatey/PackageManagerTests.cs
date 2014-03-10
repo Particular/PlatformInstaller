@@ -10,7 +10,7 @@ public class PackageManagerTests
     {
         var packageInstaller = new PackageManager("Pester")
         {
-            OutputDataReceived =  s=> Debug.WriteLine(s.Text)
+            OutputDataReceived =  s=>Debug.WriteLine(s)
         };
         await packageInstaller.Install();
     }
@@ -23,7 +23,7 @@ public class PackageManagerTests
 
         var packageInstaller = new PackageManager("Pester")
         {
-            OutputDataReceived = s => Debug.WriteLine(s.Text)
+            OutputDataReceived = s => Debug.WriteLine(s)
         };
         await packageInstaller.Uninstall();
     }

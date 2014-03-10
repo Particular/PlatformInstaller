@@ -85,7 +85,7 @@
                 </Grid.ColumnDefinitions>
                 <Button Content="X" FontSize="10" Grid.Column="1" Margin="18 -1 18 11" Foreground="Gray" FontWeight="Bold" BorderBrush="Transparent" />
             </Grid>
-            <Image Source="/Images/particularHeader.png" Grid.Row="1" HorizontalAlignment="Left" Margin="20 0 0 0" Stretch="None" VerticalAlignment="Center" />
+            <Image Source="/Images/particularSmall.png" Grid.Row="1" HorizontalAlignment="Left" Margin="20 0 0 0" Stretch="None" VerticalAlignment="Center" />
             <StackPanel Grid.Row="2" Margin="20 0" VerticalAlignment="Center">
                 <TextBlock FontSize="18" FontWeight="Bold">Install the Particular Software Suite</TextBlock>
                 <TextBlock Foreground="Gray">This installer will download and install Particula products.</TextBlock>

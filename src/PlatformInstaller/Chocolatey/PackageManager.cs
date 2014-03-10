@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Management.Automation;
 using System.Threading.Tasks;
 
 public class PackageManager
 {
     string packageName;
 
-    public Action<string> OutputDataReceived = x => { };
-    public Action<string> OutputErrorReceived = x => { };
+    public Action<PowerShellOutputLine> OutputDataReceived = x => { };
+    public Action<PowerShellOutputLine> OutputErrorReceived = x => { };
+    public Action<ProgressRecord> OutputProgessReceived = x => { };
     public PackageManager(string packageName)
     {
         this.packageName = packageName;
@@ -25,6 +27,7 @@ public class PackageManager
         };
         var runner = new PowerShellRunner(@"C:\Chocolatey\chocolateyinstall\chocolatey.ps1" , parameters)
         {
+            OutputProgessReceived = OutputProgessReceived,
             OutputDataReceived = OutputDataReceived,
             OutputErrorReceived = OutputErrorReceived,
         };
@@ -40,6 +43,7 @@ public class PackageManager
         };
         var runner = new PowerShellRunner(@"C:\Chocolatey\chocolateyinstall\chocolatey.ps1" , parameters)
         {
+            OutputProgessReceived = OutputProgessReceived,
             OutputDataReceived = OutputDataReceived,
             OutputErrorReceived = OutputErrorReceived,
         };

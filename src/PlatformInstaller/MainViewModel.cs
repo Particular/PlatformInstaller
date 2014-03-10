@@ -89,7 +89,7 @@ namespace PlatformInstaller
             CanInstall = false;
             var packageInstaller = new PackageManager(packageName)
             {
-                OutputDataReceived = s => { OutputText += s + Environment.NewLine; }
+                OutputDataReceived = s => { OutputText += s.Text + ((s.NewLine) ? Environment.NewLine : ""); }
             };
             await packageInstaller.Install();
             CanInstall = true;

@@ -14,12 +14,18 @@ public class PowerShellRunner : IDisposable
         var host = new PlatformInstallerPSHost(progressService);
         runSpace = RunspaceFactory.CreateRunspace(host);
         runSpace.Open();
+        // Allows scripts to be run for this process
+        using (var pipeline = runSpace.CreatePipeline())
+        {
+            pipeline.Commands.AddScript("Set-ExecutionPolicy -ExecutionPolicy unrestricted -Scope Process -Force");
+            pipeline.Invoke();
+        }
     }
 
     public async Task Run(string command, Dictionary<string, object> parameters)
     {
         var pipeline = runSpace.CreatePipeline();
-
+        // Allow scripts to be run regardless of current execution policy
         var psCommand = new Command(command);
         foreach (var commandArg in parameters)
         {

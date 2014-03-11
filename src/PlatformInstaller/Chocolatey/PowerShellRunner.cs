@@ -25,7 +25,6 @@ public class PowerShellRunner : IDisposable
     public async Task Run(string command, Dictionary<string, object> parameters)
     {
         var pipeline = runSpace.CreatePipeline();
-        // Allow scripts to be run regardless of current execution policy
         var psCommand = new Command(command);
         foreach (var commandArg in parameters)
         {

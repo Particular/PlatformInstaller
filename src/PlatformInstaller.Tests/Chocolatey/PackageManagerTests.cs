@@ -16,7 +16,6 @@ public class PackageManagerTests
     [Explicit("Integration")]
     public async void Uninstall()
     {
-
         var packageInstaller = new PackageManager(new PowerShellRunner(new ProgressService()));
         await packageInstaller.Uninstall("Pester");
     }

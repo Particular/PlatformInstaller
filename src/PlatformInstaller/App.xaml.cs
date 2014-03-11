@@ -12,6 +12,7 @@ namespace PlatformInstaller
                 .WriteTo.RollingFile(Path.Combine(AssemblyLocation.CurrentDirectory,"log.txt"))
                 .CreateLogger();
         }
+
     }
 
 }

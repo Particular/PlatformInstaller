@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
 using Caliburn.Micro;
+using System.Linq;
 
 namespace PlatformInstaller
 {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using PropertyChanged;
 
 namespace PlatformInstaller
@@ -7,7 +6,14 @@ namespace PlatformInstaller
     [ImplementPropertyChanged]
     public class MainViewModel
     {
-        public string OutputText { get; set; }
+        public MainViewModel(PackageManager packageManager, ProgressService progressService)
+        {
+            ProgressService = progressService;
+            PackageManager = packageManager;
+        }
+
+        public ProgressService ProgressService;
+        public PackageManager PackageManager;
         public bool CanInstall = true;
 
         public async void InstallServiceInsight()
@@ -85,13 +91,8 @@ namespace PlatformInstaller
 
         async Task InstallPackage(string packageName)
         {
-            OutputText = "";
             CanInstall = false;
-            var packageInstaller = new PackageManager(packageName)
-            {
-                OutputDataReceived = s => { OutputText += s.Text + ((s.NewLine) ? Environment.NewLine : ""); }
-            };
-            await packageInstaller.Install();
+            await PackageManager.Install(packageName);
             CanInstall = true;
         }
 

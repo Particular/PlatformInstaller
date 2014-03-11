@@ -20,6 +20,14 @@ public static class ContainerFactory
             .Where(type => type.Name.EndsWith("View"))
             .AsSelf()
             .InstancePerDependency();
+
+        builder.RegisterType<ProgressService>()
+            .SingleInstance();
+        builder.RegisterType<PowerShellRunner>()
+            .SingleInstance();
+        builder.RegisterType<PackageManager>()
+            .SingleInstance();
+
         Container = builder.Build();
     }
 }

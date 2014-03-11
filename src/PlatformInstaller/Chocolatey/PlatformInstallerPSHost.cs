@@ -6,14 +6,12 @@ using System.Threading;
 
 public class PlatformInstallerPSHost : PSHost
 {
-    CultureInfo originalCultureInfo = Thread.CurrentThread.CurrentCulture;
     PlatformInstallerPSHostUI hostUI;
 
-    public PlatformInstallerPSHost(PowerShellRunner runner)
+    public PlatformInstallerPSHost(ProgressService progressService)
     {
-        hostUI = new PlatformInstallerPSHostUI(runner);
+        hostUI = new PlatformInstallerPSHostUI(progressService);
     }
-
 
     public override PSHostUserInterface UI
     {
@@ -22,14 +20,12 @@ public class PlatformInstallerPSHost : PSHost
 
     public override CultureInfo CurrentCulture
     {
-        get { return originalCultureInfo; }
+        get { return Thread.CurrentThread.CurrentCulture; }
     }
-
-    CultureInfo originalUiCultureInfo = Thread.CurrentThread.CurrentUICulture;
 
     public override CultureInfo CurrentUICulture
     {
-        get { return originalUiCultureInfo; }
+        get { return Thread.CurrentThread.CurrentUICulture; }
     }
 
     Guid hostInstanceId = Guid.NewGuid();

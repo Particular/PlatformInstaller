@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Autofac;
 using Caliburn.Micro;
+using PlatformInstaller;
 
 public static class ContainerFactory
 {
@@ -26,6 +27,9 @@ public static class ContainerFactory
         builder.RegisterType<PowerShellRunner>()
             .SingleInstance();
         builder.RegisterType<PackageManager>()
+            .SingleInstance();
+        builder.RegisterType<HardcodedPackageService>()
+            .AsImplementedInterfaces()
             .SingleInstance();
 
         Container = builder.Build();

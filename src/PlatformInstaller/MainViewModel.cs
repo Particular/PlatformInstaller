@@ -1,92 +1,51 @@
-﻿using System.Threading.Tasks;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using PropertyChanged;
+using System.Collections.Generic;
+using System.Windows;
 
 namespace PlatformInstaller
 {
     [ImplementPropertyChanged]
     public class MainViewModel
     {
-        public MainViewModel(PackageManager packageManager, ProgressService progressService)
+        public MainViewModel(PackageManager packageManager, ProgressService progressService, IPackageDiscoveryService packageDiscovery)
         {
             ProgressService = progressService;
             PackageManager = packageManager;
+            this.packageDiscovery = packageDiscovery;
         }
 
         public ProgressService ProgressService;
         public PackageManager PackageManager;
         public bool CanInstall = true;
+        private IPackageDiscoveryService packageDiscovery;
+        private IEnumerable<IPackage> products;
 
-        public async void InstallServiceInsight()
+        public IEnumerable<IPackage> Products
         {
-            await InstallPackage("ServiceInsight.install");
-        }
-        public bool CanInstallServiceInsight
-        {
-            get { return CanInstall; }
-        }
-
-        public async void InstallServiceControl()
-        {
-            await InstallPackage("ServiceControl.install");
-        }
-        public bool CanInstallServiceControl
-        {
-            get { return CanInstall; }
+            get
+            {
+                if (this.products == null)
+                {
+                    products = Flatten(packageDiscovery.GetServices());
+                }
+                return products;
+            }
         }
 
-        public async void InstallServicePulse()
+        private IEnumerable<IPackage> Flatten(IEnumerable<IPackage> products)
         {
-            await InstallPackage("ServicePulse.install");
-        }
-        public bool CanInstallServicePulse
-        {
-            get { return CanInstall; }
+            if (products == null)
+                return null;
+
+            return products.Concat(products.SelectMany(e => Flatten(e.Children) ?? new List<IPackage>()));
         }
 
-        public async void InstallServiceMatrix()
+        public void Close()
         {
-            await InstallPackage("ServiceMatrix.install");
-        }
-        public bool CanInstallServiceMatrix
-        {
-            get { return CanInstall; }
-        }
-
-        public async void InstallMsmq()
-        {
-            await InstallPackage("NServicebus.Msmq.install");
-        }
-
-        public bool CanInstallMsmq
-        {
-            get { return CanInstall; }
-        }
-
-        public async void InstallDtc()
-        {
-            await InstallPackage("NServicebus.Dtc.install");
-        }
-        public bool CanInstallDtc
-        {
-            get { return CanInstall; }
-        }
-        public async void InstallPerfCounters()
-        {
-            await InstallPackage("NServicebus.PerfCounters.install");
-        }
-
-        public bool CanInstallPerfCounters
-        {
-            get { return CanInstall; }
-        }
-
-        public async void InstallRavenDb()
-        {
-            await InstallPackage("RavenDB");
-        }
-        public bool CanInstallRavenDb
-        {
-            get { return CanInstall; }
+            Application.Current.Shutdown();
         }
 
         async Task InstallPackage(string packageName)

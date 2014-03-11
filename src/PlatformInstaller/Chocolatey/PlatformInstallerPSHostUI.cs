@@ -5,14 +5,14 @@ using System.Management.Automation;
 using System.Management.Automation.Host;
 using System.Security;
 
-internal class PlatformInstallerPSHostUI : PSHostUserInterface
+class PlatformInstallerPSHostUI : PSHostUserInterface
 {
 
-    PowerShellRunner runner;
+    ProgressService progressService;
 
-    public PlatformInstallerPSHostUI(PowerShellRunner runner)
+    public PlatformInstallerPSHostUI(ProgressService progressService)
     {
-        this.runner = runner;
+        this.progressService = progressService;
     }
 
     public override string ReadLine()
@@ -27,42 +27,42 @@ internal class PlatformInstallerPSHostUI : PSHostUserInterface
 
     public override void Write(string value)
     {
-        runner.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Output, false));
+        progressService.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Output, false));
     }
 
     public override void Write(ConsoleColor foregroundColor, ConsoleColor backgroundColor, string value)
     {
-        runner.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Output, false));   
+        progressService.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Output, false));   
     }
 
     public override void WriteLine(string value)
     {
-        runner.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Output));
+        progressService.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Output));
     }
 
     public override void WriteErrorLine(string value)
     {
-        runner.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Error));
+        progressService.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Error));
     }
 
     public override void WriteDebugLine(string value)
     {
-        runner.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Debug));
+        progressService.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Debug));
     }
 
     public override void WriteProgress(long sourceId, ProgressRecord record)
     {
-        runner.OutputProgessReceived(record);
+        progressService.OutputProgessReceived(record);
     }
 
     public override void WriteVerboseLine(string value)
     {
-        runner.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Verbose));
+        progressService.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Verbose));
     }
 
     public override void WriteWarningLine(string value)
     {
-        runner.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Warning));
+        progressService.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Warning));
     }
 
     public override Dictionary<string, PSObject> Prompt(string caption, string message, Collection<FieldDescription> descriptions)

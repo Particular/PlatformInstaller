@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using PropertyChanged;
@@ -10,15 +10,18 @@ namespace PlatformInstaller
     [ImplementPropertyChanged]
     public class MainViewModel
     {
-        public string OutputText { get; set; }
+        public MainViewModel(PackageManager packageManager, ProgressService progressService, IPackageDiscoveryService packageDiscovery)
+        {
+            ProgressService = progressService;
+            PackageManager = packageManager;
+            this.packageDiscovery = packageDiscovery;
+        }
+
+        public ProgressService ProgressService;
+        public PackageManager PackageManager;
         public bool CanInstall = true;
         private IPackageDiscoveryService packageDiscovery;
         private IEnumerable<IPackage> products;
-
-        public MainViewModel(IPackageDiscoveryService packageDiscovery)
-        {
-            this.packageDiscovery = packageDiscovery;
-        }
 
         public IEnumerable<IPackage> Products
         {
@@ -47,13 +50,8 @@ namespace PlatformInstaller
 
         async Task InstallPackage(string packageName)
         {
-            OutputText = "";
             CanInstall = false;
-            var packageInstaller = new PackageManager(packageName)
-            {
-                OutputDataReceived = s => { OutputText += s + Environment.NewLine; }
-            };
-            await packageInstaller.Install();
+            await PackageManager.Install(packageName);
             CanInstall = true;
         }
 

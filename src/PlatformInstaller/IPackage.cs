@@ -9,11 +9,12 @@ namespace PlatformInstaller
     {
         string Name { get; }
         string Image { get; } //may change
-        string Description { get; }
 
         bool Selected { get; set; }
+        bool Automatic { get; }
 
-        IPackage Parent { get; }
+        string Chocolatey { get; }
+
         IEnumerable<IPackage> Children { get; } //may make more sense to have dependencies than children
     }
 }

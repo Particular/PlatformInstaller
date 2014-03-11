@@ -8,7 +8,7 @@ public class PackageManagerTests
     public async void Install()
     {
         var packageInstaller = new PackageManager(new PowerShellRunner(new ProgressService()));
-        await packageInstaller.Install("Pester");
+        await packageInstaller.Install("Pester", "Pester");
     }
 
 

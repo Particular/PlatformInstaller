@@ -87,6 +87,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Chocolatey\ProgressService.cs" />
+    <Compile Include="Chocolatey\TaskEx.cs" />
     <Compile Include="ContainerFactory.cs" />
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="AssemblyLocation.cs" />

@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Management.Automation;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 public class PackageManager
 {
-    string packageName;
+    PowerShellRunner powerShellRunner;
 
-    public Action<PowerShellOutputLine> OutputDataReceived = x => { };
-    public Action<PowerShellOutputLine> OutputErrorReceived = x => { };
-    public Action<ProgressRecord> OutputProgessReceived = x => { };
-    public PackageManager(string packageName)
+    public PackageManager(PowerShellRunner powerShellRunner)
     {
-        this.packageName = packageName;
+        this.powerShellRunner = powerShellRunner;
     }
 
-    public Task Install()
+    public Task Install(string packageName)
     {
         var parameters = new Dictionary<string, object>
         {
@@ -25,28 +20,16 @@ public class PackageManager
                 {"verbosity", true},
                 {"pre", true}
         };
-        var runner = new PowerShellRunner(@"C:\Chocolatey\chocolateyinstall\chocolatey.ps1" , parameters)
-        {
-            OutputProgessReceived = OutputProgessReceived,
-            OutputDataReceived = OutputDataReceived,
-            OutputErrorReceived = OutputErrorReceived,
-        };
-        return runner.Run();
+        return powerShellRunner.Run(@"C:\Chocolatey\chocolateyinstall\chocolatey.ps1", parameters);
     }
 
-    public Task Uninstall()
+    public Task Uninstall(string packageName)
     {
         var parameters = new Dictionary<string, object>
         {
                 {"command", "uninstall"},
                 {"packageNames", packageName}
         };
-        var runner = new PowerShellRunner(@"C:\Chocolatey\chocolateyinstall\chocolatey.ps1" , parameters)
-        {
-            OutputProgessReceived = OutputProgessReceived,
-            OutputDataReceived = OutputDataReceived,
-            OutputErrorReceived = OutputErrorReceived,
-        };
-        return runner.Run();
+        return powerShellRunner.Run(@"C:\Chocolatey\chocolateyinstall\chocolatey.ps1", parameters);
     }
 }

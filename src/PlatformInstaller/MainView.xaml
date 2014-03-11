@@ -5,8 +5,8 @@
         x:Class="PlatformInstaller.MainView"
         Title="MainWindow" Height="458" Width="623">
     <Grid>
-       
-        <TextBox x:Name="output" Margin="116,54,10,10" TextWrapping="Wrap" Text="{Binding Path=OutputText}" IsReadOnly="True" IsReadOnlyCaretVisible="True"/>
+
+        <TextBox x:Name="output" Margin="116,54,10,10" TextWrapping="Wrap" Text="{Binding Path=ProgressService.OutputText}" IsReadOnly="True" IsReadOnlyCaretVisible="True"/>
         <StackPanel HorizontalAlignment="Left" Height="199" Margin="10,100,0,0" VerticalAlignment="Top" Width="100">
             <Button Content="Msmq"  Name="InstallMsmq"/>
             <Button Content="DTC" 

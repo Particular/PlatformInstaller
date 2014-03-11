@@ -92,8 +92,7 @@ public  class PlatformInstallerPSHostRawUserInterface : PSHostRawUserInterface
             throw new NotImplementedException("ScrollBufferContents is not implemented.");
         }
 
-        public override void SetBufferContents(Coordinates origin,
-                                               BufferCell[,] contents)
+        public override void SetBufferContents(Coordinates origin, BufferCell[,] contents)
         {
             throw new NotImplementedException("SetBufferContents is not implemented.");
         }

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 [TestFixture]
 public class PackageManagerTests
@@ -8,11 +7,8 @@ public class PackageManagerTests
     [Explicit("Integration")]
     public async void Install()
     {
-        var packageInstaller = new PackageManager("Pester")
-        {
-            OutputDataReceived =  s=>Debug.WriteLine(s)
-        };
-        await packageInstaller.Install();
+        var packageInstaller = new PackageManager(new PowerShellRunner(new ProgressService()));
+        await packageInstaller.Install("Pester");
     }
 
 
@@ -20,11 +16,7 @@ public class PackageManagerTests
     [Explicit("Integration")]
     public async void Uninstall()
     {
-
-        var packageInstaller = new PackageManager("Pester")
-        {
-            OutputDataReceived = s => Debug.WriteLine(s)
-        };
-        await packageInstaller.Uninstall();
+        var packageInstaller = new PackageManager(new PowerShellRunner(new ProgressService()));
+        await packageInstaller.Uninstall("Pester");
     }
 }

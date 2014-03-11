@@ -1,19 +1,17 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 public class PackageManager
 {
-    string packageName;
+    PowerShellRunner powerShellRunner;
 
-    public Action<string> OutputDataReceived = x => { };
-    public Action<string> OutputErrorReceived = x => { };
-    public PackageManager(string packageName)
+    public PackageManager(PowerShellRunner powerShellRunner)
     {
-        this.packageName = packageName;
+        this.powerShellRunner = powerShellRunner;
     }
 
-    public Task Install()
+    public Task Install(string packageName)
     {
         var parameters = new Dictionary<string, object>
         {
@@ -23,26 +21,16 @@ public class PackageManager
                 {"verbosity", true},
                 {"pre", true}
         };
-        var runner = new PowerShellRunner(@"C:\Chocolatey\chocolateyinstall\chocolatey.ps1" , parameters)
-        {
-            OutputDataReceived = OutputDataReceived,
-            OutputErrorReceived = OutputErrorReceived,
-        };
-        return runner.Run();
+        return powerShellRunner.Run(@"C:\Chocolatey\chocolateyinstall\chocolatey.ps1", parameters);
     }
 
-    public Task Uninstall()
+    public Task Uninstall(string packageName)
     {
         var parameters = new Dictionary<string, object>
         {
                 {"command", "uninstall"},
                 {"packageNames", packageName}
         };
-        var runner = new PowerShellRunner(@"C:\Chocolatey\chocolateyinstall\chocolatey.ps1" , parameters)
-        {
-            OutputDataReceived = OutputDataReceived,
-            OutputErrorReceived = OutputErrorReceived,
-        };
-        return runner.Run();
+        return powerShellRunner.Run(@"C:\Chocolatey\chocolateyinstall\chocolatey.ps1", parameters);
     }
 }

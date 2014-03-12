@@ -74,6 +74,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Chocolatey\PackageManagerTests.cs" />
     <Compile Include="Chocolatey\PowerShellRunnerTests.cs" />
+    <Compile Include="NewUserDetecterTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)..\BuildSupport\RippleRestoreTask.targets" />

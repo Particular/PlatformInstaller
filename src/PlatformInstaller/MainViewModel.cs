@@ -1,10 +1,12 @@
 namespace PlatformInstaller
 {
+    using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
     using PropertyChanged;
     using System.Collections.Generic;
     using System.Windows;
+    using Tests;
 
     [ImplementPropertyChanged]
     public class MainViewModel
@@ -70,6 +72,9 @@ namespace PlatformInstaller
 
         public void Close()
         {
+            //todo: Joaquin put this line in the correct spot
+            Process.Start(@"http://particular.net/thank-you-for-downloading-the-particular-service-platform?new_user=" + NewUserDetecter.Current.IsNewUser().ToString().ToLower());
+
             Application.Current.Shutdown();
         }
 

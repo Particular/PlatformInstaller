@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-namespace PlatformInstaller
+﻿using System.Collections.Generic;
+
+public interface IPackageDiscoveryService
 {
-    public interface IPackageDiscoveryService
-    {
-        IEnumerable<IPackage> GetServices();
-    }
+    IEnumerable<IPackage> GetServices();
 }

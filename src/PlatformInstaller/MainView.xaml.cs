@@ -1,6 +1,7 @@
-﻿
-namespace PlatformInstaller
+﻿namespace PlatformInstaller
 {
+    using System.Windows.Input;
+
     public partial class MainView
     {
         public MainView()
@@ -8,9 +9,9 @@ namespace PlatformInstaller
             InitializeComponent();
         }
 
-        private void Grid_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            this.DragMove();
+            DragMove();
         }
     }
 }

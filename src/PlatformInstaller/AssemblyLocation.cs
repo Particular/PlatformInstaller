@@ -1,21 +1,16 @@
 ﻿using System;
 using System.IO;
 
-namespace PlatformInstaller
+internal static class AssemblyLocation
 {
-    static class AssemblyLocation
+    public static string CurrentDirectory
     {
-        public static string CurrentDirectory
+        get
         {
-            get
-            {
-                
-                //Use codebase because location fails for unit tests.
-                var assembly = typeof (AssemblyLocation).Assembly;
-                var uri = new UriBuilder(assembly.CodeBase);
-                var currentAssemblyPath = Uri.UnescapeDataString(uri.Path);
-                return Path.GetDirectoryName(currentAssemblyPath);
-            }
+            var assembly = typeof(AssemblyLocation).Assembly;
+            var uri = new UriBuilder(assembly.CodeBase);
+            var currentAssemblyPath = Uri.UnescapeDataString(uri.Path);
+            return Path.GetDirectoryName(currentAssemblyPath);
         }
     }
 }

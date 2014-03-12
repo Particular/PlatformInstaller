@@ -61,9 +61,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\PlatformInstaller\PlatformInstaller.csproj">
       <Project>{3F4B1E65-2BAE-48C4-AD4C-5AD4E3D4EB34}</Project>
       <Name>PlatformInstaller</Name>

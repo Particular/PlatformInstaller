@@ -1,27 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace PlatformInstaller
+internal class InstallPackage : IPackage
 {
-    class InstallPackage : IPackage
+    public InstallPackage()
     {
-        public InstallPackage()
-        {
-            Children = new List<IPackage>();
-        }
-
-        public string Name { get; set; }
-
-        public string Image { get; set; }
-
-        public bool Selected { get; set; }
-
-        public bool Automatic { get; set; }
-
-        public string Chocolatey { get; set; }
-
-        public IEnumerable<IPackage> Children { get; set; }
+        Children = new List<IPackage>();
     }
+
+    public string Name { get; set; }
+
+    public string Image { get; set; }
+
+    public bool Selected { get; set; }
+
+    public bool Automatic { get; set; }
+
+    public string Chocolatey { get; set; }
+
+    public IEnumerable<IPackage> Children { get; set; }
 }

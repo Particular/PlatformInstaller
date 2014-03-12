@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace PlatformInstaller
+public class PackageDiscoveryService : IPackageDiscoveryService
 {
-    class PackageDiscoveryService : PlatformInstaller.IPackageDiscoveryService
+    public IEnumerable<IPackage> GetServices()
     {
-        public IEnumerable<IPackage> GetServices()
-        {
-            return null;
-        }
+        return null;
     }
 }

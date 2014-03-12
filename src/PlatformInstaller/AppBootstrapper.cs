@@ -1,26 +1,24 @@
 ﻿using System;
 using Autofac;
 using Caliburn.Micro;
-using System.Linq;
+using PlatformInstaller;
 
-namespace PlatformInstaller
+public class AppBootstrapper : Bootstrapper<MainViewModel>
 {
-    public class AppBootstrapper : Bootstrapper<MainViewModel>
+    protected override object GetInstance(Type service, string key)
     {
-        protected override object GetInstance(Type service, string key)
+        object instance;
+        if (string.IsNullOrWhiteSpace(key))
         {
-            object instance;
-            if (string.IsNullOrWhiteSpace(key))
-            {
-                if (ContainerFactory.Container.TryResolve(service, out instance))
-                    return instance;
-            }
-            else
-            {
-                if (ContainerFactory.Container.TryResolveNamed(key, service, out instance))
-                    return instance;
-            }
-            throw new Exception(string.Format("Could not locate any instances of contract {0}.", key ?? service.Name));
+            if (ContainerFactory.Container.TryResolve(service, out instance))
+                return instance;
         }
+        else
+        {
+            if (ContainerFactory.Container.TryResolveNamed(key, service, out instance))
+                return instance;
+        }
+        throw new Exception(string.Format("Could not locate any instances of contract {0}.", key ?? service.Name));
     }
+
 }

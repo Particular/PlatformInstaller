@@ -36,6 +36,7 @@ namespace PlatformInstaller
             {
                 Task.Delay(100);
                 Step = 2;
+                Process.Start(@"http://particular.net/thank-you-for-downloading-the-particular-service-platform?new_user=" + NewUserDetecter.Current.IsNewUser().ToString().ToLower());
             }
         }
 
@@ -72,9 +73,6 @@ namespace PlatformInstaller
 
         public void Close()
         {
-            //todo: Joaquin put this line in the correct spot
-            Process.Start(@"http://particular.net/thank-you-for-downloading-the-particular-service-platform?new_user=" + NewUserDetecter.Current.IsNewUser().ToString().ToLower());
-
             Application.Current.Shutdown();
         }
 

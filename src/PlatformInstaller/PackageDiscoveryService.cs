@@ -2,7 +2,7 @@
 
 public class PackageDiscoveryService : IPackageDiscoveryService
 {
-    public IEnumerable<IPackage> GetServices()
+    public IEnumerable<InstallPackage> GetServices()
     {
         return null;
     }

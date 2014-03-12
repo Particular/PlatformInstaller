@@ -42,13 +42,13 @@ namespace PlatformInstaller
         ProgressService progressService;
         PackageManager packageManager;
         IPackageDiscoveryService packageDiscovery;
-        IEnumerable<IPackage> products;
+        IEnumerable<InstallPackage> products;
 
         public double InstallCount { get; private set; }
         public double InstallProgress { get; private set; }
         public int Step { get; private set; }
 
-        public IEnumerable<IPackage> Products
+        public IEnumerable<InstallPackage> Products
         {
             get
             {
@@ -60,12 +60,12 @@ namespace PlatformInstaller
             }
         }
 
-        IEnumerable<IPackage> Flatten(IEnumerable<IPackage> products, bool withAutomatic = false)
+        IEnumerable<InstallPackage> Flatten(IEnumerable<InstallPackage> products, bool withAutomatic = false)
         {
             if (products == null)
                 return null;
 
-            return products.Where(p => withAutomatic || !p.Automatic).Concat(products.SelectMany(e => Flatten(e.Children) ?? new List<IPackage>()));
+            return products.Where(p => withAutomatic || !p.Automatic).Concat(products.SelectMany(e => Flatten(e.Children) ?? new List<InstallPackage>()));
         }
 
         public void Close()
@@ -75,7 +75,7 @@ namespace PlatformInstaller
 
         public async Task InstallSelected()
         {
-            var toInstall = products.Where(p => p.Selected).SelectMany(p => new List<IPackage>
+            var toInstall = products.Where(p => p.Selected).SelectMany(p => new List<InstallPackage>
             {
                 p
             }.Union(p.Children.Where(c => c.Automatic)));

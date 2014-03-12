@@ -2,5 +2,5 @@
 
 public interface IPackageDiscoveryService
 {
-    IEnumerable<IPackage> GetServices();
+    IEnumerable<InstallPackage> GetServices();
 }

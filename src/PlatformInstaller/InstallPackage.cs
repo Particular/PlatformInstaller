@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
-internal class InstallPackage : IPackage
+public class InstallPackage 
 {
     public InstallPackage()
     {
-        Children = new List<IPackage>();
+        Children = new List<InstallPackage>();
     }
 
     public string Name { get; set; }
@@ -17,5 +17,5 @@ internal class InstallPackage : IPackage
 
     public string Chocolatey { get; set; }
 
-    public IEnumerable<IPackage> Children { get; set; }
+    public List<InstallPackage> Children { get; set; }
 }

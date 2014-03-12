@@ -2,9 +2,9 @@
 
 internal class HardcodedPackageService : IPackageDiscoveryService
 {
-    IEnumerable<IPackage> packages;
+    IEnumerable<InstallPackage> packages;
 
-    public IEnumerable<IPackage> GetServices()
+    public IEnumerable<InstallPackage> GetServices()
     {
         if (packages == null)
         {

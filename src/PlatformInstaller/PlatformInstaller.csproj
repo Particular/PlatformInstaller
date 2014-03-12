@@ -96,7 +96,6 @@
     <Compile Include="AssemblyLocation.cs" />
     <Compile Include="HardcodedPackageService.cs" />
     <Compile Include="InstallPackage.cs" />
-    <Compile Include="IPackage.cs" />
     <Compile Include="IPackageDiscoveryService.cs" />
     <Compile Include="PackageDiscoveryService.cs" />
     <Page Include="MainView.xaml">

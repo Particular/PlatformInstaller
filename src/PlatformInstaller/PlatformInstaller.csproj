@@ -98,6 +98,7 @@
     <Compile Include="InstallPackage.cs" />
     <Compile Include="IPackage.cs" />
     <Compile Include="IPackageDiscoveryService.cs" />
+    <Compile Include="NewUserDetecter.cs" />
     <Compile Include="PackageDiscoveryService.cs" />
     <Page Include="MainView.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -1,19 +1,55 @@
-﻿using System.Collections.Generic;
+﻿using PropertyChanged;
+using System.Collections.Generic;
 
-public class InstallPackage 
+[ImplementPropertyChanged]
+public class InstallPackage
 {
     public InstallPackage()
     {
         Children = new List<InstallPackage>();
+        Enabled = true;
+        Selected = true;
     }
 
     public string Name { get; set; }
 
     public string Image { get; set; }
 
-    public bool Selected { get; set; }
+    private bool selected;
+    public bool Selected
+    {
+        get
+        {
+            return selected;
+        }
+        set
+        {
+            selected = value;
+            EnableDisableChildren(selected);
+        }
+    }
+
 
     public bool Automatic { get; set; }
+
+    private bool enabled;
+    public bool Enabled
+    {
+        get
+        {
+            return enabled;
+        }
+        set
+        {
+            enabled = value;
+            EnableDisableChildren(value);
+        }
+    }
+
+    private void EnableDisableChildren(bool value)
+    {
+        foreach (var package in Children) package.Enabled = value;
+    }
 
     public string Chocolatey { get; set; }
 

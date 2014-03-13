@@ -95,7 +95,10 @@ namespace PlatformInstaller
 
             foreach (var package in toInstall)
             {
-                await packageManager.Install(package.Chocolatey, string.Format("Installing {0}", package.Name));
+                if (package.Enabled)
+                {
+                    await packageManager.Install(package.Chocolatey, string.Format("Installing {0}", package.Name));
+                }
             }
         }
 

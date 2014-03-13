@@ -5,19 +5,9 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         x:Class="PlatformInstaller.MainView"
-        Title="MainWindow" Height="508" Width="400" WindowStyle="None" AllowsTransparency="True" >
+        Title="MainWindow" Height="528" Width="400" WindowStyle="None" AllowsTransparency="True" >
     <Window.Resources>
-        <DataTemplate x:Key="ProductItemTemplate">
-            <Grid Margin="0 10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="6*"/>
-                    <ColumnDefinition Width="4*"/>
-                </Grid.ColumnDefinitions>
-                <Image Source="{Binding Image}" Grid.Column="0" Stretch="None" HorizontalAlignment="Left"/>
-                <CheckBox IsChecked="{Binding Selected}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="Blue"/>
-            </Grid>
-        </DataTemplate>
-        <Style x:Key="{x:Type CheckBox}" TargetType="{x:Type CheckBox}">
+        <Style x:Key="ProductCheckbox" TargetType="{x:Type CheckBox}">
             <Setter Property="SnapsToDevicePixels" Value="true"/>
             <Setter Property="OverridesDefaultStyle" Value="true"/>
             <Setter Property="Template">
@@ -60,8 +50,8 @@
                                 <Setter TargetName="Border" Property="BorderBrush" Value="#6ABFC3" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="false">
-                                <Setter TargetName="Border" Property="Background" Value="#EEEEEE" />
-                                <Setter TargetName="Border" Property="BorderBrush" Value="#AAAAAA" />
+                                <Setter TargetName="CheckMark" Property="Stroke" Value="#CCCCCC" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#CCCCCC" />
                                 <Setter Property="Foreground" Value="#888888"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -69,6 +59,16 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <DataTemplate x:Key="ProductItemTemplate">
+            <Grid Margin="0 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="{Binding Image}" Grid.Column="0" Stretch="None" HorizontalAlignment="Left"/>
+                <CheckBox IsChecked="{Binding Selected}" IsEnabled="{Binding Enabled}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="Blue" Style="{StaticResource ProductCheckbox}"/>
+            </Grid>
+        </DataTemplate>
         <Storyboard x:Key="CollapseStep0">
             <DoubleAnimation Storyboard.TargetName="Step0Grid"
                              Storyboard.TargetProperty="Width"
@@ -85,7 +85,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="30px" />
-                <RowDefinition Height="50px" />
+                <RowDefinition Height="70px" />
                 <RowDefinition/>
                 <RowDefinition Height="60px"/>
             </Grid.RowDefinitions>
@@ -107,7 +107,9 @@
                     </Button.Style>
                 </Button>
             </Grid>
-            <Image Source="/Images/particularSmall.png" Grid.Row="1" HorizontalAlignment="Left" Margin="20 0 0 0" Stretch="None" VerticalAlignment="Center" />
+            <StackPanel Grid.Row="1" Margin="20 0 20 0" >
+                <Image Source="/Images/particularSmall.png" HorizontalAlignment="Left" Stretch="None" VerticalAlignment="Top" />
+            </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0,1,0,59" Grid.RowSpan="2">
                 <Grid x:Name="Step0Grid" Width="400">
                     <Grid.RowDefinitions>

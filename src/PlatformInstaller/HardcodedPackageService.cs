@@ -59,7 +59,7 @@ internal class HardcodedPackageService : IPackageDiscoveryService
                             Automatic = true,
                             Chocolatey = "NServicebus.PerfCounters.install"
                         },
-                    }
+                    },
                 },
                 new InstallPackage
                 {

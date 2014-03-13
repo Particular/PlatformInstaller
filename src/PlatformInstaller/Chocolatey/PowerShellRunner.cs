@@ -5,14 +5,11 @@ using System.Threading.Tasks;
 
 public class PowerShellRunner : IDisposable
 {
-    ProgressService progressService;
     Runspace runSpace;
 
-    public PowerShellRunner(ProgressService progressService)
+    public PowerShellRunner(PlatformInstallerPSHost platformInstallerPsHost)
     {
-        this.progressService = progressService;
-        var host = new PlatformInstallerPSHost(progressService);
-        runSpace = RunspaceFactory.CreateRunspace(host);
+        runSpace = RunspaceFactory.CreateRunspace(platformInstallerPsHost);
         runSpace.Open();
     }
 

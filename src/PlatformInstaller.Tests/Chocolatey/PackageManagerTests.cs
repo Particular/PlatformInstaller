@@ -7,7 +7,7 @@ public class PackageManagerTests
     [Explicit("Integration")]
     public async void Install()
     {
-        var packageInstaller = new PackageManager(new PowerShellRunner(new ProgressService()));
+        var packageInstaller = new PackageManager(new PowerShellRunner(new PlatformInstallerPSHost(new PlatformInstallerPSHostUI(new ProgressService()))));
         await packageInstaller.Install("Pester", "Pester");
     }
 
@@ -16,7 +16,7 @@ public class PackageManagerTests
     [Explicit("Integration")]
     public async void Uninstall()
     {
-        var packageInstaller = new PackageManager(new PowerShellRunner(new ProgressService()));
+        var packageInstaller = new PackageManager(new PowerShellRunner(new PlatformInstallerPSHost(new PlatformInstallerPSHostUI(new ProgressService()))));
         await packageInstaller.Uninstall("Pester");
     }
 }

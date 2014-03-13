@@ -8,9 +8,9 @@ public class PlatformInstallerPSHost : PSHost
 {
     PlatformInstallerPSHostUI hostUI;
 
-    public PlatformInstallerPSHost(ProgressService progressService)
+    public PlatformInstallerPSHost(PlatformInstallerPSHostUI hostUI)
     {
-        hostUI = new PlatformInstallerPSHostUI(progressService);
+        this.hostUI = hostUI;
     }
 
     public override PSHostUserInterface UI

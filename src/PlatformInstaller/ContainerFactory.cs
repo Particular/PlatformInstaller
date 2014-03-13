@@ -25,6 +25,10 @@ public static class ContainerFactory
             .SingleInstance();
         builder.RegisterType<PowerShellRunner>()
             .SingleInstance();
+        builder.RegisterType<PlatformInstallerPSHost>()
+            .SingleInstance();
+        builder.RegisterType<PlatformInstallerPSHostUI>()
+            .SingleInstance();
         builder.RegisterType<PackageManager>()
             .SingleInstance();
         builder.RegisterType<HardcodedPackageService>()

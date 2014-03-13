@@ -5,7 +5,7 @@ using System.Management.Automation;
 using System.Management.Automation.Host;
 using System.Security;
 
-class PlatformInstallerPSHostUI : PSHostUserInterface
+public class PlatformInstallerPSHostUI : PSHostUserInterface
 {
 
     ProgressService progressService;

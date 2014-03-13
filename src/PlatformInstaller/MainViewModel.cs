@@ -18,10 +18,17 @@ namespace PlatformInstaller
             this.packageManager = packageManager;
             this.packageManager.InstallStarted += packageManager_InstallStarted;
             this.packageManager.InstallComplete += packageManager_InstallComplete;
+            this.packageManager.InstallProgress += packageManager_InstallProgress;
 
             this.packageDiscovery = packageDiscovery;
 
             Step = 0;
+            Log = string.Empty;
+        }
+
+        void packageManager_InstallProgress(object sender, InstallProgressEventArgs e)
+        {
+            Log += string.Format("{0}\n", e.Log);
         }
 
         void packageManager_InstallStarted(object sender, InstallStartedEventArgs e)
@@ -50,7 +57,8 @@ namespace PlatformInstaller
         public double InstallCount { get; private set; }
         public double InstallProgress { get; private set; }
         public int Step { get; private set; }
-
+        public string Log { get; private set; }
+ 
         public IEnumerable<InstallPackage> Products
         {
             get
@@ -90,5 +98,6 @@ namespace PlatformInstaller
                 await packageManager.Install(package.Chocolatey, string.Format("Installing {0}", package.Name));
             }
         }
+
     }
 }

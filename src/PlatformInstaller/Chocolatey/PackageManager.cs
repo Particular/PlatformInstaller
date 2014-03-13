@@ -10,6 +10,8 @@ public class PackageManager
 
     public event InstallCompleteDelegate InstallComplete;
 
+    public event InstallProgressDelegate InstallProgress;
+
     public PackageManager(PowerShellRunner powerShellRunner)
     {
         this.powerShellRunner = powerShellRunner;
@@ -18,6 +20,7 @@ public class PackageManager
     public async Task Install(string packageName, string packageDesctiption)
     {
         InstallStarted(this, new InstallStartedEventArgs { PackageName = packageName, PackageDescription = packageDesctiption });
+        InstallProgress(this, new InstallProgressEventArgs { PackageName = packageName, Log = "Starting...", Progress = 0 });
         await Task.Delay(5000); //for now
         //var parameters = new Dictionary<string, object>
         //{
@@ -44,6 +47,7 @@ public class PackageManager
 
 public delegate void InstallStartedDelegate(object sender, InstallStartedEventArgs e);
 public delegate void InstallCompleteDelegate(object sender, InstallCompleteEventArgs e);
+public delegate void InstallProgressDelegate(object sender, InstallProgressEventArgs e);
 
 public class InstallStartedEventArgs : EventArgs
 {
@@ -54,4 +58,11 @@ public class InstallStartedEventArgs : EventArgs
 public class InstallCompleteEventArgs : EventArgs
 {
     public string PackageName { get; set; }
+}
+
+public class InstallProgressEventArgs : EventArgs
+{
+    public string PackageName { get; set; }
+    public double Progress { get; set; }
+    public string Log { get; set; }
 }

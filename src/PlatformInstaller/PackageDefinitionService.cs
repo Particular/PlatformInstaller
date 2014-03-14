@@ -12,31 +12,36 @@ public class PackageDefinitionService
             {
                 Name = "Service Matrix",
                 Image = "/Images/SM.png",
-                Install = () => packageManager.Install("ServiceMatrix.install")
+                Install = () => packageManager.Install("ServiceMatrix.install"),
+                Selected =  packageManager.IsInstalled("ServiceMatrix.install")
             },
             new PackageDefinition
             {
                 Name = "Raven",
                 Image = "/Images/RavenDb.png",
-                Install = () => packageManager.Install("RavenDB")
+                Install = () => packageManager.Install("RavenDB"),
+                Selected =  packageManager.IsInstalled("RavenDB")
             },
             new PackageDefinition
             {
                 Name = "Service Insight",
                 Image = "/Images/SI.png",
-                Install = () => packageManager.Install("ServiceInsight.install")
+                Install = () => packageManager.Install("ServiceInsight.install"),
+                Selected =  packageManager.IsInstalled("ServiceInsight.install")
             },
             new PackageDefinition
             {
                 Name = "Service Pulse",
                 Image = "/Images/SP.png",
-                Install = () => packageManager.Install("ServicePulse.install")
+                Install = () => packageManager.Install("ServicePulse.install"),
+                Selected =  packageManager.IsInstalled("ServicePulse.install")
             },
             new PackageDefinition
             {
                 Name = "Service Control",
                 Image = "/Images/SC.png",
-                Install = () => packageManager.Install("ServiceControl.install") 
+                Install = () => packageManager.Install("ServiceControl.install"),
+                Selected =  packageManager.IsInstalled("ServiceControl.install")
             },
             new PackageDefinition
             {

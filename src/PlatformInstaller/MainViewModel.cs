@@ -43,6 +43,7 @@ namespace PlatformInstaller
             {
                 CurrentPackageDescription = package.Name;
                 await package.Install();
+                InstallProgress++;
             }
             Step = 2;
             Process.Start(@"http://particular.net/thank-you-for-downloading-the-particular-service-platform?new_user=" + NewUserDetecter.Current.IsNewUser().ToString().ToLower());

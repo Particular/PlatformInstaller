@@ -66,7 +66,7 @@
                     <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
                 <Image Source="{Binding Image}" Grid.Column="0" Stretch="None" HorizontalAlignment="Left"/>
-                <CheckBox IsChecked="{Binding Selected}" IsEnabled="{Binding Enabled}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="Blue" Style="{StaticResource ProductCheckbox}"/>
+                <CheckBox IsChecked="{Binding Selected}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="Blue" Style="{StaticResource ProductCheckbox}"/>
             </Grid>
         </DataTemplate>
         <Storyboard x:Key="CollapseStep0">

@@ -8,9 +8,7 @@ public class PackageDefinition
 
     public string Name;
     public string Image;
-    public bool Selected = true;
-    public bool Automatic { get; set; }
-    public bool Enabled = true;
+    public bool Selected;
     public Func<Task> Install;
 
 }

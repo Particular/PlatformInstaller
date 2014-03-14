@@ -1,5 +1,5 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using NuGet;
 using NUnit.Framework;
 
 [TestFixture]
@@ -27,7 +27,7 @@ public class PackageManagerTests
     public async void TryGetInstalledVersion()
     {
         var packageInstaller = new PackageManager(new PowerShellRunner(new PlatformInstallerPSHost(new PlatformInstallerPSHostUI(new ProgressService()))));
-        Version version;
+        SemanticVersion version;
         packageInstaller.TryGetInstalledVersion("Pester", out version);
         Debug.WriteLine(version);
     }

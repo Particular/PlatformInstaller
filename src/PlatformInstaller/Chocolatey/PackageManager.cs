@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using NuGet;
 
 public class PackageManager
 {
@@ -34,14 +34,14 @@ public class PackageManager
         };
         return powerShellRunner.Run(@"C:\Chocolatey\chocolateyinstall\chocolatey.ps1", parameters);
     }
-    public bool TryGetInstalledVersion(string packageName, out Version version)
+    public bool TryGetInstalledVersion(string packageName, out SemanticVersion version)
     {
         version = null;
         foreach (var directory in Directory.EnumerateDirectories(@"C:\Chocolatey\lib", packageName + ".*"))
         {
             var versionString = Path.GetFileName(directory).ReplaceCaseless(packageName +".","");
-            Version newVersion;
-            if (Version.TryParse(versionString, out newVersion))
+            SemanticVersion newVersion;
+            if (SemanticVersion.TryParse(versionString, out newVersion))
             {
                 if (version == null || newVersion > version)
                 {
@@ -50,6 +50,11 @@ public class PackageManager
             }
         }
         return version != null;
+    }
+    public bool IsInstalled(string packageName)
+    {
+        SemanticVersion version;
+        return TryGetInstalledVersion(packageName, out version);
     }
 }
 

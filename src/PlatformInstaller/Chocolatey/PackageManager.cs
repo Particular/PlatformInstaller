@@ -7,32 +7,22 @@ public class PackageManager
 {
     PowerShellRunner powerShellRunner;
 
-    public event InstallStartedDelegate InstallStarted = (sender, args) => {};
-
-    public event InstallCompleteDelegate InstallComplete = (sender, args) => { };
-
-    public event InstallProgressDelegate InstallProgress = (sender, args) => { };
-
     public PackageManager(PowerShellRunner powerShellRunner)
     {
         this.powerShellRunner = powerShellRunner;
     }
 
-    public async Task Install(string packageName, string packageDesctiption)
+    public async Task Install(string packageName)
     {
-        InstallStarted(this, new InstallStartedEventArgs { PackageName = packageName, PackageDescription = packageDesctiption });
-        InstallProgress(this, new InstallProgressEventArgs { PackageName = packageName, Log = "Starting...", Progress = 0 });
-        await Task.Delay(5000); //for now
-        //var parameters = new Dictionary<string, object>
-        //{
-        //        {"command", "install"},
-        //        {"packageNames", packageName},
-        //        {"source", @"C:\ChocolateyResourceCache;http://chocolatey.org/api/v2"},
-        //        {"verbosity", true},
-        //        {"pre", true}
-        //};
-        //await powerShellRunner.Run(@"C:\Chocolatey\chocolateyinstall\chocolatey.ps1", parameters);
-        InstallComplete(this, new InstallCompleteEventArgs { PackageName = packageName });
+        var parameters = new Dictionary<string, object>
+        {
+                {"command", "install"},
+                {"packageNames", packageName},
+                {"source", @"C:\ChocolateyResourceCache;http://chocolatey.org/api/v2"},
+                {"verbosity", true},
+                {"pre", true}
+        };
+        await powerShellRunner.Run(@"C:\Chocolatey\chocolateyinstall\chocolatey.ps1", parameters);
     }
 
     public Task Uninstall(string packageName)
@@ -63,24 +53,3 @@ public class PackageManager
     }
 }
 
-public delegate void InstallStartedDelegate(object sender, InstallStartedEventArgs e);
-public delegate void InstallCompleteDelegate(object sender, InstallCompleteEventArgs e);
-public delegate void InstallProgressDelegate(object sender, InstallProgressEventArgs e);
-
-public class InstallStartedEventArgs : EventArgs
-{
-    public string PackageName { get; set; }
-    public string PackageDescription { get; set; }
-}
-
-public class InstallCompleteEventArgs : EventArgs
-{
-    public string PackageName { get; set; }
-}
-
-public class InstallProgressEventArgs : EventArgs
-{
-    public string PackageName { get; set; }
-    public double Progress { get; set; }
-    public string Log { get; set; }
-}

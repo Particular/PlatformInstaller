@@ -5,7 +5,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         x:Class="PlatformInstaller.MainView"
-        Title="MainWindow" Height="528" Width="400" WindowStyle="None" AllowsTransparency="True" >
+        Title="MainWindow" Height="628" Width="400" WindowStyle="None" AllowsTransparency="True" >
     <Window.Resources>
         <Style x:Key="ProductCheckbox" TargetType="{x:Type CheckBox}">
             <Setter Property="SnapsToDevicePixels" Value="true"/>
@@ -120,7 +120,7 @@
                         <TextBlock FontSize="18" FontWeight="Bold">Install the Particular Software Suite</TextBlock>
                         <TextBlock Foreground="Gray">This installer will download and install Particula products.</TextBlock>
                     </StackPanel>
-                    <ItemsControl Grid.Row="1" ItemTemplate="{StaticResource ProductItemTemplate}" ItemsSource="{Binding Products}" Margin="20 10"/>
+                    <ItemsControl Grid.Row="1" ItemTemplate="{StaticResource ProductItemTemplate}" ItemsSource="{Binding PackageDefinitionService.Packages}" Margin="20 10"/>
                 </Grid>
                 <Grid x:Name="Step1Grid" Width="400">
                     <Grid.RowDefinitions>

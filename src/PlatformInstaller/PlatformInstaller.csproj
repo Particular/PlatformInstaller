@@ -94,6 +94,7 @@
     <Compile Include="ContainerFactory.cs" />
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="AssemblyLocation.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="HardcodedPackageService.cs" />
     <Compile Include="InstallPackage.cs" />
     <Compile Include="IPackageDiscoveryService.cs" />

@@ -1,16 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 public class PackageManager
 {
     PowerShellRunner powerShellRunner;
 
-    public event InstallStartedDelegate InstallStarted;
+    public event InstallStartedDelegate InstallStarted = (sender, args) => {};
 
-    public event InstallCompleteDelegate InstallComplete;
+    public event InstallCompleteDelegate InstallComplete = (sender, args) => { };
 
-    public event InstallProgressDelegate InstallProgress;
+    public event InstallProgressDelegate InstallProgress = (sender, args) => { };
 
     public PackageManager(PowerShellRunner powerShellRunner)
     {
@@ -42,6 +43,23 @@ public class PackageManager
                 {"packageNames", packageName}
         };
         return powerShellRunner.Run(@"C:\Chocolatey\chocolateyinstall\chocolatey.ps1", parameters);
+    }
+    public bool TryGetInstalledVersion(string packageName, out Version version)
+    {
+        version = null;
+        foreach (var directory in Directory.EnumerateDirectories(@"C:\Chocolatey\lib", packageName + ".*"))
+        {
+            var versionString = Path.GetFileName(directory).ReplaceCaseless(packageName +".","");
+            Version newVersion;
+            if (Version.TryParse(versionString, out newVersion))
+            {
+                if (version == null || newVersion > version)
+                {
+                    version = newVersion;
+                }
+            }
+        }
+        return version != null;
     }
 }
 

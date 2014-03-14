@@ -6,29 +6,15 @@ public class InstallPackage
 {
     public InstallPackage()
     {
-        Children = new List<InstallPackage>();
         Enabled = true;
         Selected = true;
     }
 
-    public string Name { get; set; }
+    public string Name;
 
-    public string Image { get; set; }
+    public string Image;
 
-    private bool selected;
-    public bool Selected
-    {
-        get
-        {
-            return selected;
-        }
-        set
-        {
-            selected = value;
-            EnableDisableChildren(selected);
-        }
-    }
-
+    public bool Selected;
 
     public bool Automatic { get; set; }
 

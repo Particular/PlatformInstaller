@@ -5,9 +5,9 @@ using PropertyChanged;
 public class ProgressService
 {
     public string OutputText;
-    public void OutputDataReceived(PowerShellOutputLine powerShellOutputLine)
+    public void OutputDataReceived(LogEntry logEntry)
     {
-        OutputText += powerShellOutputLine.Text;
+        OutputText += logEntry.Text;
     }
 
     public void OutputProgessReceived(ProgressRecord record)

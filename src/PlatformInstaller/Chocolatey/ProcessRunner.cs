@@ -1,23 +1,16 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 
 public class ProcessRunner
 {
-    string fileName;
-    string arguments;
+    ProgressService progressService;
 
-    public ProcessRunner(string fileName, string arguments)
+    public ProcessRunner(ProgressService progressService)
     {
-        this.fileName = fileName;
-        this.arguments = arguments;
+        this.progressService = progressService;
     }
 
-    public Action<string> ErrorDataReceived = error => { };
-    public Action<string> OutputDataReceived = output => { };
-
-
-    public Task<int> RunProcessAsync()
+    public Task<int> RunProcessAsync(string fileName, string arguments)
     {
         var tcs = new TaskCompletionSource<int>();
 
@@ -39,19 +32,20 @@ public class ProcessRunner
         {
             if (args.Data != null)
             {
-                OutputDataReceived(args.Data);
+                progressService.OutputDataReceived(new LogEntry(args.Data,LogEntryType.Output));
             }
         };
         process.ErrorDataReceived += (sender, args) =>
         {
             if (args.Data != null)
             {
-                ErrorDataReceived(args.Data);
+                progressService.OutputDataReceived(new LogEntry(args.Data, LogEntryType.Error));
             }
         };
         process.Exited += (sender, args) =>
         {
             tcs.SetResult(process.ExitCode);
+            //TODO: result
             process.Dispose();
         };
 

@@ -1,4 +1,4 @@
-﻿public enum PowerShellLineType
+﻿public enum LogEntryType
 {
     Output,
     Error,

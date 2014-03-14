@@ -27,27 +27,27 @@ public class PlatformInstallerPSHostUI : PSHostUserInterface
 
     public override void Write(string value)
     {
-        progressService.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Output, false));
+        progressService.OutputDataReceived(new LogEntry(value, LogEntryType.Output, false));
     }
 
     public override void Write(ConsoleColor foregroundColor, ConsoleColor backgroundColor, string value)
     {
-        progressService.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Output, false));   
+        progressService.OutputDataReceived(new LogEntry(value, LogEntryType.Output, false));   
     }
 
     public override void WriteLine(string value)
     {
-        progressService.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Output));
+        progressService.OutputDataReceived(new LogEntry(value, LogEntryType.Output));
     }
 
     public override void WriteErrorLine(string value)
     {
-        progressService.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Error));
+        progressService.OutputDataReceived(new LogEntry(value, LogEntryType.Error));
     }
 
     public override void WriteDebugLine(string value)
     {
-        progressService.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Debug));
+        progressService.OutputDataReceived(new LogEntry(value, LogEntryType.Debug));
     }
 
     public override void WriteProgress(long sourceId, ProgressRecord record)
@@ -57,12 +57,12 @@ public class PlatformInstallerPSHostUI : PSHostUserInterface
 
     public override void WriteVerboseLine(string value)
     {
-        progressService.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Verbose));
+        progressService.OutputDataReceived(new LogEntry(value, LogEntryType.Verbose));
     }
 
     public override void WriteWarningLine(string value)
     {
-        progressService.OutputDataReceived(new PowerShellOutputLine(value, PowerShellLineType.Warning));
+        progressService.OutputDataReceived(new LogEntry(value, LogEntryType.Warning));
     }
 
     public override Dictionary<string, PSObject> Prompt(string caption, string message, Collection<FieldDescription> descriptions)

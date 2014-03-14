@@ -47,17 +47,17 @@ namespace PlatformInstaller
             }
         }
 
-        public string CurrentPackageDescription { get; set; }
+        public string CurrentPackageDescription;
 
         ProgressService progressService;
         PackageManager packageManager;
         IPackageDiscoveryService packageDiscovery;
         IEnumerable<InstallPackage> products;
 
-        public double InstallCount { get; private set; }
-        public double InstallProgress { get; private set; }
-        public int Step { get; private set; }
-        public string Log { get; private set; }
+        public double InstallCount;
+        public double InstallProgress;
+        public int Step;
+        public string Log;
  
         public IEnumerable<InstallPackage> Products
         {

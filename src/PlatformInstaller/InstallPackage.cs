@@ -13,18 +13,26 @@ public class InstallPackage
     public string Name;
 
     public string Image;
+    bool selected;
 
-    public bool Selected;
+    public bool Selected
+    {
+        get { return selected; }
+        set
+        {
+            selected = value;
+            EnableDisableChildren(selected);
+        }
+    }
+
 
     public bool Automatic { get; set; }
 
-    private bool enabled;
+    bool enabled;
+
     public bool Enabled
     {
-        get
-        {
-            return enabled;
-        }
+        get { return enabled; }
         set
         {
             enabled = value;
@@ -32,12 +40,12 @@ public class InstallPackage
         }
     }
 
-    private void EnableDisableChildren(bool value)
+    void EnableDisableChildren(bool value)
     {
         foreach (var package in Children) package.Enabled = value;
     }
 
     public string Chocolatey { get; set; }
 
-    public List<InstallPackage> Children { get; set; }
+    public List<InstallPackage> Children = new List<InstallPackage>();
 }

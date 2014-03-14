@@ -1,9 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
-using PropertyChanged;
 
-[ImplementPropertyChanged]
-public class PackageDefinition
+public class PackageDefinition : INotifyPropertyChanged
 {
 
     public string Name;
@@ -11,4 +10,5 @@ public class PackageDefinition
     public bool Selected;
     public Func<Task> InstallAction;
     public bool Installed;
+    public event PropertyChangedEventHandler PropertyChanged;
 }

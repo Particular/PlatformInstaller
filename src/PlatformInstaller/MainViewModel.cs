@@ -12,7 +12,7 @@ namespace PlatformInstaller
     {
         public MainViewModel(ProgressService progressService, PackageDefinitionService packageDefinitionDiscovery)
         {
-            this.progressService = progressService;
+            ProgressService = progressService;
 
             PackageDefinitionService = packageDefinitionDiscovery;
 
@@ -21,7 +21,7 @@ namespace PlatformInstaller
 
         public string CurrentPackageDescription;
 
-        ProgressService progressService;
+        public ProgressService ProgressService;
         public PackageDefinitionService PackageDefinitionService;
 
         public double InstallCount;
@@ -42,7 +42,7 @@ namespace PlatformInstaller
             foreach (var package in toInstall)
             {
                 CurrentPackageDescription = package.Name;
-                 await package.Install();
+                await package.Install();
             }
             Step = 2;
             Process.Start(@"http://particular.net/thank-you-for-downloading-the-particular-service-platform?new_user=" + NewUserDetecter.Current.IsNewUser().ToString().ToLower());

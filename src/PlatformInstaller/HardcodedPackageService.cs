@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-internal class HardcodedPackageService : IPackageDiscoveryService
+public class HardcodedPackageService 
 {
     IEnumerable<InstallPackage> packages;
 

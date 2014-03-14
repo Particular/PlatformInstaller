@@ -11,7 +11,7 @@ namespace PlatformInstaller
     [ImplementPropertyChanged]
     public class MainViewModel
     {
-        public MainViewModel(PackageManager packageManager, ProgressService progressService, IPackageDiscoveryService packageDiscovery)
+        public MainViewModel(PackageManager packageManager, ProgressService progressService, HardcodedPackageService packageDiscovery)
         {
             this.progressService = progressService;
 
@@ -51,7 +51,7 @@ namespace PlatformInstaller
 
         ProgressService progressService;
         PackageManager packageManager;
-        IPackageDiscoveryService packageDiscovery;
+        HardcodedPackageService packageDiscovery;
         IEnumerable<InstallPackage> products;
 
         public double InstallCount;

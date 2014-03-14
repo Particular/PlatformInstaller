@@ -32,7 +32,6 @@ public static class ContainerFactory
         builder.RegisterType<PackageManager>()
             .SingleInstance();
         builder.RegisterType<HardcodedPackageService>()
-            .AsImplementedInterfaces()
             .SingleInstance();
 
         Container = builder.Build();

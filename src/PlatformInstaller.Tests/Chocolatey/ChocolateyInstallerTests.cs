@@ -5,10 +5,18 @@ public class ChocolateyInstallerTests
 {
     [Test]
     [Explicit("Integration")]
-    public void Install()
+    public async void Install()
     {
-        var packageInstaller = new ChocolateyInstaller();
-        packageInstaller.InstallChocolatey().Wait();
+        var chocolateyInstaller = new ChocolateyInstaller();
+        await chocolateyInstaller.InstallChocolatey();
+        Assert.IsTrue(chocolateyInstaller.IsInstalled());
+    }
+    [Test]
+    [Explicit("Integration")]
+    public async void IsInstalled()
+    {
+        var chocolateyInstaller = new ChocolateyInstaller();
+        Assert.IsTrue(chocolateyInstaller.IsInstalled());
     }
 
 }

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 public class ChocolateyInstaller
@@ -12,5 +13,10 @@ public class ChocolateyInstaller
             ErrorDataReceived = x => Debug.WriteLine(x)
         };
         return processRunner.RunProcessAsync();
+    }
+
+    public bool IsInstalled()
+    {
+        return Environment.GetEnvironmentVariable("ChocolateyInstall") != null;
     }
 }

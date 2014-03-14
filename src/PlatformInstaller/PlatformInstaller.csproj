@@ -95,6 +95,7 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="AssemblyLocation.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="InvertedBooleanToVisibilityConverter.cs" />
     <Compile Include="PackageDefinitionService.cs" />
     <Compile Include="PackageDefinition.cs" />
     <Compile Include="NewUserDetecter.cs" />

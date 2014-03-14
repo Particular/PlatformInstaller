@@ -4,9 +4,13 @@
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:global="clr-namespace:"
         x:Class="PlatformInstaller.MainView"
         Title="MainWindow" Height="628" Width="400" WindowStyle="None" AllowsTransparency="True" >
     <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <global:InvertedBooleanToVisibilityConverter x:Key="InvertedBooleanToVis" />
+        
         <Style x:Key="ProductCheckbox" TargetType="{x:Type CheckBox}">
             <Setter Property="SnapsToDevicePixels" Value="true"/>
             <Setter Property="OverridesDefaultStyle" Value="true"/>
@@ -64,9 +68,12 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="6*"/>
                     <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="30"/>
                 </Grid.ColumnDefinitions>
                 <Image Source="{Binding Image}" Grid.Column="0" Stretch="None" HorizontalAlignment="Left"/>
-                <CheckBox IsChecked="{Binding Selected}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="Blue" Style="{StaticResource ProductCheckbox}"/>
+                <CheckBox Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" IsChecked="{Binding Selected}" Foreground="Blue" Style="{StaticResource ProductCheckbox}"/>
+                <Label Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding Path=Installed, Converter={StaticResource BoolToVis}}">Update</Label>
+                <Label Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding Path=Installed, Converter={StaticResource InvertedBooleanToVis}}">Install</Label>
             </Grid>
         </DataTemplate>
         <Storyboard x:Key="CollapseStep0">

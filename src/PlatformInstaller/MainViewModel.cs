@@ -20,10 +20,8 @@ namespace PlatformInstaller
         }
 
         public string CurrentPackageDescription;
-
         public ProgressService ProgressService;
         public PackageDefinitionService PackageDefinitionService;
-
         public double InstallCount;
         public double InstallProgress;
         public int Step;
@@ -42,7 +40,7 @@ namespace PlatformInstaller
             foreach (var package in toInstall)
             {
                 CurrentPackageDescription = package.Name;
-                await package.Install();
+                await package.InstallAction();
                 InstallProgress++;
             }
             Step = 2;

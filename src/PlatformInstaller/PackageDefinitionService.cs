@@ -12,42 +12,42 @@ public class PackageDefinitionService
             {
                 Name = "Service Matrix",
                 Image = "/Images/SM.png",
-                Install = () => packageManager.Install("ServiceMatrix.install"),
-                Selected =  packageManager.IsInstalled("ServiceMatrix.install")
+                InstallAction = () => packageManager.Install("ServiceMatrix.install"),
+                Installed =  packageManager.IsInstalled("ServiceMatrix.install")
             },
             new PackageDefinition
             {
                 Name = "Raven",
                 Image = "/Images/RavenDb.png",
-                Install = () => packageManager.Install("RavenDB"),
-                Selected =  packageManager.IsInstalled("RavenDB")
+                InstallAction = () => packageManager.Install("RavenDB"),
+                Installed =  packageManager.IsInstalled("RavenDB")
             },
             new PackageDefinition
             {
                 Name = "Service Insight",
                 Image = "/Images/SI.png",
-                Install = () => packageManager.Install("ServiceInsight.install"),
-                Selected =  packageManager.IsInstalled("ServiceInsight.install")
+                InstallAction = () => packageManager.Install("ServiceInsight.install"),
+                Installed =  packageManager.IsInstalled("ServiceInsight.install")
             },
             new PackageDefinition
             {
                 Name = "Service Pulse",
                 Image = "/Images/SP.png",
-                Install = () => packageManager.Install("ServicePulse.install"),
-                Selected =  packageManager.IsInstalled("ServicePulse.install")
+                InstallAction = () => packageManager.Install("ServicePulse.install"),
+                Installed =  packageManager.IsInstalled("ServicePulse.install")
             },
             new PackageDefinition
             {
                 Name = "Service Control",
                 Image = "/Images/SC.png",
-                Install = () => packageManager.Install("ServiceControl.install"),
-                Selected =  packageManager.IsInstalled("ServiceControl.install")
+                InstallAction = () => packageManager.Install("ServiceControl.install"),
+                Installed =  packageManager.IsInstalled("ServiceControl.install")
             },
             new PackageDefinition
             {
                 Name = "Service Bus",
                 Image = "/Images/NSB.png",
-                Install = async () =>
+                InstallAction = async () =>
                 {
                    await packageManager.Install("NServicebus.Dtc.install");
                    await packageManager.Install("NServicebus.PerfCounters.install");

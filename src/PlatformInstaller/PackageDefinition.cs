@@ -9,6 +9,6 @@ public class PackageDefinition
     public string Name;
     public string Image;
     public bool Selected;
-    public Func<Task> Install;
-
+    public Func<Task> InstallAction;
+    public bool Installed;
 }

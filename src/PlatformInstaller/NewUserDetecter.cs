@@ -1,30 +1,17 @@
-﻿namespace PlatformInstaller.Tests
+﻿using System.Linq;
+using Microsoft.Win32;
+
+public class NewUserDetecter
 {
-    using System.Linq;
-    using Microsoft.Win32;
-
-    public class NewUserDetecter
+    public bool IsNewUser()
     {
-        readonly RegistryKey regKey;
+        return CheckForSubKey(Registry.CurrentUser);
+    }
 
-        public static NewUserDetecter Current
-        {
-            get
-            {
-                return new NewUserDetecter(Registry.CurrentUser);
-            }
-        }
-
-        public NewUserDetecter(RegistryKey regKey)
-        {
-            this.regKey = regKey;
-        }
-
-        public bool IsNewUser()
-        {
-            return regKey.GetSubKeyNames().All(subKey => 
-                subKey != "NServiceBus" &&
-                subKey != "ParticularSoftware");
-        }
+    public static bool CheckForSubKey(RegistryKey currentUser)
+    {
+        return currentUser.GetSubKeyNames().All(subKey =>
+            subKey != "NServiceBus" &&
+            subKey != "ParticularSoftware");
     }
 }

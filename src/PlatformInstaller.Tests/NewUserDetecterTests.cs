@@ -1,64 +1,43 @@
-﻿namespace PlatformInstaller.Tests
+﻿using System;
+using Microsoft.Win32;
+using NUnit.Framework;
+
+[TestFixture]
+public class NewUserDetecterTests
 {
-    using System;
-    using Microsoft.Win32;
-    using NUnit.Framework;
-
-    [TestFixture]
-    public class NewUserDetecterTests
+    [Test]
+    public void Should_classify_existing_nservicebus_key_as_a_existing_user()
     {
-        [Test]
-        public void Should_classify_existing_nservicebus_key_as_a_existing_user()
+        var subKey = Guid.NewGuid().ToString();
+        using (var regRoot = Registry.CurrentUser.CreateSubKey(subKey))
+        using (regRoot.CreateSubKey("NServiceBus"))
         {
-            CreateSubKey("NServiceBus");
-
-            Assert.False(detecter.IsNewUser());
+            Assert.False(NewUserDetecter.CheckForSubKey(regRoot));
         }
+        Registry.CurrentUser.DeleteSubKeyTree(subKey);
+    }
 
-        void CreateSubKey(string keyName)
+    [Test]
+    public void Should_classify_existing_particular_key_as_a_existing_user()
+    {
+        var subKey = Guid.NewGuid().ToString();
+        using (var regRoot = Registry.CurrentUser.CreateSubKey(subKey))
+        using (regRoot.CreateSubKey("ParticularSoftware"))
         {
-            using (regRoot.CreateSubKey(keyName))
-            { }
+            Assert.False(NewUserDetecter.CheckForSubKey(regRoot));
         }
+        Registry.CurrentUser.DeleteSubKeyTree(subKey);
+    }
 
-        [Test]
-        public void Should_classify_existing_particular_key_as_a_existing_user()
+
+    [Test]
+    public void Should_classify_as_new_user_when_both_nsb_and_platform_key_is_missing()
+    {
+        var subKey = Guid.NewGuid().ToString();
+        using (var regRoot = Registry.CurrentUser.CreateSubKey(subKey))
         {
-            CreateSubKey("ParticularSoftware");
-
-            Assert.False(detecter.IsNewUser());
+            Assert.True(NewUserDetecter.CheckForSubKey(regRoot));
         }
-
-
-        [Test]
-        public void Should_classify_as_new_user_when_both_nsb_and_platform_key_is_missing()
-        {
-            Assert.True(detecter.IsNewUser());
-        }
-
-
-        [SetUp]
-        public void SetUp()
-        {
-            subKey = Guid.NewGuid().ToString();
-            regRoot = Registry.CurrentUser.CreateSubKey(subKey);
-
-            detecter = new NewUserDetecter(regRoot);
-        }
-
-
-
-        [TearDown]
-        public void TearDown()
-        {
-            regRoot.Close();
-            regRoot.Dispose();
-            Registry.CurrentUser.DeleteSubKeyTree(subKey);
-        }
-
-
-        NewUserDetecter detecter;
-        RegistryKey regRoot;
-        string subKey;
+        Registry.CurrentUser.DeleteSubKeyTree(subKey);
     }
 }

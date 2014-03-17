@@ -6,18 +6,18 @@ namespace PlatformInstaller
     using Caliburn.Micro;
     using PropertyChanged;
     using System.Windows;
-    using Tests;
 
     [ImplementPropertyChanged]
     public class MainViewModel
     {
-        public MainViewModel(ProgressService progressService, PackageDefinitionService packageDefinitionDiscovery, ChocolateyInstaller chocolateyInstaller, WindowManager  windowManager)
+        public MainViewModel(ProgressService progressService, PackageDefinitionService packageDefinitionDiscovery, ChocolateyInstaller chocolateyInstaller, WindowManager  windowManager, NewUserDetecter newUserDetecter)
         {
             ProgressService = progressService;
 
             PackageDefinitionService = packageDefinitionDiscovery;
             this.chocolateyInstaller = chocolateyInstaller;
             this.windowManager = windowManager;
+            this.newUserDetecter = newUserDetecter;
             PackageDefinitionService.Packages.BindActionToPropChanged(() =>
             {
                 SelectedActionCount = PackageDefinitionService.Packages.Count(p => p.Selected);
@@ -29,6 +29,7 @@ namespace PlatformInstaller
         public PackageDefinitionService PackageDefinitionService;
         ChocolateyInstaller chocolateyInstaller;
         WindowManager windowManager;
+        NewUserDetecter newUserDetecter;
         public double SelectedActionCount;
         public bool IsInstallEnabled { get { return SelectedActionCount > 0; } }
         public bool CanClose { get { return !IsInstalling; } }
@@ -66,7 +67,7 @@ namespace PlatformInstaller
                 await package.InstallAction();
                 InstallProgress++;
             }
-            Process.Start(@"http://particular.net/thank-you-for-downloading-the-particular-service-platform?new_user=" + NewUserDetecter.Current.IsNewUser().ToString().ToLower());
+            Process.Start(@"http://particular.net/thank-you-for-downloading-the-particular-service-platform?new_user=" + newUserDetecter.IsNewUser().ToString().ToLower());
 
             IsInstalling = false;
             IsFinishedInstalling = true;

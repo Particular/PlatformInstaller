@@ -25,6 +25,8 @@ public static class ContainerFactory
             .SingleInstance();
         builder.RegisterType<WindowManager>()
             .SingleInstance();
+        builder.RegisterType<NewUserDetecter>()
+            .SingleInstance();
         builder.RegisterType<PowerShellRunner>()
             .SingleInstance();
         builder.RegisterType<ChocolateyInstaller>()

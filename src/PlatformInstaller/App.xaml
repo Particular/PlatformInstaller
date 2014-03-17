@@ -1,7 +1,6 @@
 ﻿<Application x:Class="PlatformInstaller.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:platformInstaller="clr-namespace:PlatformInstaller"
              xmlns:global="clr-namespace:">
     <Application.Resources>
         <ResourceDictionary>

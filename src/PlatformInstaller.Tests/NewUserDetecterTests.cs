@@ -9,24 +9,36 @@ public class NewUserDetecterTests
     public void Should_classify_existing_nservicebus_key_as_a_existing_user()
     {
         var subKey = Guid.NewGuid().ToString();
-        using (var regRoot = Registry.CurrentUser.CreateSubKey(subKey))
-        using (regRoot.CreateSubKey("NServiceBus"))
+        try
         {
-            Assert.False(NewUserDetecter.CheckForSubKey(regRoot));
+            using (var regRoot = Registry.CurrentUser.CreateSubKey(subKey))
+            using (regRoot.CreateSubKey("NServiceBus"))
+            {
+                Assert.False(NewUserDetecter.CheckForSubKey(regRoot));
+            }
         }
-        Registry.CurrentUser.DeleteSubKeyTree(subKey);
+        finally
+        {
+            Registry.CurrentUser.DeleteSubKeyTree(subKey);
+        }
     }
 
     [Test]
     public void Should_classify_existing_particular_key_as_a_existing_user()
     {
         var subKey = Guid.NewGuid().ToString();
-        using (var regRoot = Registry.CurrentUser.CreateSubKey(subKey))
-        using (regRoot.CreateSubKey("ParticularSoftware"))
+        try
         {
-            Assert.False(NewUserDetecter.CheckForSubKey(regRoot));
+            using (var regRoot = Registry.CurrentUser.CreateSubKey(subKey))
+            using (regRoot.CreateSubKey("ParticularSoftware"))
+            {
+                Assert.False(NewUserDetecter.CheckForSubKey(regRoot));
+            }
         }
-        Registry.CurrentUser.DeleteSubKeyTree(subKey);
+        finally
+        {
+            Registry.CurrentUser.DeleteSubKeyTree(subKey);
+        }
     }
 
 
@@ -34,10 +46,16 @@ public class NewUserDetecterTests
     public void Should_classify_as_new_user_when_both_nsb_and_platform_key_is_missing()
     {
         var subKey = Guid.NewGuid().ToString();
-        using (var regRoot = Registry.CurrentUser.CreateSubKey(subKey))
+        try
         {
-            Assert.True(NewUserDetecter.CheckForSubKey(regRoot));
+            using (var regRoot = Registry.CurrentUser.CreateSubKey(subKey))
+            {
+                Assert.True(NewUserDetecter.CheckForSubKey(regRoot));
+            }
         }
-        Registry.CurrentUser.DeleteSubKeyTree(subKey);
+        finally
+        {
+            Registry.CurrentUser.DeleteSubKeyTree(subKey);
+        }
     }
 }

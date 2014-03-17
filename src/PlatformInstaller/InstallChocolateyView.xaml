@@ -1,0 +1,39 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:cal="http://www.caliburnproject.org"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:global="clr-namespace:"
+        xmlns:platformInstaller="clr-namespace:PlatformInstaller"
+        x:Class="PlatformInstaller.InstallChocolateyView"
+        Title="MainWindow" Height="200" Width="600" WindowStyle="None" AllowsTransparency="True" >
+    <Window.Resources>
+
+    </Window.Resources>
+    <Border BorderBrush="#20000000" BorderThickness="3">
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30px" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Button Content="X" HorizontalAlignment="Right" Width="35" cal:Message.Attach="[Event Click] = [Action Cancel()]" FontSize="10" Margin="18 -1 18 11" Foreground="Gray" FontWeight="Bold" BorderBrush="Transparent"/>
+            <StackPanel  Orientation="Vertical" Grid.Row="1" Margin="20,0,20,0" >
+                
+                <TextBlock FontSize="18" FontWeight="Bold" >Chocolatey requried</TextBlock>
+                <TextBlock Foreground="Gray" TextWrapping="WrapWithOverflow">This installer requites  Chocolatey (<platformInstaller:Link 
+        NavigateUri="https://chocolatey.org/">https://chocolatey.org</platformInstaller:Link>) to run. You can either continue and Chocolatey will be installed for you or run the following command</TextBlock>
+
+                <Border BorderBrush="#FF000000" BorderThickness="1,1,1,1" Margin="5" CornerRadius="2">
+                    <TextBox TextWrapping="WrapWithOverflow" IsReadOnly="True" Background="#E7E7E7" Text="{Binding InstallCommand}"></TextBox>
+                </Border>
+                
+                <WrapPanel  FlowDirection="RightToLeft">
+                    <Button cal:Message.Attach="[Event Click] = [Action Cancel()]" Foreground="White" Background="#1D729B" Margin="10" Padding="10,0,10,0">Cancel</Button>
+                    <Button cal:Message.Attach="[Event Click] = [Action CopyCommand()]" Foreground="White" Background="#1D729B" Margin="10" Padding="10,0,10,0">Copy command</Button>
+                    <Button cal:Message.Attach="[Event Click] = [Action Continue()]" Foreground="White" Background="#1D729B" Margin="10" Padding="10,0,10,0">Continue</Button>
+                </WrapPanel>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

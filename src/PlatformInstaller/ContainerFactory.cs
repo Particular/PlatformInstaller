@@ -23,6 +23,8 @@ public static class ContainerFactory
 
         builder.RegisterType<ProgressService>()
             .SingleInstance();
+        builder.RegisterType<WindowManager>()
+            .SingleInstance();
         builder.RegisterType<PowerShellRunner>()
             .SingleInstance();
         builder.RegisterType<ChocolateyInstaller>()

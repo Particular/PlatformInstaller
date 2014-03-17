@@ -3,6 +3,7 @@ namespace PlatformInstaller
     using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
+    using Caliburn.Micro;
     using PropertyChanged;
     using System.Windows;
     using Tests;
@@ -10,12 +11,13 @@ namespace PlatformInstaller
     [ImplementPropertyChanged]
     public class MainViewModel
     {
-        public MainViewModel(ProgressService progressService, PackageDefinitionService packageDefinitionDiscovery, ChocolateyInstaller chocolateyInstaller)
+        public MainViewModel(ProgressService progressService, PackageDefinitionService packageDefinitionDiscovery, ChocolateyInstaller chocolateyInstaller, WindowManager  windowManager)
         {
             ProgressService = progressService;
 
             PackageDefinitionService = packageDefinitionDiscovery;
             this.chocolateyInstaller = chocolateyInstaller;
+            this.windowManager = windowManager;
             PackageDefinitionService.Packages.BindActionToPropChanged(() =>
             {
                 SelectedActionCount = PackageDefinitionService.Packages.Count(p => p.Selected);
@@ -26,6 +28,7 @@ namespace PlatformInstaller
         public ProgressService ProgressService;
         public PackageDefinitionService PackageDefinitionService;
         ChocolateyInstaller chocolateyInstaller;
+        WindowManager windowManager;
         public double SelectedActionCount;
         public bool IsInstallEnabled { get { return SelectedActionCount > 0; } }
         public bool CanClose { get { return !IsInstalling; } }
@@ -42,6 +45,10 @@ namespace PlatformInstaller
         {
             if (!chocolateyInstaller.IsInstalled())
             {
+                if (!windowManager.ShowDialog<InstallChocolateyViewModel>().UserChoseToContinue)
+                {
+                    return;
+                }
                 var messageBoxResult = MessageBox.Show("The Platform Installer has a dependency on Chocolatey. Click OK to install it or install it yourself.", "Chocolatey required", MessageBoxButton.OKCancel);
                 if (messageBoxResult == MessageBoxResult.Cancel)
                 {
@@ -74,7 +81,4 @@ namespace PlatformInstaller
 
         public bool IsInstalling;
     }
-
 }
-
-

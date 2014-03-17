@@ -40,8 +40,9 @@
     <Reference Include="ApprovalUtilities">
       <HintPath>..\packages\ApprovalUtilities\lib\net35\ApprovalUtilities.dll</HintPath>
     </Reference>
-    <Reference Include="FluentDateTime">
-      <HintPath>..\packages\FluentDateTime\Lib\NET35\FluentDateTime.dll</HintPath>
+    <Reference Include="Caliburn.Micro, Version=1.5.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Caliburn.Micro\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="nunit.framework">
@@ -50,6 +51,8 @@
     <Reference Include="ObjectApproval">
       <HintPath>..\packages\ObjectApproval\Lib\NET40\ObjectApproval.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -57,8 +60,10 @@
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>C:\Windows\assembly\GAC_MSIL\System.Management.Automation\1.0.0.0__31bf3856ad364e35\System.Management.Automation.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PlatformInstaller\PlatformInstaller.csproj">
@@ -73,6 +78,7 @@
     <Compile Include="Chocolatey\ProcessRunnerTests.cs" />
     <Compile Include="Chocolatey\PackageManagerTests.cs" />
     <Compile Include="Chocolatey\PowerShellRunnerTests.cs" />
+    <Compile Include="InstallChocolateyViewTests.cs" />
     <Compile Include="NewUserDetecterTests.cs" />
   </ItemGroup>
   <ItemGroup>

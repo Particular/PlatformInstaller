@@ -96,12 +96,12 @@
                 <RowDefinition/>
                 <RowDefinition Height="60px"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" MouseLeftButtonDown="Grid_MouseLeftButtonDown" Background="White">
+            <Grid Grid.Row="0" Background="White">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="9*"/>
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
-                <Button Content="X" cal:Message.Attach="[Event Click] = [Action Close()]" IsEnabled="{Binding CanClose}" FontSize="10" Grid.Column="1" Margin="18 -1 18 11" Foreground="Gray" FontWeight="Bold" BorderBrush="Transparent"/>
+                <Button Content="X"  cal:Message.Attach="[Event Click] = [Action Close()]" IsEnabled="{Binding CanClose}" FontSize="10" Grid.Column="1" Margin="18 -1 18 11" Foreground="Gray" FontWeight="Bold" BorderBrush="Transparent"/>
             </Grid>
             <StackPanel Grid.Row="1" Margin="20 0 20 0" >
                 <Image Source="/Images/particularSmall.png" HorizontalAlignment="Left" Stretch="None" VerticalAlignment="Top" />

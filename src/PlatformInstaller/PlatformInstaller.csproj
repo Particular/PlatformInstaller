@@ -84,6 +84,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CaliburnExtensions.cs" />
     <Compile Include="Chocolatey\PlatformInstallerPSHost.cs" />
     <Compile Include="Chocolatey\PlatformInstallerPSHostRawUserInterface.cs" />
     <Compile Include="Chocolatey\PlatformInstallerPSHostUI.cs" />
@@ -95,12 +96,21 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="AssemblyLocation.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="InstallChocolateyViewModel.cs" />
     <Compile Include="InvertedBooleanToVisibilityConverter.cs" />
+    <Compile Include="InstallChocolateyView.xaml.cs">
+      <DependentUpon>InstallChocolateyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Link.cs" />
     <Compile Include="MultInstanceBinder.cs" />
     <Compile Include="PackageDefinitionService.cs" />
     <Compile Include="PackageDefinition.cs" />
     <Compile Include="NewUserDetecter.cs" />
     <Compile Include="SemanticVersion.cs" />
+    <Page Include="InstallChocolateyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

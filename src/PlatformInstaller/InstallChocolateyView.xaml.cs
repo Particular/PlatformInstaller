@@ -2,12 +2,13 @@
 {
     using System.Windows.Input;
 
-    public partial class MainView
+    public partial class InstallChocolateyView
     {
-        public MainView()
+        public InstallChocolateyView()
         {
             InitializeComponent();
         }
+
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             base.OnMouseDown(e);

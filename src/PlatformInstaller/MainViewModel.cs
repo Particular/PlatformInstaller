@@ -49,11 +49,6 @@ namespace PlatformInstaller
                 {
                     return;
                 }
-                var messageBoxResult = MessageBox.Show("The Platform Installer has a dependency on Chocolatey. Click OK to install it or install it yourself.", "Chocolatey required", MessageBoxButton.OKCancel);
-                if (messageBoxResult == MessageBoxResult.Cancel)
-                {
-                    return;
-                }
             }
 
             IsInstallVisible = false;

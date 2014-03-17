@@ -8,6 +8,7 @@ namespace PlatformInstaller
         public void Continue()
         {
             UserChoseToContinue = true;
+            base.TryClose();
         }
 
         public bool UserChoseToContinue;

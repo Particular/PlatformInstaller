@@ -138,7 +138,7 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Margin="20 0" VerticalAlignment="Center">
                         <TextBlock FontSize="18" FontWeight="Bold">Install the Particular Software Suite</TextBlock>
-                        <TextBlock Foreground="Gray">This installer will download and install Particula products.</TextBlock>
+                        <TextBlock Foreground="Gray">This installer will download and install Particular products.</TextBlock>
                     </StackPanel>
                     <ItemsControl Grid.Row="1" ItemTemplate="{StaticResource ProductItemTemplate}" ItemsSource="{Binding PackageDefinitionService.Packages}" Margin="20 10"/>
                 </Grid>

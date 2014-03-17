@@ -21,7 +21,7 @@ public class ProgressService
             Failures.Add(logEntry);
         }
 
-        //hacvk until we can patch chocolatey
+        //hack until we can patch chocolatey
         if (logEntry.Type == LogEntryType.Output && logEntry.Text.ToLower().Contains("unable to find package"))
         {
             Failures.Add(logEntry);

@@ -92,13 +92,6 @@ namespace PlatformInstaller
             IsInstalling = false;
         }
 
-        static void ReportInstallSuccess()
-        {
-            
-        }
-
-
-
         public double InstallCount;
 
         public bool IsInstalling;

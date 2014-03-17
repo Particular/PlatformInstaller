@@ -87,6 +87,30 @@
                              
                              From="400" To="0" Duration="0:0:0.2"/>
         </Storyboard>
+        <Storyboard x:Key="CollapseStep2">
+            <DoubleAnimation Storyboard.TargetName="Step2Grid"
+                             Storyboard.TargetProperty="Width"
+                             
+                             From="400" To="0" Duration="0:0:0.2"/>
+        </Storyboard>
+
+        <Storyboard x:Key="ExpandStep0">
+            <DoubleAnimation Storyboard.TargetName="Step0Grid"
+                             Storyboard.TargetProperty="Width"
+                             From="0" To="400" Duration="0:0:0.2"/>
+        </Storyboard>
+        <Storyboard x:Key="ExpandStep1">
+            <DoubleAnimation Storyboard.TargetName="Step1Grid"
+                             Storyboard.TargetProperty="Width"
+                             
+                             From="0" To="400" Duration="0:0:0.2"/>
+        </Storyboard>
+        <Storyboard x:Key="ExpandStep2">
+            <DoubleAnimation Storyboard.TargetName="Step2Grid"
+                             Storyboard.TargetProperty="Width"
+                             
+                             From="0" To="400" Duration="0:0:0.2"/>
+        </Storyboard>
     </Window.Resources>
     <Border BorderBrush="#20000000" BorderThickness="3">
         <Grid>
@@ -136,7 +160,7 @@
                         </ScrollViewer>
                     </StackPanel>
                 </Grid>
-                <Grid Width="400">
+                <Grid x:Name="Step2Grid" Width="400">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="70px" />
                         <RowDefinition/>
@@ -144,6 +168,21 @@
                     <StackPanel Grid.Row="0" Margin="20 0" VerticalAlignment="Center">
                         <TextBlock FontSize="18" FontWeight="Bold">Installation Complete</TextBlock>
                         <TextBlock Foreground="Gray">Thank you for installing Particular Software products.</TextBlock>
+                    </StackPanel>
+                </Grid>
+                <Grid x:Name="Step3Grid" Width="400">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="70px" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Margin="20 0" VerticalAlignment="Center">
+                        <TextBlock FontSize="18" FontWeight="Bold" Foreground="Red">Install Failed</TextBlock>
+                        <TextBlock Foreground="Gray">One or more packages failed to install.</TextBlock>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Margin="20 40">
+                        <ScrollViewer HorizontalScrollBarVisibility="Hidden" Margin="0 15">
+                            <TextBox IsReadOnly="True" Height="120" Text="{Binding ProgressService.OutputText}" Foreground="#2EA3C4" FontSize="10" FontWeight="Medium" />
+                        </ScrollViewer>
                     </StackPanel>
                 </Grid>
             </StackPanel>
@@ -167,6 +206,7 @@
                     </Button.Style>
                 </Button>
                 <Button x:Name="CloseButton" Grid.Column="1" Content="Close"  Visibility="{Binding Path=IsFinishedInstalling, Converter={StaticResource BoolToVis}}" cal:Message.Attach="[Event Click] = [Action Close()]"  Margin="20" Background="#2EA3C4" Foreground="White" BorderBrush="#1D729B" />
+                <Button x:Name="BackButton" Grid.Column="1" Content="Back"  Visibility="{Binding Path=InstallFailed, Converter={StaticResource BoolToVis}}" cal:Message.Attach="[Event Click] = [Action BackToProducts()]"  Margin="20" Background="#2EA3C4" Foreground="White" BorderBrush="#1D729B" />
             </Grid>
         </Grid>
         <i:Interaction.Triggers>
@@ -175,6 +215,15 @@
             </ei:DataTrigger>
             <ei:DataTrigger Binding="{Binding IsFinishedInstalling}" Value="true" Comparison="Equal">
                 <ei:ControlStoryboardAction Storyboard="{StaticResource CollapseStep1}" ControlStoryboardOption="Play" />
+            </ei:DataTrigger>
+            <ei:DataTrigger Binding="{Binding InstallFailed}" Value="true" Comparison="Equal">
+                <ei:ControlStoryboardAction Storyboard="{StaticResource CollapseStep1}" ControlStoryboardOption="Play" />
+                <ei:ControlStoryboardAction Storyboard="{StaticResource CollapseStep2}" ControlStoryboardOption="Play" />
+            </ei:DataTrigger>
+            <ei:DataTrigger Binding="{Binding IsInstallVisible}" Value="true" Comparison="Equal">
+                <ei:ControlStoryboardAction Storyboard="{StaticResource ExpandStep0}" ControlStoryboardOption="Play" />
+                <ei:ControlStoryboardAction Storyboard="{StaticResource ExpandStep1}" ControlStoryboardOption="Play" />
+                <ei:ControlStoryboardAction Storyboard="{StaticResource ExpandStep2}" ControlStoryboardOption="Play" />
             </ei:DataTrigger>
         </i:Interaction.Triggers>
     </Border>

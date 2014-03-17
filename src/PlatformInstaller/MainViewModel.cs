@@ -31,15 +31,24 @@ namespace PlatformInstaller
         WindowManager windowManager;
         NewUserDetecter newUserDetecter;
         public double SelectedActionCount;
-        public bool IsInstallEnabled { get { return SelectedActionCount > 0; } }
+        public bool IsInstallEnabled { get { return SelectedActionCount > 0 && !IsInstalling; } }
         public bool CanClose { get { return !IsInstalling; } }
         public bool IsInstallVisible = true;
         public bool IsFinishedInstalling ;
+        public bool InstallFailed;
         public double InstallProgress;
  
         public void Close()
         {
             Application.Current.Shutdown();
+        }
+
+        public void BackToProducts()
+        {
+            IsInstalling = false;
+            InstallFailed = false;
+            IsInstallVisible = true;
+            IsFinishedInstalling = false;
         }
 
         public async Task InstallSelected()
@@ -54,7 +63,6 @@ namespace PlatformInstaller
                 }
             }
 
-            IsInstallVisible = false;
             IsInstalling = true;
             InstallCount = SelectedActionCount;
             if (!chocolateyInstaller.IsInstalled())
@@ -70,6 +78,7 @@ namespace PlatformInstaller
                 InstallProgress++;
             }
 
+            IsInstallVisible = false;
             if (!ProgressService.Failures.Any())
             {
                 Process.Start(@"http://particular.net/thank-you-for-downloading-the-particular-service-platform?new_user=" + isNewUser.ToString().ToLower());
@@ -77,7 +86,7 @@ namespace PlatformInstaller
             }
             else
             {
-                IsInstallVisible = true; 
+                InstallFailed = true; 
             }
 
             IsInstalling = false;
@@ -87,6 +96,8 @@ namespace PlatformInstaller
         {
             
         }
+
+
 
         public double InstallCount;
 

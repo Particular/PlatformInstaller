@@ -45,6 +45,7 @@ namespace PlatformInstaller
 
         public void BackToProducts()
         {
+            InstallProgress = 0;
             IsInstalling = false;
             InstallFailed = false;
             IsInstallVisible = true;

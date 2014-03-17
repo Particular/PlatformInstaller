@@ -53,7 +53,6 @@ public class PackageDefinitionService
                    await packageManager.Install("NServicebus.PerfCounters.install");
                    await packageManager.Install("NServicebus.Msmq.install");
                    await packageManager.Install("RavenDB");
-                   await packageManager.Install("RavenDB");
                 }
             }
         };

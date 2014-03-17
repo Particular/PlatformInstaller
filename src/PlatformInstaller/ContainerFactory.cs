@@ -25,6 +25,10 @@ public static class ContainerFactory
             .SingleInstance();
         builder.RegisterType<PowerShellRunner>()
             .SingleInstance();
+        builder.RegisterType<ChocolateyInstaller>()
+            .SingleInstance();
+        builder.RegisterType<ProcessRunner>()
+            .SingleInstance();
         builder.RegisterType<PlatformInstallerPSHost>()
             .SingleInstance();
         builder.RegisterType<PlatformInstallerPSHostUI>()

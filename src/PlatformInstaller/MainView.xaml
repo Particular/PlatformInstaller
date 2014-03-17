@@ -152,7 +152,7 @@
                     <ColumnDefinition Width="2.5*" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Button x:Name="InstallButton" Grid.Column="1" IsEnabled="{Binding CanRunInstall}"  Visibility="{Binding Path=IsInstallVisible, Converter={StaticResource BoolToVis}}" Content="Install" cal:Message.Attach="[Event Click] = [Action InstallSelected()]" Foreground="White"  Background="#2EA3C4" Margin="20" >
+                <Button x:Name="InstallButton" Grid.Column="1" IsEnabled="{Binding IsInstallEnabled}"  Visibility="{Binding Path=IsInstallVisible, Converter={StaticResource BoolToVis}}" Content="Install" cal:Message.Attach="[Event Click] = [Action InstallSelected()]" Foreground="White"  Background="#2EA3C4" Margin="20" >
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>

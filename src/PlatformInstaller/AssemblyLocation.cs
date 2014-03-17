@@ -1,16 +1,15 @@
 ﻿using System;
 using System.IO;
 
-internal static class AssemblyLocation
+public static class AssemblyLocation
 {
-    public static string CurrentDirectory
+    static AssemblyLocation()
     {
-        get
-        {
-            var assembly = typeof(AssemblyLocation).Assembly;
-            var uri = new UriBuilder(assembly.CodeBase);
-            var currentAssemblyPath = Uri.UnescapeDataString(uri.Path);
-            return Path.GetDirectoryName(currentAssemblyPath);
-        }
+        var assembly = typeof(AssemblyLocation).Assembly;
+        var uri = new UriBuilder(assembly.CodeBase);
+        var currentAssemblyPath = Uri.UnescapeDataString(uri.Path);
+        CurrentDirectory = Path.GetDirectoryName(currentAssemblyPath);
     }
+
+    public static string CurrentDirectory;
 }

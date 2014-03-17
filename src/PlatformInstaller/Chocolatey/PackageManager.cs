@@ -37,6 +37,10 @@ public class PackageManager
     public bool TryGetInstalledVersion(string packageName, out SemanticVersion version)
     {
         version = null;
+        if (!Directory.Exists(@"C:\Chocolatey\lib"))
+        {
+            return false;
+        }
         foreach (var directory in Directory.EnumerateDirectories(@"C:\Chocolatey\lib", packageName + ".*"))
         {
             var versionString = Path.GetFileName(directory).ReplaceCaseless(packageName +".","");

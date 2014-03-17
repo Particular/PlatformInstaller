@@ -14,7 +14,7 @@ public class NewUserDetecterTests
             using (var regRoot = Registry.CurrentUser.CreateSubKey(subKey))
             using (regRoot.CreateSubKey("NServiceBus"))
             {
-                Assert.False(NewUserDetecter.CheckForSubKey(regRoot));
+                Assert.False(NewUserDetecter.CheckRegistryForExistingKeys(regRoot));
             }
         }
         finally
@@ -32,7 +32,7 @@ public class NewUserDetecterTests
             using (var regRoot = Registry.CurrentUser.CreateSubKey(subKey))
             using (regRoot.CreateSubKey("ParticularSoftware"))
             {
-                Assert.False(NewUserDetecter.CheckForSubKey(regRoot));
+                Assert.False(NewUserDetecter.CheckRegistryForExistingKeys(regRoot));
             }
         }
         finally
@@ -50,7 +50,7 @@ public class NewUserDetecterTests
         {
             using (var regRoot = Registry.CurrentUser.CreateSubKey(subKey))
             {
-                Assert.True(NewUserDetecter.CheckForSubKey(regRoot));
+                Assert.True(NewUserDetecter.CheckRegistryForExistingKeys(regRoot));
             }
         }
         finally

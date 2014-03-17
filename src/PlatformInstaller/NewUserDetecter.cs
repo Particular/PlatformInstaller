@@ -5,12 +5,15 @@ public class NewUserDetecter
 {
     public bool IsNewUser()
     {
-        return CheckForSubKey(Registry.CurrentUser);
+        using (var regRoot = Registry.CurrentUser.OpenSubKey("Software"))
+        {
+            return CheckRegistryForExistingKeys(regRoot);
+        }
     }
 
-    public static bool CheckForSubKey(RegistryKey currentUser)
+    public static bool CheckRegistryForExistingKeys(RegistryKey regRoot)
     {
-        return currentUser.GetSubKeyNames().All(subKey =>
+        return regRoot.GetSubKeyNames().All(subKey =>
             subKey != "NServiceBus" &&
             subKey != "ParticularSoftware");
     }

@@ -44,6 +44,8 @@ namespace PlatformInstaller
 
         public async Task InstallSelected()
         {
+            var isNewUser = newUserDetecter.IsNewUser();
+
             if (!chocolateyInstaller.IsInstalled())
             {
                 if (!windowManager.ShowDialog<InstallChocolateyViewModel>().UserChoseToContinue)
@@ -67,10 +69,23 @@ namespace PlatformInstaller
                 await package.InstallAction();
                 InstallProgress++;
             }
-            Process.Start(@"http://particular.net/thank-you-for-downloading-the-particular-service-platform?new_user=" + newUserDetecter.IsNewUser().ToString().ToLower());
+
+            if (!ProgressService.Failures.Any())
+            {
+                Process.Start(@"http://particular.net/thank-you-for-downloading-the-particular-service-platform?new_user=" + isNewUser.ToString().ToLower());
+                IsFinishedInstalling = true;
+            }
+            else
+            {
+                IsInstallVisible = true; 
+            }
 
             IsInstalling = false;
-            IsFinishedInstalling = true;
+        }
+
+        static void ReportInstallSuccess()
+        {
+            
         }
 
         public double InstallCount;

@@ -9,6 +9,18 @@
                     <global:AppBootstrapper x:Key="bootstrapper" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Margin" Value="10"/>
+                <Setter Property="Padding" Value="10,0,10,0"/>
+
+                <Style.Triggers>
+                    <Trigger Property="IsEnabled" Value="true">
+                        <Setter Property="BorderBrush" Value="#1D729B" />
+                        <Setter Property="Background" Value="#2EA3C4" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

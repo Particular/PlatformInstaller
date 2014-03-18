@@ -17,7 +17,7 @@
         <ProgressBar DockPanel.Dock="Top" Height="20" Margin="0 10 0 0" Minimum="0" Maximum="{Binding InstallCount}" Value="{Binding InstallProgress}" Foreground="#2EA3C4"/>
         <TextBlock DockPanel.Dock="Top" FontSize="10" Foreground="Gray" Text="{Binding CurrentPackageDescription}" />
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
-            <Button x:Name="Back" Content="Back"  Visibility="{Binding Path=InstallFailed, Converter={StaticResource BoolToVis}}" Margin="10" Padding="10,0,10,0" Background="#2EA3C4" Foreground="White" BorderBrush="#1D729B" />
+            <Button x:Name="Back" Content="Back"  Visibility="{Binding Path=InstallFailed, Converter={StaticResource BoolToVis}}" />
         </StackPanel>
         <ScrollViewer HorizontalScrollBarVisibility="Hidden" >
             <TextBox IsReadOnly="True" Text="{Binding ProgressService.OutputText}" Foreground="#2EA3C4" FontSize="10" FontWeight="Medium" />

@@ -20,7 +20,7 @@ namespace PlatformInstaller
             this.ActivateModel<LicenseAgreementViewModel>(); 
         }
 
-        public void Cancel()
+        public void Close()
         {
             base.TryClose();
         }

@@ -14,7 +14,7 @@
                 <RowDefinition Height="30px" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Button Content="X" HorizontalAlignment="Right" Width="35" cal:Message.Attach="[Event Click] = [Action Cancel()]" FontSize="10" Margin="18 -1 18 11" Foreground="Gray" FontWeight="Bold" BorderBrush="Transparent"/>
+            <Button Content="X" HorizontalAlignment="Right" Width="35" cal:Message.Attach="[Event Click] = [Action Cancel()]" FontSize="10" Margin="18 -1 18 11" FontWeight="Bold" BorderBrush="Transparent"/>
             <StackPanel  Orientation="Vertical" Grid.Row="1" Margin="20,0,20,0" >
                 
                 <TextBlock FontSize="18" FontWeight="Bold" >Chocolatey requried</TextBlock>
@@ -26,9 +26,9 @@
                 </Border>
 
                 <StackPanel  Orientation="Horizontal" FlowDirection="RightToLeft">
-                    <Button x:Name="Cancel" Background="#2EA3C4" Foreground="White" BorderBrush="#1D729B" Margin="10" Padding="10,0,10,0">Cancel</Button>
-                    <Button x:Name="Copy" Background="#2EA3C4" Foreground="White" BorderBrush="#1D729B" Margin="10" Padding="10,0,10,0">Copy command</Button>
-                    <Button x:Name="Continue" Background="#2EA3C4" Foreground="White" BorderBrush="#1D729B" Margin="10" Padding="10,0,10,0">Continue</Button>
+                    <Button x:Name="Cancel">Cancel</Button>
+                    <Button x:Name="Copy">Copy command</Button>
+                    <Button x:Name="Continue">Continue</Button>
                 </StackPanel>
             </StackPanel>
         </Grid>

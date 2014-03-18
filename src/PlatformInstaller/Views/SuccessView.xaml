@@ -8,8 +8,8 @@
     <DockPanel >
         <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Bold">Installation Complete</TextBlock>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
-            <Button x:Name="Close" Content="Close" Margin="10" Padding="10,0,10,0" Background="#2EA3C4" Foreground="White" BorderBrush="#1D729B" />
-            <Button x:Name="Home" Content="Home"  Margin="10" Padding="10,0,10,0" Background="#2EA3C4" Foreground="White" BorderBrush="#1D729B" />
+            <Button x:Name="Close" Content="Close"/>
+            <Button x:Name="Home" Content="Home"/>
         </StackPanel>
         <TextBlock Foreground="Gray">Thank you for installing Particular Software products.</TextBlock>
     </DockPanel>

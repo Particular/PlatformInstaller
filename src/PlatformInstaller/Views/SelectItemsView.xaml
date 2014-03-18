@@ -77,21 +77,8 @@
         <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Bold">Install the Particular Software Suite</TextBlock>
         <TextBlock DockPanel.Dock="Top" Foreground="Gray">This installer will download and install Particular products.</TextBlock>
         <StackPanel  DockPanel.Dock="Bottom"  Orientation="Horizontal" FlowDirection="RightToLeft">
-            <Button x:Name="Close"  IsEnabled="{Binding IsInstallEnabled}" Content="Close" Foreground="White" Background="#2EA3C4"  Margin="10" Padding="10,0,10,0"/>
-            <Button x:Name="Install"  IsEnabled="{Binding IsInstallEnabled}" Content="Install" Foreground="White" Background="#2EA3C4"  Margin="10" Padding="10,0,10,0" >
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Style.Triggers>
-                            <Trigger Property="IsEnabled" Value="true">
-                                <Setter Property="BorderBrush" Value="#1D729B" />
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Background" Value="#2EA3C4" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
+            <Button x:Name="Close" Content="Close"/>
+            <Button x:Name="Install" IsEnabled="{Binding IsInstallEnabled}" Content="Install"/>
         </StackPanel>
         <ItemsControl ItemTemplate="{StaticResource ProductItemTemplate}" ItemsSource="{Binding PackageDefinitions}" Margin="0 10"/>
 

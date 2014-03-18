@@ -24,12 +24,12 @@
                 <Border BorderBrush="#FF000000" BorderThickness="1,1,1,1" Margin="5" CornerRadius="2">
                     <TextBox TextWrapping="WrapWithOverflow" IsReadOnly="True" Background="#E7E7E7" Text="{Binding InstallCommand}"></TextBox>
                 </Border>
-                
-                <WrapPanel  FlowDirection="RightToLeft">
-                    <Button cal:Message.Attach="[Event Click] = [Action Cancel()]" Foreground="White" Background="#1D729B" Margin="10" Padding="10,0,10,0">Cancel</Button>
-                    <Button cal:Message.Attach="[Event Click] = [Action CopyCommand()]" Foreground="White" Background="#1D729B" Margin="10" Padding="10,0,10,0">Copy command</Button>
-                    <Button cal:Message.Attach="[Event Click] = [Action Continue()]" Foreground="White" Background="#1D729B" Margin="10" Padding="10,0,10,0">Continue</Button>
-                </WrapPanel>
+
+                <StackPanel  Orientation="Horizontal" FlowDirection="RightToLeft">
+                    <Button x:Name="Cancel" Background="#2EA3C4" Foreground="White" BorderBrush="#1D729B" Margin="10" Padding="10,0,10,0">Cancel</Button>
+                    <Button x:Name="Copy" Background="#2EA3C4" Foreground="White" BorderBrush="#1D729B" Margin="10" Padding="10,0,10,0">Copy command</Button>
+                    <Button x:Name="Continue" Background="#2EA3C4" Foreground="White" BorderBrush="#1D729B" Margin="10" Padding="10,0,10,0">Continue</Button>
+                </StackPanel>
             </StackPanel>
         </Grid>
     </Border>

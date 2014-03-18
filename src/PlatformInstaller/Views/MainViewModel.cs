@@ -1,5 +1,6 @@
 namespace PlatformInstaller
 {
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
@@ -18,9 +19,10 @@ namespace PlatformInstaller
             this.chocolateyInstaller = chocolateyInstaller;
             this.windowManager = windowManager;
             this.newUserDetecter = newUserDetecter;
-            PackageDefinitionService.Packages.BindActionToPropChanged(() =>
+            packageDefinitions = PackageDefinitionService.GetPackages();
+            packageDefinitions.BindActionToPropChanged(() =>
             {
-                SelectedActionCount = PackageDefinitionService.Packages.Count(p => p.Selected);
+                SelectedActionCount = packageDefinitions.Count(p => p.Selected);
             }, "Selected");
         }
 
@@ -72,7 +74,7 @@ namespace PlatformInstaller
                 await chocolateyInstaller.InstallChocolatey();
                 InstallProgress++;
             }
-            foreach (var package in PackageDefinitionService.Packages.Where(p => p.Selected))
+            foreach (var package in packageDefinitions.Where(p => p.Selected))
             {
                 CurrentPackageDescription = package.Name;
                 await package.InstallAction();
@@ -96,5 +98,6 @@ namespace PlatformInstaller
         public double InstallCount;
 
         public bool IsInstalling;
+        List<PackageDefinition> packageDefinitions;
     }
 }

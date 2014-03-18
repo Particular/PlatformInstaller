@@ -18,7 +18,7 @@ namespace PlatformInstaller
            base.TryClose();
         }
 
-        public void CopyCommand()
+        public void Copy()
         {
             Clipboard.SetText(InstallCommand);
         }

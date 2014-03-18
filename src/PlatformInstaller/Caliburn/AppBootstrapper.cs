@@ -3,7 +3,7 @@ using Autofac;
 using Caliburn.Micro;
 using PlatformInstaller;
 
-public class AppBootstrapper : Bootstrapper<MainViewModel>
+public class AppBootstrapper : Bootstrapper<ShellViewModel>
 {
     protected override object GetInstance(Type service, string key)
     {
@@ -20,5 +20,4 @@ public class AppBootstrapper : Bootstrapper<MainViewModel>
         }
         throw new Exception(string.Format("Could not locate any instances of contract {0}.", key ?? service.Name));
     }
-
 }

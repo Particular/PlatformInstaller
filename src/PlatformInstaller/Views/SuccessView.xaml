@@ -1,0 +1,16 @@
+﻿<UserControl
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:global="clr-namespace:"
+        x:Class="PlatformInstaller.SuccessView">
+    <UserControl.Resources>
+    </UserControl.Resources>
+    <DockPanel >
+        <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Bold">Installation Complete</TextBlock>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
+            <Button x:Name="Close" Content="Close"/>
+            <Button x:Name="Home" Content="Home"/>
+        </StackPanel>
+        <TextBlock Foreground="Gray">Thank you for installing Particular Software products.</TextBlock>
+    </DockPanel>
+</UserControl>

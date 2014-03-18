@@ -2,11 +2,16 @@
 
 public class PackageDefinitionService
 {
-    public List<PackageDefinition> Packages;
+    PackageManager packageManager;
 
     public PackageDefinitionService()
     {
-        Packages = new List<PackageDefinition>
+        this.packageManager = packageManager;
+    }
+
+    public virtual List<PackageDefinition> GetPackages()
+    {
+        return new List<PackageDefinition>
         {
             new PackageDefinition
             {
@@ -45,7 +50,5 @@ public class PackageDefinitionService
                 ChocolateyPackage = "ServiceControl.install"
             },
         };
-
-
     }
 }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public class FakePackageDefinitionService : PackageDefinitionService
 {
-    public FakePackageDefinitionService(PackageManager packageManager) : base(packageManager)
+    public FakePackageDefinitionService() : base()
     {
     }
 
@@ -13,8 +13,7 @@ public class FakePackageDefinitionService : PackageDefinitionService
             new PackageDefinition
             {
                 Name = "Service Matrix",
-                Image = "/Images/SM.png",
-                Installed =  true
+                Image = "/Images/SM.png"
             }};
     }
 }

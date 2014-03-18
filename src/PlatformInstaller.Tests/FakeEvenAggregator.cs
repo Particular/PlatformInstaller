@@ -21,4 +21,9 @@ public class FakeEvenAggregator : IEventAggregator
     }
 
     public Action<Action> PublicationThreadMarshaller { get; set; }
+
+    public bool HandlerExistsFor(Type messageType)
+    {
+        return true;
+    }
 }

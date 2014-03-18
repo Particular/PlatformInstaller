@@ -6,11 +6,17 @@ namespace PlatformInstaller
     using Caliburn.Micro;
     using PropertyChanged;
     using System.Windows;
+    using System.Collections.Generic;
 
     [ImplementPropertyChanged]
     public class MainViewModel
     {
-        public MainViewModel(ProgressService progressService, PackageDefinitionService packageDefinitionDiscovery, ChocolateyInstaller chocolateyInstaller, WindowManager  windowManager, NewUserDetecter newUserDetecter)
+        public MainViewModel(ProgressService progressService, 
+            PackageDefinitionService packageDefinitionDiscovery, 
+            ChocolateyInstaller chocolateyInstaller, 
+            WindowManager  windowManager, 
+            NewUserDetecter newUserDetecter,
+            PackageManager packageManager)
         {
             ProgressService = progressService;
 
@@ -18,9 +24,11 @@ namespace PlatformInstaller
             this.chocolateyInstaller = chocolateyInstaller;
             this.windowManager = windowManager;
             this.newUserDetecter = newUserDetecter;
-            PackageDefinitionService.Packages.BindActionToPropChanged(() =>
+            this.packageManager = packageManager;
+            var allPackages = PackageDefinitionService.Packages.SelectMany(p => p.Dependencies.Union(new List<PackageDefinition> { p }));
+            allPackages.BindActionToPropChanged(() =>
             {
-                SelectedActionCount = PackageDefinitionService.Packages.Count(p => p.Selected);
+                SelectedActionCount = allPackages.Count(p => p.Selected);
             }, "Selected");
         }
 
@@ -54,8 +62,6 @@ namespace PlatformInstaller
 
         public async Task InstallSelected()
         {
-            var isNewUser = newUserDetecter.IsNewUser();
-
             if (!chocolateyInstaller.IsInstalled())
             {
                 if (!windowManager.ShowDialog<InstallChocolateyViewModel>().UserChoseToContinue)
@@ -66,19 +72,29 @@ namespace PlatformInstaller
 
             IsInstalling = true;
             InstallCount = SelectedActionCount;
-            if (!chocolateyInstaller.IsInstalled())
-            {
-                InstallCount++;
-                await chocolateyInstaller.InstallChocolatey();
-                InstallProgress++;
-            }
-            foreach (var package in PackageDefinitionService.Packages.Where(p => p.Selected))
+            await InstallChocolatey();
+
+            await InstallPackages(PackageDefinitionService.Packages);
+
+            CompleteInstall(newUserDetecter.IsNewUser());
+        }
+
+        private async Task InstallPackages(IEnumerable<PackageDefinition> packagesToInstall)
+        {
+            foreach (var package in packagesToInstall.Where(p => p.Selected))
             {
                 CurrentPackageDescription = package.Name;
-                await package.InstallAction();
+                if (!string.IsNullOrEmpty(package.ChocolateyPackage))
+                {
+                    await packageManager.Install(package.ChocolateyPackage);
+                    await InstallPackages(package.Dependencies);
+                }
                 InstallProgress++;
             }
+        }
 
+        private void CompleteInstall(bool isNewUser)
+        {
             IsInstallVisible = false;
             if (!ProgressService.Failures.Any())
             {
@@ -87,14 +103,25 @@ namespace PlatformInstaller
             }
             else
             {
-                InstallFailed = true; 
+                InstallFailed = true;
             }
 
             IsInstalling = false;
         }
 
+        private async Task InstallChocolatey()
+        {
+            if (!chocolateyInstaller.IsInstalled())
+            {
+                InstallCount++;
+                await chocolateyInstaller.InstallChocolatey();
+                InstallProgress++;
+            }
+        }
+
         public double InstallCount;
 
         public bool IsInstalling;
+        private PackageManager packageManager;
     }
 }

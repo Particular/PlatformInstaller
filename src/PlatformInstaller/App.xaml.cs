@@ -1,18 +1,10 @@
-﻿using System.IO;
-using Serilog;
-
-namespace PlatformInstaller
+﻿namespace PlatformInstaller
 {
     public partial class App
     {
         public App()
         {
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.ColoredConsole()
-                .WriteTo.RollingFile(Path.Combine(AssemblyLocation.CurrentDirectory,"log.txt"))
-                .CreateLogger();
+            Logging.Setup();
         }
-
     }
-
 }

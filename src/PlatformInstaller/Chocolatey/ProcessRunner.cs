@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
+using Anotar.Serilog;
 
 public class ProcessRunner
 {
@@ -10,7 +11,7 @@ public class ProcessRunner
         this.progressService = progressService;
     }
 
-    public Task<int> RunProcessAsync(string fileName, string arguments)
+    public Task<int> RunProcess(string fileName, string arguments)
     {
         var tcs = new TaskCompletionSource<int>();
 
@@ -32,6 +33,7 @@ public class ProcessRunner
         {
             if (args.Data != null)
             {
+                LogTo.Information(args.Data);
                 progressService.OutputDataReceived(new LogEntry(args.Data,LogEntryType.Output));
             }
         };
@@ -39,6 +41,7 @@ public class ProcessRunner
         {
             if (args.Data != null)
             {
+                LogTo.Error(args.Data);
                 progressService.OutputDataReceived(new LogEntry(args.Data, LogEntryType.Error));
             }
         };

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Management.Automation;
 using System.Management.Automation.Host;
 using System.Security;
+using Anotar.Serilog;
 
 public class PlatformInstallerPSHostUI : PSHostUserInterface
 {
@@ -27,41 +28,49 @@ public class PlatformInstallerPSHostUI : PSHostUserInterface
 
     public override void Write(string value)
     {
+        LogTo.Information(value);
         progressService.OutputDataReceived(new LogEntry(value, LogEntryType.Output, false));
     }
 
     public override void Write(ConsoleColor foregroundColor, ConsoleColor backgroundColor, string value)
     {
+        LogTo.Information(value);
         progressService.OutputDataReceived(new LogEntry(value, LogEntryType.Output, false));   
     }
 
     public override void WriteLine(string value)
     {
+        LogTo.Information(value);
         progressService.OutputDataReceived(new LogEntry(value, LogEntryType.Output));
     }
 
     public override void WriteErrorLine(string value)
     {
+        LogTo.Error(value);
         progressService.OutputDataReceived(new LogEntry(value, LogEntryType.Error));
     }
 
     public override void WriteDebugLine(string value)
     {
+        LogTo.Debug(value);
         progressService.OutputDataReceived(new LogEntry(value, LogEntryType.Debug));
     }
 
     public override void WriteProgress(long sourceId, ProgressRecord record)
     {
+        LogTo.Debug(record.ToString());
         progressService.OutputProgressReceived(record);
     }
 
     public override void WriteVerboseLine(string value)
     {
+        LogTo.Debug(value);
         progressService.OutputDataReceived(new LogEntry(value, LogEntryType.Verbose));
     }
 
     public override void WriteWarningLine(string value)
     {
+        LogTo.Warning(value);
         progressService.OutputDataReceived(new LogEntry(value, LogEntryType.Warning));
     }
 

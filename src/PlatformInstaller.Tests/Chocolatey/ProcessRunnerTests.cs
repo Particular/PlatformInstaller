@@ -12,7 +12,7 @@ public class ProcessRunnerTests
     {
         var progressService = new ProgressService();
         var processRunner = new ProcessRunner(progressService);
-        processRunner.RunProcessAsync("ping", "localhost").Wait();
+        processRunner.RunProcess("ping", "localhost").Wait();
         ObjectApprover.VerifyWithJson(progressService.OutputText.ReplaceCaseless(Environment.MachineName, ""));
     }
 
@@ -21,7 +21,7 @@ public class ProcessRunnerTests
     {
         var progressService = new ProgressService();
         var processRunner = new ProcessRunner(progressService);
-        processRunner.RunProcessAsync("net", " use foo").Wait();
+        processRunner.RunProcess("net", " use foo").Wait();
         ObjectApprover.VerifyWithJson(progressService.OutputText.ReplaceCaseless(Environment.MachineName, ""));
     }
 

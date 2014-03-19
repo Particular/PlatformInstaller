@@ -8,7 +8,10 @@
     </Window.Resources>
     <Border BorderBrush="#20000000" BorderThickness="2">
         <DockPanel>
-            <Button x:Name="Close" Content="X" DockPanel.Dock="Top" HorizontalAlignment="Right" Width="35" FontSize="10" Margin="18 -1 18 11" FontWeight="Bold" BorderBrush="Transparent"/>
+            <WrapPanel DockPanel.Dock="Top"  Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0" >
+                <Button x:Name="Close" Content="X" HorizontalAlignment="Right" FontSize="10" Margin="10,0" FontWeight="Bold" />
+                <Button x:Name="OpenLogDirectory" Content="Log" HorizontalAlignment="Right" FontSize="10" Margin="10,0" FontWeight="Bold" />
+            </WrapPanel>
             <Image DockPanel.Dock="Top" Source="/Images/particularSmall.png" HorizontalAlignment="Left" Margin="20 0 20 0" Stretch="None" VerticalAlignment="Top" />
             <ContentControl x:Name="ActiveItem" Margin="20 20 20 20"/>
         </DockPanel>

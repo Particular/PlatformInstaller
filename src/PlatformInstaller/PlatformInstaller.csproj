@@ -108,12 +108,13 @@
     <Compile Include="Caliburn\AppBootstrapper.cs" />
     <Compile Include="AssemblyLocation.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Views\AgeedToLicenseEvent.cs" />
-    <Compile Include="Views\CloseApplicationEvent.cs" />
-    <Compile Include="Views\HomeEvent.cs" />
+    <Compile Include="Logging.cs" />
+    <Compile Include="Events\AgeedToLicenseEvent.cs" />
+    <Compile Include="Events\CloseApplicationEvent.cs" />
+    <Compile Include="Events\HomeEvent.cs" />
     <Compile Include="Views\InstallChocolateyViewModel.cs" />
     <Compile Include="Views\InstallingViewModel.cs" />
-    <Compile Include="Views\InstallSucceededEvent.cs" />
+    <Compile Include="Events\InstallSucceededEvent.cs" />
     <Compile Include="Views\LicenseAgreementView.xaml.cs">
       <DependentUpon>LicenseAgreementView.xaml</DependentUpon>
     </Compile>
@@ -128,7 +129,7 @@
     <Compile Include="Views\SelectItemsView.xaml.cs">
       <DependentUpon>SelectItemsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\RunInstallEvent.cs" />
+    <Compile Include="Events\RunInstallEvent.cs" />
     <Compile Include="WpfExtensions\InvertedBooleanToVisibilityConverter.cs" />
     <Compile Include="Views\InstallChocolateyView.xaml.cs">
       <DependentUpon>InstallChocolateyView.xaml</DependentUpon>
@@ -209,6 +210,7 @@
     <Resource Include="particular.ico" />
     <EmbeddedResource Include="LicenseAgreement.md" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)..\BuildSupport\RippleRestoreTask.targets" />
   <Import Project="..\packages\Fody\build\Fody.targets" Condition="Exists('..\packages\Fody\build\Fody.targets')" />

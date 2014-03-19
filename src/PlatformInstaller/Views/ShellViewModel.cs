@@ -1,5 +1,6 @@
 namespace PlatformInstaller
 {
+    using System.Diagnostics;
     using Caliburn.Micro;
 
     public class ShellViewModel : Conductor<object>,
@@ -23,6 +24,11 @@ namespace PlatformInstaller
         public void Close()
         {
             base.TryClose();
+        }
+
+        public void OpenLogDirectory()
+        {
+            Process.Start(Logging.LogDirectory);
         }
 
         public void Handle(AgeedToLicenseEvent message)

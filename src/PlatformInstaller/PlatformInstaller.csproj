@@ -73,7 +73,7 @@
       <HintPath>..\packages\Serilog\lib\net45\Serilog.FullNetFx.dll</HintPath>
     </Reference>
     <Reference Include="Strike.IE">
-      <HintPath>..\packages\Strike.IE.Merged.0.2.0\Lib\NET40\Strike.IE.dll</HintPath>
+      <HintPath>..\packages\Strike.IE.Merged\Lib\NET40\Strike.IE.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -145,7 +145,6 @@
     <Compile Include="PackageDefinition.cs" />
     <Compile Include="NewUserDetecter.cs" />
     <Compile Include="SemanticVersion.cs" />
-    <None Include="packages.config" />
     <Page Include="Views\InstallChocolateyView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

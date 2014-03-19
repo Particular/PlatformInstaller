@@ -169,10 +169,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MainView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -180,11 +176,6 @@
     <Compile Include="Chocolatey\ChocolateyInstaller.cs" />
     <Compile Include="Chocolatey\PowerShellVersion.cs" />
     <Compile Include="Chocolatey\ProcessRunner.cs" />
-    <Compile Include="Views\MainViewModel.cs" />
-    <Compile Include="Views\MainView.xaml.cs">
-      <DependentUpon>MainView.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Chocolatey\PackageManager.cs" />
     <Compile Include="Chocolatey\PowerShellRunner.cs" />
     <Compile Include="AssemblyInfo.cs">

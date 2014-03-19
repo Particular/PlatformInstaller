@@ -22,7 +22,7 @@ namespace PlatformInstaller
             this.newUserDetecter = newUserDetecter;
             this.eventAggregator = eventAggregator;
             eventAggregator.Subscribe(this);
-            this.ActivateModel<LicenseAgreementViewModel>(); 
+            this.ActivateModel<LicenseAgreementViewModel>();
         }
 
         public void Close()
@@ -50,7 +50,7 @@ namespace PlatformInstaller
                 }
             }
 
-            this.ActivateModel<InstallingViewModel>(x=>x.ItemsToInstall = message.SelectedItems);
+            this.ActivateModel<InstallingViewModel>(x => x.ItemsToInstall = message.SelectedItems);
         }
 
         public void Handle(InstallSucceededEvent message)
@@ -67,6 +67,11 @@ namespace PlatformInstaller
         public void Handle(CloseApplicationEvent message)
         {
             base.TryClose();
+        }
+
+        public string Version
+        {
+            get { return "Version " + GetType().Assembly.GetName().Version.ToString(3); }
         }
     }
 }

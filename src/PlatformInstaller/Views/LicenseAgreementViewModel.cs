@@ -1,5 +1,6 @@
 namespace PlatformInstaller
 {
+    using System.Windows;
     using Caliburn.Micro;
 
     public class LicenseAgreementViewModel: Screen
@@ -19,6 +20,11 @@ namespace PlatformInstaller
         public void Close()
         {
             eventAggregator.Publish<CloseApplicationEvent>();
+        }
+
+        public void Copy()
+        {
+           Clipboard.SetText(LicenseText.ReadLicenseMarkDown());
         }
 
     }

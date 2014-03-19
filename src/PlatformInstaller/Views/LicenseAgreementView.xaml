@@ -8,8 +8,9 @@
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft" >
             <Button x:Name="Close" Content="Close"/>
-            <Button x:Name="Agree" Content="Agree"/>
+            <Button x:Name="Copy" Content="Copy"/>
+            <Button x:Name="Agree" Content="I Agree"/>
         </StackPanel>
-            <WebBrowser x:Name="licenseBrowser" ></WebBrowser>
+        <WebBrowser x:Name="licenseBrowser" ></WebBrowser>
     </DockPanel>
 </UserControl>

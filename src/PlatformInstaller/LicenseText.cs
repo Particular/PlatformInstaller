@@ -14,9 +14,9 @@ public static class LicenseText
 <meta charset='utf-8' />
 <meta http-equiv='X-UA-Compatible' content='IE=edge' /> 
     <style type='text/css'>
-        html *
+        BODY 
         {{
-            font-size: 1em !important;
+            font-size: 9pt !important;
             color: #000 !important;
             font-family: 'Segoe UI' !important;
         }}

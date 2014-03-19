@@ -10,7 +10,6 @@ public static class ContainerFactory
     static ContainerFactory()
     {
         var builder = new ContainerBuilder();
-      //  builder.RegisterModule<Foo>();
         builder.Register<IWindowManager>(c => new WindowManager()).InstancePerLifetimeScope();
 
         builder.RegisterAssemblyTypes(AssemblySource.Instance.ToArray())
@@ -27,6 +26,8 @@ public static class ContainerFactory
             .As<IEventAggregator>()
             .SingleInstance();
         builder.RegisterType<ProgressService>()
+            .SingleInstance();
+        builder.RegisterType<Logging>()
             .SingleInstance();
         builder.RegisterType<WindowManager>()
             .As<IWindowManager>()
@@ -49,6 +50,7 @@ public static class ContainerFactory
             .SingleInstance();
 
         Container = builder.Build();
+        Container.Resolve<Logging>();
     }
 }
 

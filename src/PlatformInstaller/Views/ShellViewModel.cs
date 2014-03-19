@@ -12,11 +12,15 @@ namespace PlatformInstaller
     {
         ChocolateyInstaller chocolateyInstaller;
         IWindowManager windowManager;
+        NewUserDetecter newUserDetecter;
+        IEventAggregator eventAggregator;
 
-        public ShellViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller, IWindowManager windowManager)
+        public ShellViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller, IWindowManager windowManager, NewUserDetecter newUserDetecter)
         {
             this.chocolateyInstaller = chocolateyInstaller;
             this.windowManager = windowManager;
+            this.newUserDetecter = newUserDetecter;
+            this.eventAggregator = eventAggregator;
             eventAggregator.Subscribe(this);
             this.ActivateModel<LicenseAgreementViewModel>(); 
         }
@@ -28,7 +32,7 @@ namespace PlatformInstaller
 
         public void OpenLogDirectory()
         {
-            Process.Start(Logging.LogDirectory);
+            eventAggregator.Publish<OpenLogDirectoryEvent>();
         }
 
         public void Handle(AgeedToLicenseEvent message)
@@ -51,6 +55,7 @@ namespace PlatformInstaller
 
         public void Handle(InstallSucceededEvent message)
         {
+            Process.Start(@"http://particular.net/thank-you-for-downloading-the-particular-service-platform?new_user=" + newUserDetecter.IsNewUser().ToString().ToLower());
             this.ActivateModel<SuccessViewModel>();
         }
 

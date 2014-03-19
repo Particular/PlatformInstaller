@@ -9,6 +9,7 @@
         <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Bold">Installation Complete</TextBlock>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
             <Button x:Name="Close" Content="Close"/>
+            <Button x:Name="OpenLogDirectory" Content="View Log"/>
             <Button x:Name="Home" Content="Home"/>
         </StackPanel>
         <TextBlock Foreground="Gray">Thank you for installing Particular Software products.</TextBlock>

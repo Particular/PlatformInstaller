@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:cal="http://www.caliburnproject.org"
         x:Class="PlatformInstaller.ShellView"
-        Title="MainWindow" Height="628" Width="400" WindowStyle="None" ResizeMode="NoResize" BorderBrush="White" >
+        Title="MainWindow" Height="500" Width="400" WindowStyle="None" ResizeMode="NoResize" BorderBrush="White" >
     <Window.Resources>
     </Window.Resources>
     <Border BorderBrush="#20000000" BorderThickness="2">

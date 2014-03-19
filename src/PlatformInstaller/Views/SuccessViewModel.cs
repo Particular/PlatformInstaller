@@ -20,6 +20,11 @@ namespace PlatformInstaller
         {
             eventAggregator.Publish<HomeEvent>();
         }
+
+        public void OpenLogDirectory()
+        {
+            eventAggregator.Publish<OpenLogDirectoryEvent>();
+        }
     }
 
 }

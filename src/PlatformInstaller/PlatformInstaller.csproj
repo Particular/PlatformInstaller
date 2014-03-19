@@ -107,6 +107,7 @@
     <Compile Include="ContainerFactory.cs" />
     <Compile Include="Caliburn\AppBootstrapper.cs" />
     <Compile Include="AssemblyLocation.cs" />
+    <Compile Include="Events\OpenLogDirectoryEvent.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="Events\AgeedToLicenseEvent.cs" />

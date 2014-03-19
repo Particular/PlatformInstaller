@@ -1,27 +1,29 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using Caliburn.Micro;
 using Serilog;
 using Serilog.Events;
 
-public static class Logging
+public class Logging:
+        IHandle<OpenLogDirectoryEvent>
 {
-    static Logging()
+    string logDirectory;
+
+    public Logging(IEventAggregator eventAggregator)
     {
         var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        LogDirectory = Path.Combine(appData, "PlatformInstaller");
-        Directory.CreateDirectory(LogDirectory);
-    }
-
-    public static void Setup()
-    {
-        var loggingFile = Path.Combine(LogDirectory, "log.txt");
+        logDirectory = Path.Combine(appData, "PlatformInstaller");
+        Directory.CreateDirectory(logDirectory);
+        var loggingFile = Path.Combine(logDirectory, "log.txt");
         Log.Logger = new LoggerConfiguration()
             .WriteTo.RollingFile(loggingFile)
             .Filter.ByIncludingOnly(x => !IsEmptyTextMessage(x))
             .CreateLogger();
+        eventAggregator.Subscribe(this);
     }
 
-    static bool IsEmptyTextMessage(this LogEvent logEvent)
+    static bool IsEmptyTextMessage(LogEvent logEvent)
     {
         if (logEvent.MessageTemplate == null)
         {
@@ -34,5 +36,10 @@ public static class Logging
         return logEvent.MessageTemplate.Text.Trim().Length == 0;
     }
 
-    public static string LogDirectory;
+
+    public void Handle(OpenLogDirectoryEvent message)
+    {
+        Process.Start(logDirectory);
+    }
+
 }

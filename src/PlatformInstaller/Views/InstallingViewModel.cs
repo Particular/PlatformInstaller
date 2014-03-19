@@ -7,13 +7,14 @@ namespace PlatformInstaller
 
     public class InstallingViewModel:Screen
     {
-        public InstallingViewModel(ProgressService progressService, PackageDefinitionService packageDefinitionDiscovery, ChocolateyInstaller chocolateyInstaller, IEventAggregator eventAggregator)
+        public InstallingViewModel(ProgressService progressService, PackageDefinitionService packageDefinitionDiscovery, ChocolateyInstaller chocolateyInstaller, IEventAggregator eventAggregator, PackageManager packageManager)
         {
             ProgressService = progressService;
 
             PackageDefinitionService = packageDefinitionDiscovery;
             this.chocolateyInstaller = chocolateyInstaller;
             this.eventAggregator = eventAggregator;
+            this.packageManager = packageManager;
         }
 
         public string CurrentPackageDescription;
@@ -21,6 +22,7 @@ namespace PlatformInstaller
         public PackageDefinitionService PackageDefinitionService;
         ChocolateyInstaller chocolateyInstaller;
         IEventAggregator eventAggregator;
+        PackageManager packageManager;
         public List<string> ItemsToInstall;
         public bool InstallFailed;
         public double InstallProgress;
@@ -50,7 +52,7 @@ namespace PlatformInstaller
             foreach (var package in packageDefinitions)
             {
                 CurrentPackageDescription = package.Name;
-                await package.InstallAction();
+                await packageManager.Install(package.ChocolateyPackage);
                 InstallProgress++;
             }
 

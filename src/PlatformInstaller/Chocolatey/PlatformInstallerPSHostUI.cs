@@ -52,7 +52,7 @@ public class PlatformInstallerPSHostUI : PSHostUserInterface
 
     public override void WriteProgress(long sourceId, ProgressRecord record)
     {
-        progressService.OutputProgessReceived(record);
+        progressService.OutputProgressReceived(record);
     }
 
     public override void WriteVerboseLine(string value)

@@ -2,9 +2,6 @@ using System.Collections.Generic;
 
 public class FakePackageDefinitionService : PackageDefinitionService
 {
-    public FakePackageDefinitionService() : base()
-    {
-    }
 
     public override List<PackageDefinition> GetPackages()
     {

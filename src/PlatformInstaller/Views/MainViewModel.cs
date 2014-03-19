@@ -7,7 +7,6 @@ namespace PlatformInstaller
     using Caliburn.Micro;
     using PropertyChanged;
     using System.Windows;
-    using System.Collections.Generic;
 
     [ImplementPropertyChanged]
     public class MainViewModel

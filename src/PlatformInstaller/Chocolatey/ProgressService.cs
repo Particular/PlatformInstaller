@@ -30,7 +30,7 @@ public class ProgressService
         OutputText += logEntry.Text;
     }
 
-    public void OutputProgessReceived(ProgressRecord record)
+    public void OutputProgressReceived(ProgressRecord record)
     {
         
     }

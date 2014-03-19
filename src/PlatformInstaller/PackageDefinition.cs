@@ -1,10 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Threading.Tasks;
 using Autofac;
-using PlatformInstaller;
 
 public class PackageDefinition : INotifyPropertyChanged
 {
@@ -12,7 +9,7 @@ public class PackageDefinition : INotifyPropertyChanged
 
     public PackageDefinition()
     {
-        this.packageManager = ContainerFactory.Container.Resolve<PackageManager>();
+        packageManager = ContainerFactory.Container.Resolve<PackageManager>();
         Dependencies = new List<PackageDefinition>();
 
         Dependencies.BindActionToPropChanged(() =>
@@ -22,9 +19,9 @@ public class PackageDefinition : INotifyPropertyChanged
 
     }
 
-    public string Name { get; set; }
-    public string Image { get; set; }
-    public string ChocolateyPackage { get; set; }
+    public string Name;
+    public string Image;
+    public string ChocolateyPackage;
 
     private bool selected;
     public bool Selected 

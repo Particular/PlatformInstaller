@@ -12,7 +12,7 @@ public class SelectItemsViewTests
     {
         ViewLocator.LocateForModel = (o, dependencyObject, arg3) => new SelectItemsView();
         var windowManager = new WindowManager();
-        windowManager.ShowDialog(new SelectItemsViewModel(new FakePackageDefinitionService(null), new FakeEvenAggregator()));
+        windowManager.ShowDialog(new SelectItemsViewModel(new FakePackageDefinitionService(), new FakeEvenAggregator()));
     }
 
 }

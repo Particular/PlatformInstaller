@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Autofac;
-using Autofac.Core;
 using Caliburn.Micro;
 
 public static class ContainerFactory
@@ -10,6 +9,7 @@ public static class ContainerFactory
     static ContainerFactory()
     {
         var builder = new ContainerBuilder();
+        builder.RegisterModule<EventAggregationSubscription>();
         builder.Register<IWindowManager>(c => new WindowManager()).InstancePerLifetimeScope();
 
         builder.RegisterAssemblyTypes(AssemblySource.Instance.ToArray())
@@ -40,6 +40,8 @@ public static class ContainerFactory
             .SingleInstance();
         builder.RegisterType<ProcessRunner>()
             .SingleInstance();
+        builder.RegisterType<LicenseAgreement>()
+            .SingleInstance();
         builder.RegisterType<PlatformInstallerPSHost>()
             .SingleInstance();
         builder.RegisterType<PlatformInstallerPSHostUI>()
@@ -51,22 +53,5 @@ public static class ContainerFactory
 
         Container = builder.Build();
         Container.Resolve<Logging>();
-    }
-}
-
-public class Foo :Module
-{
-    protected override void AttachToComponentRegistration(IComponentRegistry componentRegistry, IComponentRegistration registration)
-    {
-        base.AttachToComponentRegistration(componentRegistry, registration);
-        registration.Activated += registration_Activated;
-    }
-
-    void registration_Activated(object sender, ActivatedEventArgs<object> e)
-    {
-        if (e.Instance.GetType().Name.EndsWith("ViewModel"))
-        {
-            ContainerFactory.Container.Resolve<IEventAggregator>().Subscribe(e.Instance);
-        }
     }
 }

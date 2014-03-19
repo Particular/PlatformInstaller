@@ -1,6 +1,5 @@
 namespace PlatformInstaller
 {
-    using System.Diagnostics;
     using Caliburn.Micro;
 
     public class ShellViewModel : Conductor<object>,
@@ -12,17 +11,21 @@ namespace PlatformInstaller
     {
         ChocolateyInstaller chocolateyInstaller;
         IWindowManager windowManager;
-        NewUserDetecter newUserDetecter;
         IEventAggregator eventAggregator;
 
-        public ShellViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller, IWindowManager windowManager, NewUserDetecter newUserDetecter)
+        public ShellViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller, IWindowManager windowManager, LicenseAgreement licenseAgreement)
         {
             this.chocolateyInstaller = chocolateyInstaller;
             this.windowManager = windowManager;
-            this.newUserDetecter = newUserDetecter;
             this.eventAggregator = eventAggregator;
-            eventAggregator.Subscribe(this);
-            this.ActivateModel<LicenseAgreementViewModel>();
+            if (licenseAgreement.HasAgreedToLicense())
+            {
+                this.ActivateModel<SelectItemsViewModel>();
+            }
+            else
+            {
+                this.ActivateModel<LicenseAgreementViewModel>();
+            }
         }
 
         public void Close()
@@ -55,7 +58,6 @@ namespace PlatformInstaller
 
         public void Handle(InstallSucceededEvent message)
         {
-            Process.Start(@"http://particular.net/thank-you-for-downloading-the-particular-service-platform?new_user=" + newUserDetecter.IsNewUser().ToString().ToLower());
             this.ActivateModel<SuccessViewModel>();
         }
 
@@ -69,10 +71,7 @@ namespace PlatformInstaller
             base.TryClose();
         }
 
-        public string Version
-        {
-            get { return "Version " + GetType().Assembly.GetName().Version.ToString(3); }
-        }
+        public string Version = "Version " + typeof(ShellViewModel).Assembly.GetName().Version.ToString(3); 
     }
 }
 

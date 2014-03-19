@@ -2,13 +2,7 @@
 
 public class PackageDefinitionService
 {
-    PackageManager packageManager;
-
-    public PackageDefinitionService()
-    {
-        this.packageManager = packageManager;
-    }
-
+    
     public virtual List<PackageDefinition> GetPackages()
     {
         return new List<PackageDefinition>

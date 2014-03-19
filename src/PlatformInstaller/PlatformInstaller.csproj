@@ -105,8 +105,10 @@
     <Compile Include="ContainerFactory.cs" />
     <Compile Include="Caliburn\AppBootstrapper.cs" />
     <Compile Include="AssemblyLocation.cs" />
+    <Compile Include="Caliburn\EventAggregationSubscription.cs" />
     <Compile Include="Events\OpenLogDirectoryEvent.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="LicenseText.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="Events\AgeedToLicenseEvent.cs" />
     <Compile Include="Events\CloseApplicationEvent.cs" />
@@ -120,7 +122,7 @@
     <Compile Include="Views\InstallingView.xaml.cs">
       <DependentUpon>InstallingView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LicenseText.cs" />
+    <Compile Include="LicenseAgreement.cs" />
     <Compile Include="Views\SuccessView.xaml.cs">
       <DependentUpon>SuccessView.xaml</DependentUpon>
     </Compile>

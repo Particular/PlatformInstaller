@@ -6,6 +6,13 @@ using NUnit.Framework;
 public class NewUserDetecterTests
 {
     [Test]
+    [Explicit]
+    public void Simple()
+    {
+        Assert.False(new NewUserDetecter().IsNewUser());
+    }
+
+    [Test]
     public void Should_classify_existing_nservicebus_key_as_a_existing_user()
     {
         var subKey = Guid.NewGuid().ToString();

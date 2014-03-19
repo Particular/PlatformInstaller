@@ -10,7 +10,7 @@ public class Logging:
 {
     string logDirectory;
 
-    public Logging(IEventAggregator eventAggregator)
+    public Logging()
     {
         var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         logDirectory = Path.Combine(appData, "PlatformInstaller");
@@ -20,7 +20,6 @@ public class Logging:
             .WriteTo.RollingFile(loggingFile)
             .Filter.ByIncludingOnly(x => !IsEmptyTextMessage(x))
             .CreateLogger();
-        eventAggregator.Subscribe(this);
     }
 
     static bool IsEmptyTextMessage(LogEvent logEvent)

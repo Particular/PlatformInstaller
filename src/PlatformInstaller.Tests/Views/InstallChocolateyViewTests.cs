@@ -1,6 +1,5 @@
 ﻿using Caliburn.Micro;
 using NUnit.Framework;
-using PlatformInstaller;
 
 [TestFixture]
 public class InstallChocolateyViewTests

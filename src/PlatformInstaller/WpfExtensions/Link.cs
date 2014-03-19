@@ -1,18 +1,15 @@
-namespace PlatformInstaller
-{
-    using System.Diagnostics;
-    using System.Windows.Documents;
+using System.Diagnostics;
+using System.Windows.Documents;
 
-    public class Link : Hyperlink
+public class Link : Hyperlink
+{
+    public Link()
     {
-        public Link() 
+        RequestNavigate += (sender, e) =>
         {
-            RequestNavigate += (sender, e) =>
+            using (Process.Start(new ProcessStartInfo(NavigateUri.PathAndQuery)))
             {
-                using (Process.Start(new ProcessStartInfo(NavigateUri.PathAndQuery)))
-                {
-                }
-            };
-        }
+            }
+        };
     }
 }

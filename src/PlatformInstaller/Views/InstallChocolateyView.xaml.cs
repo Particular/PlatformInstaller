@@ -1,22 +1,19 @@
-﻿namespace PlatformInstaller
+﻿using System.Windows.Input;
+
+public partial class InstallChocolateyView
 {
-    using System.Windows.Input;
-
-    public partial class InstallChocolateyView
+    public InstallChocolateyView()
     {
-        public InstallChocolateyView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        protected override void OnMouseDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseDown(e);
+    protected override void OnMouseDown(MouseButtonEventArgs e)
+    {
+        base.OnMouseDown(e);
 
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                DragMove();
-            }
+        if (e.ChangedButton == MouseButton.Left)
+        {
+            DragMove();
         }
     }
 }

@@ -1,12 +1,8 @@
-﻿namespace PlatformInstaller
+﻿public partial class LicenseAgreementView
 {
-
-    public partial class LicenseAgreementView 
+    public LicenseAgreementView()
     {
-        public LicenseAgreementView()
-        {
-            InitializeComponent();
-            licenseBrowser.NavigateToString(LicenseText.ReadLicenseHtml());
-        }
+        InitializeComponent();
+        licenseBrowser.NavigateToString(LicenseText.ReadLicenseHtml());
     }
 }

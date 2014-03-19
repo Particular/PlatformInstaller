@@ -1,22 +1,19 @@
-﻿namespace PlatformInstaller
+﻿using System.Windows.Input;
+
+public partial class ShellView
 {
-    using System.Windows.Input;
-
-    public partial class ShellView
+    public ShellView()
     {
-        public ShellView()
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-        }
-        protected override void OnMouseDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseDown(e);
+    }
+    protected override void OnMouseDown(MouseButtonEventArgs e)
+    {
+        base.OnMouseDown(e);
 
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                DragMove();
-            }
+        if (e.ChangedButton == MouseButton.Left)
+        {
+            DragMove();
         }
     }
 }

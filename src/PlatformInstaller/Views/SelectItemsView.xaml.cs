@@ -1,11 +1,7 @@
-﻿namespace PlatformInstaller
+﻿public partial class SelectItemsView
 {
-
-    public partial class SelectItemsView 
+    public SelectItemsView()
     {
-        public SelectItemsView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

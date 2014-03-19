@@ -1,11 +1,7 @@
-﻿namespace PlatformInstaller
+﻿public partial class InstallingView
 {
-
-    public partial class InstallingView 
+    public InstallingView()
     {
-        public InstallingView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

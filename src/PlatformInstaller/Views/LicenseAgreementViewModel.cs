@@ -1,31 +1,28 @@
-namespace PlatformInstaller
+
+using System.Windows;
+using Caliburn.Micro;
+
+public class LicenseAgreementViewModel : Screen
 {
-    using System.Windows;
-    using Caliburn.Micro;
+    IEventAggregator eventAggregator;
 
-    public class LicenseAgreementViewModel: Screen
+    public LicenseAgreementViewModel(IEventAggregator eventAggregator)
     {
-        IEventAggregator eventAggregator;
+        this.eventAggregator = eventAggregator;
+    }
 
-        public LicenseAgreementViewModel(IEventAggregator eventAggregator)
-        {
-            this.eventAggregator = eventAggregator;
-        }
+    public void Agree()
+    {
+        eventAggregator.Publish<AgeedToLicenseEvent>();
+    }
 
-        public void Agree()
-        {
-            eventAggregator.Publish<AgeedToLicenseEvent>();
-        }
+    public void Close()
+    {
+        eventAggregator.Publish<CloseApplicationEvent>();
+    }
 
-        public void Close()
-        {
-            eventAggregator.Publish<CloseApplicationEvent>();
-        }
-
-        public void Copy()
-        {
-           Clipboard.SetText(LicenseText.ReadLicenseMarkDown());
-        }
-
+    public void Copy()
+    {
+        Clipboard.SetText(LicenseText.ReadLicenseMarkDown());
     }
 }

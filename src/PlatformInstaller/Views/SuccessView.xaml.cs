@@ -1,11 +1,7 @@
-﻿namespace PlatformInstaller
+﻿public partial class SuccessView
 {
-    
-    public partial class SuccessView
+    public SuccessView()
     {
-        public SuccessView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

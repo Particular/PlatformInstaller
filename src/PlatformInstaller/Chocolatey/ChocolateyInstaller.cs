@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class ChocolateyInstaller
 {
-    readonly ProcessRunner processRunner;
+    ProcessRunner processRunner;
 
     public ChocolateyInstaller(ProcessRunner  processRunner)
     {

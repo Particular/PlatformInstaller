@@ -13,6 +13,7 @@ public class ProcessRunner
 
     public Task<int> RunProcess(string fileName, string arguments)
     {
+        LogTo.Information(string.Format("Executing process: {0} {1}", fileName, arguments));
         var tcs = new TaskCompletionSource<int>();
 
         var process = new Process

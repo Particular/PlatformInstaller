@@ -94,7 +94,7 @@ public class PlatformInstallerPSHostUI : PSHostUserInterface
         throw new NotImplementedException("PromptForChoice is not implemented.");
     }
 
-    private readonly PlatformInstallerPSHostRawUserInterface piRawUI = new PlatformInstallerPSHostRawUserInterface();
+    PlatformInstallerPSHostRawUserInterface piRawUI = new PlatformInstallerPSHostRawUserInterface();
 
     public override PSHostRawUserInterface RawUI
     {

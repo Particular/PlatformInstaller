@@ -39,6 +39,9 @@
   <PropertyGroup>
     <ApplicationIcon>particular.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Anotar.Serilog">
       <HintPath>..\packages\Anotar.Serilog.Fody\Lib\portable-net4+sl4+wp7+windows8\Anotar.Serilog.dll</HintPath>

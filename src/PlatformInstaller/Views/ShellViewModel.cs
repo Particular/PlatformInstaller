@@ -30,6 +30,7 @@ public class ShellViewModel : Conductor<object>,
 
     public void Close()
     {
+        ContainerFactory.Container.Dispose();
         base.TryClose();
     }
 
@@ -77,5 +78,5 @@ public class ShellViewModel : Conductor<object>,
         base.TryClose();
     }
 
-    public string Version = "Version " + typeof(ShellViewModel).Assembly.GetName().Version.ToString(3);
+    public string Version = "v" + typeof(ShellViewModel).Assembly.GetName().Version.ToString(3);
 }

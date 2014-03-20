@@ -9,8 +9,16 @@ public class PackageManagerTests
     [Explicit("Integration")]
     public async void Install()
     {
-        var packageInstaller = new PackageManager(new PowerShellRunner(new PlatformInstallerPSHost(new PlatformInstallerPSHostUI(new ProgressService()))));
+        var packageInstaller = GetPackageInstaller();
         await packageInstaller.Install("Pester");
+    }
+
+    static PackageManager GetPackageInstaller()
+    {
+        var progressService = new ProgressService();
+        var platformInstallerPsHostUi = new PlatformInstallerPSHostUI(progressService);
+        var platformInstallerPsHost = new PlatformInstallerPSHost(platformInstallerPsHostUi);
+        return new PackageManager(new PowerShellRunner(platformInstallerPsHost, progressService));
     }
 
 
@@ -18,7 +26,7 @@ public class PackageManagerTests
     [Explicit("Integration")]
     public async void Uninstall()
     {
-        var packageInstaller = new PackageManager(new PowerShellRunner(new PlatformInstallerPSHost(new PlatformInstallerPSHostUI(new ProgressService()))));
+        var packageInstaller = GetPackageInstaller();
         await packageInstaller.Uninstall("Pester");
     }
 
@@ -26,7 +34,7 @@ public class PackageManagerTests
     [Explicit("Integration")]
     public async void TryGetInstalledVersion()
     {
-        var packageInstaller = new PackageManager(new PowerShellRunner(new PlatformInstallerPSHost(new PlatformInstallerPSHostUI(new ProgressService()))));
+        var packageInstaller = GetPackageInstaller();
         SemanticVersion version;
         packageInstaller.TryGetInstalledVersion("Pester", out version);
         Debug.WriteLine(version);

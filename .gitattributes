@@ -56,7 +56,6 @@
 
 *.psm1 text
 *.ps1 text
-*.txt text eol=crlf
 *.bat text eol=crlf
 
 # Custom for Visual Studio

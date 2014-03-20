@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Management.Automation.Runspaces;
-using System.Text;
 using System.Threading.Tasks;
 using Anotar.Serilog;
 
@@ -41,32 +40,5 @@ public class PowerShellRunner : IDisposable
     public void Dispose()
     {
 
-    }
-}
-
-public static class PowerShellExtensions
-{
-    public static string ToExecutableString(this Command command)
-    {
-        var stringBuilder = new StringBuilder(command.CommandText);
-        foreach (var parameter in command.Parameters)
-        {
-            if (parameter.Value == null)
-            {
-                stringBuilder.AppendFormat(" -{0} ", parameter.Name);
-            }
-            else
-            {
-                if (parameter.Value is string)
-                {
-                    stringBuilder.AppendFormat(" -{0} \"{1}\"", parameter.Name, parameter.Value);
-                }
-                else
-                {
-                    stringBuilder.AppendFormat(" -{0} {1}", parameter.Name, parameter.Value);
-                }
-            }
-        }
-        return stringBuilder.ToString();
     }
 }

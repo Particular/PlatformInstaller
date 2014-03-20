@@ -100,6 +100,7 @@
     <Compile Include="Chocolatey\PlatformInstallerPSHostUI.cs" />
     <Compile Include="Chocolatey\LogEntryType.cs" />
     <Compile Include="Chocolatey\LogEntry.cs" />
+    <Compile Include="Chocolatey\PowerShellExtensions.cs" />
     <Compile Include="Chocolatey\ProgressService.cs" />
     <Compile Include="Chocolatey\TaskEx.cs" />
     <Compile Include="ContainerFactory.cs" />

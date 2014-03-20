@@ -18,11 +18,20 @@ public class PackageManager
         {
                 {"command", "install"},
                 {"packageNames", packageName},
-                {"source", @"C:\ChocolateyResourceCache;http://chocolatey.org/api/v2"},
+                {"source", GetSource()},
                 {"verbosity", true},
                 {"pre", true}
         };
         await powerShellRunner.Run(@"C:\Chocolatey\chocolateyinstall\chocolatey.ps1", parameters);
+    }
+
+    static string GetSource()
+    {
+#if (DEBUG)
+        return @"C:\ChocolateyResourceCache;http://chocolatey.org/api/v2";
+#else
+        return "http://chocolatey.org/api/v2";
+#endif
     }
 
     public Task Uninstall(string packageName)

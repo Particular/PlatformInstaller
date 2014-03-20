@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Management.Automation;
 using PropertyChanged;
 
@@ -22,12 +23,17 @@ public class ProgressService
         }
 
         //hack until we can patch chocolatey
-        if (logEntry.Type == LogEntryType.Output && logEntry.Text.ToLower().Contains("unable to find package"))
+        var outputText = logEntry.Text;
+        if (logEntry.Type == LogEntryType.Output && outputText.ToLower().Contains("unable to find package"))
         {
             Failures.Add(logEntry);
         }
 
-        OutputText += logEntry.Text;
+        OutputText += outputText;
+        if (logEntry.NewLine)
+        {
+            OutputText += Environment.NewLine;
+        }
     }
 
     public void OutputProgressReceived(ProgressRecord record)

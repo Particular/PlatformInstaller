@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Windows;
 using Caliburn.Micro;
 
 public class ShellViewModel : Conductor<object>,
@@ -30,8 +31,7 @@ public class ShellViewModel : Conductor<object>,
 
     public void Close()
     {
-        ContainerFactory.Container.Dispose();
-        base.TryClose();
+        Application.Current.Shutdown();
     }
 
     public void OpenLogDirectory()

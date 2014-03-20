@@ -12,7 +12,6 @@
 *.PDF	diff=astextplain
 *.rtf	diff=astextplain
 *.RTF	diff=astextplain
-*.approved.* binary
 
 *.exe	-text -diff
 *.jpg  	-text -diff
@@ -70,3 +69,4 @@
 *.snk 	-text -diff
 *.cub 	-text -diff
 *.wixlib	-text -diff
+*.approved.* binary

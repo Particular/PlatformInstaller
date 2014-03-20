@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Caliburn.Micro;
 
 public class ShellViewModel : Conductor<object>,
@@ -5,6 +6,7 @@ public class ShellViewModel : Conductor<object>,
     IHandle<RunInstallEvent>,
     IHandle<InstallSucceededEvent>,
     IHandle<CloseApplicationEvent>,
+        IHandle<OpenLogDirectoryEvent>,
     IHandle<HomeEvent>
 {
     ChocolateyInstaller chocolateyInstaller;
@@ -39,6 +41,12 @@ public class ShellViewModel : Conductor<object>,
     public void Handle(AgeedToLicenseEvent message)
     {
         this.ActivateModel<SelectItemsViewModel>();
+    }
+
+
+    public void Handle(OpenLogDirectoryEvent message)
+    {
+        Process.Start(Logging.LogDirectory);
     }
 
     public void Handle(RunInstallEvent message)

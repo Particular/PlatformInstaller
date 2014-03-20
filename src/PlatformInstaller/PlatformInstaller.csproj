@@ -107,6 +107,7 @@
     <Compile Include="AssemblyLocation.cs" />
     <Compile Include="Caliburn\EventAggregationSubscription.cs" />
     <Compile Include="Events\OpenLogDirectoryEvent.cs" />
+    <Compile Include="ExceptionHandler.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="LicenseText.cs" />
     <Compile Include="Logging.cs" />

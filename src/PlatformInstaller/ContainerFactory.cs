@@ -27,8 +27,6 @@ public static class ContainerFactory
             .SingleInstance();
         builder.RegisterType<ProgressService>()
             .SingleInstance();
-        builder.RegisterType<Logging>()
-            .SingleInstance();
         builder.RegisterType<WindowManager>()
             .As<IWindowManager>()
             .SingleInstance();
@@ -52,6 +50,5 @@ public static class ContainerFactory
             .SingleInstance();
 
         Container = builder.Build();
-        Container.Resolve<Logging>();
     }
 }

@@ -9,8 +9,8 @@ public static class ContainerFactory
     static ContainerFactory()
     {
         var builder = new ContainerBuilder();
-        builder.RegisterModule<EventAggregationSubscription>();
-        builder.RegisterModule<TitleFixer>();
+        builder.RegisterModule<EventAggregationSubscriptionModule>();
+        builder.RegisterModule<TitleFixerModule>();
         builder.Register<IWindowManager>(c => new WindowManager()).InstancePerLifetimeScope();
 
         builder.RegisterAssemblyTypes(AssemblySource.Instance.ToArray())

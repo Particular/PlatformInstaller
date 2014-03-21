@@ -1,9 +1,8 @@
-﻿using System.Linq;
 using Autofac;
 using Autofac.Core;
 using Caliburn.Micro;
 
-public class EventAggregationSubscription :Module
+public class TitleFixerModule :Module
 {
 
     protected override void AttachToComponentRegistration(IComponentRegistry componentRegistry, IComponentRegistration registration)
@@ -14,9 +13,10 @@ public class EventAggregationSubscription :Module
 
     void registration_Activated(object sender, ActivatedEventArgs<object> e)
     {
-        if (e.Instance.GetType().GetInterfaces().Any(x=>x.Name.Contains("IHandle")))
+        var screen = e.Instance as Screen;
+        if (screen != null)
         {
-            ContainerFactory.Container.Resolve<IEventAggregator>().Subscribe(e.Instance);
+            screen.DisplayName = "Particular Platform Installer";
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Reflection;
 using Autofac;
 using Caliburn.Micro;
 
@@ -13,13 +14,8 @@ public static class ContainerFactory
         builder.RegisterModule<TitleFixerModule>();
         builder.Register<IWindowManager>(c => new WindowManager()).InstancePerLifetimeScope();
 
-        builder.RegisterAssemblyTypes(AssemblySource.Instance.ToArray())
-            .Where(type => type.Name.EndsWith("ViewModel"))
-            .AsSelf()
-            .InstancePerDependency();
-
-        builder.RegisterAssemblyTypes(AssemblySource.Instance.ToArray())
-            .Where(type => type.Name.EndsWith("View"))
+        builder.RegisterAssemblyTypes(ThisAssembly())
+            .Where(type => type.IsView() || type.IsViewModel())
             .AsSelf()
             .InstancePerDependency();
 
@@ -51,5 +47,20 @@ public static class ContainerFactory
             .SingleInstance();
 
         Container = builder.Build();
+    }
+
+    static Assembly[] ThisAssembly()
+    {
+        return new[]{typeof(ContainerFactory).Assembly};
+    }
+
+    static bool IsViewModel(this Type type)
+    {
+        return type.Name.EndsWith("ViewModel");
+    }
+
+    static bool IsView(this Type type)
+    {
+        return type.Name.EndsWith("View");
     }
 }

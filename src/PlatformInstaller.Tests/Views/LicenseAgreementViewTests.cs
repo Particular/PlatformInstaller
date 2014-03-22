@@ -1,4 +1,4 @@
-using Caliburn.Micro;
+using Autofac;
 using NUnit.Framework;
 
 [TestFixture]
@@ -9,9 +9,10 @@ public class LicenseAgreementViewTests
     [RequiresSTA]
     public void ShowDialog()
     {
-
-        ViewLocator.LocateForModel = (o, dependencyObject, arg3) => new LicenseAgreementView();
-        new WindowManager().ShowDialog(new LicenseAgreementViewModel(new FakeEvenAggregator()));
+        ShellViewModel.StartModel= ContainerFactory.Container.Resolve<LicenseAgreementViewModel>();
+        var app = new App();
+        app.InitializeComponent();
+        app.Run();
     }
 
 }

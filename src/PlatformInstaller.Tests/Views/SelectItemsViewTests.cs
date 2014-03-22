@@ -1,4 +1,4 @@
-using Caliburn.Micro;
+using Autofac;
 using NUnit.Framework;
 
 [TestFixture]
@@ -9,9 +9,10 @@ public class SelectItemsViewTests
     [RequiresSTA]
     public void ShowDialog()
     {
-        ViewLocator.LocateForModel = (o, dependencyObject, arg3) => new SelectItemsView();
-        var windowManager = new WindowManager();
-        windowManager.ShowDialog(new SelectItemsViewModel(new FakePackageDefinitionService(), new FakeEvenAggregator()));
+        ShellViewModel.StartModel = ContainerFactory.Container.Resolve<SelectItemsViewModel>();
+        var app = new App();
+        app.InitializeComponent();
+        app.Run();
     }
 
 }

@@ -19,6 +19,11 @@ public class ShellViewModel : Conductor<object>,
         this.chocolateyInstaller = chocolateyInstaller;
         this.windowManager = windowManager;
         this.eventAggregator = eventAggregator;
+        if (StartModel != null)
+        {
+            base.ActivateItem(StartModel);
+            return;
+        }
         if (licenseAgreement.HasAgreedToLicense())
         {
             this.ActivateModel<SelectItemsViewModel>();
@@ -28,6 +33,8 @@ public class ShellViewModel : Conductor<object>,
             this.ActivateModel<LicenseAgreementViewModel>();
         }
     }
+
+    public static Screen StartModel;
 
     public void Close()
     {

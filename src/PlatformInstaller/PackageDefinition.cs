@@ -21,6 +21,7 @@ public class PackageDefinition : INotifyPropertyChanged
 
     public string Name;
     public string Image;
+    public string ImageUrl { get { return "pack://application:,,,/PlatformInstaller;component" + Image; } }
     public string ChocolateyPackage;
 
     private bool selected;

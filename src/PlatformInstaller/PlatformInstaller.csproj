@@ -112,6 +112,7 @@
     <Compile Include="AssemblyLocation.cs" />
     <Compile Include="Caliburn\EventAggregationSubscriptionModule.cs" />
     <Compile Include="Events\OpenLogDirectoryEvent.cs" />
+    <Compile Include="ExceptionExtensions.cs" />
     <Compile Include="ExceptionHandler.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="LicenseText.cs" />
@@ -130,6 +131,9 @@
       <DependentUpon>InstallingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="LicenseAgreement.cs" />
+    <Compile Include="Views\ExceptionView.xaml.cs">
+      <DependentUpon>ExceptionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SuccessView.xaml.cs">
       <DependentUpon>SuccessView.xaml</DependentUpon>
     </Compile>
@@ -165,6 +169,10 @@
     <Page Include="Views\LicenseAgreementView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExceptionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SuccessView.xaml">
       <Generator>MSBuild:Compile</Generator>

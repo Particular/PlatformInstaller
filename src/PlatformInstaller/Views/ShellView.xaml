@@ -4,8 +4,6 @@
         xmlns:cal="http://www.caliburnproject.org"
         x:Class="ShellView"
         Title="MainWindow" Height="500" Width="400" WindowStyle="None" ResizeMode="NoResize" BorderBrush="White" >
-    <Window.Resources>
-    </Window.Resources>
     <Border BorderBrush="#20000000" BorderThickness="2">
         <DockPanel>
             <WrapPanel DockPanel.Dock="Top"  Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0" >
@@ -13,7 +11,7 @@
                 <Button x:Name="OpenLogDirectory" Content="Log" HorizontalAlignment="Right" FontSize="10" Margin="10,0" FontWeight="Bold" />
                 <Label Content="{Binding Version}" HorizontalAlignment="Right" FontSize="10" Margin="10,0" />
             </WrapPanel>
-            <Image DockPanel.Dock="Top" Source="pack://application:,,,/PlatformInstaller;component/Images/particularSmall.png" HorizontalAlignment="Left" Margin="20 0 20 0" Stretch="None" VerticalAlignment="Top" />
+            <Image DockPanel.Dock="Top" Source="pack://application:,,,/PlatformInstaller;component/Images/particularSmall.png" HorizontalAlignment="Left" Margin="20 0 20 0" Stretch="None" />
             <ContentControl x:Name="ActiveItem" Margin="20 20 20 20"/>
         </DockPanel>
     </Border>

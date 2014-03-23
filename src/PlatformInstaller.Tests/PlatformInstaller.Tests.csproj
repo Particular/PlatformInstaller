@@ -86,6 +86,7 @@
     <Compile Include="FakePackageDefinitionService.cs" />
     <Compile Include="LicenseAgreementTests.cs" />
     <Compile Include="NewUserDetecterTests.cs" />
+    <Compile Include="ToFriendlyStringTests.cs" />
     <Compile Include="Views\InstallChocolateyViewTests.cs" />
     <Compile Include="LicenseTextTests.cs" />
     <Compile Include="Views\LicenseAgreementViewTests.cs" />

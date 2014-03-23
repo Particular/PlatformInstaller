@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -24,6 +25,14 @@ static class ExceptionHandler
         {
             LogTo.Error(exception, message);
         }
+        var uiThread = new Thread(() =>
+        {
+            var exceptionView = new ExceptionView(exception);
+            exceptionView.ShowDialog();
+        });
+        uiThread.SetApartmentState(ApartmentState.STA);
+        uiThread.Start();
+        uiThread.Join();
     }
 
     static void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)

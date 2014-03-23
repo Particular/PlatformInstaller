@@ -7,17 +7,13 @@
         <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Bold" >Chocolatey required</TextBlock>
         <TextBlock DockPanel.Dock="Top" Foreground="Gray" TextWrapping="WrapWithOverflow">This installer requites  Chocolatey (<global:Link 
 NavigateUri="https://chocolatey.org/">https://chocolatey.org</global:Link>) to run. You can either continue and Chocolatey will be installed for you or run the following command</TextBlock>
-
         <Border BorderBrush="#FF000000" DockPanel.Dock="Top" BorderThickness="1,1,1,1" Margin="5" CornerRadius="2">
-            <TextBox TextWrapping="WrapWithOverflow" IsReadOnly="True" Background="#E7E7E7" Text="{Binding InstallCommand}"></TextBox>
+            <TextBox TextWrapping="WrapWithOverflow" IsReadOnly="True" Background="#E7E7E7" Text="{Binding InstallCommand}"/>
         </Border>
-        
         <StackPanel DockPanel.Dock="Bottom"  Orientation="Horizontal"  FlowDirection="RightToLeft">
             <Button x:Name="Cancel">Cancel</Button>
             <Button x:Name="Copy">Copy command</Button>
             <Button x:Name="Continue">Continue</Button>
         </StackPanel>
-        
-
     </DockPanel>
 </UserControl>

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ public class PackageManager
 
     public PackageManager(PowerShellRunner powerShellRunner)
     {
+        throw new Exception("sdfsdf");
         this.powerShellRunner = powerShellRunner;
     }
 

@@ -7,7 +7,7 @@ public class SelectItemsViewTests
     [Test]
     [Explicit]
     [RequiresSTA]
-    public void ShowDialog()
+    public void Show()
     {
         ShellViewModel.StartModel = ContainerFactory.Container.Resolve<SelectItemsViewModel>();
         var app = new App();

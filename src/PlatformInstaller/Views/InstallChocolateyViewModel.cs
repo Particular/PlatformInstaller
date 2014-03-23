@@ -3,17 +3,21 @@ using Caliburn.Micro;
 
 public class InstallChocolateyViewModel : Screen
 {
-    public void Continue()
+    IEventAggregator eventAggregator;
+
+    public InstallChocolateyViewModel(IEventAggregator eventAggregator)
     {
-        UserChoseToContinue = true;
-        base.TryClose();
+        this.eventAggregator = eventAggregator;
     }
 
-    public bool UserChoseToContinue;
+    public void Continue()
+    {
+        eventAggregator.Publish<AgreedToInstallChocolatey>();
+    }
 
     public void Cancel()
     {
-        base.TryClose();
+        eventAggregator.Publish<HomeEvent>();
     }
 
     public void Copy()

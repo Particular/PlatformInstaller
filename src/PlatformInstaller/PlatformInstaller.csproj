@@ -119,6 +119,7 @@
     <Compile Include="Events\AgeedToLicenseEvent.cs" />
     <Compile Include="Events\CloseApplicationEvent.cs" />
     <Compile Include="Events\HomeEvent.cs" />
+    <Compile Include="Events\AgreedToInstallChocolatey.cs" />
     <Compile Include="Views\InstallChocolateyViewModel.cs" />
     <Compile Include="Views\InstallingViewModel.cs" />
     <Compile Include="Events\InstallSucceededEvent.cs" />

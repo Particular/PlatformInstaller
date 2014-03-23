@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
 using Caliburn.Micro;
@@ -7,17 +8,18 @@ public class ShellViewModel : Conductor<object>,
     IHandle<RunInstallEvent>,
     IHandle<InstallSucceededEvent>,
     IHandle<CloseApplicationEvent>,
-        IHandle<OpenLogDirectoryEvent>,
+    IHandle<OpenLogDirectoryEvent>,
+    IHandle<AgreedToInstallChocolatey>,
     IHandle<HomeEvent>
 {
     ChocolateyInstaller chocolateyInstaller;
-    IWindowManager windowManager;
     IEventAggregator eventAggregator;
+    public string Version = "v" + typeof(ShellViewModel).Assembly.GetName().Version.ToString(3);
+    List<string> itemsToInstall;
 
-    public ShellViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller, IWindowManager windowManager, LicenseAgreement licenseAgreement)
+    public ShellViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller, LicenseAgreement licenseAgreement)
     {
         this.chocolateyInstaller = chocolateyInstaller;
-        this.windowManager = windowManager;
         this.eventAggregator = eventAggregator;
         if (StartModel != null)
         {
@@ -59,16 +61,22 @@ public class ShellViewModel : Conductor<object>,
 
     public void Handle(RunInstallEvent message)
     {
-        if (!chocolateyInstaller.IsInstalled())
+        itemsToInstall = message.SelectedItems;
+        if (chocolateyInstaller.IsInstalled())
         {
-            if (!windowManager.ShowDialog<InstallChocolateyViewModel>().UserChoseToContinue)
-            {
-                return;
-            }
+            this.ActivateModel<InstallingViewModel>(x => x.ItemsToInstall = message.SelectedItems);
         }
-
-        this.ActivateModel<InstallingViewModel>(x => x.ItemsToInstall = message.SelectedItems);
+        else
+        {
+            this.ActivateModel<InstallChocolateyViewModel>();
+        }
     }
+
+    public void Handle(AgreedToInstallChocolatey message)
+    {
+        this.ActivateModel<InstallingViewModel>(x => x.ItemsToInstall = itemsToInstall);
+    }
+
 
     public void Handle(InstallSucceededEvent message)
     {
@@ -85,5 +93,4 @@ public class ShellViewModel : Conductor<object>,
         base.TryClose();
     }
 
-    public string Version = "v" + typeof(ShellViewModel).Assembly.GetName().Version.ToString(3);
 }

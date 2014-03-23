@@ -7,7 +7,7 @@ public class LicenseAgreementViewTests
     [Test]
     [Explicit]
     [RequiresSTA]
-    public void ShowDialog()
+    public void Show()
     {
         ShellViewModel.StartModel= ContainerFactory.Container.Resolve<LicenseAgreementViewModel>();
         var app = new App();

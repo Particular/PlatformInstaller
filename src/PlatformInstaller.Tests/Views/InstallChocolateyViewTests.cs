@@ -1,4 +1,4 @@
-﻿using Caliburn.Micro;
+﻿using Autofac;
 using NUnit.Framework;
 
 [TestFixture]
@@ -7,10 +7,11 @@ public class InstallChocolateyViewTests
     [Test]
     [Explicit]
     [RequiresSTA]
-    public void ShowDialog()
+    public void Show()
     {
-        ViewLocator.LocateForModel = (o, dependencyObject, arg3) => new InstallChocolateyView();
-        var windowManager = new WindowManager();
-        windowManager.ShowDialog(new InstallChocolateyViewModel());
+        ShellViewModel.StartModel = ContainerFactory.Container.Resolve<InstallChocolateyViewModel>();
+        var app = new App();
+        app.InitializeComponent();
+        app.Run();
     }
 }

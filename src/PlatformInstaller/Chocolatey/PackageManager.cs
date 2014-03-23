@@ -10,7 +10,6 @@ public class PackageManager
 
     public PackageManager(PowerShellRunner powerShellRunner)
     {
-        throw new Exception("sdfsdf");
         this.powerShellRunner = powerShellRunner;
     }
 

@@ -1,12 +1,13 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using Anotar.Serilog;
 using Caliburn.Micro;
 using Microsoft.Win32;
 
 public class NewUserDetecter : IHandle<InstallSucceededEvent>
 {
     bool isNewUserAtStartup;
-    bool hasProcessedSucceed = true;
+    bool hasProcessedSucceed;
 
     public NewUserDetecter()
     {
@@ -15,10 +16,16 @@ public class NewUserDetecter : IHandle<InstallSucceededEvent>
 
     public void Handle(InstallSucceededEvent message)
     {
-        if (!hasProcessedSucceed && isNewUserAtStartup)
+        if (hasProcessedSucceed)
         {
-            Process.Start(@"http://particular.net/thank-you-for-downloading-the-particular-service-platform?new_user=" + isNewUserAtStartup.ToString().ToLower());
+            LogTo.Information("Install feedback has already been reported no new browser will be popped");
+            return;
         }
+
+
+        LogTo.Information("Install successfull, new user: " + isNewUserAtStartup);
+
+        Process.Start(@"http://particular.net/thank-you-for-downloading-the-particular-service-platform?new_user=" + isNewUserAtStartup.ToString().ToLower());
         hasProcessedSucceed = true;
     }
 

@@ -100,6 +100,7 @@
     <Compile Include="AsyncErrorHandler.cs" />
     <Compile Include="Caliburn\CaliburnExtensions.cs" />
     <Compile Include="Caliburn\TitleFixerModule.cs" />
+    <Compile Include="Chocolatey\FileEx.cs" />
     <Compile Include="Chocolatey\PlatformInstallerPSHost.cs" />
     <Compile Include="Chocolatey\PlatformInstallerPSHostRawUserInterface.cs" />
     <Compile Include="Chocolatey\PlatformInstallerPSHostUI.cs" />

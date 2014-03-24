@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using NuGet;
 
@@ -24,7 +24,33 @@ public class PackageManager
                 {"pre", true}
         };
         await powerShellRunner.Run(@"C:\Chocolatey\chocolateyinstall\chocolatey.ps1", parameters);
+        CopyLogFiles(packageName);
     }
+
+    public static void CopyLogFiles(string packageName)
+    {
+        var packageTempDirectory = Path.Combine(Path.GetTempPath(), "Chocolatey", packageName);
+        if (!Directory.Exists(packageTempDirectory))
+        {
+            return;
+        }
+        var logFiles = Directory.GetFiles(packageTempDirectory, "*.log");
+        if (!logFiles.Any())
+        {
+            return;
+        }
+        var targetDirectory = Path.Combine(Logging.LogDirectory, packageName + "PackageLogs" );
+        if (Directory.Exists(targetDirectory))
+        {
+            Directory.Delete(targetDirectory, true);
+        }
+        Directory.CreateDirectory(targetDirectory);
+        foreach (var logFile in logFiles)
+        {
+            FileEx.CopyToDirectory(logFile, targetDirectory);
+        }
+    }
+
 
     static string GetSource()
     {
@@ -71,4 +97,3 @@ public class PackageManager
         return TryGetInstalledVersion(packageName, out version);
     }
 }
-

@@ -12,6 +12,13 @@ public class PackageManagerTests
         var packageInstaller = GetPackageInstaller();
         await packageInstaller.Install("Pester");
     }
+    [Test]
+    [Explicit("Integration")]
+    public void CopyLogFiles()
+    {
+        Logging.Initialise();
+        PackageManager.CopyLogFiles("ServiceControl");
+    }
 
     static PackageManager GetPackageInstaller()
     {

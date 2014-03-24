@@ -30,7 +30,7 @@ public partial class ExceptionView
 
     void CloseClick(object sender, RoutedEventArgs e)
     {
-        Application.Current.Shutdown(1);
+        Environment.Exit(1);
     }
 
     void CopyClick(object sender, RoutedEventArgs e)

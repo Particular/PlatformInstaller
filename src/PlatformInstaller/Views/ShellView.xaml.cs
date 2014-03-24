@@ -2,10 +2,12 @@
 
 public partial class ShellView
 {
+    public static ShellView CurrentInstance;
     public ShellView()
     {
+        CurrentInstance = this;
         InitializeComponent();
-
+        
     }
     protected override void OnMouseDown(MouseButtonEventArgs e)
     {

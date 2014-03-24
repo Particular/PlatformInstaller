@@ -16,6 +16,7 @@ public class ShellViewModel : Conductor<object>,
     IEventAggregator eventAggregator;
     public string Version = "v" + typeof(ShellViewModel).Assembly.GetName().Version.ToString(3);
     List<string> itemsToInstall;
+    public static Screen StartModel;
 
     public ShellViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller, LicenseAgreement licenseAgreement)
     {
@@ -36,7 +37,6 @@ public class ShellViewModel : Conductor<object>,
         }
     }
 
-    public static Screen StartModel;
 
     public void Close()
     {

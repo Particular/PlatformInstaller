@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -7,10 +6,13 @@ using Anotar.Serilog;
 
 static class ExceptionHandler
 {
+    static Dispatcher dispatcher;
+    static bool errorDialogShown;
     public static void Attach()
     {
         AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-        Dispatcher.CurrentDispatcher.UnhandledException += CurrentDispatcher_UnhandledException;
+        dispatcher = Dispatcher.CurrentDispatcher;
+        dispatcher.UnhandledException += CurrentDispatcher_UnhandledException;
         Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
         TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
     }
@@ -25,14 +27,31 @@ static class ExceptionHandler
         {
             LogTo.Error(exception, message);
         }
-        var uiThread = new Thread(() =>
+        try
         {
-            var exceptionView = new ExceptionView(exception);
-            exceptionView.ShowDialog();
-        });
-        uiThread.SetApartmentState(ApartmentState.STA);
-        uiThread.Start();
-        uiThread.Join();
+            if (errorDialogShown)
+            {
+                return;
+            }
+            errorDialogShown = true;
+            dispatcher.Invoke(() =>
+            {
+                var exceptionView = new ExceptionView(exception)
+                {
+                    Owner = ShellView.CurrentInstance
+                };
+                exceptionView.ShowDialog();
+            });
+        }
+        catch (Exception showDialogException)
+        {
+            LogTo.Error(showDialogException, "Could not show error dialog. Shutting down.");
+            Environment.Exit(1);
+        }
+        finally
+        {
+            errorDialogShown = false;
+        }
     }
 
     static void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)

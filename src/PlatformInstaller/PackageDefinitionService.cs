@@ -9,7 +9,7 @@ public class PackageDefinitionService
         {
             new PackageDefinition
             {
-                Name = "Service Bus",
+                Name = "NServiceBusPreReqs",
                 Image = "/Images/NSB.png",
                 Dependencies = new List<PackageDefinition>
                 {
@@ -21,25 +21,25 @@ public class PackageDefinitionService
             },
             new PackageDefinition
             {
-                Name = "Service Matrix",
+                Name = "ServiceMatrix",
                 Image = "/Images/SM.png",
                 ChocolateyPackage = "ServiceMatrix.install"
             },
             new PackageDefinition
             {
-                Name = "Service Insight",
+                Name = "ServiceInsight",
                 Image = "/Images/SI.png",
                 ChocolateyPackage = "ServiceInsight.install"
             },
             new PackageDefinition
             {
-                Name = "Service Pulse",
+                Name = "ServicePulse",
                 Image = "/Images/SP.png",
                 ChocolateyPackage = "ServicePulse.install"
             },
             new PackageDefinition
             {
-                Name = "Service Control",
+                Name = "ServiceControl",
                 Image = "/Images/SC.png",
                 ChocolateyPackage = "ServiceControl.install"
             },

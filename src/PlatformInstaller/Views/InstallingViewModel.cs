@@ -50,7 +50,19 @@ public class InstallingViewModel : Screen
         foreach (var package in packageDefinitions)
         {
             CurrentPackageDescription = package.Name;
-            await packageManager.Install(package.ChocolateyPackage);
+
+            foreach (var packageDep in package.Dependencies)
+            {
+                await packageManager.Install(packageDep.ChocolateyPackage);    
+            }
+
+
+            //install main package
+            if (!string.IsNullOrEmpty(package.ChocolateyPackage))
+            {
+                await packageManager.Install(package.ChocolateyPackage);        
+            }
+            
             InstallProgress++;
         }
 

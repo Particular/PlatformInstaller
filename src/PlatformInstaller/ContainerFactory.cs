@@ -47,6 +47,9 @@ public static class ContainerFactory
             .SingleInstance();
 
         Container = builder.Build();
+
+        //hack: Is there some scanning that is suppoed to make this work?
+        Container.Resolve<IEventAggregator>().Subscribe(Container.Resolve<NewUserDetecter>());
     }
 
     static Assembly[] ThisAssembly()

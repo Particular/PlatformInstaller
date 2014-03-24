@@ -7,4 +7,5 @@
   <Virtuosity />
   <Janitor />
   <Resourcer />
+  <AsyncErrorHandler />
 </Weavers>

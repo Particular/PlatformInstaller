@@ -17,7 +17,7 @@ static class ExceptionHandler
         TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
     }
 
-    static void HandleException(Exception exception, string message)
+    public static void HandleException(Exception exception, string message)
     {
         if (exception == null)
         {

@@ -36,8 +36,7 @@ public class ShellViewModel : Conductor<object>,
             this.ActivateModel<LicenseAgreementViewModel>();
         }
     }
-
-
+    
     public void Close()
     {
         Application.Current.Shutdown();
@@ -52,7 +51,6 @@ public class ShellViewModel : Conductor<object>,
     {
         this.ActivateModel<SelectItemsViewModel>();
     }
-
 
     public void Handle(OpenLogDirectoryEvent message)
     {
@@ -76,7 +74,6 @@ public class ShellViewModel : Conductor<object>,
     {
         this.ActivateModel<InstallingViewModel>(x => x.ItemsToInstall = itemsToInstall);
     }
-
 
     public void Handle(InstallSucceededEvent message)
     {

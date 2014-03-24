@@ -97,6 +97,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AsyncErrorHandler.cs" />
     <Compile Include="Caliburn\CaliburnExtensions.cs" />
     <Compile Include="Caliburn\TitleFixerModule.cs" />
     <Compile Include="Chocolatey\PlatformInstallerPSHost.cs" />

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-public static class MultInstanceBinder
+public static class MultiInstanceBinder
 {
     public static void BindActionToPropChanged(this IEnumerable<INotifyPropertyChanged> packages, Action action, string property)
     {

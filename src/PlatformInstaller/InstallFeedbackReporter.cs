@@ -26,10 +26,10 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>
 
         Process.Start(@"http://particular.net/thank-you-for-downloading-the-particular-service-platform?new_user=" + isNewUserAtStartup.ToString().ToLower());
 
-        RecordSuccessfullInstallationFeeeback();
+        RecordSuccessfullInstallationFeeback();
     }
 
-    void RecordSuccessfullInstallationFeeeback()
+    void RecordSuccessfullInstallationFeeback()
     {
         using (var regRoot = Registry.CurrentUser.CreateSubKey(@"Software\ParticularSoftware\PlatformInstaller\"))
         {

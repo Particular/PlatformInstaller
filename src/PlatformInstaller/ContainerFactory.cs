@@ -48,8 +48,8 @@ public static class ContainerFactory
 
         Container = builder.Build();
 
-        //hack: Is there some scanning that is suppoed to make this work?
-        Container.Resolve<IEventAggregator>().Subscribe(Container.Resolve<InstallFeedbackReporter>());
+        //hack: since nothing uses InstallFeedbackReporter force a resolve
+        Container.Resolve<InstallFeedbackReporter>();
     }
 
     static Assembly[] ThisAssembly()

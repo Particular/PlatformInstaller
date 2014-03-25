@@ -155,7 +155,7 @@
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WpfExtensions\MultInstanceBinder.cs" />
+    <Compile Include="WpfExtensions\MultiInstanceBinder.cs" />
     <Compile Include="PackageDefinitionService.cs" />
     <Compile Include="PackageDefinition.cs" />
     <Compile Include="InstallFeedbackReporter.cs" />

@@ -38,7 +38,7 @@
 //    [Test]
 //    public void VerifyAnInvalidCommandThrowsCommandNotFoundException()
 //    {
-//        var runSync = new PowerShellRunner("thingdingding");
+//        var runSync = new PowerShellRunner("foo");
 //        var task = runSync.Run();
 //        var exception = Assert.Throws<AggregateException>(task.Wait);
 //        Assert.IsInstanceOf<CommandNotFoundException>(exception.InnerExceptions.First());

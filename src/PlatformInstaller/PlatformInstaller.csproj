@@ -158,7 +158,7 @@
     <Compile Include="WpfExtensions\MultInstanceBinder.cs" />
     <Compile Include="PackageDefinitionService.cs" />
     <Compile Include="PackageDefinition.cs" />
-    <Compile Include="NewUserDetecter.cs" />
+    <Compile Include="InstallFeedbackReporter.cs" />
     <Compile Include="SemanticVersion.cs" />
     <Page Include="Views\InstallChocolateyView.xaml">
       <Generator>MSBuild:Compile</Generator>

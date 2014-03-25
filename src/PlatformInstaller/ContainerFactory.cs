@@ -27,7 +27,7 @@ public static class ContainerFactory
         builder.RegisterType<WindowManager>()
             .As<IWindowManager>()
             .SingleInstance();
-        builder.RegisterType<NewUserDetecter>()
+        builder.RegisterType<InstallFeedbackReporter>()
             .SingleInstance();
         builder.RegisterType<PowerShellRunner>()
             .SingleInstance();
@@ -49,7 +49,7 @@ public static class ContainerFactory
         Container = builder.Build();
 
         //hack: Is there some scanning that is suppoed to make this work?
-        Container.Resolve<IEventAggregator>().Subscribe(Container.Resolve<NewUserDetecter>());
+        Container.Resolve<IEventAggregator>().Subscribe(Container.Resolve<InstallFeedbackReporter>());
     }
 
     static Assembly[] ThisAssembly()

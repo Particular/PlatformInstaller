@@ -9,7 +9,7 @@ public class NewUserDetecterTests
     [Explicit]
     public void Simple()
     {
-        Assert.False(new NewUserDetecter().IsNewUser());
+        Assert.False(new InstallFeedbackReporter().IsNewUser());
     }
 
     [Test]
@@ -21,7 +21,7 @@ public class NewUserDetecterTests
             using (var regRoot = Registry.CurrentUser.CreateSubKey(subKey))
             using (regRoot.CreateSubKey("NServiceBus"))
             {
-                Assert.False(NewUserDetecter.CheckRegistryForExistingKeys(regRoot));
+                Assert.False(InstallFeedbackReporter.CheckRegistryForExistingKeys(regRoot));
             }
         }
         finally
@@ -39,7 +39,7 @@ public class NewUserDetecterTests
             using (var regRoot = Registry.CurrentUser.CreateSubKey(subKey))
             using (regRoot.CreateSubKey("ParticularSoftware"))
             {
-                Assert.False(NewUserDetecter.CheckRegistryForExistingKeys(regRoot));
+                Assert.False(InstallFeedbackReporter.CheckRegistryForExistingKeys(regRoot));
             }
         }
         finally
@@ -57,7 +57,7 @@ public class NewUserDetecterTests
         {
             using (var regRoot = Registry.CurrentUser.CreateSubKey(subKey))
             {
-                Assert.True(NewUserDetecter.CheckRegistryForExistingKeys(regRoot));
+                Assert.True(InstallFeedbackReporter.CheckRegistryForExistingKeys(regRoot));
             }
         }
         finally

@@ -7,6 +7,6 @@ public class LicenseTextTests
     [Test]
     public void VerifyLicenseHtml()
     {
-        Approvals.Verify(LicenseText.ReadLicenseHtml());
+        Approvals.Verify(LicenseText.ReadLicenseHtml(),s => s.Replace("\r\n","\n"));
     }
 }

@@ -19,8 +19,6 @@
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
             <Button x:Name="Back" Content="Back"  Visibility="{Binding Path=InstallFailed, Converter={StaticResource BoolToVis}}" />
         </StackPanel>
-        <ScrollViewer  >
-            <TextBox IsReadOnly="True" Text="{Binding ProgressService.OutputText}" Foreground="#2EA3C4" FontSize="10" FontWeight="Medium" />
-        </ScrollViewer>
+        <TextBox HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" IsReadOnly="True" Text="{Binding ProgressService.OutputText}" Foreground="#2EA3C4" FontSize="10" FontWeight="Medium" />
     </DockPanel>
 </UserControl>

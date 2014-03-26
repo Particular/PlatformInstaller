@@ -23,13 +23,14 @@ public class PackageDefinitionService
                     await packageManager.Install("NServicebus.Dtc.install");
                     await packageManager.Install("NServicebus.PerfCounters.install");
                     await packageManager.Install("NServicebus.Msmq.install");
-                    //var logFilePath = Path.Combine(PackageManager.GetLogDirectoryForPackage("RavenDB"),"installerlog.txt");
-                    //if (File.Exists(logFilePath))
-                    //{
-                    //    File.Delete(logFilePath);
-                    //}
-                    //await packageManager.Install("RavenDB", string.Format(@"/quiet /log {0} /msicl RAVEN_TARGET_ENVIRONMENT=DEVELOPMENT /msicl TARGETDIR=C:\ /msicl INSTALLFOLDER=C:\RavenDB /msicl RAVEN_INSTALLATION_TYPE=SERVICE /msicl REMOVE=IIS /msicl ADDLOCAL=Service", logFilePath));
-                    await packageManager.Install("RavenDB");
+                    var logFilePath = Path.Combine(PackageManager.GetLogDirectoryForPackage("RavenDB"),"installerlog.txt");
+                    if (File.Exists(logFilePath))
+                    {
+                        File.Delete(logFilePath);
+                    }
+                    var parmeters = string.Format(@"/quiet /log {0} /msicl RAVEN_TARGET_ENVIRONMENT=DEVELOPMENT /msicl TARGETDIR=C:\ /msicl INSTALLFOLDER=C:\RavenDB /msicl RAVEN_INSTALLATION_TYPE=SERVICE /msicl REMOVE=IIS /msicl ADDLOCAL=Service", logFilePath);
+                    await packageManager.Install("RavenDB", parmeters);
+                    //await packageManager.Install("RavenDB");
                 },
             },
             new PackageDefinition

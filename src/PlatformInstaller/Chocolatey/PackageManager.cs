@@ -13,7 +13,7 @@ public class PackageManager
         this.powerShellRunner = powerShellRunner;
     }
 
-    public async Task Install(string packageName)
+    public async Task Install(string packageName, string installerParmeters = null)
     {
         var parameters = new Dictionary<string, object>
         {
@@ -23,6 +23,10 @@ public class PackageManager
                 {"verbosity", true},
                 {"pre", true}
         };
+        if (installerParmeters != null)
+        {
+            parameters["installArguments"] = installerParmeters;
+        }
         await powerShellRunner.Run(@"C:\Chocolatey\chocolateyinstall\chocolatey.ps1", parameters);
         CopyLogFiles(packageName);
     }
@@ -39,16 +43,18 @@ public class PackageManager
         {
             return;
         }
-        var targetDirectory = Path.Combine(Logging.LogDirectory, packageName + "PackageLogs" );
-        if (Directory.Exists(targetDirectory))
-        {
-            Directory.Delete(targetDirectory, true);
-        }
-        Directory.CreateDirectory(targetDirectory);
+        var targetDirectory = GetLogDirectoryForPackage(packageName);
         foreach (var logFile in logFiles)
         {
             FileEx.CopyToDirectory(logFile, targetDirectory);
         }
+    }
+
+    public static string GetLogDirectoryForPackage(string packageName)
+    {
+        var targetDirectory = Path.Combine(Logging.LogDirectory, packageName + "PackageLogs");
+        Directory.CreateDirectory(targetDirectory);
+        return targetDirectory;
     }
 
 

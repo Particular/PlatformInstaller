@@ -14,9 +14,16 @@ public class PackageManagerTests
     }
     [Test]
     [Explicit("Integration")]
+    public async void InstallWithParams()
+    {
+        var packageInstaller = GetPackageInstaller();
+        await packageInstaller.Install("RavenDB", @"/quiet /log C:\raven_log.txt /msicl RAVEN_TARGET_ENVIRONMENT=DEVELOPMENT /msicl TARGETDIR=C:\ /msicl INSTALLFOLDER=C:\RavenDB /msicl RAVEN_INSTALLATION_TYPE=SERVICE /msicl REMOVE=IIS /msicl ADDLOCAL=Service");
+    }
+    
+    [Test]
+    [Explicit("Integration")]
     public void CopyLogFiles()
     {
-        Logging.Initialise();
         PackageManager.CopyLogFiles("ServiceControl");
     }
 

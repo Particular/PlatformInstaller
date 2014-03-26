@@ -1,8 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 public class PackageDefinitionService
 {
-    
+    PackageManager packageManager;
+
+    public PackageDefinitionService(PackageManager packageManager)
+    {
+        this.packageManager = packageManager;
+    }
+
     public virtual List<PackageDefinition> GetPackages()
     {
         return new List<PackageDefinition>
@@ -11,37 +18,47 @@ public class PackageDefinitionService
             {
                 Name = "NServiceBusPreReqs",
                 Image = "/Images/NSB.png",
-                Dependencies = new List<PackageDefinition>
+                InstallAction = async () =>
                 {
-                    new PackageDefinition{ Name = "DTC", ChocolateyPackage = "NServicebus.Dtc.install" },
-                    new PackageDefinition{ Name = "Performance Counters", ChocolateyPackage = "NServicebus.PerfCounters.install" },
-                    new PackageDefinition{ Name = "MSMQ", ChocolateyPackage = "NServicebus.Msmq.install" },
-                    new PackageDefinition{ Name = "Raven", ChocolateyPackage = "RavenDB", Image = "/Images/RavenDB.png" },
-                }
+                    await packageManager.Install("NServicebus.Dtc.install");
+                    await packageManager.Install("NServicebus.PerfCounters.install");
+                    await packageManager.Install("NServicebus.Msmq.install");
+                    //var logFilePath = Path.Combine(PackageManager.GetLogDirectoryForPackage("RavenDB"),"installerlog.txt");
+                    //if (File.Exists(logFilePath))
+                    //{
+                    //    File.Delete(logFilePath);
+                    //}
+                    //await packageManager.Install("RavenDB", string.Format(@"/quiet /log {0} /msicl RAVEN_TARGET_ENVIRONMENT=DEVELOPMENT /msicl TARGETDIR=C:\ /msicl INSTALLFOLDER=C:\RavenDB /msicl RAVEN_INSTALLATION_TYPE=SERVICE /msicl REMOVE=IIS /msicl ADDLOCAL=Service", logFilePath));
+                    await packageManager.Install("RavenDB");
+                },
             },
             new PackageDefinition
             {
                 Name = "ServiceMatrix",
                 Image = "/Images/SM.png",
-                ChocolateyPackage = "ServiceMatrix.install"
+                InstallAction = ()=> packageManager.Install("ServiceMatrix.install"),
+                IsInstalledAction = ()=>  packageManager.IsInstalled("ServiceMatrix.install"),
             },
             new PackageDefinition
             {
                 Name = "ServiceInsight",
                 Image = "/Images/SI.png",
-                ChocolateyPackage = "ServiceInsight.install"
+                InstallAction = ()=> packageManager.Install("ServiceInsight.install"),
+                IsInstalledAction = ()=> packageManager.IsInstalled("ServiceInsight.install"),
             },
             new PackageDefinition
             {
                 Name = "ServicePulse",
                 Image = "/Images/SP.png",
-                ChocolateyPackage = "ServicePulse.install"
+                InstallAction = ()=> packageManager.Install("ServicePulse.install"),
+                IsInstalledAction = ()=> packageManager.IsInstalled("ServiceControl.install"),
             },
             new PackageDefinition
             {
                 Name = "ServiceControl",
                 Image = "/Images/SC.png",
-                ChocolateyPackage = "ServiceControl.install"
+                InstallAction = ()=> packageManager.Install("ServiceControl.install"),
+                IsInstalledAction = ()=> packageManager.IsInstalled("ServiceControl.install"),
             },
         };
     }

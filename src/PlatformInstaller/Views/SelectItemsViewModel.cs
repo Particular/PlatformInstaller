@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Caliburn.Micro;
 
@@ -6,19 +7,25 @@ public class SelectItemsViewModel : Screen
 {
     public SelectItemsViewModel(PackageDefinitionService packageDefinitionDiscovery, IEventAggregator eventAggregator)
     {
-        PackageDefinitionService = packageDefinitionDiscovery;
         this.eventAggregator = eventAggregator;
-        PackageDefinitions = PackageDefinitionService.GetPackages();
+        PackageDefinitions = packageDefinitionDiscovery
+            .GetPackages()
+            .Select(x=>new PackageDefinitionBindable
+            {
+                ImageUrl ="pack://application:,,,/PlatformInstaller;component" + x.Image,
+                Installed = x.IsInstalledAction(),
+                Name = x.Name,
+            }).ToList();
         PackageDefinitions.BindActionToPropChanged(() =>
         {
             IsInstallEnabled = PackageDefinitions.Any(p => p.Selected);
         }, "Selected");
     }
+    
 
     public bool IsInstallEnabled;
-    public PackageDefinitionService PackageDefinitionService;
     IEventAggregator eventAggregator;
-    public List<PackageDefinition> PackageDefinitions;
+    public List<PackageDefinitionBindable> PackageDefinitions;
 
     public void Install()
     {
@@ -33,5 +40,16 @@ public class SelectItemsViewModel : Screen
     public void Close()
     {
         eventAggregator.Publish<CloseApplicationEvent>();
+    }
+
+    public class PackageDefinitionBindable : INotifyPropertyChanged
+    {
+
+        public string Name;
+        public string ImageUrl;
+        public bool Selected;
+        public bool Installed;
+        public event PropertyChangedEventHandler PropertyChanged;
+
     }
 }

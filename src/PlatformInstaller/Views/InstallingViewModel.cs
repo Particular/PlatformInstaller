@@ -12,7 +12,6 @@ public class InstallingViewModel : Screen
         PackageDefinitionService = packageDefinitionDiscovery;
         this.chocolateyInstaller = chocolateyInstaller;
         this.eventAggregator = eventAggregator;
-        this.packageManager = packageManager;
     }
 
     public string CurrentPackageDescription;
@@ -20,7 +19,6 @@ public class InstallingViewModel : Screen
     public PackageDefinitionService PackageDefinitionService;
     ChocolateyInstaller chocolateyInstaller;
     IEventAggregator eventAggregator;
-    PackageManager packageManager;
     public List<string> ItemsToInstall;
     public bool InstallFailed;
     public double InstallProgress;
@@ -50,19 +48,7 @@ public class InstallingViewModel : Screen
         foreach (var package in packageDefinitions)
         {
             CurrentPackageDescription = package.Name;
-
-            foreach (var packageDep in package.Dependencies)
-            {
-                await packageManager.Install(packageDep.ChocolateyPackage);    
-            }
-
-
-            //install main package
-            if (!string.IsNullOrEmpty(package.ChocolateyPackage))
-            {
-                await packageManager.Install(package.ChocolateyPackage);        
-            }
-            
+            await package.InstallAction();
             InstallProgress++;
         }
 

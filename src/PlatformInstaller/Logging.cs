@@ -7,7 +7,7 @@ public static class Logging
 {
     public static string LogDirectory;
 
-    public static void Initialise()
+    static Logging()
     {
         var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         LogDirectory = Path.Combine(appData, AssemblyLocation.ExeFileName);

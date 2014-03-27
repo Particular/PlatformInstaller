@@ -22,6 +22,9 @@ public class SelectItemsViewModel : Screen
                     Name = x.Name,
                 };
             }).ToList();
+
+        IsInstallEnabled = PackageDefinitions.Any(pd => pd.Selected);
+
         PackageDefinitions.BindActionToPropChanged(() =>
         {
             IsInstallEnabled = PackageDefinitions.Any(p => p.Selected);

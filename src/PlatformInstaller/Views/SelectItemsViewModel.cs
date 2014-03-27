@@ -10,11 +10,17 @@ public class SelectItemsViewModel : Screen
         this.eventAggregator = eventAggregator;
         PackageDefinitions = packageDefinitionDiscovery
             .GetPackages()
-            .Select(x=>new PackageDefinitionBindable
+            .Select(x=>
             {
-                ImageUrl ="pack://application:,,,/PlatformInstaller;component" + x.Image,
-                Installed = x.IsInstalledAction(),
-                Name = x.Name,
+                var isInstalled = x.IsInstalledAction();
+
+                return new PackageDefinitionBindable
+                {
+                    ImageUrl = "pack://application:,,,/PlatformInstaller;component" + x.Image,
+                    Installed = isInstalled,
+                    Selected = !isInstalled,
+                    Name = x.Name,
+                };
             }).ToList();
         PackageDefinitions.BindActionToPropChanged(() =>
         {

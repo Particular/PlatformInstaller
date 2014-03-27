@@ -24,7 +24,7 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>
 
         LogTo.Information("Install successfull, new user: " + isNewUserAtStartup);
 
-        Process.Start(@"http://particular.net/thank-you-for-downloading-the-particular-service-platform?new_user=" + isNewUserAtStartup.ToString().ToLower());
+        Process.Start(@"http://particular.net/thank-you-for-installing-the-particular-service-platform?new_user=" + isNewUserAtStartup.ToString().ToLower());
 
         RecordSuccessfullInstallationFeeback();
     }

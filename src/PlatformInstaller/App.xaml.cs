@@ -2,6 +2,7 @@
 {
     public App()
     {
+        Logging.Initialise();
         ExceptionHandler.Attach();
     }
 }

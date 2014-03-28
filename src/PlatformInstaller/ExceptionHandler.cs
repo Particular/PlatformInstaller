@@ -72,6 +72,11 @@ static class ExceptionHandler
 
     static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
+        if (e.IsTerminating)
+        {
+            LogTo.Error(e.ExceptionObject as Exception, "Could not show error dialog. Shutting down.");
+            return;
+        }
         HandleException(e.ExceptionObject as Exception, "CurrentDomain_UnhandledException");
     }
 

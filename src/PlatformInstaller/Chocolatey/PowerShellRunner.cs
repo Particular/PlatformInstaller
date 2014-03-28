@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Threading.Tasks;
 using Anotar.Serilog;
@@ -34,7 +37,16 @@ public class PowerShellRunner : IDisposable
         var executableString = psCommand.ToExecutableString();
         progressService.OutputDataReceived(new LogEntry(executableString,LogEntryType.Output));
         LogTo.Information("Executing powershell command: " + executableString);
-        await TaskEx.Run(() => pipeline.Invoke());
+        await TaskEx.Run(() =>
+        {
+            pipeline.Invoke();
+            foreach (PSObject errorRecord in pipeline.Error.ReadToEnd())
+            {
+                var errorMessage = "Error executing powershell: " + errorRecord;
+                LogTo.Error(errorMessage);
+                progressService.OutputDataReceived(new LogEntry(errorMessage, LogEntryType.Error));
+            }
+        });
     }
 
     public void Dispose()

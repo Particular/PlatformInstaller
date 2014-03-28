@@ -30,7 +30,6 @@ public class PackageDefinitionService
                     }
                     var parmeters = string.Format(@"/quiet /log {0} /msicl RAVEN_TARGET_ENVIRONMENT=DEVELOPMENT /msicl TARGETDIR=C:\ /msicl INSTALLFOLDER=C:\RavenDB /msicl RAVEN_INSTALLATION_TYPE=SERVICE /msicl REMOVE=IIS /msicl ADDLOCAL=Service", logFilePath);
                     await packageManager.Install("RavenDB", parmeters);
-                    //await packageManager.Install("RavenDB");
                 },
             },
             new PackageDefinition

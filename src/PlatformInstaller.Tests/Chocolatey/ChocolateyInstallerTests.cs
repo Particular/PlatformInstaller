@@ -18,5 +18,12 @@ public class ChocolateyInstallerTests
         var chocolateyInstaller = new ChocolateyInstaller(new ProcessRunner(new ProgressService()));
         Assert.IsTrue(chocolateyInstaller.IsInstalled());
     }
+    [Test]
+    [Explicit("Integration")]
+    public void GetInstallPath()
+    {
+        var chocolateyInstaller = new ChocolateyInstaller(new ProcessRunner(new ProgressService()));
+        Assert.AreEqual(@"C:\Chocolatey", chocolateyInstaller.GetInstallPath());
+    }
 
 }

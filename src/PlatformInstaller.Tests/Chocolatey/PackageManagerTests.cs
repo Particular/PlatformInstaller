@@ -32,7 +32,7 @@ public class PackageManagerTests
         var progressService = new ProgressService();
         var platformInstallerPsHostUi = new PlatformInstallerPSHostUI(progressService);
         var platformInstallerPsHost = new PlatformInstallerPSHost(platformInstallerPsHostUi);
-        return new PackageManager(new PowerShellRunner(platformInstallerPsHost, progressService));
+        return new PackageManager(new PowerShellRunner(platformInstallerPsHost, progressService), new ChocolateyInstaller(null));
     }
 
 

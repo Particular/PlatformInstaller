@@ -8,7 +8,9 @@ public class ChocolateyInstaller
     public ChocolateyInstaller(ProcessRunner  processRunner)
     {
         this.processRunner = processRunner;
+
     }
+
 
     public Task<int> InstallChocolatey()
     {
@@ -18,6 +20,11 @@ public class ChocolateyInstaller
 
     public bool IsInstalled()
     {
-        return Environment.GetEnvironmentVariable("ChocolateyInstall") != null;
+        return GetInstallPath() != null;
+    }
+
+    public string GetInstallPath()
+    {
+        return Environment.GetEnvironmentVariable("ChocolateyInstall");
     }
 }

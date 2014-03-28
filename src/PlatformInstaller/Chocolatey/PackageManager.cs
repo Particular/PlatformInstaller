@@ -7,10 +7,12 @@ using NuGet;
 public class PackageManager
 {
     PowerShellRunner powerShellRunner;
+    readonly ChocolateyInstaller chocolateyInstaller;
 
-    public PackageManager(PowerShellRunner powerShellRunner)
+    public PackageManager(PowerShellRunner powerShellRunner, ChocolateyInstaller chocolateyInstaller)
     {
         this.powerShellRunner = powerShellRunner;
+        this.chocolateyInstaller = chocolateyInstaller;
     }
 
     public async Task Install(string packageName, string installerParmeters = null)
@@ -27,7 +29,8 @@ public class PackageManager
         {
             parameters["installArguments"] = installerParmeters;
         }
-        await powerShellRunner.Run(@"C:\Chocolatey\chocolateyinstall\chocolatey.ps1", parameters);
+        var chocolateyPs1Path = Path.Combine(chocolateyInstaller.GetInstallPath(), @"chocolateyinstall\chocolatey.ps1");
+        await powerShellRunner.Run(chocolateyPs1Path, parameters);
         CopyLogFiles(packageName);
     }
 
@@ -74,16 +77,18 @@ public class PackageManager
                 {"command", "uninstall"},
                 {"packageNames", packageName}
         };
-        return powerShellRunner.Run(@"C:\Chocolatey\chocolateyinstall\chocolatey.ps1", parameters);
+        var chocolateyPs1Path = Path.Combine(chocolateyInstaller.GetInstallPath(), @"chocolateyinstall\chocolatey.ps1");
+        return powerShellRunner.Run(chocolateyPs1Path, parameters);
     }
     public bool TryGetInstalledVersion(string packageName, out SemanticVersion version)
     {
         version = null;
-        if (!Directory.Exists(@"C:\Chocolatey\lib"))
+        var chocolateyLibPath = Path.Combine(chocolateyInstaller.GetInstallPath(), "lib");
+        if (!Directory.Exists(chocolateyLibPath))
         {
             return false;
         }
-        foreach (var directory in Directory.EnumerateDirectories(@"C:\Chocolatey\lib", packageName + ".*"))
+        foreach (var directory in Directory.EnumerateDirectories(chocolateyLibPath, packageName + ".*"))
         {
             var versionString = Path.GetFileName(directory).ReplaceCaseless(packageName +".","");
             SemanticVersion newVersion;

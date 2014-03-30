@@ -117,6 +117,7 @@
     <Compile Include="Events\CloseApplicationEvent.cs" />
     <Compile Include="Events\HomeEvent.cs" />
     <Compile Include="Events\AgreedToInstallChocolatey.cs" />
+    <Compile Include="PackageDefinition.cs" />
     <Compile Include="Views\InstallChocolateyViewModel.cs" />
     <Compile Include="Views\InstallingViewModel.cs" />
     <Compile Include="Events\InstallSucceededEvent.cs" />
@@ -151,7 +152,7 @@
     </Compile>
     <Compile Include="WpfExtensions\MultiInstanceBinder.cs" />
     <Compile Include="PackageDefinitionService.cs" />
-    <Compile Include="PackageDefinition.cs" />
+    <Compile Include="InstallationDefinition.cs" />
     <Compile Include="InstallFeedbackReporter.cs" />
     <Compile Include="SemanticVersion.cs" />
     <Page Include="Views\InstallChocolateyView.xaml">

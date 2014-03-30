@@ -3,63 +3,94 @@ using System.IO;
 
 public class PackageDefinitionService
 {
-    PackageManager packageManager;
 
-    public PackageDefinitionService(PackageManager packageManager)
+    public virtual List<InstallationDefinition> GetPackages()
     {
-        this.packageManager = packageManager;
-    }
-
-    public virtual List<PackageDefinition> GetPackages()
-    {
-        return new List<PackageDefinition>
+        return new List<InstallationDefinition>
         {
-            new PackageDefinition
+            new InstallationDefinition
             {
                 Name = "NServiceBusPreReqs",
                 Image = "/Images/NSB.png",
-                InstallAction = async () =>
+                PackageDefinitions = new List<PackageDefinition>
                 {
-                    await packageManager.Install("NServicebus.Dtc.install");
-                    await packageManager.Install("NServicebus.PerfCounters.install");
-                    await packageManager.Install("NServicebus.Msmq.install");
-                    var logFilePath = Path.Combine(PackageManager.GetLogDirectoryForPackage("RavenDB"),"installerlog.txt");
-                    if (File.Exists(logFilePath))
+                    new PackageDefinition
                     {
-                        File.Delete(logFilePath);
-                    }
-                    var parmeters = string.Format(@"/quiet /log {0} /msicl RAVEN_TARGET_ENVIRONMENT=DEVELOPMENT /msicl TARGETDIR=C:\ /msicl INSTALLFOLDER=C:\RavenDB /msicl RAVEN_INSTALLATION_TYPE=SERVICE /msicl REMOVE=IIS /msicl ADDLOCAL=Service", logFilePath);
-                    await packageManager.Install("RavenDB", parmeters);
-                },
+                        Name = "NServicebus.Dtc.install"
+                    },
+                    new PackageDefinition
+                    {
+                        Name = "NServicebus.PerfCounters.install"
+                    },
+                    new PackageDefinition
+                    {
+                        Name = "NServicebus.Msmq.install"
+                    },
+                    new PackageDefinition
+                    {
+                        Name = "RavenDB",
+                        Parameters = GetRavenDbParameters()
+                    },
+                }
             },
-            new PackageDefinition
+            new InstallationDefinition
             {
                 Name = "ServiceMatrix",
                 Image = "/Images/SM.png",
-                InstallAction = ()=> packageManager.Install("ServiceMatrix.install"),
-                IsInstalledAction = ()=>  packageManager.IsInstalled("ServiceMatrix.install"),
+                PackageDefinitions = new List<PackageDefinition>
+                {
+                    new PackageDefinition
+                    {
+                        Name = "ServiceMatrix.install"
+                    },
+                }
             },
-            new PackageDefinition
+            new InstallationDefinition
             {
                 Name = "ServiceInsight",
                 Image = "/Images/SI.png",
-                InstallAction = ()=> packageManager.Install("ServiceInsight.install"),
-                IsInstalledAction = ()=> packageManager.IsInstalled("ServiceInsight.install"),
+                PackageDefinitions = new List<PackageDefinition>
+                {
+                    new PackageDefinition
+                    {
+                        Name = "ServiceInsight.install"
+                    },
+                }
             },
-            new PackageDefinition
+            new InstallationDefinition
             {
                 Name = "ServicePulse",
                 Image = "/Images/SP.png",
-                InstallAction = ()=> packageManager.Install("ServicePulse.install"),
-                IsInstalledAction = ()=> packageManager.IsInstalled("ServiceControl.install"),
+                PackageDefinitions = new List<PackageDefinition>
+                {
+                    new PackageDefinition
+                    {
+                        Name = "ServicePulse.install"
+                    },
+                }
             },
-            new PackageDefinition
+            new InstallationDefinition
             {
                 Name = "ServiceControl",
                 Image = "/Images/SC.png",
-                InstallAction = ()=> packageManager.Install("ServiceControl.install"),
-                IsInstalledAction = ()=> packageManager.IsInstalled("ServiceControl.install"),
+                PackageDefinitions = new List<PackageDefinition>
+                {
+                    new PackageDefinition
+                    {
+                        Name = "ServiceControl.install"
+                    },
+                }
             },
         };
+    }
+
+    static string GetRavenDbParameters()
+    {
+        var logFilePath = Path.Combine(PackageManager.GetLogDirectoryForPackage("RavenDB"), "installerlog.txt");
+        if (File.Exists(logFilePath))
+        {
+            File.Delete(logFilePath);
+        }
+        return string.Format(@"/quiet /log {0} /msicl RAVEN_TARGET_ENVIRONMENT=DEVELOPMENT /msicl TARGETDIR=C:\ /msicl INSTALLFOLDER=C:\RavenDB /msicl RAVEN_INSTALLATION_TYPE=SERVICE /msicl REMOVE=IIS /msicl ADDLOCAL=Service", logFilePath);
     }
 }

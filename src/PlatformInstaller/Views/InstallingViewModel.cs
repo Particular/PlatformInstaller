@@ -12,6 +12,7 @@ public class InstallingViewModel : Screen
         PackageDefinitionService = packageDefinitionDiscovery;
         this.chocolateyInstaller = chocolateyInstaller;
         this.eventAggregator = eventAggregator;
+        this.packageManager = packageManager;
     }
 
     public string CurrentPackageDescription;
@@ -19,6 +20,7 @@ public class InstallingViewModel : Screen
     public PackageDefinitionService PackageDefinitionService;
     ChocolateyInstaller chocolateyInstaller;
     IEventAggregator eventAggregator;
+    PackageManager packageManager;
     public List<string> ItemsToInstall;
     public bool InstallFailed;
     public double InstallProgress;
@@ -37,19 +39,22 @@ public class InstallingViewModel : Screen
 
     public async Task InstallSelected()
     {
-        var packageDefinitions = PackageDefinitionService.GetPackages().Where(p => ItemsToInstall.Contains(p.Name)).ToList();
-        InstallCount = packageDefinitions.Count;
+        var installationDefinitions = PackageDefinitionService.GetPackages().Where(p => ItemsToInstall.Contains(p.Name)).ToList();
+        InstallCount = installationDefinitions.Select(x=>x.PackageDefinitions).Count();
         if (!chocolateyInstaller.IsInstalled())
         {
             InstallCount++;
             await chocolateyInstaller.InstallChocolatey();
             InstallProgress++;
         }
-        foreach (var package in packageDefinitions)
+        foreach (var installationDefinition in installationDefinitions)
         {
-            CurrentPackageDescription = package.Name;
-            await package.InstallAction();
-            InstallProgress++;
+            foreach (var packageDefinition in installationDefinition.PackageDefinitions)
+            {
+                CurrentPackageDescription = packageDefinition.Name;
+                await packageManager.Install(packageDefinition.Name,packageDefinition.Parameters);
+                InstallProgress++;   
+            }
         }
 
         if (ProgressService.Failures.Any())

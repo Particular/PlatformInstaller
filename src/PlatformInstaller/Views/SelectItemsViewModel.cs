@@ -21,7 +21,7 @@ public class SelectItemsViewModel : Screen
                 {
                     ImageUrl = "pack://application:,,,/PlatformInstaller;component" + x.Image,
                     Installed = isInstalled,
-                 //   Selected = !isInstalled,
+                    Selected = !isInstalled,
                     Name = x.Name,
                 };
             }).ToList();

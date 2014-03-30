@@ -40,21 +40,20 @@ public class InstallingViewModel : Screen
     public async Task InstallSelected()
     {
         var installationDefinitions = PackageDefinitionService.GetPackages().Where(p => ItemsToInstall.Contains(p.Name)).ToList();
-        InstallCount = installationDefinitions.Select(x=>x.PackageDefinitions).Count();
+        var packageDefinitions = installationDefinitions.SelectMany(installationDefinition => installationDefinition.PackageDefinitions).ToList();
+        InstallCount = packageDefinitions.Count();
+
         if (!chocolateyInstaller.IsInstalled())
         {
             InstallCount++;
             await chocolateyInstaller.InstallChocolatey();
             InstallProgress++;
         }
-        foreach (var installationDefinition in installationDefinitions)
+        foreach (var packageDefinition in packageDefinitions)
         {
-            foreach (var packageDefinition in installationDefinition.PackageDefinitions)
-            {
-                CurrentPackageDescription = packageDefinition.Name;
-                await packageManager.Install(packageDefinition.Name,packageDefinition.Parameters);
-                InstallProgress++;   
-            }
+            CurrentPackageDescription = packageDefinition.Name;
+            await packageManager.Install(packageDefinition.Name, packageDefinition.Parameters);
+            InstallProgress++;
         }
 
         if (ProgressService.Failures.Any())

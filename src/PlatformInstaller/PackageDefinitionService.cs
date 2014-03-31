@@ -86,6 +86,8 @@ public class PackageDefinitionService
 
     static string GetRavenDbParameters()
     {
+
+        //  cinst RavenDB -InstallArguments '/quiet /log {0} /msicl RAVEN_TARGET_ENVIRONMENT=DEVELOPMENT /msicl TARGETDIR=C:\ /msicl INSTALLFOLDER=C:\RavenDB /msicl RAVEN_INSTALLATION_TYPE=SERVICE /msicl REMOVE=IIS /msicl ADDLOCAL=Service'
         var logFilePath = Path.Combine(PackageManager.GetLogDirectoryForPackage("RavenDB"), "installerlog.txt");
         if (File.Exists(logFilePath))
         {

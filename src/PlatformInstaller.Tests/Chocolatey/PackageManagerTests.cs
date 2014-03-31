@@ -30,7 +30,7 @@ public class PackageManagerTests
 
     static PackageManager GetPackageInstaller()
     {
-        return new PackageManager(new PowerShellRunner(), new ChocolateyInstaller(null));
+        return new PackageManager(new PowerShellRunner(), new ChocolateyInstaller(null,null));
     }
 
 

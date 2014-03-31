@@ -67,9 +67,12 @@ public class PowerShellRunner : IDisposable
     static Command GetCommand(string command, Dictionary<string, object> parameters)
     {
         var psCommand = new Command(command);
-        foreach (var commandArg in parameters)
+        if (parameters != null)
         {
-            psCommand.Parameters.Add(commandArg.Key, commandArg.Value);
+            foreach (var commandArg in parameters)
+            {
+                psCommand.Parameters.Add(commandArg.Key, commandArg.Value);
+            }
         }
         return psCommand;
     }

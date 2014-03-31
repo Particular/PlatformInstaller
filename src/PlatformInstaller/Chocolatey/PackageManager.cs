@@ -25,7 +25,7 @@ public class PackageManager
                 {"command", "uninstall"},
                 {"packageNames", packageName}
         };
-        var chocolateyPs1Path = Path.Combine(chocolateyInstaller.GetInstallPath(), @"chocolateyinstall\chocolatey.ps1");
+        var chocolateyPs1Path = chocolateyInstaller.GetChocolateyPs1Path();
         return powerShellRunner.Run(chocolateyPs1Path, parameters, logOutput, logWarning, logError, logProgress);
     }
 

@@ -9,15 +9,17 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>
-    <DockPanel>
+    <DockPanel >
         <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Bold">Now Installing</TextBlock>
         <TextBlock DockPanel.Dock="Top" Foreground="Gray">Please wait until the selected products are finished installing.</TextBlock>
-        <TextBlock DockPanel.Dock="Top" FontSize="12" FontWeight="Bold">Status:</TextBlock>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <TextBlock FontSize="12" FontWeight="Bold" Margin="0 0 10 0" >Status:</TextBlock>
+            <TextBlock Text="{Binding CurrentStatus}" />
+        </StackPanel>
         <ProgressBar DockPanel.Dock="Top" Height="20" Margin="0 10 0 0" Minimum="0" Maximum="{Binding InstallCount}" Value="{Binding InstallProgress}" Foreground="#2EA3C4"/>
-        <TextBlock DockPanel.Dock="Top" FontSize="10" Foreground="Gray" Text="{Binding CurrentPackageDescription}" />
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
             <Button x:Name="Back" Content="Back"  Visibility="{Binding Path=InstallFailed, Converter={StaticResource BoolToVis}}" />
         </StackPanel>
-        <TextBox HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" IsReadOnly="True" Text="{Binding OutputText}" Foreground="#2EA3C4" FontSize="10" FontWeight="Medium" />
+        <TextBox HorizontalScrollBarVisibility="Visible" Margin="0 10 0 0" VerticalScrollBarVisibility="Visible" IsReadOnly="True" Text="{Binding OutputText}" Foreground="#2EA3C4" FontSize="10" FontWeight="Medium" />
     </DockPanel>
 </UserControl>

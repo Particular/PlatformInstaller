@@ -15,7 +15,7 @@ public class InstallingViewModel : Screen
         this.packageManager = packageManager;
     }
 
-    public string CurrentPackageDescription;
+    public string CurrentStatus;
     public PackageDefinitionService PackageDefinitionService;
     ChocolateyInstaller chocolateyInstaller;
     IEventAggregator eventAggregator;
@@ -55,13 +55,15 @@ public class InstallingViewModel : Screen
         if (!chocolateyInstaller.IsInstalled())
         {
             InstallCount++;
-            await chocolateyInstaller.InstallChocolatey(OnOutputAction,OnErrorAction);
+            await chocolateyInstaller.InstallChocolatey(OnOutputAction, OnErrorAction);
+            OutputText += Environment.NewLine;
             InstallProgress++;
         }
         foreach (var packageDefinition in packageDefinitions)
         {
-            CurrentPackageDescription = packageDefinition.Name;
+            CurrentStatus = "Installing " + packageDefinition.Name;
             await packageManager.Install(packageDefinition.Name, packageDefinition.Parameters,OnOutputAction,OnWarningAction,OnErrorAction ,OnProgressAction);
+            OutputText += Environment.NewLine;
             InstallProgress++;
         }
 

@@ -3,6 +3,5 @@
     public LicenseAgreementView()
     {
         InitializeComponent();
-        licenseBrowser.NavigateToString(LicenseText.ReadLicenseHtml());
     }
 }

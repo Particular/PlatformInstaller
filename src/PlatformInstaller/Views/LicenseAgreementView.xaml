@@ -11,6 +11,6 @@
             <Button x:Name="Copy" Content="Copy"/>
             <Button x:Name="Agree" Content="I Agree"/>
         </StackPanel>
-        <WebBrowser x:Name="licenseBrowser" ></WebBrowser>
+        <RichTextBox x:Name="licenseBrowser" IsReadOnly="True" VerticalScrollBarVisibility="Visible" ></RichTextBox>
     </DockPanel>
 </UserControl>

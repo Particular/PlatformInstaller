@@ -6,7 +6,6 @@ public static class ExceptionExtensions
 
     public static string ToFriendlyString(this Exception exception)
     {
-
         var stringBuilder = new StringBuilder();
 		stringBuilder.Append("An unhandled exception occurred:");
         stringBuilder.Append(Environment.NewLine);

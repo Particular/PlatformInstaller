@@ -39,6 +39,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
+    <EmbeddedResource Include="LicenseAgreement.rtf" />
     <Reference Include="Anotar.Serilog">
       <HintPath>..\packages\Anotar.Serilog.Fody\Lib\portable-net4+sl4+wp7+windows8\Anotar.Serilog.dll</HintPath>
     </Reference>
@@ -69,9 +70,6 @@
     </Reference>
     <Reference Include="Serilog.FullNetFx">
       <HintPath>..\packages\Serilog\lib\net45\Serilog.FullNetFx.dll</HintPath>
-    </Reference>
-    <Reference Include="Strike.IE">
-      <HintPath>..\packages\Strike.IE.Merged\Lib\NET40\Strike.IE.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -110,7 +108,6 @@
     <Compile Include="ExceptionExtensions.cs" />
     <Compile Include="ExceptionHandler.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="LicenseText.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="Events\AgeedToLicenseEvent.cs" />
     <Compile Include="Events\CloseApplicationEvent.cs" />
@@ -138,6 +135,7 @@
       <DependentUpon>SelectItemsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\RunInstallEvent.cs" />
+    <Compile Include="WpfExtensions.cs" />
     <Compile Include="WpfExtensions\InvertedBooleanToVisibilityConverter.cs" />
     <Compile Include="Views\InstallChocolateyView.xaml.cs">
       <DependentUpon>InstallChocolateyView.xaml</DependentUpon>
@@ -214,7 +212,6 @@
     <Resource Include="Images\SI.png" />
     <Resource Include="Images\SM.png" />
     <Resource Include="Images\SP.png" />
-    <EmbeddedResource Include="LicenseAgreement.md" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

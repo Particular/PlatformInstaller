@@ -7,7 +7,7 @@ public static class ScreenCapture
     {
         ShellViewModel.StartModel = model;
         var app = new App();
-        app.Activated += (o, args) => WpfUtils.ScreenCapture(app.MainWindow, model.GetType().Name + ".png");
+        app.Activated += (o, args) => WpfUtils.ScreenCapture(app.MainWindow, model.GetType().Name.Replace("ViewModel","") + ".png");
         app.InitializeComponent();
         app.Run();
     }

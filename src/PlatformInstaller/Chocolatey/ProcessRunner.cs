@@ -1,17 +1,11 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Anotar.Serilog;
 
 public class ProcessRunner
 {
-    ProgressService progressService;
-
-    public ProcessRunner(ProgressService progressService)
-    {
-        this.progressService = progressService;
-    }
-
-    public Task<int> RunProcess(string fileName, string arguments)
+    public Task<int> RunProcess(string fileName, string arguments, Action<string> outputAction, Action<string> errorAction)
     {
         LogTo.Information(string.Format("Executing process: {0} {1}", fileName, arguments));
         var tcs = new TaskCompletionSource<int>();
@@ -35,7 +29,7 @@ public class ProcessRunner
             if (args.Data != null)
             {
                 LogTo.Information(args.Data);
-                progressService.OutputDataReceived(new LogEntry(args.Data,LogEntryType.Output));
+                outputAction(args.Data);
             }
         };
         process.ErrorDataReceived += (sender, args) =>
@@ -43,7 +37,7 @@ public class ProcessRunner
             if (args.Data != null)
             {
                 LogTo.Error(args.Data);
-                progressService.OutputDataReceived(new LogEntry(args.Data, LogEntryType.Error));
+                errorAction(args.Data);
             }
         };
         process.Exited += (sender, args) =>

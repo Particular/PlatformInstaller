@@ -1,13 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Management.Automation;
 using System.Threading.Tasks;
 using NuGet;
 
 public class PackageManager
 {
     PowerShellRunner powerShellRunner;
-    readonly ChocolateyInstaller chocolateyInstaller;
+    ChocolateyInstaller chocolateyInstaller;
 
     public PackageManager(PowerShellRunner powerShellRunner, ChocolateyInstaller chocolateyInstaller)
     {
@@ -15,7 +17,19 @@ public class PackageManager
         this.chocolateyInstaller = chocolateyInstaller;
     }
 
-    public async Task Install(string packageName, string installerParmeters = null)
+
+    public Task Uninstall(string packageName, Action<string> logOutput, Action<string> logWarning, Action<string> logError, Action<ProgressRecord> logProgress)
+    {
+        var parameters = new Dictionary<string, object>
+        {
+                {"command", "uninstall"},
+                {"packageNames", packageName}
+        };
+        var chocolateyPs1Path = Path.Combine(chocolateyInstaller.GetInstallPath(), @"chocolateyinstall\chocolatey.ps1");
+        return powerShellRunner.Run(chocolateyPs1Path, parameters, logOutput, logWarning, logError, logProgress);
+    }
+
+    public async Task Install(string packageName, string installArguments, Action<string> logOutput, Action<string> logWarning, Action<string> logError, Action<ProgressRecord> logProgress)
     {
         var parameters = new Dictionary<string, object>
         {
@@ -25,12 +39,23 @@ public class PackageManager
                 {"verbosity", true},
                 {"pre", true}
         };
-        if (installerParmeters != null)
+        if (installArguments != null)
         {
-            parameters["installArguments"] = installerParmeters;
+            parameters["installArguments"] = installArguments;
         }
         var chocolateyPs1Path = Path.Combine(chocolateyInstaller.GetInstallPath(), @"chocolateyinstall\chocolatey.ps1");
-        await powerShellRunner.Run(chocolateyPs1Path, parameters);
+        Action<string> wrappedLogOutput = s =>
+        {
+            if (s.ToLower().Contains("unable to find package"))
+            {
+                logError(s);
+            }
+            else
+            {
+                logOutput(s);
+            }
+        };
+        await powerShellRunner.Run(chocolateyPs1Path, parameters, wrappedLogOutput, logWarning, logError, logProgress);
         CopyLogFiles(packageName);
     }
 
@@ -70,16 +95,6 @@ public class PackageManager
 #endif
     }
 
-    public Task Uninstall(string packageName)
-    {
-        var parameters = new Dictionary<string, object>
-        {
-                {"command", "uninstall"},
-                {"packageNames", packageName}
-        };
-        var chocolateyPs1Path = Path.Combine(chocolateyInstaller.GetInstallPath(), @"chocolateyinstall\chocolatey.ps1");
-        return powerShellRunner.Run(chocolateyPs1Path, parameters);
-    }
     public bool TryGetInstalledVersion(string packageName, out SemanticVersion version)
     {
         version = null;
@@ -102,6 +117,7 @@ public class PackageManager
         }
         return version != null;
     }
+
     public bool IsInstalled(string packageName)
     {
         SemanticVersion version;

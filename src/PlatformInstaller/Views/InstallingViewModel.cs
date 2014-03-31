@@ -1,14 +1,14 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management.Automation;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 
 public class InstallingViewModel : Screen
 {
-    public InstallingViewModel(ProgressService progressService, PackageDefinitionService packageDefinitionDiscovery, ChocolateyInstaller chocolateyInstaller, IEventAggregator eventAggregator, PackageManager packageManager)
+    public InstallingViewModel(PackageDefinitionService packageDefinitionDiscovery, ChocolateyInstaller chocolateyInstaller, IEventAggregator eventAggregator, PackageManager packageManager)
     {
-        ProgressService = progressService;
-
         PackageDefinitionService = packageDefinitionDiscovery;
         this.chocolateyInstaller = chocolateyInstaller;
         this.eventAggregator = eventAggregator;
@@ -16,14 +16,21 @@ public class InstallingViewModel : Screen
     }
 
     public string CurrentPackageDescription;
-    public ProgressService ProgressService;
     public PackageDefinitionService PackageDefinitionService;
     ChocolateyInstaller chocolateyInstaller;
     IEventAggregator eventAggregator;
     PackageManager packageManager;
     public List<string> ItemsToInstall;
-    public bool InstallFailed;
-    public double InstallProgress;
+    public List<string> Errors = new List<string>();
+    public List<string> Warnings = new List<string>();
+    public string OutputText;
+
+    public bool InstallFailed
+    {
+        get { return Errors.Any(); }
+    }
+
+    public int InstallProgress;
     public int InstallCount;
 
     public void Back()
@@ -39,30 +46,50 @@ public class InstallingViewModel : Screen
 
     public async Task InstallSelected()
     {
-        var installationDefinitions = PackageDefinitionService.GetPackages().Where(p => ItemsToInstall.Contains(p.Name)).ToList();
-        var packageDefinitions = installationDefinitions.SelectMany(installationDefinition => installationDefinition.PackageDefinitions).ToList();
+        var packageDefinitions = PackageDefinitionService.GetPackages()
+            .Where(p => ItemsToInstall.Contains(p.Name))
+            .SelectMany(x => x.PackageDefinitions)
+            .ToList();
         InstallCount = packageDefinitions.Count();
 
         if (!chocolateyInstaller.IsInstalled())
         {
             InstallCount++;
-            await chocolateyInstaller.InstallChocolatey();
+            await chocolateyInstaller.InstallChocolatey(OnOutputAction,OnErrorAction);
             InstallProgress++;
         }
         foreach (var packageDefinition in packageDefinitions)
         {
             CurrentPackageDescription = packageDefinition.Name;
-            await packageManager.Install(packageDefinition.Name, packageDefinition.Parameters);
+            await packageManager.Install(packageDefinition.Name, packageDefinition.Parameters,OnOutputAction,OnWarningAction,OnErrorAction ,OnProgressAction);
             InstallProgress++;
         }
 
-        if (ProgressService.Failures.Any())
-        {
-            InstallFailed = true;
-        }
-        else
+        if (!InstallFailed)
         {
             eventAggregator.Publish<InstallSucceededEvent>();
         }
+    }
+
+    void OnProgressAction(ProgressRecord obj)
+    {
+        
+
+    }
+
+    void OnOutputAction(string output)
+    {
+        OutputText += output + Environment.NewLine;
+    }
+
+    void OnErrorAction(string error)
+    {
+        OutputText += error + Environment.NewLine;
+        Errors.Add(error);
+    }
+    void OnWarningAction(string warning)
+    {
+        OutputText += warning + Environment.NewLine;
+        Warnings.Add(warning);
     }
 }

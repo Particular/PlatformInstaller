@@ -22,8 +22,6 @@ public static class ContainerFactory
         builder.RegisterType<EventAggregator>()
             .As<IEventAggregator>()
             .SingleInstance();
-        builder.RegisterType<ProgressService>()
-            .SingleInstance();
         builder.RegisterType<WindowManager>()
             .As<IWindowManager>()
             .SingleInstance();
@@ -36,10 +34,6 @@ public static class ContainerFactory
         builder.RegisterType<ProcessRunner>()
             .SingleInstance();
         builder.RegisterType<LicenseAgreement>()
-            .SingleInstance();
-        builder.RegisterType<PlatformInstallerPSHost>()
-            .SingleInstance();
-        builder.RegisterType<PlatformInstallerPSHostUI>()
             .SingleInstance();
         builder.RegisterType<PackageManager>()
             .SingleInstance();

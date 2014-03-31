@@ -10,19 +10,19 @@ public class ProcessRunnerTests
     [Test]
     public void VerifyOutputReceived()
     {
-        var progressService = new ProgressService();
-        var processRunner = new ProcessRunner(progressService);
-        processRunner.RunProcess("ping", "localhost").Wait();
-        ObjectApprover.VerifyWithJson(progressService.OutputText.ReplaceCaseless(Environment.MachineName, ""));
+        var processRunner = new ProcessRunner();
+        string output = null;
+        processRunner.RunProcess("ping", "localhost", s => output += s, s => output += s).Wait();
+        ObjectApprover.VerifyWithJson(output.ReplaceCaseless(Environment.MachineName, ""));
     }
 
     [Test]
     public void VerifyErrorReceived()
     {
-        var progressService = new ProgressService();
-        var processRunner = new ProcessRunner(progressService);
-        processRunner.RunProcess("net", " use foo").Wait();
-        ObjectApprover.VerifyWithJson(progressService.OutputText.ReplaceCaseless(Environment.MachineName, ""));
+        var processRunner = new ProcessRunner();
+        string output = null;
+        processRunner.RunProcess("net", " use foo", s => output += s, s => output += s).Wait();
+        ObjectApprover.VerifyWithJson(output.ReplaceCaseless(Environment.MachineName, ""));
     }
 
 }

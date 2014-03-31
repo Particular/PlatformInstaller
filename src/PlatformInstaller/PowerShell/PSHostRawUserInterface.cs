@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Management.Automation.Host;
 
-public  class PlatformInstallerPSHostRawUserInterface : PSHostRawUserInterface
+public  class PSHostRawUserInterface : System.Management.Automation.Host.PSHostRawUserInterface
     {
         public override ConsoleColor BackgroundColor
         {

@@ -10,14 +10,15 @@ public class PackageManagerTests
     public async void Install()
     {
         var packageInstaller = GetPackageInstaller();
-        await packageInstaller.Install("Pester");
+        await packageInstaller.Install("Pester", null,null,null,null,null);
     }
     [Test]
     [Explicit("Integration")]
     public async void InstallWithParams()
     {
         var packageInstaller = GetPackageInstaller();
-        await packageInstaller.Install("RavenDB", @"/quiet /log C:\raven_log.txt /msicl RAVEN_TARGET_ENVIRONMENT=DEVELOPMENT /msicl TARGETDIR=C:\ /msicl INSTALLFOLDER=C:\RavenDB /msicl RAVEN_INSTALLATION_TYPE=SERVICE /msicl REMOVE=IIS /msicl ADDLOCAL=Service");
+        var installArguments = @"/quiet /log C:\raven_log.txt /msicl RAVEN_TARGET_ENVIRONMENT=DEVELOPMENT /msicl TARGETDIR=C:\ /msicl INSTALLFOLDER=C:\RavenDB /msicl RAVEN_INSTALLATION_TYPE=SERVICE /msicl REMOVE=IIS /msicl ADDLOCAL=Service";
+        await packageInstaller.Install("RavenDB", installArguments, null, null, null, null);
     }
     
     [Test]
@@ -29,10 +30,7 @@ public class PackageManagerTests
 
     static PackageManager GetPackageInstaller()
     {
-        var progressService = new ProgressService();
-        var platformInstallerPsHostUi = new PlatformInstallerPSHostUI(progressService);
-        var platformInstallerPsHost = new PlatformInstallerPSHost(platformInstallerPsHostUi);
-        return new PackageManager(new PowerShellRunner(platformInstallerPsHost, progressService), new ChocolateyInstaller(null));
+        return new PackageManager(new PowerShellRunner(), new ChocolateyInstaller(null));
     }
 
 
@@ -41,7 +39,7 @@ public class PackageManagerTests
     public async void Uninstall()
     {
         var packageInstaller = GetPackageInstaller();
-        await packageInstaller.Uninstall("Pester");
+        await packageInstaller.Uninstall("Pester", null, null, null, null);
     }
 
     [Test]

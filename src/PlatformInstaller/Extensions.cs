@@ -23,4 +23,13 @@ public static class Extensions
 
         return sb.ToString();
     }
+
+    public static Action<T> ValueOrDefault<T>(this Action<T> action)
+    {
+        if (action == null)
+        {
+            return obj => {};
+        }
+        return action;
+    }
 }

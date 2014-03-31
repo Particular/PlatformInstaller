@@ -95,13 +95,12 @@
     <Compile Include="Caliburn\CaliburnExtensions.cs" />
     <Compile Include="Caliburn\TitleFixerModule.cs" />
     <Compile Include="Chocolatey\FileEx.cs" />
-    <Compile Include="Chocolatey\PlatformInstallerPSHost.cs" />
-    <Compile Include="Chocolatey\PlatformInstallerPSHostRawUserInterface.cs" />
-    <Compile Include="Chocolatey\PlatformInstallerPSHostUI.cs" />
+    <Compile Include="PowerShell\PSHost.cs" />
+    <Compile Include="PowerShell\PSHostRawUserInterface.cs" />
+    <Compile Include="PowerShell\PSHostUserInterface.cs" />
     <Compile Include="Chocolatey\LogEntryType.cs" />
     <Compile Include="Chocolatey\LogEntry.cs" />
-    <Compile Include="Chocolatey\PowerShellExtensions.cs" />
-    <Compile Include="Chocolatey\ProgressService.cs" />
+    <Compile Include="PowerShell\PowerShellExtensions.cs" />
     <Compile Include="Chocolatey\TaskEx.cs" />
     <Compile Include="ContainerFactory.cs" />
     <Compile Include="Caliburn\AppBootstrapper.cs" />
@@ -188,10 +187,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Chocolatey\ChocolateyInstaller.cs" />
-    <Compile Include="Chocolatey\PowerShellVersion.cs" />
+    <Compile Include="PowerShell\PowerShellVersion.cs" />
     <Compile Include="Chocolatey\ProcessRunner.cs" />
     <Compile Include="Chocolatey\PackageManager.cs" />
-    <Compile Include="Chocolatey\PowerShellRunner.cs" />
+    <Compile Include="PowerShell\PowerShellRunner.cs" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

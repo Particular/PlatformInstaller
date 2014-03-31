@@ -21,7 +21,9 @@ public class SelectItemsViewModel : Screen
                 {
                     ImageUrl = "pack://application:,,,/PlatformInstaller;component" + x.Image,
                     Installed = isInstalled,
+#if(!DEBUG)
                     Selected = !isInstalled,
+#endif
                     Name = x.Name,
                 };
             }).ToList();
@@ -56,12 +58,10 @@ public class SelectItemsViewModel : Screen
 
     public class PackageDefinitionBindable : INotifyPropertyChanged
     {
-
         public string Name;
         public string ImageUrl;
         public bool Selected;
         public bool Installed;
         public event PropertyChangedEventHandler PropertyChanged;
-
     }
 }

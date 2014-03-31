@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Globalization;
-using System.Management.Automation.Host;
 using System.Reflection;
 using System.Threading;
 
-public class PlatformInstallerPSHost : PSHost
+public class PSHost : System.Management.Automation.Host.PSHost
 {
-    PlatformInstallerPSHostUI hostUI;
+    PSHostUserInterface hostUserInterface;
 
-    public PlatformInstallerPSHost(PlatformInstallerPSHostUI hostUI)
+    public PSHost(PSHostUserInterface hostUserInterface)
     {
-        this.hostUI = hostUI;
+        this.hostUserInterface = hostUserInterface;
     }
 
-    public override PSHostUserInterface UI
+    public override System.Management.Automation.Host.PSHostUserInterface UI
     {
-        get { return hostUI; }
+        get { return hostUserInterface; }
     }
 
     public override CultureInfo CurrentCulture

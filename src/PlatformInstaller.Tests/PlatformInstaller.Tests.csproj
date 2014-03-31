@@ -78,10 +78,11 @@
   <ItemGroup>
     <Compile Include="ApprovalTestConfig.cs" />
     <Compile Include="Chocolatey\ChocolateyInstallerTests.cs" />
-    <Compile Include="Chocolatey\PowerShellVersionTests.cs" />
+    <Compile Include="Powershell\PowerShellExtensionsTests.cs" />
+    <Compile Include="Powershell\PowerShellVersionTests.cs" />
     <Compile Include="Chocolatey\ProcessRunnerTests.cs" />
     <Compile Include="Chocolatey\PackageManagerTests.cs" />
-    <Compile Include="Chocolatey\PowerShellRunnerTests.cs" />
+    <Compile Include="Powershell\PowerShellRunnerTests.cs" />
     <Compile Include="FakeEvenAggregator.cs" />
     <Compile Include="LicenseAgreementTests.cs" />
     <Compile Include="NewUserDetecterTests.cs" />

@@ -24,6 +24,9 @@ public class InstallingViewModel : Screen
     public List<string> Errors = new List<string>();
     public List<string> Warnings = new List<string>();
     public string OutputText;
+    public int NestedActionPercentComplete;
+    public bool HasNestedAction;
+    public string NestedActionDescription;
 
     public bool InstallFailed
     {
@@ -56,13 +59,15 @@ public class InstallingViewModel : Screen
         {
             InstallCount++;
             await chocolateyInstaller.InstallChocolatey(OnOutputAction, OnErrorAction);
+            ClearNestedAction();
             OutputText += Environment.NewLine;
             InstallProgress++;
         }
         foreach (var packageDefinition in packageDefinitions)
         {
             CurrentStatus = "Installing " + packageDefinition.Name;
-            await packageManager.Install(packageDefinition.Name, packageDefinition.Parameters,OnOutputAction,OnWarningAction,OnErrorAction ,OnProgressAction);
+            await packageManager.Install(packageDefinition.Name, packageDefinition.Parameters, OnOutputAction, OnWarningAction, OnErrorAction, OnProgressAction);
+            ClearNestedAction();
             OutputText += Environment.NewLine;
             InstallProgress++;
         }
@@ -73,12 +78,25 @@ public class InstallingViewModel : Screen
         }
     }
 
-    void OnProgressAction(ProgressRecord obj)
+    void OnProgressAction(ProgressRecord progressRecord)
     {
-        
+        if (progressRecord.PercentComplete == -1)
+        {
+            ClearNestedAction();
+            return;
+        }
 
+        NestedActionPercentComplete = progressRecord.PercentComplete;
+        NestedActionDescription = progressRecord.ToDownloadingString();
     }
 
+    void ClearNestedAction()
+    {
+        HasNestedAction = false;
+        NestedActionPercentComplete = 0;
+        NestedActionDescription = "";
+    }
+    
     void OnOutputAction(string output)
     {
         OutputText += output + Environment.NewLine;

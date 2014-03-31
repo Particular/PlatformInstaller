@@ -154,6 +154,10 @@
     <Compile Include="InstallationDefinition.cs" />
     <Compile Include="InstallFeedbackReporter.cs" />
     <Compile Include="SemanticVersion.cs" />
+    <Page Include="Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\InstallChocolateyView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

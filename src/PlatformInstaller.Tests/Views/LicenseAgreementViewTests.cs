@@ -15,5 +15,12 @@ public class LicenseAgreementViewTests
         app.Run();
     }
 
+    [Test]
+    [Explicit]
+    [RequiresSTA]
+    public void ScreenShot()
+    {
+        ContainerFactory.Container.Resolve<LicenseAgreementViewModel>().TakeScreenShot();
+    }
 }
 

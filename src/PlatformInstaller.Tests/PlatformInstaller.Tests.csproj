@@ -61,6 +61,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>C:\Windows\assembly\GAC_MSIL\System.Management.Automation\1.0.0.0__31bf3856ad364e35\System.Management.Automation.dll</HintPath>
     </Reference>
@@ -90,6 +91,7 @@
     <Compile Include="Views\InstallChocolateyViewTests.cs" />
     <Compile Include="LicenseTextTests.cs" />
     <Compile Include="Views\LicenseAgreementViewTests.cs" />
+    <Compile Include="Views\ScreenCapture.cs" />
     <Compile Include="Views\SelectItemsViewTests.cs" />
   </ItemGroup>
   <ItemGroup>

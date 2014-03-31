@@ -15,4 +15,17 @@ public class SelectItemsViewTests
         app.Run();
     }
 
+    [Test]
+    [Explicit]
+    [RequiresSTA]
+    public void ScreenShot()
+    {
+        var selectItemsViewModel = ContainerFactory.Container.Resolve<SelectItemsViewModel>();
+        foreach (var definition in selectItemsViewModel.PackageDefinitions)
+        {
+            definition.Installed = false;
+            definition.Selected = true;
+        }
+        selectItemsViewModel.TakeScreenShot();
+    }
 }

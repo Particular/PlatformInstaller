@@ -4,5 +4,6 @@
     {
         Logging.Initialise();
         ExceptionHandler.Attach();
+        new AppBootstrapper().Start();
     }
 }

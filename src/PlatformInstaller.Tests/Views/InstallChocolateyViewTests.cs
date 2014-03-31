@@ -14,4 +14,12 @@ public class InstallChocolateyViewTests
         app.InitializeComponent();
         app.Run();
     }
+
+    [Test]
+    [Explicit]
+    [RequiresSTA]
+    public void ScreenShot()
+    {
+        ContainerFactory.Container.Resolve<InstallChocolateyViewModel>().TakeScreenShot();
+    }
 }

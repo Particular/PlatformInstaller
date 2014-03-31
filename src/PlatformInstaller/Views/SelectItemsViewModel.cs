@@ -36,7 +36,6 @@ public class SelectItemsViewModel : Screen
         }, "Selected");
     }
     
-
     public bool IsInstallEnabled;
     IEventAggregator eventAggregator;
     public List<PackageDefinitionBindable> PackageDefinitions;

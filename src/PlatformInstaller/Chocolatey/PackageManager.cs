@@ -37,7 +37,8 @@ public class PackageManager
                 {"packageNames", packageName},
                 {"source", GetSource()},
                 {"verbosity", true},
-                {"pre", true}
+                {"pre", true},
+                {"force", true}
         };
         if (installArguments != null)
         {

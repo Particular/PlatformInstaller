@@ -47,14 +47,21 @@ public class PackageManager
         var chocolateyPs1Path = Path.Combine(chocolateyInstaller.GetInstallPath(), @"chocolateyinstall\chocolatey.ps1");
         Action<string> wrappedLogOutput = s =>
         {
+            if (s.ToLower().Contains("the remote name could not be resolved:"))
+            {
+                logError(s);
+                return;
+            }
+
             if (s.ToLower().Contains("unable to find package"))
             {
                 logError(s);
+                return;
             }
-            else
-            {
-                logOutput(s);
-            }
+
+
+            logOutput(s);
+
         };
         await powerShellRunner.Run(chocolateyPs1Path, parameters, wrappedLogOutput, logWarning, logError, logProgress);
         CopyLogFiles(packageName);
@@ -111,7 +118,7 @@ public class PackageManager
         }
         foreach (var directory in Directory.EnumerateDirectories(chocolateyLibPath, packageName + ".*"))
         {
-            var versionString = Path.GetFileName(directory).ReplaceCaseless(packageName +".","");
+            var versionString = Path.GetFileName(directory).ReplaceCaseless(packageName + ".", "");
             SemanticVersion newVersion;
             if (SemanticVersion.TryParse(versionString, out newVersion))
             {

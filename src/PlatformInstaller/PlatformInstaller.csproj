@@ -95,6 +95,7 @@
     <Compile Include="Chocolatey\FileEx.cs" />
     <Compile Include="Events\UserInstalledChocolatey.cs" />
     <Compile Include="Events\UserUpdatedChocolatey.cs" />
+    <Compile Include="PlatformInstaller.cs" />
     <Compile Include="PowerShell\PSHost.cs" />
     <Compile Include="PowerShell\PSHostRawUserInterface.cs" />
     <Compile Include="PowerShell\PSHostUserInterface.cs" />

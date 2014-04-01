@@ -16,19 +16,23 @@ public class PackageDefinitionService
                 {
                     new PackageDefinition
                     {
-                        Name = "NServicebus.Dtc.install"
+                        Name = "NServicebus.PerfCounters.install",
+                        DisplayName = "Prerequisites - Custom performance counters"
                     },
                     new PackageDefinition
                     {
-                        Name = "NServicebus.PerfCounters.install"
+                        Name = "NServicebus.Dtc.install",
+                        DisplayName = "Prerequisites - Distributed Transaction Coordinator (DTC)"
                     },
                     new PackageDefinition
                     {
-                        Name = "NServicebus.Msmq.install"
+                        Name = "NServicebus.Msmq.install",
+                        DisplayName = "Default transport - Microsoft Message Queuing (MSMQ)"
                     },
                     new PackageDefinition
                     {
                         Name = "RavenDB",
+                        DisplayName = "Default storage - RavenDB",
                         Parameters = GetRavenDbParameters()
                     },
                 }

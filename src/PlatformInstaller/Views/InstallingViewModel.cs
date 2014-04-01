@@ -66,7 +66,7 @@ public class InstallingViewModel : Screen
         }
         foreach (var packageDefinition in packageDefinitions)
         {
-            CurrentStatus = "Installing " + packageDefinition.Name.Replace(".install","");
+            CurrentStatus = packageDefinition.DisplayName ?? packageDefinition.Name;
             await packageManager.Install(packageDefinition.Name, packageDefinition.Parameters, OnOutputAction, OnWarningAction, OnErrorAction, OnProgressAction);
             ClearNestedAction();
             OutputText += Environment.NewLine;

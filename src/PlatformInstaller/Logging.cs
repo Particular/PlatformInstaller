@@ -17,9 +17,10 @@ public static class Logging
     //TODO:should prob do this in a module initialiser
     public static void Initialise()
     {
+        var template = "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] {SourceContext} {Message:l}{NewLine:l}{Exception:l}";
         var loggingFile = Path.Combine(LogDirectory, "log.txt");
         Log.Logger = new LoggerConfiguration()
-            .WriteTo.RollingFile(loggingFile)
+            .WriteTo.RollingFile(loggingFile, outputTemplate: template)
             .Filter.ByIncludingOnly(x => !IsEmptyTextMessage(x))
             .CreateLogger();
     }

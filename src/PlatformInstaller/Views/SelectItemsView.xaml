@@ -75,7 +75,7 @@
     </UserControl.Resources>
     <DockPanel>
         <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Bold">Install the Particular Service Platform</TextBlock>
-        <TextBlock DockPanel.Dock="Top" Foreground="Gray">This installer will download and install Particular products.</TextBlock>
+        <TextBlock DockPanel.Dock="Top" Foreground="Gray" TextWrapping="Wrap" >Download and install the Particular Platform applications and configure NServiceBus dependencies.</TextBlock>
         <StackPanel  DockPanel.Dock="Bottom"  Orientation="Horizontal" FlowDirection="RightToLeft">
             <Button x:Name="Close" Content="Close"/>
             <Button x:Name="Install" IsEnabled="{Binding IsInstallEnabled}" Content="Install"/>

@@ -1,0 +1,30 @@
+﻿<UserControl
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:global="clr-namespace:"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+        x:Class="UpdateChocolateyView"
+             d:DesignHeight="300" d:DesignWidth="300" >
+    <DockPanel LastChildFill="False"  >
+        <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Bold" >Chocolatey update required</TextBlock>
+        <TextBlock DockPanel.Dock="Top" Foreground="Gray" TextWrapping="WrapWithOverflow">This installer requires that you update <global:Link 
+NavigateUri="https://chocolatey.org/">Chocolatey</global:Link> to run. Please run the <global:Link 
+NavigateUri="https://github.com/chocolatey/chocolatey/wiki/CommandsUpdate#chocolatey-update-cup">Chocolatey update command</global:Link> ("cup" on the commandline) and then click the "ReCheck" button below.</TextBlock>
+        <StackPanel DockPanel.Dock="Top" Margin="0,10"  Orientation="Horizontal">
+            <TextBlock Foreground="Gray">Minimum Required Version:</TextBlock>
+            <TextBlock Margin="5 0 0 0" Text="{Binding MinimumChocolateyVersion}"/>
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <TextBlock Foreground="Gray">Detected Version:</TextBlock>
+            <TextBlock Margin="5 0 0 0" Text="{Binding DetectedChocolateyVersion}"/>
+            <TextBlock Margin="5 0 0 0" Text="{Binding LastCheckedTime, StringFormat='(Last checked at: {0})'}"/>
+        </StackPanel>
+        
+        <StackPanel DockPanel.Dock="Bottom"  Orientation="Horizontal"  FlowDirection="RightToLeft">
+            <Button x:Name="Cancel">Cancel</Button>
+            <Button x:Name="ReCheck">Re-Check Chocolatey</Button>
+        </StackPanel>
+    </DockPanel>
+</UserControl>

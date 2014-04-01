@@ -10,7 +10,9 @@ public class ShellViewModel : Conductor<object>,
     IHandle<CloseApplicationEvent>,
     IHandle<OpenLogDirectoryEvent>,
     IHandle<AgreedToInstallChocolatey>,
-    IHandle<HomeEvent>
+    IHandle<HomeEvent>,
+    IHandle<UserInstalledChocolatey>,
+    IHandle<UserUpdatedChocolatey>
 {
     ChocolateyInstaller chocolateyInstaller;
     IEventAggregator eventAggregator;
@@ -57,20 +59,34 @@ public class ShellViewModel : Conductor<object>,
         Process.Start(Logging.LogDirectory);
     }
 
-    public void Handle(RunInstallEvent message)
+    public async void Handle(RunInstallEvent message)
     {
         itemsToInstall = message.SelectedItems;
         if (chocolateyInstaller.IsInstalled())
         {
+            var chocolateyUpgradeRequired = await chocolateyInstaller.ChocolateyUpgradeRequired();
+            if (chocolateyUpgradeRequired)
+            {
+                this.ActivateModel<UpdateChocolateyViewModel>();
+                return;
+            }
             this.ActivateModel<InstallingViewModel>(x => x.ItemsToInstall = message.SelectedItems);
+            return;
         }
-        else
-        {
-            this.ActivateModel<InstallChocolateyViewModel>();
-        }
+        this.ActivateModel<InstallChocolateyViewModel>();
     }
 
     public void Handle(AgreedToInstallChocolatey message)
+    {
+        this.ActivateModel<InstallingViewModel>(x => x.ItemsToInstall = itemsToInstall);
+    }
+
+    public void Handle(UserUpdatedChocolatey message)
+    {
+        this.ActivateModel<InstallingViewModel>(x => x.ItemsToInstall = itemsToInstall);
+    }
+
+    public void Handle(UserInstalledChocolatey message)
     {
         this.ActivateModel<InstallingViewModel>(x => x.ItemsToInstall = itemsToInstall);
     }

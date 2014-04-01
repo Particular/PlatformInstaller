@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Anotar.Serilog;
 
 public class ChocolateyInstaller
 {
     ProcessRunner processRunner;
     PowerShellRunner powerShellRunner;
+    public Version MinimumChocolateyVersion = new Version(0, 9, 8, 23);
 
     public ChocolateyInstaller(ProcessRunner processRunner, PowerShellRunner powerShellRunner)
     {
@@ -37,6 +39,17 @@ public class ChocolateyInstaller
     public string GetInstallPath()
     {
         return Environment.GetEnvironmentVariable("ChocolateyInstall");
+    }
+
+    public async Task<bool> ChocolateyUpgradeRequired()
+    {
+        var installVersion = await GetInstallVersion();
+        if (installVersion == null)
+        {
+            LogTo.Information("Could not determine chocolatey version. Execution will proceed under the assumption the installed version is adequate.");
+            return false;
+        }
+        return installVersion < MinimumChocolateyVersion;
     }
 
     public async Task<Version> GetInstallVersion()

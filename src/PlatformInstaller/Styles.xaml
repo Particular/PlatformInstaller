@@ -3,7 +3,7 @@
 
     <Style TargetType="{x:Type Button}">
         <Setter Property="Foreground" Value="White"/>
-        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Margin" Value="5"/>
         <Setter Property="Padding" Value="10,0,10,0"/>
 
         <Style.Triggers>

@@ -4,10 +4,12 @@ using Caliburn.Micro;
 public class InstallChocolateyViewModel : Screen
 {
     IEventAggregator eventAggregator;
+    ChocolateyInstaller chocolateyInstaller;
 
-    public InstallChocolateyViewModel(IEventAggregator eventAggregator)
+    public InstallChocolateyViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller)
     {
         this.eventAggregator = eventAggregator;
+        this.chocolateyInstaller = chocolateyInstaller;
     }
 
     public void Continue()
@@ -18,6 +20,14 @@ public class InstallChocolateyViewModel : Screen
     public void Cancel()
     {
         eventAggregator.Publish<HomeEvent>();
+    }
+
+    public void ReCheck()
+    {
+        if (chocolateyInstaller.IsInstalled())
+        {
+            eventAggregator.Publish<UserInstalledChocolatey>();
+        }
     }
 
     public void Copy()

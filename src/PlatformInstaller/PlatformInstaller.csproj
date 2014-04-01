@@ -93,6 +93,8 @@
     <Compile Include="Caliburn\CaliburnExtensions.cs" />
     <Compile Include="Caliburn\TitleFixerModule.cs" />
     <Compile Include="Chocolatey\FileEx.cs" />
+    <Compile Include="Events\UserInstalledChocolatey.cs" />
+    <Compile Include="Events\UserUpdatedChocolatey.cs" />
     <Compile Include="PowerShell\PSHost.cs" />
     <Compile Include="PowerShell\PSHostRawUserInterface.cs" />
     <Compile Include="PowerShell\PSHostUserInterface.cs" />
@@ -114,6 +116,10 @@
     <Compile Include="Events\HomeEvent.cs" />
     <Compile Include="Events\AgreedToInstallChocolatey.cs" />
     <Compile Include="PackageDefinition.cs" />
+    <Compile Include="Views\UpdateChocolateyView.xaml.cs">
+      <DependentUpon>UpdateChocolateyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UpdateChocolateyViewModel.cs" />
     <Compile Include="Views\InstallChocolateyViewModel.cs" />
     <Compile Include="Views\InstallingViewModel.cs" />
     <Compile Include="Events\InstallSucceededEvent.cs" />
@@ -155,6 +161,10 @@
     <Page Include="Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UpdateChocolateyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\InstallChocolateyView.xaml">
       <Generator>MSBuild:Compile</Generator>

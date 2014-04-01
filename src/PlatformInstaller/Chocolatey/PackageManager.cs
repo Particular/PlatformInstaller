@@ -99,7 +99,12 @@ public class PackageManager
     public bool TryGetInstalledVersion(string packageName, out SemanticVersion version)
     {
         version = null;
-        var chocolateyLibPath = Path.Combine(chocolateyInstaller.GetInstallPath(), "lib");
+        var installPath = chocolateyInstaller.GetInstallPath();
+        if (installPath == null)
+        {
+            return false;
+        }
+        var chocolateyLibPath = Path.Combine(installPath, "lib");
         if (!Directory.Exists(chocolateyLibPath))
         {
             return false;

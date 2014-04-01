@@ -6,10 +6,10 @@ public class UpdateChocolateyViewModel : Screen
 {
     IEventAggregator eventAggregator;
     ChocolateyInstaller chocolateyInstaller;
-
     public Version MinimumChocolateyVersion;
     public Version DetectedChocolateyVersion;
     public string LastCheckedTime;
+    public bool CanAcceptInput;
 
     public UpdateChocolateyViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller)
     {
@@ -28,6 +28,12 @@ public class UpdateChocolateyViewModel : Screen
         MinimumChocolateyVersion = chocolateyInstaller.MinimumChocolateyVersion;
     }
 
+    protected override void OnViewLoaded(object view)
+    {
+        base.OnViewLoaded(view);
+        CanAcceptInput = true;
+    }
+
     async Task RefreshDetectedVersion()
     {
         var detectedChocolateyVersion = await chocolateyInstaller.GetInstallVersion();
@@ -35,14 +41,21 @@ public class UpdateChocolateyViewModel : Screen
         LastCheckedTime = DateTime.Now.ToString("h:mm:ss tt");
     }
 
-
     public async void ReCheck()
     {
-        await RefreshDetectedVersion();
-        var chocolateyUpgradeRequired = await chocolateyInstaller.ChocolateyUpgradeRequired();
-        if (chocolateyInstaller.IsInstalled() && !chocolateyUpgradeRequired)
+        try
         {
-            eventAggregator.Publish<UserInstalledChocolatey>();
+            CanAcceptInput = false;
+            await RefreshDetectedVersion();
+            var chocolateyUpgradeRequired = await chocolateyInstaller.ChocolateyUpgradeRequired();
+            if (chocolateyInstaller.IsInstalled() && !chocolateyUpgradeRequired)
+            {
+                eventAggregator.Publish<UserInstalledChocolatey>();
+            }
+        }
+        finally
+        {
+            CanAcceptInput = true;
         }
     }
 }

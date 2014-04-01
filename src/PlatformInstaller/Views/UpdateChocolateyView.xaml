@@ -21,8 +21,8 @@ NavigateUri="https://github.com/chocolatey/chocolatey/wiki/CommandsUpdate#chocol
             <TextBlock Margin="5 0 0 0" Text="{Binding DetectedChocolateyVersion}"/>
             <TextBlock Margin="5 0 0 0" Text="{Binding LastCheckedTime, StringFormat='(Last checked at: {0})'}"/>
         </StackPanel>
-        
-        <StackPanel DockPanel.Dock="Bottom"  Orientation="Horizontal"  FlowDirection="RightToLeft">
+
+        <StackPanel DockPanel.Dock="Bottom" IsEnabled="{Binding CanAcceptInput}"  Orientation="Horizontal"  FlowDirection="RightToLeft">
             <Button x:Name="Cancel">Cancel</Button>
             <Button x:Name="ReCheck">Re-Check Chocolatey</Button>
         </StackPanel>

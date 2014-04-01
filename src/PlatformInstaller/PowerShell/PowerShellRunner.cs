@@ -31,7 +31,7 @@ public class PowerShellRunner : IDisposable
     {
         if (isRunning)
         {
-            throw new Exception("No thread safe");
+            throw new Exception("Not thread safe");
         }
         isRunning = true;
         LogOutput = logOutput.ValueOrDefault();

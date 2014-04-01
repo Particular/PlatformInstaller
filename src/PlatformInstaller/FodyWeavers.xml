@@ -4,7 +4,6 @@
   <PropertyChanged />
   <Caseless />
   <Anotar.Serilog />
-  <Virtuosity />
   <Janitor />
   <Resourcer />
   <AsyncErrorHandler />

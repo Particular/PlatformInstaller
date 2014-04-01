@@ -13,8 +13,12 @@ static class ExceptionHandler
         AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
         dispatcher = Dispatcher.CurrentDispatcher;
         dispatcher.UnhandledException += CurrentDispatcher_UnhandledException;
-        Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
         TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+    }
+
+    public static void Attach(Application application)
+    {
+        application.DispatcherUnhandledException += Current_DispatcherUnhandledException;
     }
 
     public static void HandleException(Exception exception, string message)

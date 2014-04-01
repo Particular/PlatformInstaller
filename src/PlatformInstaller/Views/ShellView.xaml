@@ -8,7 +8,13 @@
         <DockPanel>
             <WrapPanel DockPanel.Dock="Top"  Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0" >
                 <Button x:Name="Close" Content="X" HorizontalAlignment="Right" FontSize="10" Margin="10,0" FontWeight="Bold" />
-                <Button x:Name="OpenLogDirectory" Content="Log" HorizontalAlignment="Right" FontSize="10" Margin="10,0" FontWeight="Bold" />
+                <Button x:Name="OpenLogDirectory" Content="Log" HorizontalAlignment="Right" FontSize="10" Margin="10,0" FontWeight="Bold" Foreground="Black">
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <ContentPresenter />
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
             </WrapPanel>
             <Image DockPanel.Dock="Top" Source="pack://application:,,,/PlatformInstaller;component/Images/particularSmall.png" HorizontalAlignment="Left" Margin="20 0 20 0" Stretch="None" />
             <ContentControl x:Name="ActiveItem" Margin="20 20 20 20"/>

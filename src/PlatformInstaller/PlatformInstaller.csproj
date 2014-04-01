@@ -93,6 +93,7 @@
     <Compile Include="Caliburn\CaliburnExtensions.cs" />
     <Compile Include="Caliburn\TitleFixerModule.cs" />
     <Compile Include="Chocolatey\FileEx.cs" />
+    <Compile Include="Events\InstallFailedEvent.cs" />
     <Compile Include="Events\UserInstalledChocolatey.cs" />
     <Compile Include="Events\UserUpdatedChocolatey.cs" />
     <Compile Include="PlatformInstaller.cs" />
@@ -117,6 +118,10 @@
     <Compile Include="Events\HomeEvent.cs" />
     <Compile Include="Events\AgreedToInstallChocolatey.cs" />
     <Compile Include="PackageDefinition.cs" />
+    <Compile Include="Views\FailedInstallationViewModel.cs" />
+    <Compile Include="Views\FailedInstallationView.xaml.cs">
+      <DependentUpon>FailedInstallationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UpdateChocolateyView.xaml.cs">
       <DependentUpon>UpdateChocolateyView.xaml</DependentUpon>
     </Compile>
@@ -162,6 +167,10 @@
     <Page Include="Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FailedInstallationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UpdateChocolateyView.xaml">
       <Generator>MSBuild:Compile</Generator>

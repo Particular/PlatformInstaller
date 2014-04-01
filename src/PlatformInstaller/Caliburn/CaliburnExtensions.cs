@@ -1,3 +1,4 @@
+using System;
 using Autofac;
 using Caliburn.Micro;
 using Parameter = Autofac.Core.Parameter;
@@ -17,9 +18,16 @@ public static class CaliburnExtensions
         var model = ContainerFactory.Container.Resolve<T>(parameters);
         conductor.ActivateItem(model);
     }
-    public static void Publish<T>(this IEventAggregator eventAggregator) where T : new()
+    public static void Publish<T>(this IEventAggregator eventAggregator,Action<T> action = null) where T : new()
     {
-        eventAggregator.Publish(new T());
+        var @event = new T();
+
+        if (action != null)
+        {
+            action(@event);
+        }
+
+        eventAggregator.Publish(@event);
     }
     
 }

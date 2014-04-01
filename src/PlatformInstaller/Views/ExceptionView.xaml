@@ -8,8 +8,7 @@
             <Image DockPanel.Dock="Top" Source="pack://application:,,,/PlatformInstaller;component/Images/particularSmall.png" HorizontalAlignment="Left" Stretch="None" />
             <TextBlock Margin="0,10,0,0" DockPanel.Dock="Top" FontSize="15" FontWeight="Bold" >Exception occurred</TextBlock>
             <StackPanel DockPanel.Dock="Bottom"  Orientation="Horizontal"  FlowDirection="RightToLeft">
-                <Button Click="CloseClick">Close App</Button>
-                <Button Click="IgnoreClick">Ignore</Button>
+                <Button Click="CloseClick">Exit</Button>
                 <Button Click="CopyClick">Copy</Button>
             </StackPanel>
             <TextBox x:Name="ExceptionTextBox"  Margin="10" TextWrapping="WrapWithOverflow" IsReadOnly="True" Background="#E7E7E7"/>

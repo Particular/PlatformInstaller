@@ -60,23 +60,47 @@ public class InstallingViewModel : Screen
         {
             InstallCount++;
             await chocolateyInstaller.InstallChocolatey(OnOutputAction, OnErrorAction);
+
+            if (InstallFailed)
+            {
+                eventAggregator.Publish<InstallFailedEvent>(e =>
+                {
+                    e.Reason = "Failed to install chocolatey";
+                    e.Failures = Errors;
+                });
+                return;
+            }
+
             ClearNestedAction();
             OutputText += Environment.NewLine;
             InstallProgress++;
         }
+        
         foreach (var packageDefinition in packageDefinitions)
         {
             CurrentStatus = packageDefinition.DisplayName ?? packageDefinition.Name;
             await packageManager.Install(packageDefinition.Name, packageDefinition.Parameters, OnOutputAction, OnWarningAction, OnErrorAction, OnProgressAction);
+
+
+            if (InstallFailed)
+            {
+                eventAggregator.Publish<InstallFailedEvent>(e =>
+                {
+                    e.Reason = "Failed to install package: " + packageDefinition.Name;
+                    e.Failures = Errors;
+                });
+                return;
+            }
+
             ClearNestedAction();
             OutputText += Environment.NewLine;
             InstallProgress++;
         }
 
-        if (!InstallFailed)
-        {
-            eventAggregator.Publish<InstallSucceededEvent>();
-        }
+
+
+        eventAggregator.Publish<InstallSucceededEvent>();
+
     }
 
     void OnProgressAction(ProgressRecord progressRecord)
@@ -97,7 +121,7 @@ public class InstallingViewModel : Screen
         NestedActionPercentComplete = 0;
         NestedActionDescription = "";
     }
-    
+
     void OnOutputAction(string output)
     {
         OutputText += output + Environment.NewLine;

@@ -8,6 +8,7 @@ public class ShellViewModel : Conductor<object>,
     IHandle<AgeedToLicenseEvent>,
     IHandle<RunInstallEvent>,
     IHandle<InstallSucceededEvent>,
+    IHandle<InstallFailedEvent>,
     IHandle<CloseApplicationEvent>,
     IHandle<OpenLogDirectoryEvent>,
     IHandle<AgreedToInstallChocolatey>,
@@ -111,4 +112,8 @@ public class ShellViewModel : Conductor<object>,
         base.TryClose();
     }
 
+    public void Handle(InstallFailedEvent message)
+    {
+        this.ActivateModel<FailedInstallationViewModel>(new NamedParameter("failureReason", message.Reason), new NamedParameter("failures", message.Failures));
+    }
 }

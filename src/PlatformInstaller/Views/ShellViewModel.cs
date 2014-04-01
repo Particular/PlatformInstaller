@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
+using Autofac;
 using Caliburn.Micro;
 
 public class ShellViewModel : Conductor<object>,
@@ -70,25 +71,30 @@ public class ShellViewModel : Conductor<object>,
                 this.ActivateModel<UpdateChocolateyViewModel>();
                 return;
             }
-            this.ActivateModel<InstallingViewModel>(x => x.ItemsToInstall = message.SelectedItems);
+            ActivateInstallingViewModel();
             return;
         }
         this.ActivateModel<InstallChocolateyViewModel>();
     }
 
+    void ActivateInstallingViewModel()
+    {
+        this.ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
+    }
+
     public void Handle(AgreedToInstallChocolatey message)
     {
-        this.ActivateModel<InstallingViewModel>(x => x.ItemsToInstall = itemsToInstall);
+        this.ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
     }
 
     public void Handle(UserUpdatedChocolatey message)
     {
-        this.ActivateModel<InstallingViewModel>(x => x.ItemsToInstall = itemsToInstall);
+        this.ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
     }
 
     public void Handle(UserInstalledChocolatey message)
     {
-        this.ActivateModel<InstallingViewModel>(x => x.ItemsToInstall = itemsToInstall);
+        this.ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
     }
 
     public void Handle(InstallSucceededEvent message)

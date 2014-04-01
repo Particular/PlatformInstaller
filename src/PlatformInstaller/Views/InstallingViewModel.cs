@@ -7,12 +7,13 @@ using Caliburn.Micro;
 
 public class InstallingViewModel : Screen
 {
-    public InstallingViewModel(PackageDefinitionService packageDefinitionDiscovery, ChocolateyInstaller chocolateyInstaller, IEventAggregator eventAggregator, PackageManager packageManager)
+    public InstallingViewModel(PackageDefinitionService packageDefinitionDiscovery, ChocolateyInstaller chocolateyInstaller, IEventAggregator eventAggregator, PackageManager packageManager, List<string> itemsToInstall)
     {
         PackageDefinitionService = packageDefinitionDiscovery;
         this.chocolateyInstaller = chocolateyInstaller;
         this.eventAggregator = eventAggregator;
         this.packageManager = packageManager;
+        this.itemsToInstall = itemsToInstall;
     }
 
     public string CurrentStatus;
@@ -20,7 +21,7 @@ public class InstallingViewModel : Screen
     ChocolateyInstaller chocolateyInstaller;
     IEventAggregator eventAggregator;
     PackageManager packageManager;
-    public List<string> ItemsToInstall;
+    List<string> itemsToInstall;
     public List<string> Errors = new List<string>();
     public List<string> Warnings = new List<string>();
     public string OutputText;
@@ -50,7 +51,7 @@ public class InstallingViewModel : Screen
     public async Task InstallSelected()
     {
         var packageDefinitions = PackageDefinitionService.GetPackages()
-            .Where(p => ItemsToInstall.Contains(p.Name))
+            .Where(p => itemsToInstall.Contains(p.Name))
             .SelectMany(x => x.PackageDefinitions)
             .ToList();
         InstallCount = packageDefinitions.Count();

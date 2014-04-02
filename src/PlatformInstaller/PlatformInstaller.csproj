@@ -96,7 +96,7 @@
     <Compile Include="Events\InstallFailedEvent.cs" />
     <Compile Include="Events\UserInstalledChocolatey.cs" />
     <Compile Include="Events\UserUpdatedChocolatey.cs" />
-    <Compile Include="PlatformInstaller.cs" />
+    <Compile Include="VersionFinder.cs" />
     <Compile Include="PowerShell\PSHost.cs" />
     <Compile Include="PowerShell\PSHostRawUserInterface.cs" />
     <Compile Include="PowerShell\PSHostUserInterface.cs" />

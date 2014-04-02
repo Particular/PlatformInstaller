@@ -63,10 +63,10 @@ public class InstallingViewModel : Screen
 
             if (InstallFailed)
             {
-                eventAggregator.Publish<InstallFailedEvent>(e =>
+                eventAggregator.Publish(new InstallFailedEvent
                 {
-                    e.Reason = "Failed to install chocolatey";
-                    e.Failures = Errors;
+                    Reason = "Failed to install chocolatey",
+                    Failures = Errors
                 });
                 return;
             }

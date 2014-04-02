@@ -12,7 +12,7 @@
         <TextBlock DockPanel.Dock="Top" FontSize="14" FontWeight="Bold" Text="{Binding FailureDescription}"/>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
             <Button x:Name="Exit" Content="Exit"/>
-            <Button x:Name="Home" Content="Home"/>
+            <Button x:Name="Home" Content="Back to Main"/>
         </StackPanel>
         <TextBox DockPanel.Dock="Top" HorizontalScrollBarVisibility="Visible" Margin="0 10 0 0" VerticalScrollBarVisibility="Visible" IsReadOnly="True" Text="{Binding FailuresText}" Foreground="#2EA3C4" FontSize="10" FontWeight="Medium" SelectionOpacity="2"/>
     </DockPanel>

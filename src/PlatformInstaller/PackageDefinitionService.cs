@@ -45,7 +45,8 @@ public class PackageDefinitionService
                 {
                     new PackageDefinition
                     {
-                        Name = "ServiceMatrix.install"
+                        Name = "ServiceMatrix.install",
+                        DisplayName = "ServiceMatrix"
                     },
                 }
             },
@@ -57,7 +58,8 @@ public class PackageDefinitionService
                 {
                     new PackageDefinition
                     {
-                        Name = "ServiceInsight.install"
+                        Name = "ServiceInsight.install",
+                        DisplayName = "ServiceInsight"
                     },
                 }
             },
@@ -69,7 +71,8 @@ public class PackageDefinitionService
                 {
                     new PackageDefinition
                     {
-                        Name = "ServicePulse.install"
+                        Name = "ServicePulse.install",
+                        DisplayName = "ServicePulse"
                     },
                 }
             },
@@ -81,7 +84,8 @@ public class PackageDefinitionService
                 {
                     new PackageDefinition
                     {
-                        Name = "ServiceControl.install"
+                        Name = "ServiceControl.install",
+                        DisplayName = "ServiceControl"
                     },
                 }
             },

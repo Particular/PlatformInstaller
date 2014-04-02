@@ -50,9 +50,9 @@ public class SelectItemsViewModel : Screen
         eventAggregator.Publish(runInstallEvent);
     }
 
-    public void Close()
+    public void Exit()
     {
-        eventAggregator.Publish<CloseApplicationEvent>();
+        eventAggregator.Publish<ExitApplicationEvent>();
     }
 
     public class PackageDefinitionBindable : INotifyPropertyChanged

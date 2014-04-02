@@ -114,7 +114,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="Events\AgeedToLicenseEvent.cs" />
-    <Compile Include="Events\CloseApplicationEvent.cs" />
+    <Compile Include="Events\ExitApplicationEvent.cs" />
     <Compile Include="Events\HomeEvent.cs" />
     <Compile Include="Events\AgreedToInstallChocolatey.cs" />
     <Compile Include="PackageDefinition.cs" />

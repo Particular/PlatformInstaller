@@ -7,7 +7,7 @@
              d:DesignHeight="300" d:DesignWidth="300" >
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft" >
-            <Button x:Name="Close" Content="Close"/>
+            <Button x:Name="Exit" Content="Exit"/>
             <Button x:Name="Copy" Content="Copy"/>
             <Button x:Name="Agree" Content="I Agree"/>
         </StackPanel>

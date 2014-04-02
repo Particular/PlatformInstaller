@@ -7,7 +7,7 @@
     <Border BorderBrush="#20000000" BorderThickness="2">
         <DockPanel>
             <WrapPanel DockPanel.Dock="Top"  Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0" >
-                <Button x:Name="Close" Content="X" HorizontalAlignment="Right" FontSize="10" Margin="10,0" FontWeight="Bold" />
+                <Button x:Name="Exit" Content="X" HorizontalAlignment="Right"  FontSize="10" Margin="10,0" FontWeight="Bold" />
                 <Button x:Name="OpenLogDirectory" Content="Log" HorizontalAlignment="Right" FontSize="10" Margin="10,0" FontWeight="Bold" Foreground="Black">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">

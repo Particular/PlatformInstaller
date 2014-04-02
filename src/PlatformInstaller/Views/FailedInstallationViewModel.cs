@@ -18,9 +18,9 @@ public class FailedInstallationViewModel : Screen
 
     public string FailuresText { get; set; }
 
-    public void Close()
+    public void Exit()
     {
-        eventAggregator.Publish<CloseApplicationEvent>();
+        eventAggregator.Publish<ExitApplicationEvent>();
     }
 
     public void OpenLogDirectory()

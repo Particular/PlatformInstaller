@@ -17,9 +17,9 @@ public class LicenseAgreementViewModel : Screen
         eventAggregator.Publish<AgeedToLicenseEvent>();
     }
 
-    public void Close()
+    public void Exit()
     {
-        eventAggregator.Publish<CloseApplicationEvent>();
+        eventAggregator.Publish<ExitApplicationEvent>();
     }
 
     protected override void OnActivate()

@@ -9,9 +9,9 @@ public class SuccessViewModel : Screen
 
     IEventAggregator eventAggregator;
 
-    public void Close()
+    public void Exit()
     {
-        eventAggregator.Publish<CloseApplicationEvent>();
+        eventAggregator.Publish<ExitApplicationEvent>();
     }
 
     public void Home()

@@ -9,7 +9,7 @@ public class ShellViewModel : Conductor<object>,
     IHandle<RunInstallEvent>,
     IHandle<InstallSucceededEvent>,
     IHandle<InstallFailedEvent>,
-    IHandle<CloseApplicationEvent>,
+    IHandle<ExitApplicationEvent>,
     IHandle<OpenLogDirectoryEvent>,
     IHandle<AgreedToInstallChocolatey>,
     IHandle<HomeEvent>,
@@ -39,8 +39,8 @@ public class ShellViewModel : Conductor<object>,
             this.ActivateModel<LicenseAgreementViewModel>();
         }
     }
-    
-    public void Close()
+
+    public void Exit()
     {
         Application.Current.Shutdown();
     }
@@ -107,7 +107,7 @@ public class ShellViewModel : Conductor<object>,
         this.ActivateModel<SelectItemsViewModel>();
     }
 
-    public void Handle(CloseApplicationEvent message)
+    public void Handle(ExitApplicationEvent message)
     {
         base.TryClose();
     }

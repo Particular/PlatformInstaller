@@ -64,10 +64,10 @@ public class InstallingViewModel : Screen
             if (InstallFailed)
             {
                 eventAggregator.Publish(new InstallFailedEvent
-                {
-                    Reason = "Failed to install chocolatey",
-                    Failures = Errors
-                });
+                    {
+                        Reason = "Failed to install chocolatey",
+                        Failures = Errors
+                    });
                 return;
             }
 
@@ -84,11 +84,11 @@ public class InstallingViewModel : Screen
 
             if (InstallFailed)
             {
-                eventAggregator.Publish<InstallFailedEvent>(e =>
-                {
-                    e.Reason = "Failed to install package: " + packageDefinition.Name;
-                    e.Failures = Errors;
-                });
+                eventAggregator.Publish(new InstallFailedEvent
+                    {
+                        Reason = "Failed to install package: " + packageDefinition.Name,
+                        Failures = Errors
+                    });
                 return;
             }
 

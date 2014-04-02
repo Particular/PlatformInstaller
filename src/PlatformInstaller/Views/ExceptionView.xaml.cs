@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 
@@ -10,11 +11,16 @@ public partial class ExceptionView
     {
         InitializeComponent();
     }
+
     public ExceptionView(Exception exception):this()
     {
-        if (exception != null)
+        if (exception == null)
         {
-            exceptonText = ExceptionTextBox.Text =  exception.ToFriendlyString();
+            ExceptionTextBox.Text = "Could not derive exception details";
+        }
+        else
+        {
+            exceptonText = ExceptionTextBox.Text = exception.ToFriendlyString();
         }
     }
 
@@ -28,7 +34,7 @@ public partial class ExceptionView
         }
     }
 
-    void CloseClick(object sender, RoutedEventArgs e)
+    void ExitClick(object sender, RoutedEventArgs e)
     {
         Environment.Exit(1);
     }
@@ -38,8 +44,9 @@ public partial class ExceptionView
         Clipboard.SetText(exceptonText);
     }
 
-    void IgnoreClick(object sender, RoutedEventArgs e)
+    void OpenLogsClick(object sender, RoutedEventArgs e)
     {
-        Close();
+        Process.Start(Logging.LogDirectory);
     }
+
 }

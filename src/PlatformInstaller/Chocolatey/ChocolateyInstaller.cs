@@ -38,7 +38,15 @@ public class ChocolateyInstaller
 
     public string GetInstallPath()
     {
-        return Environment.GetEnvironmentVariable("ChocolateyInstall");
+        var environmentVariable = Environment.GetEnvironmentVariable("ChocolateyInstall");
+        if (environmentVariable == null)
+        {
+            if (Directory.Exists(@"C:\Chocolatey"))
+            {
+                return @"C:\Chocolatey";
+            }
+        }
+        return environmentVariable;
     }
 
     public async Task<bool> ChocolateyUpgradeRequired()

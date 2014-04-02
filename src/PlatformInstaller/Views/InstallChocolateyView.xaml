@@ -12,8 +12,8 @@ NavigateUri="https://chocolatey.org/">Chocolatey</global:Link> to run. You can e
         </Border>
         <StackPanel DockPanel.Dock="Bottom"  Orientation="Horizontal"  FlowDirection="RightToLeft">
             <Button x:Name="Cancel">Cancel</Button>
-            <Button x:Name="Copy">Copy command</Button>
             <Button x:Name="Continue">Continue</Button>
+            <Button x:Name="Copy">Copy command</Button>
             <Button x:Name="ReCheck">Re-Check Chocolatey</Button>
         </StackPanel>
     </DockPanel>

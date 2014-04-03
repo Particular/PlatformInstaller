@@ -36,7 +36,7 @@ public class UpdateChocolateyViewModel : Screen
 
     async Task RefreshDetectedVersion()
     {
-        var detectedChocolateyVersion = await chocolateyInstaller.GetInstallVersion();
+        var detectedChocolateyVersion = await chocolateyInstaller.GetInstalledVersion();
         DetectedChocolateyVersion = detectedChocolateyVersion;
         LastCheckedTime = DateTime.Now.ToString("h:mm:ss tt");
     }

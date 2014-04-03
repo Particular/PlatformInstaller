@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Autofac;
 using Caliburn.Micro;
 
@@ -8,6 +9,7 @@ public class ShellViewModel : Conductor<object>,
     IHandle<RunInstallEvent>,
     IHandle<InstallSucceededEvent>,
     IHandle<InstallFailedEvent>,
+    IHandle<RebootNeeded>,
     IHandle<ExitApplicationEvent>,
     IHandle<OpenLogDirectoryEvent>,
     IHandle<AgreedToInstallChocolatey>,
@@ -101,6 +103,11 @@ public class ShellViewModel : Conductor<object>,
         this.ActivateModel<SuccessViewModel>();
     }
 
+    public void Handle(RebootNeeded message)
+    {
+        this.ActivateModel<RebootNeededViewModel>();
+    }
+
     public void Handle(HomeEvent message)
     {
         this.ActivateModel<SelectItemsViewModel>();
@@ -113,6 +120,13 @@ public class ShellViewModel : Conductor<object>,
 
     public void Handle(InstallFailedEvent message)
     {
+        var reboot = message.Failures.FirstOrDefault(f => f.Contains("reboot is required"));
+        if (reboot != null)
+        {
+            eventAggregator.Publish<RebootNeeded>();
+            return;
+        }
+
         this.ActivateModel<FailedInstallationViewModel>(new NamedParameter("failureReason", message.Reason), new NamedParameter("failures", message.Failures));
     }
 }

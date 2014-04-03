@@ -87,6 +87,6 @@ public class ChocolateyInstallerTests
     {
         var sourcefile = Path.Combine(AssemblyLocation.CurrentDirectory, @"Chocolatey\Run-NuGet.ps1");
         ChocolateyInstaller.PatchRunNuget(sourcefile);
-        Approvals.Verify(File.ReadAllText(sourcefile));
+        Approvals.Verify(File.ReadAllText(sourcefile),s => s.Replace("\r\n","\n"));
     }
 }

@@ -109,6 +109,7 @@ public class InstallingViewModel : Screen
             return;
         }
 
+        HasNestedAction = true;
         NestedActionPercentComplete = progressRecord.PercentComplete;
         NestedActionDescription = progressRecord.ToDownloadingString();
     }

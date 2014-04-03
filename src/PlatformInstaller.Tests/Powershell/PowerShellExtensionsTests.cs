@@ -8,7 +8,7 @@ public class PowerShellExtensionsTests
     public void ToDownloadingStringCanParse()
     {
         var progressRecord = new ProgressRecord(0, "foo", "Saving 44409 of 21223512");
-        Assert.AreEqual("Downloading 43.4KB of 20.2MB", progressRecord.ToDownloadingString());
+        Assert.AreEqual("43.4KB of 20.2MB", progressRecord.ToDownloadingString());
     }
 
     [Test]

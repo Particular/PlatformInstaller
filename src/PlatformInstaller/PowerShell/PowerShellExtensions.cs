@@ -54,7 +54,7 @@ public static class PowerShellExtensions
                 {
                     return description;
                 }
-                return "Downloading " + BytesToString(completed) + " of " + BytesToString(total);
+                return BytesToString(completed) + " of " + BytesToString(total);
             }
         }
         return description;

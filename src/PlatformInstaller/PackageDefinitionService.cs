@@ -39,27 +39,14 @@ public class PackageDefinitionService
             },
             new InstallationDefinition
             {
-                Name = "ServiceMatrix",
-                Image = "/Images/SM.png",
+                Name = "ServiceControl",
+                Image = "/Images/SC.png",
                 PackageDefinitions = new List<PackageDefinition>
                 {
                     new PackageDefinition
                     {
-                        Name = "ServiceMatrix.install",
-                        DisplayName = "ServiceMatrix"
-                    },
-                }
-            },
-            new InstallationDefinition
-            {
-                Name = "ServiceInsight",
-                Image = "/Images/SI.png",
-                PackageDefinitions = new List<PackageDefinition>
-                {
-                    new PackageDefinition
-                    {
-                        Name = "ServiceInsight.install",
-                        DisplayName = "ServiceInsight"
+                        Name = "ServiceControl.install",
+                        DisplayName = "ServiceControl"
                     },
                 }
             },
@@ -78,14 +65,27 @@ public class PackageDefinitionService
             },
             new InstallationDefinition
             {
-                Name = "ServiceControl",
-                Image = "/Images/SC.png",
+                Name = "ServiceInsight",
+                Image = "/Images/SI.png",
                 PackageDefinitions = new List<PackageDefinition>
                 {
                     new PackageDefinition
                     {
-                        Name = "ServiceControl.install",
-                        DisplayName = "ServiceControl"
+                        Name = "ServiceInsight.install",
+                        DisplayName = "ServiceInsight"
+                    },
+                }
+            },
+            new InstallationDefinition
+            {
+                Name = "ServiceMatrix",
+                Image = "/Images/SM.png",
+                PackageDefinitions = new List<PackageDefinition>
+                {
+                    new PackageDefinition
+                    {
+                        Name = "ServiceMatrix.install",
+                        DisplayName = "ServiceMatrix"
                     },
                 }
             },

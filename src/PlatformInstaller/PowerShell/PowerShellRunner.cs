@@ -8,7 +8,7 @@ using Anotar.Serilog;
 public class PowerShellRunner : IDisposable
 {
     Runspace runSpace;
-    bool isRunning;
+    Pipeline currentPipeline;
     public Action<string> LogOutput;
     public Action<string> LogWarning;
     public Action<string> LogError;
@@ -29,39 +29,51 @@ public class PowerShellRunner : IDisposable
 
     public async Task Run(string command, Dictionary<string, object> parameters, Action<string> logOutput, Action<string> logWarning, Action<string> logError, Action<ProgressRecord> logProgress)
     {
-        if (isRunning)
+        if (currentPipeline !=null)
         {
             throw new Exception("Not thread safe");
         }
-        isRunning = true;
+        currentPipeline = runSpace.CreatePipeline();
         LogOutput = logOutput.ValueOrDefault();
         LogWarning = logWarning.ValueOrDefault();
         LogError = logError.ValueOrDefault();
         LogProgress = logProgress.ValueOrDefault();
 
-        var pipeline = runSpace.CreatePipeline();
         var psCommand = GetCommand(command, parameters);
-        pipeline.Commands.Add(psCommand);
+        currentPipeline.Commands.Add(psCommand);
         var executableString = psCommand.ToExecutableString();
         logOutput(executableString);
         LogTo.Information("Executing powershell command: " + executableString);
-        await TaskEx.Run(() =>
+        await TaskEx.Run(() => ExecuteCommand());
+    }
+
+    void ExecuteCommand()
+    {
+        var pipeline = currentPipeline;
+        try
+        {
+            pipeline.Invoke();
+            foreach (PSObject errorRecord in pipeline.Error.ReadToEnd())
+            {
+                var errorMessage = "Error executing powershell: " + errorRecord;
+                LogTo.Error(errorMessage);
+                LogError(errorMessage);
+            }
+        }
+        finally
         {
             try
             {
-                pipeline.Invoke();
-                foreach (PSObject errorRecord in pipeline.Error.ReadToEnd())
+                if (pipeline != null)
                 {
-                    var errorMessage = "Error executing powershell: " + errorRecord;
-                    LogTo.Error(errorMessage);
-                    logError(errorMessage);
+                    pipeline.Dispose();
                 }
             }
             finally
             {
-                isRunning = false;
+                currentPipeline = null;
             }
-        });
+        }
     }
 
     static Command GetCommand(string command, Dictionary<string, object> parameters)
@@ -80,5 +92,16 @@ public class PowerShellRunner : IDisposable
     public void Dispose()
     {
 
+    }
+
+    public void Abort()
+    {
+        var pipeline = currentPipeline;
+        if (pipeline != null)
+        {
+            pipeline.Stop();
+            pipeline.Dispose();
+        }
+        currentPipeline = null;
     }
 }

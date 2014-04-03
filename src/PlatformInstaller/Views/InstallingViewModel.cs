@@ -4,16 +4,19 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Management.Automation;
 using System.Threading.Tasks;
+using Autofac;
 using Caliburn.Micro;
 
 public class InstallingViewModel : Screen
 {
-    public InstallingViewModel(PackageDefinitionService packageDefinitionDiscovery, ChocolateyInstaller chocolateyInstaller, IEventAggregator eventAggregator, PackageManager packageManager, List<string> itemsToInstall)
+    public InstallingViewModel(PackageDefinitionService packageDefinitionDiscovery, ChocolateyInstaller chocolateyInstaller, IEventAggregator eventAggregator, PackageManager packageManager, IWindowManager windowManager, PowerShellRunner powerShellRunner, List<string> itemsToInstall)
     {
         PackageDefinitionService = packageDefinitionDiscovery;
         this.chocolateyInstaller = chocolateyInstaller;
         this.eventAggregator = eventAggregator;
         this.packageManager = packageManager;
+        this.windowManager = windowManager;
+        this.powerShellRunner = powerShellRunner;
         this.itemsToInstall = itemsToInstall;
     }
 
@@ -22,6 +25,8 @@ public class InstallingViewModel : Screen
     ChocolateyInstaller chocolateyInstaller;
     IEventAggregator eventAggregator;
     PackageManager packageManager;
+    IWindowManager windowManager;
+    PowerShellRunner powerShellRunner;
     List<string> itemsToInstall;
     public List<string> Errors = new List<string>();
     public List<string> Warnings = new List<string>();
@@ -37,10 +42,24 @@ public class InstallingViewModel : Screen
 
     public int InstallProgress;
     public int InstallCount;
-
+    bool aborting;
     public void Back()
     {
         eventAggregator.Publish<HomeEvent>();
+    }
+
+    public override void CanClose(Action<bool> callback)
+    {
+        var confirmModel = ContainerFactory.Container.Resolve<ConfirmAbortInstallViewModel>();
+        windowManager.ShowDialog(confirmModel);
+        if (confirmModel.AbortInstallation)
+        {
+            aborting = true;
+            powerShellRunner.Abort();
+            callback(true);
+            return;
+        }
+        callback(false);
     }
 
     protected override void OnActivate()
@@ -79,6 +98,10 @@ public class InstallingViewModel : Screen
 
         foreach (var packageDefinition in packageDefinitions)
         {
+            if (aborting)
+            {
+                return;
+            }
             CurrentStatus = packageDefinition.DisplayName ?? packageDefinition.Name;
             await packageManager.Install(packageDefinition.Name, packageDefinition.Parameters, AddOutput, AddWarning, AddError, OnProgressAction);
 

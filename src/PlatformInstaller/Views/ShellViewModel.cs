@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Windows;
 using Autofac;
 using Caliburn.Micro;
 
@@ -42,7 +41,7 @@ public class ShellViewModel : Conductor<object>,
 
     public void Exit()
     {
-        Application.Current.Shutdown();
+        eventAggregator.Publish<ExitApplicationEvent>();
     }
 
     public void OpenLogDirectory()

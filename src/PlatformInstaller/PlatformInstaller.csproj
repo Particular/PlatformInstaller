@@ -118,6 +118,10 @@
     <Compile Include="Events\HomeEvent.cs" />
     <Compile Include="Events\AgreedToInstallChocolatey.cs" />
     <Compile Include="PackageDefinition.cs" />
+    <Compile Include="Views\ConfirmAbortInstallView.xaml.cs">
+      <DependentUpon>ConfirmAbortInstallView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConfirmAbortInstallViewModel.cs" />
     <Compile Include="Views\FailedInstallationViewModel.cs" />
     <Compile Include="Views\FailedInstallationView.xaml.cs">
       <DependentUpon>FailedInstallationView.xaml</DependentUpon>
@@ -168,6 +172,10 @@
     <Page Include="Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConfirmAbortInstallView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\FailedInstallationView.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -76,7 +76,7 @@ public class InstallingViewModel : Screen
             AddOutput(Environment.NewLine);
             InstallProgress++;
         }
-        
+
         foreach (var packageDefinition in packageDefinitions)
         {
             CurrentStatus = packageDefinition.DisplayName ?? packageDefinition.Name;
@@ -97,7 +97,7 @@ public class InstallingViewModel : Screen
             AddOutput(Environment.NewLine);
             InstallProgress++;
         }
-        
+
         eventAggregator.Publish<InstallSucceededEvent>();
     }
 
@@ -123,18 +123,18 @@ public class InstallingViewModel : Screen
     void AddOutput(string output)
     {
         OutputText.Add(new OutputLine
-        {
-            Text = output
-        });
+            {
+                Text = output
+            });
     }
 
     void AddError(string error)
     {
         OutputText.Add(new OutputLine
-        {
-            IsError = true,
-            Text = error
-        });
+            {
+                IsError = true,
+                Text = error
+            });
         Errors.Add(error);
     }
 
@@ -149,9 +149,9 @@ public class InstallingViewModel : Screen
     }
 
     public class OutputLine
-{
-    public bool IsError;
-    public bool IsWarning;
-    public string Text;
-}
+    {
+        public bool IsError;
+        public bool IsWarning;
+        public string Text;
+    }
 }

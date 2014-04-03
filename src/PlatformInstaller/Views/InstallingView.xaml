@@ -25,6 +25,6 @@
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
             <Button x:Name="Back" Content="Back"  Visibility="{Binding Path=InstallFailed, Converter={StaticResource BoolToVis}}" />
         </StackPanel>
-        <RichTextBox x:Name="consoleTextBox" Background="Black" HorizontalScrollBarVisibility="Visible" Margin="0 10 0 0" VerticalScrollBarVisibility="Visible" IsReadOnly="True" Foreground="LightGray" FontSize="10" FontWeight="Medium" FontFamily="Consolas" />
+        <RichTextBox x:Name="consoleTextBox" Background="Black" HorizontalScrollBarVisibility="Visible" Margin="0 10 0 0" VerticalScrollBarVisibility="Visible" IsReadOnly="True" Foreground="LightGray" FontSize="10" FontWeight="Medium" FontFamily="Consolas" SelectionChanged="consoleTextBox_SelectionChanged" />
     </DockPanel>
 </UserControl>

@@ -5,11 +5,14 @@ using System.Windows.Media;
 
 public partial class InstallingView
 {
+    bool hasUserSelectedText;
+    
     public InstallingView()
     {
         InitializeComponent();
         DataContextChanged += InstallingView_DataContextChanged;
     }
+
 
     void InstallingView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
@@ -37,7 +40,16 @@ public partial class InstallingView
                     run.Foreground = Brushes.LightCoral;
                 }
                 consoleTextBox.Document.Blocks.Add(new Paragraph(run));
+                if (!hasUserSelectedText)
+                {
+                    consoleTextBox.ScrollToEnd();
+                }
             });
         }
+    }
+
+    void consoleTextBox_SelectionChanged(object sender, RoutedEventArgs e)
+    {
+        hasUserSelectedText = true;
     }
 }

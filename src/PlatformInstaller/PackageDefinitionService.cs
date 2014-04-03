@@ -31,7 +31,7 @@ public class PackageDefinitionService
                     },
                     new PackageDefinition
                     {
-                        Name = "RavenDB",
+                        Name = "NServicebus.RavenDB.install",
                         DisplayName = "Default storage - RavenDB",
                         Parameters = GetRavenDbParameters()
                     },

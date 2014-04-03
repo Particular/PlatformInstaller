@@ -10,6 +10,7 @@ public class SelectItemsViewModel : Screen
         this.eventAggregator = eventAggregator;
         PackageDefinitions = packageDefinitionDiscovery
             .GetPackages()
+            .OrderBy(p=>p.SortOrder)
             .Select(x=>
             {
                 return new PackageDefinitionBindable

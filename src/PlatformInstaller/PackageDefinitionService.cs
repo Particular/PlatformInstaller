@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Windows.Controls;
 
 public class PackageDefinitionService
 {
@@ -17,6 +15,7 @@ public class PackageDefinitionService
         {
             new InstallationDefinition
             {
+                SortOrder = 10,
                 Name = "NServiceBusPreReqs",
                 Image = "/Images/NSB.png",
                 PackageDefinitions = new List<PackageDefinition>
@@ -47,6 +46,7 @@ public class PackageDefinitionService
             },
             new InstallationDefinition
             {
+                SortOrder = 50,
                 Name = "ServiceControl",
                 Image = "/Images/SC.png",
                 PackageDefinitions = new List<PackageDefinition>
@@ -61,6 +61,7 @@ public class PackageDefinitionService
             },
             new InstallationDefinition
             {
+                SortOrder = 40,
                 Name = "ServicePulse",
                 Image = "/Images/SP.png",
                 PackageDefinitions = new List<PackageDefinition>
@@ -75,6 +76,7 @@ public class PackageDefinitionService
             },
             new InstallationDefinition
             {
+                SortOrder = 30,
                 Name = "ServiceInsight",
                 Image = "/Images/SI.png",
                 PackageDefinitions = new List<PackageDefinition>

@@ -14,4 +14,6 @@ public class InstallationDefinition
     {
         ToolTip = Name;
     }
+
+    public int SortOrder;
 }

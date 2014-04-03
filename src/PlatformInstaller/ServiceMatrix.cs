@@ -12,6 +12,7 @@ public class ServiceMatrix
         
         var installationDefinition = new InstallationDefinition
         {
+            SortOrder = 20,
             Name = "ServiceMatrix",
             Image = "/Images/SM.png",
             Disabled = true,

@@ -26,6 +26,7 @@ public class ChocolateyInstallerTests
     }
 
     [Test]
+    [Explicit("Integration")]
     public void GetInstallPath()
     {
         var chocolateyInstaller = new ChocolateyInstaller(new ProcessRunner(), new PowerShellRunner());

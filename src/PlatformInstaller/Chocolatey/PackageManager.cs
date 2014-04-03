@@ -47,11 +47,18 @@ public class PackageManager
         var chocolateyPs1Path = Path.Combine(chocolateyInstaller.GetInstallPath(), @"chocolateyinstall\chocolatey.ps1");
         Action<string> wrappedLogOutput = s =>
         {
+            if (s.ToLower().Contains("reboot is required"))
+            {
+                logError(s);
+                return;
+            }
+
             if (s.ToLower().Contains("the remote name could not be resolved:"))
             {
                 logError(s);
                 return;
             }
+
 
             if (s.ToLower().Contains("unable to find package"))
             {

@@ -24,7 +24,7 @@ NavigateUri="https://github.com/chocolatey/chocolatey/wiki/CommandsUpdate#chocol
 
         <StackPanel DockPanel.Dock="Bottom" IsEnabled="{Binding CanAcceptInput}"  Orientation="Horizontal"  FlowDirection="RightToLeft">
             <Button x:Name="Cancel">Cancel</Button>
-            <Button x:Name="ReCheck">Re-Check Chocolatey</Button>
+            <Button x:Name="ReCheck">Re-Check</Button>
         </StackPanel>
     </DockPanel>
 </UserControl>

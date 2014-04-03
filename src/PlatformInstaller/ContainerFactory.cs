@@ -43,7 +43,9 @@ public static class ContainerFactory
         Container = builder.Build();
 
         //hack: since nothing uses InstallFeedbackReporter force a resolve
+        //TODO: create an "iwanttorunatstartup" interface
         Container.Resolve<InstallFeedbackReporter>();
+        Container.Resolve<ChocolateyInstaller>().PatchRunNuget();
     }
 
     static Assembly[] ThisAssembly()

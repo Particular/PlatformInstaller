@@ -22,6 +22,42 @@ public class ChocolateyInstaller
         return Path.Combine(GetInstallPath(), @"chocolateyinstall\chocolatey.ps1");
     }
 
+    //TODO: remove this when https://github.com/chocolatey/chocolatey/pull/450 is completed
+    public void PatchRunNuget()
+    {
+        var runNugetPath = Path.Combine(GetInstallPath(), @"chocolateyinstall\functions\Run-NuGet.ps1");
+        if (!File.Exists(runNugetPath))
+        {
+            return;
+        }
+        PatchRunNuget(runNugetPath);
+    }
+
+    public static void PatchRunNuget(string runNugetPath)
+    {
+        var allText = File.ReadAllText(runNugetPath);
+        if (!allText.Contains("$process.StartInfo.RedirectStandardError = $true"))
+        {
+            return;
+        }
+        if (allText.Contains("CreateNoWindow"))
+        {
+            return;
+        }
+        LogTo.Information(string.Format("Patching '{0}' to include 'CreateNoWindow = $true'", runNugetPath));
+        try
+        {
+            var newText = allText.Replace("$process.StartInfo.RedirectStandardError = $true", 
+@"$process.StartInfo.RedirectStandardError = $true
+  $process.StartInfo.CreateNoWindow = $true");
+            File.WriteAllText(runNugetPath, newText);
+        }
+        catch (Exception exception)
+        {
+            LogTo.Warning(exception, string.Format("Could not patch '{0}'. You may get some nuget console dialogs showing.", runNugetPath));
+        }
+    }
+
     public Task<int> InstallChocolatey(Action<string> outputAction, Action<string> errorAction)
     {
         outputAction = outputAction.ValueOrDefault();

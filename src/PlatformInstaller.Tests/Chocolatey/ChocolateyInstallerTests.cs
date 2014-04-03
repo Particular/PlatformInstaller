@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using ApprovalTests;
 using NUnit.Framework;
 
 [TestFixture]
@@ -78,5 +79,13 @@ public class ChocolateyInstallerTests
             Debug.WriteLine(Path.GetFileNameWithoutExtension(chocolateyFile) +"=" +  version);
             Assert.IsNotNull(version);
         }
+    }
+
+    [Test]
+    public void PatchRunNuget()
+    {
+        var sourcefile = Path.Combine(AssemblyLocation.CurrentDirectory, @"Chocolatey\Run-NuGet.ps1");
+        ChocolateyInstaller.PatchRunNuget(sourcefile);
+        Approvals.Verify(File.ReadAllText(sourcefile));
     }
 }

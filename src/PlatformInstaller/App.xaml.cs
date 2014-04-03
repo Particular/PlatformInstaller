@@ -1,12 +1,22 @@
-﻿using Serilog;
+﻿using System.Diagnostics;
+using Serilog;
 
 public partial class App
 {
     static App()
     {
+        if (!IsAdminChecker.IsAdministrator())
+        {
+            Process.Start(new ProcessStartInfo
+                {
+                    FileName = AssemblyLocation.ExeFileName,
+                    Verb = "runas"
+                });
+            return;
+        }
         Logging.Initialise();
         ExceptionHandler.Attach();
-        Log.Information(string.Format("Starting PlatformInstaller v{0}", VersionFinder.GetVersion()));    
+        Log.Information(string.Format("Starting PlatformInstaller v{0}", VersionFinder.GetVersion()));
     }
 
     public App()
@@ -14,4 +24,5 @@ public partial class App
         ExceptionHandler.Attach(this);
         new AppBootstrapper().Start();
     }
+
 }

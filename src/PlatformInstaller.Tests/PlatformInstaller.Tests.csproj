@@ -94,6 +94,7 @@
     <Compile Include="Views\LicenseAgreementViewTests.cs" />
     <Compile Include="Views\ScreenCapture.cs" />
     <Compile Include="Views\SelectItemsViewTests.cs" />
+    <Compile Include="VisualStudioDetecterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

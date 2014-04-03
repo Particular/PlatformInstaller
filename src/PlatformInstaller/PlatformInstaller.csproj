@@ -97,6 +97,7 @@
     <Compile Include="Events\UserInstalledChocolatey.cs" />
     <Compile Include="Events\UserUpdatedChocolatey.cs" />
     <Compile Include="IsAdminChecker.cs" />
+    <Compile Include="ServiceMatrix.cs" />
     <Compile Include="VersionFinder.cs" />
     <Compile Include="PowerShell\PSHost.cs" />
     <Compile Include="PowerShell\PSHostRawUserInterface.cs" />
@@ -152,6 +153,7 @@
       <DependentUpon>SelectItemsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\RunInstallEvent.cs" />
+    <Compile Include="VisualStudioDetecter.cs" />
     <Compile Include="WpfExtensions.cs" />
     <Compile Include="WpfExtensions\GifImage.cs" />
     <Compile Include="WpfExtensions\InvertedBooleanToVisibilityConverter.cs" />

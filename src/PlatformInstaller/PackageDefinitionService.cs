@@ -1,8 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Windows.Controls;
 
 public class PackageDefinitionService
 {
+    readonly PackageManager packageManager;
+
+    public PackageDefinitionService(PackageManager packageManager)
+    {
+        this.packageManager = packageManager;
+    }
 
     public virtual List<InstallationDefinition> GetPackages()
     {
@@ -34,7 +41,9 @@ public class PackageDefinitionService
                         Name = "NServicebus.RavenDB.install",
                         DisplayName = "Default storage - RavenDB",
                     },
-                }
+                },
+                SelectedByDefault = !packageManager.IsInstalled("NServicebus.Msmq.install")
+                
             },
             new InstallationDefinition
             {
@@ -47,7 +56,8 @@ public class PackageDefinitionService
                         Name = "ServiceControl.install",
                         DisplayName = "ServiceControl"
                     },
-                }
+                },
+                SelectedByDefault = !packageManager.IsInstalled("ServiceControl.install")
             },
             new InstallationDefinition
             {
@@ -60,7 +70,8 @@ public class PackageDefinitionService
                         Name = "ServicePulse.install",
                         DisplayName = "ServicePulse"
                     },
-                }
+                },
+                SelectedByDefault = !packageManager.IsInstalled("ServicePulse.install")
             },
             new InstallationDefinition
             {
@@ -73,21 +84,10 @@ public class PackageDefinitionService
                         Name = "ServiceInsight.install",
                         DisplayName = "ServiceInsight"
                     },
-                }
+                },
+                SelectedByDefault = !packageManager.IsInstalled("ServiceInsight.install")
             },
-            new InstallationDefinition
-            {
-                Name = "ServiceMatrix",
-                Image = "/Images/SM.png",
-                PackageDefinitions = new List<PackageDefinition>
-                {
-                    new PackageDefinition
-                    {
-                        Name = "ServiceMatrix.install",
-                        DisplayName = "ServiceMatrix"
-                    },
-                }
-            },
+           ServiceMatrix.InstallationDefinition(packageManager)
         };
     }
 }

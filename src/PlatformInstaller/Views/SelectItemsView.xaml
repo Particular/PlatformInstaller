@@ -1,11 +1,9 @@
 ﻿<UserControl
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:global="clr-namespace:"
         x:Class="SelectItemsView">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
-        <global:InvertedBooleanToVisibilityConverter x:Key="InvertedBooleanToVis" />
 
         <Style x:Key="ProductCheckbox" TargetType="{x:Type CheckBox}">
             <Setter Property="SnapsToDevicePixels" Value="true"/>
@@ -60,16 +58,15 @@
             </Setter>
         </Style>
         <DataTemplate x:Key="ProductItemTemplate">
-            <Grid Margin="0 10">
+            <Grid Margin="0 10" ToolTip="{Binding ToolTip}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="6*"/>
                     <ColumnDefinition Width="4*"/>
                     <ColumnDefinition Width="30"/>
                 </Grid.ColumnDefinitions>
                 <Image Source="{Binding ImageUrl}" Grid.Column="0" Stretch="None" HorizontalAlignment="Left"/>
-                <CheckBox Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" IsChecked="{Binding Selected}" Foreground="Blue" Style="{StaticResource ProductCheckbox}"/>
-                <Label Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding Path=Installed, Converter={StaticResource BoolToVis}}">Update</Label>
-                <Label Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding Path=Installed, Converter={StaticResource InvertedBooleanToVis}}">Install</Label>
+                <CheckBox Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="{Binding Enabled}" IsChecked="{Binding Selected}" Foreground="Blue" Style="{StaticResource ProductCheckbox}"/>
+                <Label Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{Binding Status}"/>
             </Grid>
         </DataTemplate>
     </UserControl.Resources>

@@ -5,25 +5,19 @@ using Caliburn.Micro;
 
 public class SelectItemsViewModel : Screen
 {
-    public SelectItemsViewModel(PackageDefinitionService packageDefinitionDiscovery, IEventAggregator eventAggregator, PackageManager packageManager)
+    public SelectItemsViewModel(PackageDefinitionService packageDefinitionDiscovery, IEventAggregator eventAggregator)
     {
         this.eventAggregator = eventAggregator;
         PackageDefinitions = packageDefinitionDiscovery
             .GetPackages()
             .Select(x=>
             {
-                var isInstalled = false;
-                if (x.PackageDefinitions.Count == 1)
-                {
-                    isInstalled = packageManager.IsInstalled(x.PackageDefinitions.First().Name);
-                }
                 return new PackageDefinitionBindable
                 {
                     ImageUrl = "pack://application:,,,/PlatformInstaller;component" + x.Image,
-                    Installed = isInstalled,
-#if(!DEBUG)
-                    Selected = !isInstalled,
-#endif
+                    ToolTip = x.ToolTip,
+                    Enabled = !x.Disabled,
+                    Status = x.Status ?? (x.SelectedByDefault ? "Install" : "Update"),
                     Name = x.Name,
                 };
             }).ToList();
@@ -59,8 +53,10 @@ public class SelectItemsViewModel : Screen
     {
         public string Name;
         public string ImageUrl;
+        public string Status;
         public bool Selected;
-        public bool Installed;
+        public bool Enabled;
         public event PropertyChangedEventHandler PropertyChanged;
+        public string ToolTip;
     }
 }

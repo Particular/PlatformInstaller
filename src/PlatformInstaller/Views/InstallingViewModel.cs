@@ -43,6 +43,8 @@ public class InstallingViewModel : Screen
     public int InstallProgress;
     public int InstallCount;
     bool aborting;
+    bool isInstalling;
+
     public void Back()
     {
         eventAggregator.Publish<HomeEvent>();
@@ -50,16 +52,20 @@ public class InstallingViewModel : Screen
 
     public override void CanClose(Action<bool> callback)
     {
-        var confirmModel = ContainerFactory.Container.Resolve<ConfirmAbortInstallViewModel>();
-        windowManager.ShowDialog(confirmModel);
-        if (confirmModel.AbortInstallation)
+        if (isInstalling)
         {
-            aborting = true;
-            powerShellRunner.Abort();
-            callback(true);
-            return;
+            var confirmModel = ContainerFactory.Container.Resolve<ConfirmAbortInstallViewModel>();
+            windowManager.ShowDialog(confirmModel);
+            if (confirmModel.AbortInstallation)
+            {
+                aborting = true;
+                powerShellRunner.Abort();
+                callback(true);
+                return;
+            }
+            callback(false);
         }
-        callback(false);
+        callback(true);
     }
 
     protected override void OnActivate()
@@ -70,6 +76,7 @@ public class InstallingViewModel : Screen
 
     public async Task InstallSelected()
     {
+        isInstalling = true;
         var packageDefinitions = PackageDefinitionService.GetPackages()
             .Where(p => itemsToInstall.Contains(p.Name))
             .SelectMany(x => x.PackageDefinitions)
@@ -83,6 +90,7 @@ public class InstallingViewModel : Screen
 
             if (InstallFailed)
             {
+                isInstalling = false;
                 eventAggregator.Publish(new InstallFailedEvent
                     {
                         Reason = "Failed to install chocolatey",
@@ -108,6 +116,7 @@ public class InstallingViewModel : Screen
 
             if (InstallFailed)
             {
+                isInstalling = false;
                 eventAggregator.Publish(new InstallFailedEvent
                     {
                         Reason = "Failed to install package: " + packageDefinition.Name,
@@ -121,6 +130,7 @@ public class InstallingViewModel : Screen
             InstallProgress++;
         }
 
+        isInstalling = false;
         eventAggregator.Publish<InstallSucceededEvent>();
     }
 

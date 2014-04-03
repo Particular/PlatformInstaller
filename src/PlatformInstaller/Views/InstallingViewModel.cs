@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Management.Automation;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ public class InstallingViewModel : Screen
     List<string> itemsToInstall;
     public List<string> Errors = new List<string>();
     public List<string> Warnings = new List<string>();
-    public string OutputText;
+    public ObservableCollection<OutputLine> OutputText = new ObservableCollection<OutputLine>();
     public int NestedActionPercentComplete;
     public bool HasNestedAction;
     public string NestedActionDescription;
@@ -59,7 +60,7 @@ public class InstallingViewModel : Screen
         if (!chocolateyInstaller.IsInstalled())
         {
             InstallCount++;
-            await chocolateyInstaller.InstallChocolatey(OnOutputAction, OnErrorAction);
+            await chocolateyInstaller.InstallChocolatey(AddOutput, AddError);
 
             if (InstallFailed)
             {
@@ -72,14 +73,14 @@ public class InstallingViewModel : Screen
             }
 
             ClearNestedAction();
-            OutputText += Environment.NewLine;
+            AddOutput(Environment.NewLine);
             InstallProgress++;
         }
         
         foreach (var packageDefinition in packageDefinitions)
         {
             CurrentStatus = packageDefinition.DisplayName ?? packageDefinition.Name;
-            await packageManager.Install(packageDefinition.Name, packageDefinition.Parameters, OnOutputAction, OnWarningAction, OnErrorAction, OnProgressAction);
+            await packageManager.Install(packageDefinition.Name, packageDefinition.Parameters, AddOutput, AddWarning, AddError, OnProgressAction);
 
 
             if (InstallFailed)
@@ -93,14 +94,11 @@ public class InstallingViewModel : Screen
             }
 
             ClearNestedAction();
-            OutputText += Environment.NewLine;
+            AddOutput(Environment.NewLine);
             InstallProgress++;
         }
-
-
-
+        
         eventAggregator.Publish<InstallSucceededEvent>();
-
     }
 
     void OnProgressAction(ProgressRecord progressRecord)
@@ -122,19 +120,38 @@ public class InstallingViewModel : Screen
         NestedActionDescription = "";
     }
 
-    void OnOutputAction(string output)
+    void AddOutput(string output)
     {
-        OutputText += output + Environment.NewLine;
+        OutputText.Add(new OutputLine
+        {
+            Text = output
+        });
     }
 
-    void OnErrorAction(string error)
+    void AddError(string error)
     {
-        OutputText += error + Environment.NewLine;
+        OutputText.Add(new OutputLine
+        {
+            IsError = true,
+            Text = error
+        });
         Errors.Add(error);
     }
-    void OnWarningAction(string warning)
+
+    void AddWarning(string warning)
     {
-        OutputText += warning + Environment.NewLine;
+        OutputText.Add(new OutputLine
+            {
+                IsWarning = true,
+                Text = warning
+            });
         Warnings.Add(warning);
     }
+
+    public class OutputLine
+{
+    public bool IsError;
+    public bool IsWarning;
+    public string Text;
+}
 }

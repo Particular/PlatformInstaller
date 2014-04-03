@@ -11,13 +11,7 @@
             </WrapPanel>
             <Image DockPanel.Dock="Top" Source="pack://application:,,,/PlatformInstaller;component/Images/particularSmall.png" HorizontalAlignment="Left" Margin="20 0 20 0" Stretch="None" />
             <ContentControl x:Name="ActiveItem" Margin="20 20 20 20"/>
-            <Button x:Name="OpenLogDirectory" Content="Log" HorizontalAlignment="Left" FontSize="10" Margin="22 -70 0 0" Height="20" >
-                <!--<Button.Template>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <ContentPresenter />
-                    </ControlTemplate>
-                </Button.Template>-->
-            </Button>
+            <Button x:Name="OpenLogDirectory" Content="Log" HorizontalAlignment="Left" FontSize="10" Margin="22 -70 0 0" Height="20" />
         </StackPanel>
     </Border>
 </Window>

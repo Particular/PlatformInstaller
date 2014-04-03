@@ -18,6 +18,7 @@ public class SelectItemsViewModel : Screen
                     ImageUrl = "pack://application:,,,/PlatformInstaller;component" + x.Image,
                     ToolTip = x.ToolTip,
                     Enabled = !x.Disabled,
+                    Selected = x.SelectedByDefault,
                     Status = x.Status ?? (x.SelectedByDefault ? "Install" : "Update"),
                     Name = x.Name,
                 };

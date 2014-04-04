@@ -58,6 +58,7 @@ public class ShellViewModel : Conductor<object>,
 
     public void Handle(OpenLogDirectoryEvent message)
     {
+        var a = Logging.LogDirectory;
         Process.Start(Logging.LogDirectory);
     }
 

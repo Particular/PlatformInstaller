@@ -25,7 +25,13 @@ public class ChocolateyInstaller
     //TODO: remove this when https://github.com/chocolatey/chocolatey/pull/450 is completed
     public void PatchRunNuget()
     {
-        var runNugetPath = Path.Combine(GetInstallPath(), @"chocolateyinstall\functions\Run-NuGet.ps1");
+        var installPath = GetInstallPath();
+        if (string.IsNullOrWhiteSpace(installPath))
+        {
+            return;
+        }
+
+        var runNugetPath = Path.Combine(installPath, @"chocolateyinstall\functions\Run-NuGet.ps1");
         if (!File.Exists(runNugetPath))
         {
             return;
@@ -73,15 +79,8 @@ public class ChocolateyInstaller
 
     public string GetInstallPath()
     {
-        var environmentVariable = Environment.GetEnvironmentVariable("ChocolateyInstall");
-        if (environmentVariable == null)
-        {
-            if (Directory.Exists(@"C:\Chocolatey"))
-            {
-                return @"C:\Chocolatey";
-            }
-        }
-        return environmentVariable;
+        var installPath = Environment.GetEnvironmentVariable("ChocolateyInstall") ?? @"C:\Chocolatey";
+        return Directory.Exists(installPath) ? installPath : null;
     }
 
     public async Task<bool> ChocolateyUpgradeRequired()

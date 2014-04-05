@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
 
     public class VisualStudioDetecter
@@ -46,24 +47,40 @@
                 return values.Split(';').ToList();
             }
 
-            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("VS100COMNTOOLS")))
+            if (CheckVSTools("VS100COMNTOOLS"))
             {
                 versions.Add("VS2010");
             }
 
 
-            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("VS110COMNTOOLS")))
+            if (CheckVSTools("VS110COMNTOOLS"))
             {
                 versions.Add("VS2012");
             }
 
 
-            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("VS120COMNTOOLS")))
+            if (CheckVSTools("VS120COMNTOOLS"))
             {
                 versions.Add("VS2013");
             }
 
             return versions;
+        }
+
+        static bool CheckVSTools(string environmentVariable)
+        {
+            var folderPath  = Environment.GetEnvironmentVariable(environmentVariable);
+
+            if (string.IsNullOrEmpty(folderPath))
+            {
+                return false;
+            }
+
+            var idePath = Path.Combine(folderPath, @"..\IDE");
+
+            var pathToVsixInstaller = Path.Combine(idePath, "VSIXInstaller.exe");
+
+            return File.Exists(pathToVsixInstaller);
         }
 
         static List<string> installedVersions;

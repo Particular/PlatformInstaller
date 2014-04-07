@@ -6,7 +6,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d" 
         x:Class="UpdateChocolateyView"
-             d:DesignHeight="300" d:DesignWidth="300" >
+             d:DesignHeight="450" d:DesignWidth="400" >
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -14,22 +14,41 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <DockPanel LastChildFill="False"  >
+    <DockPanel LastChildFill="False"   >
         <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Bold" >Chocolatey update required</TextBlock>
-        <TextBlock DockPanel.Dock="Top" Foreground="Gray" TextWrapping="WrapWithOverflow">This installer requires that you update <global:Link 
-NavigateUri="https://chocolatey.org/">Chocolatey</global:Link> to run. Please run the <global:Link 
-NavigateUri="https://github.com/chocolatey/chocolatey/wiki/CommandsUpdate#chocolatey-update-cup">Chocolatey update command</global:Link> ("cup" on the commandline) and then click the "ReCheck" button below.</TextBlock>
-        <StackPanel DockPanel.Dock="Top" Margin="0,10"  Orientation="Horizontal">
-            <TextBlock Foreground="Gray">Minimum Required Version:</TextBlock>
-            <TextBlock Margin="5 0 0 0" Text="{Binding MinimumChocolateyVersion}"/>
-        </StackPanel>
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+        <TextBlock DockPanel.Dock="Top" Foreground="Gray" Margin="0,10,0,0" >
+            This installer has detected that you are running an old version of <global:Link 
+NavigateUri="https://chocolatey.org/">Chocolatey</global:Link>.</TextBlock>
+        <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
             <TextBlock Foreground="Gray">Detected Version:</TextBlock>
             <TextBlock Margin="5 0 0 0" Text="{Binding DetectedChocolateyVersion}"/>
             <TextBlock Margin="5 0 0 0" Text="{Binding LastCheckedTime, StringFormat='(Last checked at: {0})'}"/>
         </StackPanel>
+        <StackPanel DockPanel.Dock="Top" Margin="0,10,0,0" Orientation="Horizontal">
+            <TextBlock Foreground="Gray">Minimum Required Version:</TextBlock>
+            <TextBlock Margin="5 0 0 0" Text="{Binding MinimumChocolateyVersion}"/>
+        </StackPanel>
+        <TextBlock DockPanel.Dock="Top" Foreground="Gray" Margin="0,10,0,0" >
+            This installer requires that you update Chocolatey before continuing. 
+            To update perform one of the following actions.</TextBlock>
+        <TextBlock DockPanel.Dock="Top" FontWeight="Bold" Margin="0,10,0,0">
+            Run the <global:Link 
+NavigateUri="https://github.com/chocolatey/chocolatey/wiki/CommandsUpdate#chocolatey-update-cup">Chocolatey update command</global:Link>.</TextBlock>
+        <Border BorderBrush="#FF000000" DockPanel.Dock="Top" BorderThickness="1" Margin="5" CornerRadius="2">
+            <TextBox Background="#E7E7E7" Text="{Binding UpdateCommand}"/>
+        </Border>
+        <TextBlock DockPanel.Dock="Top" Foreground="Gray">Once you have run this command click the "Re-Check" button below.</TextBlock>
+        <TextBlock DockPanel.Dock="Top" FontWeight="Bold" Margin="0,10,0,0">OR</TextBlock>
+        <TextBlock DockPanel.Dock="Top" FontWeight="Bold" Margin="0,10,0,0">Re-Install Chocolatey.</TextBlock>
+        <TextBlock DockPanel.Dock="Top" Foreground="Gray">In some cases the update command can fail. In this case a reinstall of chocolatey is the recommended approach.</TextBlock>
+        <Border BorderBrush="#FF000000" DockPanel.Dock="Top" BorderThickness="1" Margin="5" CornerRadius="2">
+            <TextBox Background="#E7E7E7" Text="{Binding InstallCommand}"/>
+        </Border>
+        <StackPanel DockPanel.Dock="Top"  Orientation="Horizontal"  FlowDirection="RightToLeft">
+            <Button x:Name="Copy">Copy</Button>
+        </StackPanel>
 
-        <StackPanel DockPanel.Dock="Bottom" IsEnabled="{Binding CanAcceptInput}"  Orientation="Horizontal"  FlowDirection="RightToLeft">
+        <StackPanel DockPanel.Dock="Bottom" IsEnabled="{Binding CanAcceptInput}" Orientation="Horizontal" FlowDirection="RightToLeft">
             <Button x:Name="Cancel">Cancel</Button>
             <Button x:Name="ReCheck">Re-Check</Button>
         </StackPanel>

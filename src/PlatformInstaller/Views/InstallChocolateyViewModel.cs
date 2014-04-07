@@ -5,6 +5,7 @@ public class InstallChocolateyViewModel : Screen
 {
     IEventAggregator eventAggregator;
     ChocolateyInstaller chocolateyInstaller;
+    public string InstallCommand = ChocolateyInstaller.InstallCommand;
 
     public InstallChocolateyViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller)
     {
@@ -35,5 +36,4 @@ public class InstallChocolateyViewModel : Screen
         Clipboard.SetText(InstallCommand);
     }
 
-    public string InstallCommand = "@powershell -NoProfile -ExecutionPolicy unrestricted -Command \"iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))\" && SET PATH=%PATH%;%systemdrive%\\chocolatey\\bin";
 }

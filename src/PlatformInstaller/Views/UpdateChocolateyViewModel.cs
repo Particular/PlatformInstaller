@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using System.Windows;
 using Caliburn.Micro;
 
 public class UpdateChocolateyViewModel : Screen
@@ -10,6 +11,8 @@ public class UpdateChocolateyViewModel : Screen
     public Version DetectedChocolateyVersion;
     public string LastCheckedTime;
     public bool CanAcceptInput;
+    public string InstallCommand = ChocolateyInstaller.InstallCommand;
+    public string UpdateCommand = ChocolateyInstaller.UpdateCommand;
 
     public UpdateChocolateyViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller)
     {
@@ -20,6 +23,11 @@ public class UpdateChocolateyViewModel : Screen
     public void Cancel()
     {
         eventAggregator.Publish<HomeEvent>();
+    }
+
+    public void Copy()
+    {
+        Clipboard.SetText(InstallCommand);
     }
 
     protected override async void OnActivate()

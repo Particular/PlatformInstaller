@@ -21,7 +21,7 @@ public partial class App
         
         // Check if this is a second instance
         bool mutexCreated;
-        instanceLockMutex = new Mutex(true, "particularplatforminstaller", out mutexCreated);
+        instanceLockMutex = new Mutex(true, "particularPlatformInstaller", out mutexCreated);
         if (!mutexCreated)
         {
             MessageBox.Show("An instance of the Platform Installer is already running.", "");

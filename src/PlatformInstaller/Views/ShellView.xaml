@@ -10,7 +10,7 @@
             <WrapPanel DockPanel.Dock="Top"  Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0" >
                 <Button x:Name="Exit" Content="X" HorizontalAlignment="Right"  FontSize="10" Margin="10,0" FontWeight="Bold" />
                 <TextBlock HorizontalAlignment="Right" Margin="0" >
-                    <global:Link NavigateUri="{Binding Source={x:Static global:Logging.LogDirectoryUri}}">Log</global:Link> 
+                    <Hyperlink Click="OpenLogDirectory">Log</Hyperlink> 
                 </TextBlock>
             </WrapPanel>
             <Image DockPanel.Dock="Top" Source="pack://application:,,,/PlatformInstaller;component/Images/particularSmall.png" HorizontalAlignment="Left" Margin="20 0 20 0" Stretch="None" />

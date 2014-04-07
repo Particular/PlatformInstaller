@@ -111,7 +111,6 @@
     <Compile Include="Caliburn\AppBootstrapper.cs" />
     <Compile Include="AssemblyLocation.cs" />
     <Compile Include="Caliburn\EventAggregationSubscriptionModule.cs" />
-    <Compile Include="Events\OpenLogDirectoryEvent.cs" />
     <Compile Include="ExceptionExtensions.cs" />
     <Compile Include="ExceptionHandler.cs" />
     <Compile Include="Extensions.cs" />

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Autofac;
 using Caliburn.Micro;
@@ -11,7 +10,6 @@ public class ShellViewModel : Conductor<object>,
     IHandle<InstallFailedEvent>,
     IHandle<RebootNeeded>,
     IHandle<ExitApplicationEvent>,
-    IHandle<OpenLogDirectoryEvent>,
     IHandle<AgreedToInstallChocolatey>,
     IHandle<HomeEvent>,
     IHandle<UserInstalledChocolatey>,
@@ -46,20 +44,9 @@ public class ShellViewModel : Conductor<object>,
         eventAggregator.Publish<ExitApplicationEvent>();
     }
 
-    public void OpenLogDirectory()
-    {
-        eventAggregator.Publish<OpenLogDirectoryEvent>();
-    }
-
     public void Handle(AgeedToLicenseEvent message)
     {
         this.ActivateModel<SelectItemsViewModel>();
-    }
-
-    public void Handle(OpenLogDirectoryEvent message)
-    {
-        var a = Logging.LogDirectory;
-        Process.Start(Logging.LogDirectory);
     }
 
     public async void Handle(RunInstallEvent message)

@@ -38,12 +38,4 @@ public static class Logging
         return logEvent.MessageTemplate.Text.Trim().Length == 0;
     }
 
-    public static string LogDirectoryUri
-    {
-        get
-        {
-            return string.Format("file://{0}/", LogDirectory);
-        }
-    }
-
 }

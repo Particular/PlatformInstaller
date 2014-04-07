@@ -19,8 +19,4 @@ public class SuccessViewModel : Screen
         eventAggregator.Publish<HomeEvent>();
     }
 
-    public void OpenLogDirectory()
-    {
-        eventAggregator.Publish<OpenLogDirectoryEvent>();
-    }
 }

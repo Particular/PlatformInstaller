@@ -1,4 +1,6 @@
-﻿using System.Windows.Input;
+﻿using System.Diagnostics;
+using System.Windows;
+using System.Windows.Input;
 
 public partial class ShellView
 {
@@ -16,6 +18,13 @@ public partial class ShellView
         if (e.ChangedButton == MouseButton.Left)
         {
             DragMove();
+        }
+    }
+
+    void OpenLogDirectory(object sender, RoutedEventArgs routedEventArgs)
+    {
+        using (Process.Start(Logging.LogDirectory))
+        {
         }
     }
 }

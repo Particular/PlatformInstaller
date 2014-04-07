@@ -98,6 +98,7 @@
     <Compile Include="Events\UserInstalledChocolatey.cs" />
     <Compile Include="Events\UserUpdatedChocolatey.cs" />
     <Compile Include="IsAdminChecker.cs" />
+    <Compile Include="ModuleInitializer.cs" />
     <Compile Include="ServiceMatrix.cs" />
     <Compile Include="VersionFinder.cs" />
     <Compile Include="PowerShell\PSHost.cs" />

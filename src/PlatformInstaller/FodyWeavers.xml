@@ -7,4 +7,5 @@
   <Janitor />
   <Resourcer />
   <AsyncErrorHandler />
+  <ModuleInit/>
 </Weavers>

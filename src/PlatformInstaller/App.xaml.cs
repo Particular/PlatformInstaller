@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Threading;
 using System.Windows;
-using Serilog;
 
 public partial class App
 {
@@ -28,9 +27,6 @@ public partial class App
             Current.Shutdown();
         }
 
-        Logging.Initialise();
-        ExceptionHandler.Attach();
-        Log.Information(string.Format("Starting PlatformInstaller v{0}", VersionFinder.GetVersion()));
     }
 
     public static bool DidRelaunchAsAdmin;

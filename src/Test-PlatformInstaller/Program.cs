@@ -10,7 +10,6 @@ class Program
             return;
         }
         var app = new App();
-        app.InitializeComponent();
         app.Run();
     }
 }

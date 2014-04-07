@@ -11,7 +11,6 @@ public class UpdateChocolateyViewTests
     {
         ShellViewModel.StartModel = ContainerFactory.Container.Resolve<UpdateChocolateyViewModel>();
         var app = new App();
-        app.InitializeComponent();
         app.Run();
     }
 

@@ -11,7 +11,6 @@ public class SelectItemsViewTests
     {
         ShellViewModel.StartModel = ContainerFactory.Container.Resolve<SelectItemsViewModel>();
         var app = new App();
-        app.InitializeComponent();
         app.Run();
     }
 

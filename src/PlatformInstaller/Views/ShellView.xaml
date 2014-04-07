@@ -5,6 +5,13 @@
         xmlns:global="clr-namespace:"
         x:Class="ShellView" WindowStartupLocation="CenterScreen"
         Title="MainWindow" Height="550" Width="450" WindowStyle="None" ResizeMode="NoResize" BorderBrush="White" >
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Border BorderBrush="#20000000" BorderThickness="2">
         <DockPanel>
             <WrapPanel DockPanel.Dock="Top"  Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0" >

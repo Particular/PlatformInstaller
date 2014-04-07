@@ -3,6 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="ConfirmAbortInstallView"  WindowStartupLocation="CenterScreen"
         Title="Particular Platform Installer" Height="190" Width="400" WindowStyle="None" ResizeMode="NoResize" BorderBrush="White" >
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Border BorderBrush="#20000000" BorderThickness="2">
         <StackPanel Margin="10">
             <Image Source="pack://application:,,,/PlatformInstaller;component/Images/particularSmall.png" HorizontalAlignment="Left" Stretch="None" />

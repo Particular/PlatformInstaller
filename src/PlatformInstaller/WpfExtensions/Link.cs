@@ -7,7 +7,7 @@ public class Link : Hyperlink
     {
         RequestNavigate += (sender, e) =>
         {
-            using (Process.Start(NavigateUri.PathAndQuery))
+            using (Process.Start(NavigateUri.AbsoluteUri))
             {
             }
         };

@@ -11,7 +11,6 @@ public class InstallChocolateyViewTests
     {
         ShellViewModel.StartModel = ContainerFactory.Container.Resolve<InstallChocolateyViewModel>();
         var app = new App();
-        app.InitializeComponent();
         app.Run();
     }
 

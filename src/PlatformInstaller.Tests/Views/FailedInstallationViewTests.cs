@@ -14,7 +14,6 @@ public class FailedInstallationViewTests
         var failures = new NamedParameter("failures",new List<string>{"Error1", "Error2"});
         ShellViewModel.StartModel = ContainerFactory.Container.Resolve<FailedInstallationViewModel>(failureReason, failures);
         var app = new App();
-        app.InitializeComponent();
         app.Run();
     }
 

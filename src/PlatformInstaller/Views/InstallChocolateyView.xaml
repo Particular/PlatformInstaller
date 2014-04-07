@@ -2,18 +2,46 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:global="clr-namespace:"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        mc:Ignorable="d" 
+        d:DesignHeight="400" d:DesignWidth="450"
         x:Class="InstallChocolateyView">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <DockPanel LastChildFill="False"  >
         <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Bold" >Chocolatey required</TextBlock>
-        <TextBlock DockPanel.Dock="Top" Foreground="Gray" TextWrapping="WrapWithOverflow">This installer requires <global:Link 
-NavigateUri="https://chocolatey.org/">Chocolatey</global:Link> to run. You can either continue and Chocolatey will be installed for you or run the following command and select "Recheck".</TextBlock>
+        <RichTextBox DockPanel.Dock="Top" Margin="0,10" BorderThickness="0" Foreground="Gray" Background="Transparent" IsReadOnly="True" IsDocumentEnabled="True">
+            <FlowDocument>
+                <Paragraph>This installer requires
+                    <global:Link 
+NavigateUri="https://chocolatey.org/">Chocolatey</global:Link> to run. You can either:
+                </Paragraph>
+                <List>
+                    <ListItem >
+                        <Paragraph>Choose "Install Chocolatey" and Chocolatey will be installed for you as part of the Platform Installation</Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>Or install Chocolatey yourself and choose "Re-Check" to verify this installation</Paragraph>
+                    </ListItem>
+                </List>
+                <Paragraph>To install chocolatey now, open a command prompt and paste the text from the box below and press enter.</Paragraph>
+            </FlowDocument>
+        </RichTextBox>
         <Border BorderBrush="#FF000000" DockPanel.Dock="Top" BorderThickness="1,1,1,1" Margin="5" CornerRadius="2">
             <TextBox TextWrapping="WrapWithOverflow" IsReadOnly="True" Background="#E7E7E7" Text="{Binding InstallCommand}"/>
         </Border>
+        <StackPanel DockPanel.Dock="Top"  Orientation="Horizontal"  FlowDirection="RightToLeft">
+            <Button x:Name="Copy">Copy</Button>
+        </StackPanel>
         <StackPanel DockPanel.Dock="Bottom"  Orientation="Horizontal"  FlowDirection="RightToLeft">
             <Button x:Name="Cancel">Cancel</Button>
             <Button x:Name="Continue">Install Chocolatey</Button>
-            <Button x:Name="Copy">Copy command</Button>
             <Button x:Name="ReCheck">Re-Check</Button>
         </StackPanel>
     </DockPanel>

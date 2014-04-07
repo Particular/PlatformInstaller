@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using Serilog;
 using Serilog.Events;
@@ -36,6 +37,20 @@ public static class Logging
             return false;
         }
         return logEvent.MessageTemplate.Text.Trim().Length == 0;
+    }
+
+    public static void OpenLogDirectory()
+    {
+        try
+        {
+            using (Process.Start("explorer.exe", LogDirectory))
+            {
+            }
+        }
+        catch (Exception exception)
+        {
+            throw new Exception("Could no open directory " + LogDirectory, exception);
+        }
     }
 
 }

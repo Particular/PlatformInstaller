@@ -12,7 +12,7 @@ public partial class ExceptionView
         InitializeComponent();
     }
 
-    public ExceptionView(Exception exception):this()
+    public ExceptionView(Exception exception) : this()
     {
         if (exception == null)
         {
@@ -46,7 +46,7 @@ public partial class ExceptionView
 
     void OpenLogsClick(object sender, RoutedEventArgs e)
     {
-        Process.Start(Logging.LogDirectory);
+        Logging.OpenLogDirectory();
     }
 
 }

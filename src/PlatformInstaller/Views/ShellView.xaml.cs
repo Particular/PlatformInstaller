@@ -23,8 +23,6 @@ public partial class ShellView
 
     void OpenLogDirectory(object sender, RoutedEventArgs routedEventArgs)
     {
-        using (Process.Start(Logging.LogDirectory))
-        {
-        }
+        Logging.OpenLogDirectory();
     }
 }

@@ -16,6 +16,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <ApplicationIcon>$(SolutionDir)particular.ico</ApplicationIcon>
     <NoWin32Manifest>true</NoWin32Manifest>
+    <GitVersionAppendRevision>true</GitVersionAppendRevision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>

@@ -9,9 +9,22 @@ public class SelectItemsViewTests
     [RequiresSTA]
     public void Show()
     {
-        ShellViewModel.StartModel = ContainerFactory.Container.Resolve<SelectItemsViewModel>();
+        var selectItemsViewModel = SelectItemsViewModel();
+        ShellViewModel.StartModel = selectItemsViewModel;
         var app = new App();
         app.Run();
+    }
+
+    static SelectItemsViewModel SelectItemsViewModel()
+    {
+        var selectItemsViewModel = ContainerFactory.Container.Resolve<SelectItemsViewModel>();
+        foreach (var packageDefinitionBindable in selectItemsViewModel.PackageDefinitions)
+        {
+            packageDefinitionBindable.Status = "Install";
+            packageDefinitionBindable.Selected = true;
+            packageDefinitionBindable.Enabled = true;
+        }
+        return selectItemsViewModel;
     }
 
     [Test]
@@ -19,7 +32,7 @@ public class SelectItemsViewTests
     [RequiresSTA]
     public void ScreenShot()
     {
-        var selectItemsViewModel = ContainerFactory.Container.Resolve<SelectItemsViewModel>();
+        var selectItemsViewModel = SelectItemsViewModel();
         foreach (var definition in selectItemsViewModel.PackageDefinitions)
         {
             definition.Selected = true;

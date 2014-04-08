@@ -11,9 +11,7 @@ public class SelectItemsViewModel : Screen
         PackageDefinitions = packageDefinitionDiscovery
             .GetPackages()
             .OrderBy(p=>p.SortOrder)
-            .Select(x=>
-            {
-                return new PackageDefinitionBindable
+            .Select(x=> new PackageDefinitionBindable
                 {
                     ImageUrl = "pack://application:,,,/PlatformInstaller;component" + x.Image,
                     ToolTip = x.ToolTip,
@@ -21,8 +19,7 @@ public class SelectItemsViewModel : Screen
                     Selected = x.SelectedByDefault,
                     Status = x.Status ?? (x.SelectedByDefault ? "Install" : "Update"),
                     Name = x.Name,
-                };
-            }).ToList();
+                }).ToList();
 
         IsInstallEnabled = PackageDefinitions.Any(pd => pd.Selected);
 

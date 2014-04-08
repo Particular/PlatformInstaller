@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Reflection;
 
 public class VersionFinder
@@ -8,23 +7,12 @@ public class VersionFinder
     {
         var type = typeof(VersionFinder);
 
-        if (!String.IsNullOrEmpty(type.Assembly.Location))
-        {
-            var fileVersion = FileVersionInfo.GetVersionInfo(type.Assembly.Location);
-
-            return new Version(fileVersion.FileMajorPart, fileVersion.FileMinorPart, fileVersion.FileBuildPart).ToString(3);
-        }
-
-        var customAttributes = type.Assembly.GetCustomAttributes(typeof(AssemblyFileVersionAttribute), false);
+        var customAttributes = type.Assembly.GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false);
 
         if (customAttributes.Length >= 1)
         {
-            var fileVersion = (AssemblyFileVersionAttribute) customAttributes[0];
-            Version version;
-            if (Version.TryParse(fileVersion.Version, out version))
-            {
-                return version.ToString(3);
-            }
+            var fileVersion = (AssemblyInformationalVersionAttribute)customAttributes[0];
+            return fileVersion.InformationalVersion;
         }
 
         return type.Assembly.GetName().Version.ToString(3);

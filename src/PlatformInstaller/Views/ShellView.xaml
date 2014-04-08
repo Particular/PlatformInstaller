@@ -16,8 +16,9 @@
         <DockPanel>
             <WrapPanel DockPanel.Dock="Top"  Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0" >
                 <Button x:Name="Exit" Content="X" HorizontalAlignment="Right"  FontSize="10" Margin="10,0" FontWeight="Bold" />
-                <TextBlock HorizontalAlignment="Right" Margin="0" >
+                <TextBlock  Margin="0" >
                     <Hyperlink Click="OpenLogDirectory">Log</Hyperlink> 
+                    <global:Link NavigateUri="http://docs.particular.net/Platform/Installer/">Help</global:Link>
                 </TextBlock>
             </WrapPanel>
             <Image DockPanel.Dock="Top" Source="pack://application:,,,/PlatformInstaller;component/Images/particularSmall.png" HorizontalAlignment="Left" Margin="20 0 20 0" Stretch="None" />

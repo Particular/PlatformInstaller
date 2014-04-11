@@ -22,7 +22,7 @@ $deleted | % { Write-Host ("`t Deleted {0}" -F  $_.Key) }
 Write-Host "Finished deletion"
 Write-Host "Uploading new files to S3 ..."
 
-$files = Get-ChildItem -Path "." -Exclude "*.pdb", "*.xml",  | ? { $_.PSIsContainer -eq $false }
+$files = Get-ChildItem -Path "." -Exclude "*.pdb", "*.xml"  | ? { $_.PSIsContainer -eq $false }
 foreach ($file in $files) { 
     $fileName =  $file.Name
     $key =  "{0}/{1}" -f $folder, $fileName

@@ -1,5 +1,10 @@
-﻿# Passed from Octopus  
+﻿#ensure a powershell error sends exitcode to Octopus
+trap { 
+    Write-Host $_
+    Exit 1
+}
 
+# Passed from Octopus  
 $requiredvariables = "accesskey", "secretkey", "bucketname"
 $requiredvariables | % {
     if (!(Test-Path "variable:$_")) {

@@ -7,6 +7,8 @@ $requiredvariables | % {
     }
 }
 
+push-location ..\content
+
 <#
 # Folder to use inside the S3 bucket
 $folder = "PlatformInstaller"

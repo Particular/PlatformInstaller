@@ -7,9 +7,10 @@ $requiredvariables | % {
     }
 }
 
-push-location ..\content
+#content folder in nuget package contains files to upload
+push-location .\content
 
-<#
+
 # Folder to use inside the S3 bucket
 $folder = "PlatformInstaller"
 
@@ -49,5 +50,3 @@ foreach ($file in $files) {
 }
 
 Write-Host "Upload complete"
-
-#>

@@ -1,9 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 using Caliburn.Micro;
+using Janitor;
 
+[SkipWeaving]
 public class ShellViewModel : Conductor<object>,
+    IDisposable,
     IHandle<AgeedToLicenseEvent>,
     IHandle<RunInstallEvent>,
     IHandle<InstallSucceededEvent>,
@@ -18,6 +22,7 @@ public class ShellViewModel : Conductor<object>,
     ChocolateyInstaller chocolateyInstaller;
     IEventAggregator eventAggregator;
     List<string> itemsToInstall;
+    ILifetimeScope currentLifetimeScope;
     public static Screen StartModel;
 
     public ShellViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller, LicenseAgreement licenseAgreement)
@@ -31,12 +36,32 @@ public class ShellViewModel : Conductor<object>,
         }
         if (licenseAgreement.HasAgreedToLicense())
         {
-            this.ActivateModel<SelectItemsViewModel>();
+            ActivateModel<SelectItemsViewModel>();
         }
         else
         {
-            this.ActivateModel<LicenseAgreementViewModel>();
+            ActivateModel<LicenseAgreementViewModel>();
         }
+    }
+
+    public void ActivateModel<T>(params Autofac.Core.Parameter[] parameters) where T : Screen
+    {
+        var activeScreen = ActiveItem;
+        if (activeScreen != null && activeScreen.IsHandler())
+        {
+            eventAggregator.Unsubscribe(activeScreen);
+        }
+        if (currentLifetimeScope != null)
+        {
+            currentLifetimeScope.Dispose();
+        }
+        currentLifetimeScope = ContainerFactory.Container.BeginLifetimeScope();
+        var model = currentLifetimeScope.Resolve<T>(parameters);
+        if (model.IsHandler())
+        {
+            eventAggregator.Subscribe(model);
+        }
+        ActivateItem(model);
     }
 
     public void Exit()
@@ -46,7 +71,7 @@ public class ShellViewModel : Conductor<object>,
 
     public void Handle(AgeedToLicenseEvent message)
     {
-        this.ActivateModel<SelectItemsViewModel>();
+        ActivateModel<SelectItemsViewModel>();
     }
 
     public async void Handle(RunInstallEvent message)
@@ -57,48 +82,48 @@ public class ShellViewModel : Conductor<object>,
             var chocolateyUpgradeRequired = await chocolateyInstaller.ChocolateyUpgradeRequired();
             if (chocolateyUpgradeRequired)
             {
-                this.ActivateModel<UpdateChocolateyViewModel>();
+                ActivateModel<UpdateChocolateyViewModel>();
                 return;
             }
             ActivateInstallingViewModel();
             return;
         }
-        this.ActivateModel<InstallChocolateyViewModel>();
+        ActivateModel<InstallChocolateyViewModel>();
     }
 
     void ActivateInstallingViewModel()
     {
-        this.ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
+        ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
     }
 
     public void Handle(AgreedToInstallChocolatey message)
     {
-        this.ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
+        ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
     }
 
     public void Handle(UserUpdatedChocolatey message)
     {
-        this.ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
+        ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
     }
 
     public void Handle(UserInstalledChocolatey message)
     {
-        this.ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
+        ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
     }
 
     public void Handle(InstallSucceededEvent message)
     {
-        this.ActivateModel<SuccessViewModel>();
+        ActivateModel<SuccessViewModel>();
     }
 
     public void Handle(RebootNeeded message)
     {
-        this.ActivateModel<RebootNeededViewModel>();
+        ActivateModel<RebootNeededViewModel>();
     }
 
     public void Handle(HomeEvent message)
     {
-        this.ActivateModel<SelectItemsViewModel>();
+        ActivateModel<SelectItemsViewModel>();
     }
 
     public void Handle(ExitApplicationEvent message)
@@ -115,6 +140,14 @@ public class ShellViewModel : Conductor<object>,
             return;
         }
 
-        this.ActivateModel<FailedInstallationViewModel>(new NamedParameter("failureReason", message.Reason), new NamedParameter("failures", message.Failures));
+        ActivateModel<FailedInstallationViewModel>(new NamedParameter("failureReason", message.Reason), new NamedParameter("failures", message.Failures));
+    }
+
+    public void Dispose()
+    {
+        if (currentLifetimeScope != null)
+        {
+            currentLifetimeScope.Dispose();
+        }
     }
 }

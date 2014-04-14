@@ -100,6 +100,7 @@
     <Compile Include="Events\UserUpdatedChocolatey.cs" />
     <Compile Include="IsAdminChecker.cs" />
     <Compile Include="ModuleInitializer.cs" />
+    <Compile Include="Autofac\AutofacExtensions.cs" />
     <Compile Include="ServiceMatrix.cs" />
     <Compile Include="VersionFinder.cs" />
     <Compile Include="PowerShell\PSHost.cs" />
@@ -112,7 +113,6 @@
     <Compile Include="ContainerFactory.cs" />
     <Compile Include="Caliburn\AppBootstrapper.cs" />
     <Compile Include="AssemblyLocation.cs" />
-    <Compile Include="Caliburn\EventAggregationSubscriptionModule.cs" />
     <Compile Include="ExceptionExtensions.cs" />
     <Compile Include="ExceptionHandler.cs" />
     <Compile Include="Extensions.cs" />

@@ -54,16 +54,19 @@ public class InstallingViewModel : Screen
     {
         if (isInstalling)
         {
-            var confirmModel = ContainerFactory.Container.Resolve<ConfirmAbortInstallViewModel>();
-            windowManager.ShowDialog(confirmModel);
-            if (confirmModel.AbortInstallation)
+            using (var beginLifetimeScope = ContainerFactory.Container.BeginLifetimeScope())
             {
-                aborting = true;
-                powerShellRunner.Abort();
-                callback(true);
-                return;
+                var confirmModel = beginLifetimeScope.Resolve<ConfirmAbortInstallViewModel>();
+                windowManager.ShowDialog(confirmModel);
+                if (confirmModel.AbortInstallation)
+                {
+                    aborting = true;
+                    powerShellRunner.Abort();
+                    callback(true);
+                    return;
+                }
+                callback(false);
             }
-            callback(false);
         }
         callback(true);
     }

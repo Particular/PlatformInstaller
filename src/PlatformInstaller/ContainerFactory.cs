@@ -10,12 +10,11 @@ public static class ContainerFactory
     static ContainerFactory()
     {
         var builder = new ContainerBuilder();
-        builder.RegisterModule<EventAggregationSubscriptionModule>();
         builder.RegisterModule<TitleFixerModule>();
         builder.Register<IWindowManager>(c => new WindowManager()).InstancePerLifetimeScope();
 
         builder.RegisterAssemblyTypes(ThisAssembly())
-            .Where(type => type.IsView() || type.IsViewModel())
+            .Where(type => (IsInstanceVIewModel(type)))
             .AsSelf()
             .InstancePerDependency();
 
@@ -26,6 +25,8 @@ public static class ContainerFactory
             .As<IWindowManager>()
             .SingleInstance();
         builder.RegisterType<InstallFeedbackReporter>()
+            .SingleInstance();
+        builder.RegisterType<ShellViewModel>()
             .SingleInstance();
         builder.RegisterType<PowerShellRunner>()
             .SingleInstance();
@@ -42,11 +43,32 @@ public static class ContainerFactory
 
         Container = builder.Build();
 
-        //hack: since nothing uses InstallFeedbackReporter force a resolve
-        //TODO: create an "iwanttorunatstartup" interface
-        Container.Resolve<InstallFeedbackReporter>();
         Container.Resolve<ChocolateyInstaller>().PatchRunNuget();
+
+        foreach (var service in Container.GetSingleInstanceRegistrations())
+        {
+            var instance = Container.Resolve(service);
+            SubscribeIfHandler(service, instance);
+        }
     }
+
+    static bool IsInstanceVIewModel(Type type)
+    {
+        if (type.Name == typeof(ShellViewModel).Name)
+        {
+            return false;
+        }
+        return type.IsView() || type.IsViewModel();
+    }
+
+    static void SubscribeIfHandler(Type service, object instance)
+    {
+        if (service.IsHandler())
+        {
+            Container.Resolve<IEventAggregator>().Subscribe(instance);
+        }
+    }
+
 
     static Assembly[] ThisAssembly()
     {

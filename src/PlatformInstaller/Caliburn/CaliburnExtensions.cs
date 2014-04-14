@@ -1,27 +1,22 @@
-using Autofac;
+using System;
+using System.Linq;
 using Caliburn.Micro;
-using Parameter = Autofac.Core.Parameter;
 
 public static class CaliburnExtensions
 {
-
-    public static T ShowDialog<T>(this IWindowManager windowManager) where T : new()
-    {
-        var rootModel = new T();
-        windowManager.ShowDialog(rootModel);
-        return rootModel;
-    }
-
-    public static void ActivateModel<T>(this Conductor<object> conductor, params Parameter[] parameters) where T : Screen
-    {
-        var model = ContainerFactory.Container.Resolve<T>(parameters);
-        conductor.ActivateItem(model);
-    }
-
     public static void Publish<T>(this IEventAggregator eventAggregator) where T : new()
     {
         eventAggregator.Publish(new T());
     }
-    
+
+    public static bool IsHandler(this Type type)
+    {
+        return type.GetInterfaces().Any(x => x.Name.Contains("IHandle"));
+    }
+ 
+    public static bool IsHandler(this object screen)
+    {
+        return screen.GetType().GetInterfaces().Any(x => x.Name.Contains("IHandle"));
+    }
 }
 

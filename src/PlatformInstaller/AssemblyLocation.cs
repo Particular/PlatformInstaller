@@ -7,11 +7,12 @@ public static class AssemblyLocation
     {
         var assembly = typeof(AssemblyLocation).Assembly;
         var uri = new UriBuilder(assembly.CodeBase);
-        var currentAssemblyPath = Uri.UnescapeDataString(uri.Path);
-        CurrentDirectory = Path.GetDirectoryName(currentAssemblyPath);
-        ExeFileName = Path.GetFileNameWithoutExtension(currentAssemblyPath);
+        ExeFilePath = Uri.UnescapeDataString(uri.Path).Replace('/','\\');
+        CurrentDirectory = Path.GetDirectoryName(ExeFilePath);
+        ExeFileName = Path.GetFileNameWithoutExtension(ExeFilePath);
     }
 
+    public static string ExeFilePath;
     public static string ExeFileName;
 
     public static string CurrentDirectory;

@@ -101,6 +101,7 @@
     <Compile Include="IsAdminChecker.cs" />
     <Compile Include="ModuleInitializer.cs" />
     <Compile Include="Autofac\AutofacExtensions.cs" />
+    <Compile Include="PendingRestart.cs" />
     <Compile Include="ServiceMatrix.cs" />
     <Compile Include="VersionFinder.cs" />
     <Compile Include="PowerShell\PSHost.cs" />

@@ -80,6 +80,7 @@
     <Compile Include="ApprovalTestConfig.cs" />
     <Compile Include="Chocolatey\ChocolateyInstallerTests.cs" />
     <Compile Include="LoggingTests.cs" />
+    <Compile Include="PendingRestartTests.cs" />
     <Compile Include="Powershell\PowerShellExtensionsTests.cs" />
     <Compile Include="Powershell\PowerShellVersionTests.cs" />
     <Compile Include="Chocolatey\ProcessRunnerTests.cs" />

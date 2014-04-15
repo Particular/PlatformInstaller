@@ -40,10 +40,13 @@ public static class ContainerFactory
             .SingleInstance();
         builder.RegisterType<PackageDefinitionService>()
             .SingleInstance();
+        builder.RegisterType<PendingRestart>()
+            .SingleInstance();
 
         Container = builder.Build();
 
         Container.Resolve<ChocolateyInstaller>().PatchRunNuget();
+        Container.Resolve<PendingRestart>().RemovePendingRestart();
 
         foreach (var service in Container.GetSingleInstanceRegistrations())
         {

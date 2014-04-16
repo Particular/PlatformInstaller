@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 
@@ -9,13 +10,15 @@ public partial class App
     {
         if (!IsAdminChecker.IsAdministrator())
         {
-            Process.Start(new ProcessStartInfo
+            var processStartInfo = new ProcessStartInfo
                 {
                     FileName = AssemblyLocation.ExeFileName,
                     Verb = "runas"
-                });
-            DidRelaunchAsAdmin = true;
-            return;
+                };
+            using (Process.Start(processStartInfo))
+            {
+            }
+            Environment.Exit(0);
         }    
         
         // Check if this is a second instance
@@ -28,8 +31,6 @@ public partial class App
         }
 
     }
-
-    public static bool DidRelaunchAsAdmin;
 
     public App()
     {

@@ -134,7 +134,7 @@ public class InstallingViewModel : Screen
         }
 
         isInstalling = false;
-        eventAggregator.Publish<InstallSucceededEvent>();
+        eventAggregator.Publish(new InstallSucceededEvent { InstalledItems = itemsToInstall });
     }
 
     void OnProgressAction(ProgressRecord progressRecord)

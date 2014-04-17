@@ -14,7 +14,7 @@ public static class ContainerFactory
         builder.Register<IWindowManager>(c => new WindowManager()).InstancePerLifetimeScope();
 
         builder.RegisterAssemblyTypes(ThisAssembly())
-            .Where(type => (IsInstanceVIewModel(type)))
+            .Where(type => (IsInstanceViewModel(type)))
             .AsSelf()
             .InstancePerDependency();
 
@@ -55,7 +55,7 @@ public static class ContainerFactory
         }
     }
 
-    static bool IsInstanceVIewModel(Type type)
+    static bool IsInstanceViewModel(Type type)
     {
         if (type.Name == typeof(ShellViewModel).Name)
         {
@@ -73,9 +73,9 @@ public static class ContainerFactory
     }
 
 
-    static Assembly[] ThisAssembly()
+    static Assembly ThisAssembly()
     {
-        return new[]{typeof(ContainerFactory).Assembly};
+        return typeof(ContainerFactory).Assembly;
     }
 
     static bool IsViewModel(this Type type)

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
+using System.Security;
 using System.Threading.Tasks;
 using Anotar.Serilog;
 
@@ -19,11 +21,35 @@ public class PowerShellRunner : IDisposable
         var psHost = new PSHost(new PSHostUserInterface(this)); 
         runSpace = RunspaceFactory.CreateRunspace(psHost);
         runSpace.Open();
+        
         // Allows scripts to be run for this process
         using (var pipeline = runSpace.CreatePipeline())
         {
-            pipeline.Commands.AddScript("Set-ExecutionPolicy -ExecutionPolicy unrestricted -Scope Process -Force");
+            const string psExecutionPolicyScript = @"
+                    try 
+                    {
+                        Set-ExecutionPolicy -ExecutionPolicy unrestricted -Scope Process -Force  -ErrorAction SilentlyContinue
+                    } 
+                    catch {
+                    }
+                    $global:EffectiveExecutionPolicy = (Get-ExecutionPolicy) -as [string]
+            ";
+
+            pipeline.Commands.AddScript(psExecutionPolicyScript);
             pipeline.Invoke();
+            var psExecutionPolicy = runSpace.SessionStateProxy.GetVariable("EffectiveExecutionPolicy").ToString();
+                       
+            var psLockedDownStates = new[]
+            {
+                "Restricted",
+                "AllSigned"
+            };
+                     
+            if (psLockedDownStates.Any(p => p.Equals(psExecutionPolicy, StringComparison.OrdinalIgnoreCase)))
+            {
+                //TODO: Simon - Can you display this in prettier way, currently this will go to global exception handler - See PI issue #140
+                throw new SecurityException("Powershell has been locked down via Group Policy, Platform Installer can not execute scripts");
+            }
         }
     }
 

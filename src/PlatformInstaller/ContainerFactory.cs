@@ -10,7 +10,6 @@ public static class ContainerFactory
     static ContainerFactory()
     {
         var builder = new ContainerBuilder();
-        builder.RegisterModule<TitleFixerModule>();
         builder.Register<IWindowManager>(c => new WindowManager()).InstancePerLifetimeScope();
 
         builder.RegisterAssemblyTypes(ThisAssembly())

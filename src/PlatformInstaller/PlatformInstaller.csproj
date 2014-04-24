@@ -92,7 +92,6 @@
     </ApplicationDefinition>
     <Compile Include="AsyncErrorHandler.cs" />
     <Compile Include="Caliburn\CaliburnExtensions.cs" />
-    <Compile Include="Caliburn\TitleFixerModule.cs" />
     <Compile Include="Chocolatey\FileEx.cs" />
     <Compile Include="Events\InstallFailedEvent.cs" />
     <Compile Include="Events\RebootNeeded.cs" />

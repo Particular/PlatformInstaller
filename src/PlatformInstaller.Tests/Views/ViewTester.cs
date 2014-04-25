@@ -30,7 +30,7 @@ public static class ViewTester
 
     static Window GetWindow<T>(T model) where T : INotifyPropertyChanged
     {
-        var viewType = AppBootstrapper.GetViewForModel(typeof(T));
+        var viewType = ViewModelConventions.GetViewForModel(typeof(T));
         var view = (ContentControl) Activator.CreateInstance(viewType);
         var window = new Window
             {

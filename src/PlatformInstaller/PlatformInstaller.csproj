@@ -89,6 +89,7 @@
     <Compile Include="AsyncErrorHandler.cs" />
     <Compile Include="AutoSubscriber.cs" />
     <Compile Include="Caliburn\CaliburnExtensions.cs" />
+    <Compile Include="Caliburn\ViewModelConventions.cs" />
     <Compile Include="Chocolatey\FileEx.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Runner.cs" />

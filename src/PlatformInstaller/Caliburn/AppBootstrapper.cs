@@ -10,13 +10,7 @@ public class AppBootstrapper : BootstrapperBase
     public AppBootstrapper(ILifetimeScope lifetimeScope):base(useApplication: false)
     {
         this.lifetimeScope = lifetimeScope;
-        ViewLocator.LocateTypeForModelType = (modelType, dependencyObject, arg3) => GetViewForModel(modelType);
-    }
-
-    public static Type GetViewForModel(Type type)
-    {
-        var viewName = type.Name.Replace("Model", "");
-        return Type.GetType(viewName, true);
+        ViewLocator.LocateTypeForModelType = (modelType, dependencyObject, arg3) =>ViewModelConventions.GetViewForModel(modelType);
     }
 
     protected override object GetInstance(Type service, string key)

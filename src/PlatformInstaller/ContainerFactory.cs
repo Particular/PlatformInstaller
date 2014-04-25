@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using Autofac;
 using Caliburn.Micro;
 
@@ -11,7 +10,7 @@ public static class ContainerFactory
         builder.Register<IWindowManager>(c => new WindowManager()).InstancePerLifetimeScope();
 
         builder.RegisterAssemblyTypes(ThisAssembly())
-            .Where(type => (IsInstanceViewModel(type)))
+            .Where(type => (ViewModelConventions.IsInstanceViewOrModel(type)))
             .AsSelf()
             .InstancePerDependency();
 
@@ -43,36 +42,11 @@ public static class ContainerFactory
         builder.RegisterType<PendingRestart>()
             .SingleInstance();
 
-        var container = builder.Build();
-
-
-        return container;
+        return builder.Build();
     }
-
-    static bool IsInstanceViewModel(Type type)
-    {
-        if (type.Name == typeof(ShellViewModel).Name)
-        {
-            return false;
-        }
-        return type.IsView() || type.IsViewModel();
-    }
-
-
 
     static Assembly ThisAssembly()
     {
         return typeof(ContainerFactory).Assembly;
     }
-
-    static bool IsViewModel(this Type type)
-    {
-        return type.Name.EndsWith("ViewModel");
-    }
-
-    static bool IsView(this Type type)
-    {
-        return type.Name.EndsWith("View");
-    }
-
 }

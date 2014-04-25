@@ -7,19 +7,30 @@ public class SelectItemsViewModel : Screen
 {
     public SelectItemsViewModel(PackageDefinitionService packageDefinitionDiscovery, IEventAggregator eventAggregator)
     {
+        this.packageDefinitionDiscovery = packageDefinitionDiscovery;
         this.eventAggregator = eventAggregator;
+    }
+
+    public bool IsInstallEnabled;
+    PackageDefinitionService packageDefinitionDiscovery;
+    IEventAggregator eventAggregator;
+    public List<PackageDefinitionBindable> PackageDefinitions;
+
+    protected override void OnInitialize()
+    {
+        base.OnInitialize(); 
         PackageDefinitions = packageDefinitionDiscovery
-            .GetPackages()
-            .OrderBy(p=>p.SortOrder)
-            .Select(x=> new PackageDefinitionBindable
-                {
-                    ImageUrl = "pack://application:,,,/PlatformInstaller;component" + x.Image,
-                    ToolTip = x.ToolTip,
-                    Enabled = !x.Disabled,
-                    Selected = x.SelectedByDefault,
-                    Status = x.Status ?? (x.SelectedByDefault ? "Install" : "Update"),
-                    Name = x.Name,
-                }).ToList();
+          .GetPackages()
+          .OrderBy(p => p.SortOrder)
+          .Select(x => new PackageDefinitionBindable
+              {
+                  ImageUrl = ResourceResolver.GetPackUrl(x.Image),
+                  ToolTip = x.ToolTip,
+                  Enabled = !x.Disabled,
+                  Selected = x.SelectedByDefault,
+                  Status = x.Status ?? (x.SelectedByDefault ? "Install" : "Update"),
+                  Name = x.Name,
+              }).ToList();
 
         IsInstallEnabled = PackageDefinitions.Any(pd => pd.Selected);
 
@@ -28,10 +39,6 @@ public class SelectItemsViewModel : Screen
             IsInstallEnabled = PackageDefinitions.Any(p => p.Selected);
         }, "Selected");
     }
-    
-    public bool IsInstallEnabled;
-    IEventAggregator eventAggregator;
-    public List<PackageDefinitionBindable> PackageDefinitions;
 
     public void Install()
     {

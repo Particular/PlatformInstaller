@@ -1,24 +1,36 @@
-﻿using Autofac;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 [TestFixture]
 public class UpdateChocolateyViewTests
 {
+
     [Test]
     [Explicit]
     [RequiresSTA]
     public void Show()
     {
-        ShellViewModel.StartModel = ContainerFactory.Container.Resolve<UpdateChocolateyViewModel>();
-        var app = new App();
-        app.Run();
+        var model = GetModel();
+        ViewTester.ShowView(model);
     }
 
     [Test]
-    [Explicit]
+    [RequiresSTA]
+    public void Verify()
+    {
+        var model = GetModel();
+        ViewTester.VerifyView(model);
+    }
+
+    [Test]
     [RequiresSTA]
     public void ScreenShot()
     {
-        ContainerFactory.Container.Resolve<UpdateChocolateyViewModel>().TakeScreenShot();
+        var model = GetModel();
+        ViewTester.ScreenCapture(model);
+    }
+
+    static UpdateChocolateyViewModel GetModel()
+    {
+        return new UpdateChocolateyViewModel(new FakeEventAggregator(), new FakeChocolateyInstaller());
     }
 }

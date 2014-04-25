@@ -19,13 +19,13 @@ public class ChocolateyInstaller
         this.powerShellRunner = powerShellRunner;
     }
 
-    public string GetChocolateyPs1Path()
+    public virtual string GetChocolateyPs1Path()
     {
         return Path.Combine(GetInstallPath(), @"chocolateyinstall\chocolatey.ps1");
     }
 
     //TODO: remove this when https://github.com/chocolatey/chocolatey/pull/450 is completed
-    public void PatchRunNuget()
+    public virtual void PatchRunNuget()
     {
         var installPath = GetInstallPath();
         if (string.IsNullOrWhiteSpace(installPath))
@@ -66,7 +66,7 @@ public class ChocolateyInstaller
         }
     }
 
-    public Task<int> InstallChocolatey(Action<string> outputAction, Action<string> errorAction)
+    public virtual Task<int> InstallChocolatey(Action<string> outputAction, Action<string> errorAction)
     {
         outputAction = outputAction.ValueOrDefault();
         errorAction = errorAction.ValueOrDefault();
@@ -74,18 +74,18 @@ public class ChocolateyInstaller
         return processRunner.RunProcess("cmd.exe", arguments, outputAction, errorAction);
     }
 
-    public bool IsInstalled()
+    public virtual bool IsInstalled()
     {
         return GetInstallPath() != null;
     }
 
-    public string GetInstallPath()
+    public virtual string GetInstallPath()
     {
         var installPath = Environment.GetEnvironmentVariable("ChocolateyInstall") ?? @"C:\Chocolatey";
         return Directory.Exists(installPath) ? installPath : null;
     }
 
-    public async Task<bool> ChocolateyUpgradeRequired()
+    public virtual async Task<bool> ChocolateyUpgradeRequired()
     {
         var installVersion = await GetInstalledVersion();
         if (installVersion == null)
@@ -96,7 +96,7 @@ public class ChocolateyInstaller
         return installVersion < MinimumChocolateyVersion;
     }
 
-    public async Task<Version> GetInstalledVersion()
+    public virtual async Task<Version> GetInstalledVersion()
     {
         var version = await GetVersionFromRawFile();
         if (version != null)
@@ -106,7 +106,7 @@ public class ChocolateyInstaller
         return await GetVersionFromHelpOutput();
     }
 
-    public async Task<Version> GetVersionFromHelpOutput()
+    public virtual async Task<Version> GetVersionFromHelpOutput()
     {
         var output = new List<string>();
         await powerShellRunner.Run(GetChocolateyPs1Path(), null, output.Add, null, null, null);
@@ -133,7 +133,7 @@ public class ChocolateyInstaller
         return version;
     }
 
-    public async Task<Version> GetVersionFromRawFile()
+    public virtual async Task<Version> GetVersionFromRawFile()
     {
         return ParseVersionFromRawFile(GetChocolateyPs1Path());
     }

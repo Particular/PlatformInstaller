@@ -20,14 +20,16 @@ public class ShellViewModel : Conductor<object>,
     IHandle<UserUpdatedChocolatey>
 {
     ChocolateyInstaller chocolateyInstaller;
+    ILifetimeScope lifetimeScope;
     IEventAggregator eventAggregator;
     List<string> itemsToInstall;
     ILifetimeScope currentLifetimeScope;
     public static Screen StartModel;
 
-    public ShellViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller, LicenseAgreement licenseAgreement)
+    public ShellViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope)
     {
         this.chocolateyInstaller = chocolateyInstaller;
+        this.lifetimeScope = lifetimeScope;
         this.eventAggregator = eventAggregator;
         if (StartModel != null)
         {
@@ -55,7 +57,7 @@ public class ShellViewModel : Conductor<object>,
         {
             currentLifetimeScope.Dispose();
         }
-        currentLifetimeScope = ContainerFactory.Container.BeginLifetimeScope();
+        currentLifetimeScope = lifetimeScope.BeginLifetimeScope();
         var model = currentLifetimeScope.Resolve<T>(parameters);
         if (model.IsHandler())
         {

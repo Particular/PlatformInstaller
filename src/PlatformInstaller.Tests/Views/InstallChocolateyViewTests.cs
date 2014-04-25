@@ -1,5 +1,4 @@
-﻿using Autofac;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 [TestFixture]
 public class InstallChocolateyViewTests
@@ -9,16 +8,28 @@ public class InstallChocolateyViewTests
     [RequiresSTA]
     public void Show()
     {
-        ShellViewModel.StartModel = ContainerFactory.Container.Resolve<InstallChocolateyViewModel>();
-        var app = new App();
-        app.Run();
+        var model = GetModel();
+        ViewTester.ShowView(model);
     }
 
     [Test]
-    [Explicit]
+    [RequiresSTA]
+    public void Verify()
+    {
+        var model = GetModel();
+        ViewTester.VerifyView(model);
+    }
+
+    [Test]
     [RequiresSTA]
     public void ScreenShot()
     {
-        ContainerFactory.Container.Resolve<InstallChocolateyViewModel>().TakeScreenShot();
+        var model = GetModel();
+        ViewTester.ScreenCapture(model);
+    }
+
+    static InstallChocolateyViewModel GetModel()
+    {
+        return new InstallChocolateyViewModel(new FakeEventAggregator(), new FakeChocolateyInstaller());
     }
 }

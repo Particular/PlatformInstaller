@@ -9,7 +9,7 @@ using Caliburn.Micro;
 
 public class InstallingViewModel : Screen
 {
-    public InstallingViewModel(PackageDefinitionService packageDefinitionDiscovery, ChocolateyInstaller chocolateyInstaller, IEventAggregator eventAggregator, PackageManager packageManager, IWindowManager windowManager, PowerShellRunner powerShellRunner, List<string> itemsToInstall)
+    public InstallingViewModel(PackageDefinitionService packageDefinitionDiscovery, ChocolateyInstaller chocolateyInstaller, IEventAggregator eventAggregator, PackageManager packageManager, IWindowManager windowManager, PowerShellRunner powerShellRunner, List<string> itemsToInstall, ILifetimeScope lifetimeScope)
     {
         PackageDefinitionService = packageDefinitionDiscovery;
         this.chocolateyInstaller = chocolateyInstaller;
@@ -18,6 +18,7 @@ public class InstallingViewModel : Screen
         this.windowManager = windowManager;
         this.powerShellRunner = powerShellRunner;
         this.itemsToInstall = itemsToInstall;
+        this.lifetimeScope = lifetimeScope;
     }
 
     public string CurrentStatus;
@@ -28,6 +29,7 @@ public class InstallingViewModel : Screen
     IWindowManager windowManager;
     PowerShellRunner powerShellRunner;
     List<string> itemsToInstall;
+    ILifetimeScope lifetimeScope;
     public List<string> Errors = new List<string>();
     public List<string> Warnings = new List<string>();
     public ObservableCollection<OutputLine> OutputText = new ObservableCollection<OutputLine>();
@@ -54,7 +56,7 @@ public class InstallingViewModel : Screen
     {
         if (isInstalling)
         {
-            using (var beginLifetimeScope = ContainerFactory.Container.BeginLifetimeScope())
+            using (var beginLifetimeScope = lifetimeScope.BeginLifetimeScope())
             {
                 var confirmModel = beginLifetimeScope.Resolve<ConfirmAbortInstallViewModel>();
                 windowManager.ShowDialog(confirmModel);

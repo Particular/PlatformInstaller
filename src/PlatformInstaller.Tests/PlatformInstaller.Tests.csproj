@@ -40,11 +40,7 @@
     <Reference Include="ApprovalUtilities">
       <HintPath>..\packages\ApprovalUtilities\lib\net35\ApprovalUtilities.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac, Version=3.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Autofac\lib\net40\Autofac.dll</HintPath>
-    </Reference>
-    <Reference Include="Caliburn.Micro, Version=1.5.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+    <Reference Include="Caliburn.Micro, Version=1.5.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Caliburn.Micro\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
@@ -79,6 +75,8 @@
   <ItemGroup>
     <Compile Include="ApprovalTestConfig.cs" />
     <Compile Include="Chocolatey\ChocolateyInstallerTests.cs" />
+    <Compile Include="FakeEventAggregator.cs" />
+    <Compile Include="FakePackageDefinitionService.cs" />
     <Compile Include="LoggingTests.cs" />
     <Compile Include="PendingRestartTests.cs" />
     <Compile Include="Powershell\PowerShellExtensionsTests.cs" />
@@ -86,16 +84,16 @@
     <Compile Include="Chocolatey\ProcessRunnerTests.cs" />
     <Compile Include="Chocolatey\PackageManagerTests.cs" />
     <Compile Include="Powershell\PowerShellRunnerTests.cs" />
-    <Compile Include="FakeEvenAggregator.cs" />
+    <Compile Include="FakeChocolateyInstaller.cs" />
     <Compile Include="LicenseAgreementTests.cs" />
     <Compile Include="NewUserDetecterTests.cs" />
     <Compile Include="ToFriendlyStringTests.cs" />
     <Compile Include="Views\FailedInstallationViewTests.cs" />
-    <Compile Include="Views\UpdateChocolateyViewTests.cs" />
     <Compile Include="Views\InstallChocolateyViewTests.cs" />
     <Compile Include="Views\LicenseAgreementViewTests.cs" />
-    <Compile Include="Views\ScreenCapture.cs" />
     <Compile Include="Views\SelectItemsViewTests.cs" />
+    <Compile Include="Views\UpdateChocolateyViewTests.cs" />
+    <Compile Include="Views\ViewTester.cs" />
     <Compile Include="VisualStudioDetecterTests.cs" />
   </ItemGroup>
   <ItemGroup>

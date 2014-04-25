@@ -1,4 +1,4 @@
-using Autofac;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 [TestFixture]
@@ -9,34 +9,66 @@ public class SelectItemsViewTests
     [RequiresSTA]
     public void Show()
     {
-        var selectItemsViewModel = SelectItemsViewModel();
-        ShellViewModel.StartModel = selectItemsViewModel;
-        var app = new App();
-        app.Run();
-    }
-
-    static SelectItemsViewModel SelectItemsViewModel()
-    {
-        var selectItemsViewModel = ContainerFactory.Container.Resolve<SelectItemsViewModel>();
-        foreach (var packageDefinitionBindable in selectItemsViewModel.PackageDefinitions)
-        {
-            packageDefinitionBindable.Status = "Install";
-            packageDefinitionBindable.Selected = true;
-            packageDefinitionBindable.Enabled = true;
-        }
-        return selectItemsViewModel;
+        var model = GetModel();
+        ViewTester.ShowView(model);
     }
 
     [Test]
-    [Explicit]
     [RequiresSTA]
-    public void ScreenShot()
+    public void Verify()
     {
-        var selectItemsViewModel = SelectItemsViewModel();
-        foreach (var definition in selectItemsViewModel.PackageDefinitions)
+        var model = GetModel();
+        ViewTester.VerifyView(model);
+    }
+
+    [Test]
+    [RequiresSTA]
+    public void Screenshot()
+    {
+        var model = GetModel();
+        ViewTester.ScreenCapture(model);
+    }
+
+    static SelectItemsViewModel GetModel()
+    {
+        return new SelectItemsViewModel(new FakePackageDefinitionService(), new FakeEventAggregator())
+            {
+                PackageDefinitions = GetPackages()
+            };
+    }
+
+    public static List<SelectItemsViewModel.PackageDefinitionBindable> GetPackages()
+    {
+        return new List<SelectItemsViewModel.PackageDefinitionBindable>
         {
-            definition.Selected = true;
-        }
-        selectItemsViewModel.TakeScreenShot();
+            new SelectItemsViewModel.PackageDefinitionBindable
+            {
+                Name = "NServiceBusPreReqs",
+                ImageUrl = ResourceResolver.GetPackUrl("/Images/NSB.png"),
+                ToolTip = "NServiceBus",
+                Enabled = true,
+            },
+            new SelectItemsViewModel.PackageDefinitionBindable
+            {
+                Name = "ServiceControl",
+                ImageUrl = ResourceResolver.GetPackUrl("/Images/SC.png"),
+                ToolTip = "ServiceControl",
+                Enabled = true,
+            },
+            new SelectItemsViewModel.PackageDefinitionBindable
+            {
+                Name = "ServicePulse",
+                ImageUrl = ResourceResolver.GetPackUrl("/Images/SP.png"),
+                ToolTip = "ServicePulse",
+                Enabled = true,
+            },
+            new SelectItemsViewModel.PackageDefinitionBindable
+            {
+                Name = "ServiceInsight",
+                ImageUrl = ResourceResolver.GetPackUrl("/Images/SI.png"),
+                ToolTip = "ServiceInsight",
+                Enabled = true,
+            },
+        };
     }
 }

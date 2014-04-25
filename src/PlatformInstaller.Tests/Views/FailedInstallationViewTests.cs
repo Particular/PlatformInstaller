@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Autofac;
 using NUnit.Framework;
 
 [TestFixture]
@@ -10,20 +9,33 @@ public class FailedInstallationViewTests
     [RequiresSTA]
     public void Show()
     {
-        var failureReason = new NamedParameter("failureReason","The failure reason");
-        var failures = new NamedParameter("failures",new List<string>{"Error1", "Error2"});
-        ShellViewModel.StartModel = ContainerFactory.Container.Resolve<FailedInstallationViewModel>(failureReason, failures);
-        var app = new App();
-        app.Run();
+        var model = GetModel();
+        ViewTester.ShowView(model);
     }
 
     [Test]
-    [Explicit]
     [RequiresSTA]
-    public void ScreenShot()
+    public void Verify()
     {
-        var failureReason = new NamedParameter("failureReason", "The failure reason");
-        var failures = new NamedParameter("failures", new List<string> { "Error1", "Error2" });
-        ContainerFactory.Container.Resolve<FailedInstallationViewModel>(failureReason, failures).TakeScreenShot();
+        var model = GetModel();
+        ViewTester.VerifyView(model);
+    }
+
+    [Test]
+    [RequiresSTA]
+    public void Screenshot()
+    {
+        var model = GetModel();
+        ViewTester.ScreenCapture(model);
+    }
+
+    static FailedInstallationViewModel GetModel()
+    {
+        var failures = new List<string>
+            {
+                "Error1",
+                "Error2"
+            };
+        return new FailedInstallationViewModel(new FakeEventAggregator(), "The failure reason", failures);
     }
 }

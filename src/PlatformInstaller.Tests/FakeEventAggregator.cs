@@ -2,7 +2,7 @@ using System;
 using Caliburn.Micro;
 using Action = System.Action;
 
-public class FakeEvenAggregator : IEventAggregator
+public class FakeEventAggregator : IEventAggregator
 {
     public void Subscribe(object instance)
     {

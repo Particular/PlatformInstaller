@@ -86,22 +86,21 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
     <Compile Include="AsyncErrorHandler.cs" />
+    <Compile Include="AutoSubscriber.cs" />
     <Compile Include="Caliburn\CaliburnExtensions.cs" />
     <Compile Include="Chocolatey\FileEx.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Runner.cs" />
     <Compile Include="Events\InstallFailedEvent.cs" />
     <Compile Include="Events\RebootNeeded.cs" />
     <Compile Include="Events\UserInstalledChocolatey.cs" />
     <Compile Include="Events\UserUpdatedChocolatey.cs" />
     <Compile Include="IsAdminChecker.cs" />
-    <Compile Include="ModuleInitializer.cs" />
     <Compile Include="Autofac\AutofacExtensions.cs" />
     <Compile Include="PendingRestart.cs" />
     <Compile Include="ServiceMatrix.cs" />
+    <Compile Include="Splash.cs" />
     <Compile Include="VersionFinder.cs" />
     <Compile Include="PowerShell\PSHost.cs" />
     <Compile Include="PowerShell\PSHostRawUserInterface.cs" />
@@ -134,6 +133,7 @@
       <DependentUpon>RebootNeededView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RebootNeededViewModel.cs" />
+    <Compile Include="WpfExtensions\ResourceResolver.cs" />
     <Compile Include="Views\UpdateChocolateyView.xaml.cs">
       <DependentUpon>UpdateChocolateyView.xaml</DependentUpon>
     </Compile>
@@ -226,10 +226,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Chocolatey\ChocolateyInstaller.cs" />
     <Compile Include="PowerShell\PowerShellVersion.cs" />
     <Compile Include="Chocolatey\ProcessRunner.cs" />

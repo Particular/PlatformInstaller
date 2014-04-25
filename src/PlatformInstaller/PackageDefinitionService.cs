@@ -2,7 +2,7 @@
 
 public class PackageDefinitionService
 {
-    readonly PackageManager packageManager;
+    PackageManager packageManager;
 
     public PackageDefinitionService(PackageManager packageManager)
     {

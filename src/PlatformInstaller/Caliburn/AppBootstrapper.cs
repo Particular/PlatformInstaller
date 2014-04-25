@@ -2,29 +2,36 @@
 using Autofac;
 using Caliburn.Micro;
 
-public class AppBootstrapper : Bootstrapper<ShellViewModel>
+public class AppBootstrapper : BootstrapperBase
 {
-    public AppBootstrapper()
+
+    ILifetimeScope lifetimeScope;
+
+    public AppBootstrapper(ILifetimeScope lifetimeScope):base(useApplication: false)
     {
-        ViewLocator.LocateTypeForModelType = (o, dependencyObject, arg3) =>
-        {
-            var viewName = o.Name.Replace("Model","");
-            return Type.GetType(viewName,true);
-        };
+        this.lifetimeScope = lifetimeScope;
+        ViewLocator.LocateTypeForModelType = (modelType, dependencyObject, arg3) => GetViewForModel(modelType);
     }
+
+    public static Type GetViewForModel(Type type)
+    {
+        var viewName = type.Name.Replace("Model", "");
+        return Type.GetType(viewName, true);
+    }
+
     protected override object GetInstance(Type service, string key)
     {
         object instance;
         if (string.IsNullOrWhiteSpace(key))
         {
-            if (ContainerFactory.Container.TryResolve(service, out instance))
+            if (lifetimeScope.TryResolve(service, out instance))
             {
                 return instance;
             }
         }
         else
         {
-            if (ContainerFactory.Container.TryResolveNamed(key, service, out instance))
+            if (lifetimeScope.TryResolveNamed(key, service, out instance))
             {
                 return instance;
             }

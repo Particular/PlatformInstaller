@@ -7,7 +7,7 @@ using Autofac.Core.Lifetime;
 
 static class AutofacExtensions
 {
-    public static IEnumerable<Type> GetSingleInstanceRegistrations(this IContainer container)
+    public static IEnumerable<Type> GetSingleInstanceRegistrations(this ILifetimeScope container)
     {
         return container.ComponentRegistry.Registrations
             .Where(x => x.Lifetime is RootScopeLifetime)

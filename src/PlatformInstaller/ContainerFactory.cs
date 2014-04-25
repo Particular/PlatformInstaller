@@ -5,9 +5,7 @@ using Caliburn.Micro;
 
 public static class ContainerFactory
 {
-    public static IContainer Container;
-
-    static ContainerFactory()
+    public static IContainer BuildContainer()
     {
         var builder = new ContainerBuilder();
         builder.Register<IWindowManager>(c => new WindowManager()).InstancePerLifetimeScope();
@@ -37,21 +35,18 @@ public static class ContainerFactory
             .SingleInstance();
         builder.RegisterType<PackageManager>()
             .SingleInstance();
+        builder.RegisterType<AppBootstrapper>()
+            .SingleInstance();
+        builder.RegisterType<AutoSubscriber>();
         builder.RegisterType<PackageDefinitionService>()
             .SingleInstance();
         builder.RegisterType<PendingRestart>()
             .SingleInstance();
 
-        Container = builder.Build();
+        var container = builder.Build();
 
-        Container.Resolve<ChocolateyInstaller>().PatchRunNuget();
-        Container.Resolve<PendingRestart>().RemovePendingRestart();
 
-        foreach (var service in Container.GetSingleInstanceRegistrations())
-        {
-            var instance = Container.Resolve(service);
-            SubscribeIfHandler(service, instance);
-        }
+        return container;
     }
 
     static bool IsInstanceViewModel(Type type)
@@ -63,13 +58,6 @@ public static class ContainerFactory
         return type.IsView() || type.IsViewModel();
     }
 
-    static void SubscribeIfHandler(Type service, object instance)
-    {
-        if (service.IsHandler())
-        {
-            Container.Resolve<IEventAggregator>().Subscribe(instance);
-        }
-    }
 
 
     static Assembly ThisAssembly()
@@ -86,4 +74,5 @@ public static class ContainerFactory
     {
         return type.Name.EndsWith("View");
     }
+
 }

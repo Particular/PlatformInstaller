@@ -47,7 +47,7 @@ class GifImage : Image
         }
     }
 
-    public static readonly DependencyProperty FrameIndexProperty =
+    public static DependencyProperty FrameIndexProperty =
         DependencyProperty.Register("FrameIndex", typeof(int), typeof(GifImage), new UIPropertyMetadata(0, ChangingFrameIndex));
 
     static void ChangingFrameIndex(DependencyObject obj, DependencyPropertyChangedEventArgs ev)

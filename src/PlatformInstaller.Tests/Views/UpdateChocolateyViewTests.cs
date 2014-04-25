@@ -12,7 +12,7 @@ public class UpdateChocolateyViewTests
         var model = GetModel();
         ViewTester.ShowView(model);
     }
-
+#if(DEBUG)
     [Test]
     [RequiresSTA]
     public void Verify()
@@ -20,6 +20,7 @@ public class UpdateChocolateyViewTests
         var model = GetModel();
         ViewTester.VerifyView(model);
     }
+#endif
 
     [Test]
     [RequiresSTA]

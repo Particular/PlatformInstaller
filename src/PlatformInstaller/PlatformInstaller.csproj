@@ -91,6 +91,7 @@
     <Compile Include="Caliburn\CaliburnExtensions.cs" />
     <Compile Include="Caliburn\ViewModelConventions.cs" />
     <Compile Include="Chocolatey\FileEx.cs" />
+    <Compile Include="Events\UserFixedExecutionPolicy.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Runner.cs" />
     <Compile Include="Events\InstallFailedEvent.cs" />
@@ -130,6 +131,10 @@
     <Compile Include="Views\FailedInstallationView.xaml.cs">
       <DependentUpon>FailedInstallationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GroupPollicyErrorView.xaml.cs">
+      <DependentUpon>GroupPollicyErrorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GroupPollicyErrorViewModel.cs" />
     <Compile Include="Views\RebootNeededView.xaml.cs">
       <DependentUpon>RebootNeededView.xaml</DependentUpon>
     </Compile>
@@ -188,6 +193,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\FailedInstallationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GroupPollicyErrorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

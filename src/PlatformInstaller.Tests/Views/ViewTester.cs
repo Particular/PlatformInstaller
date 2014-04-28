@@ -38,7 +38,7 @@ public static class ViewTester
                 Height = 400,
                 Width = 400,
             };
-        ViewModelBinder.Bind(model, window, null);
+        ViewModelBinder.Bind(model, view, null);
         return window;
     }
 }

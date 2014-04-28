@@ -17,34 +17,27 @@ public class ShellViewModel : Conductor<object>,
     IHandle<AgreedToInstallChocolatey>,
     IHandle<HomeEvent>,
     IHandle<UserInstalledChocolatey>,
-    IHandle<UserUpdatedChocolatey>
+    IHandle<UserUpdatedChocolatey>,
+    IHandle<UserFixedExecutionPolicy>
 {
     ChocolateyInstaller chocolateyInstaller;
+    LicenseAgreement licenseAgreement;
     ILifetimeScope lifetimeScope;
+    PowerShellRunner powerShellRunner;
     IEventAggregator eventAggregator;
     List<string> itemsToInstall;
     ILifetimeScope currentLifetimeScope;
-    public static Screen StartModel;
 
-    public ShellViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope)
+    public ShellViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, PowerShellRunner powerShellRunner)
     {
         this.chocolateyInstaller = chocolateyInstaller;
+        this.licenseAgreement = licenseAgreement;
         this.lifetimeScope = lifetimeScope;
+        this.powerShellRunner = powerShellRunner;
         this.eventAggregator = eventAggregator;
-        if (StartModel != null)
-        {
-            base.ActivateItem(StartModel);
-            return;
-        }
-        if (licenseAgreement.HasAgreedToLicense())
-        {
-            ActivateModel<SelectItemsViewModel>();
-        }
-        else
-        {
-            ActivateModel<LicenseAgreementViewModel>();
-        }
+        RunStartupSequence();
     }
+
 
     public void ActivateModel<T>(params Autofac.Core.Parameter[] parameters) where T : Screen
     {
@@ -73,6 +66,26 @@ public class ShellViewModel : Conductor<object>,
 
     public void Handle(AgeedToLicenseEvent message)
     {
+        RunStartupSequence();
+    }
+
+    public void Handle(UserFixedExecutionPolicy message)
+    {
+        RunStartupSequence();
+    }
+
+    void RunStartupSequence()
+    {
+        if (!licenseAgreement.HasAgreedToLicense())
+        {
+            ActivateModel<LicenseAgreementViewModel>();
+            return;
+        }
+        if (!powerShellRunner.TrySetExecutionPolicyToUnrestricted())
+        {
+            ActivateModel<GroupPollicyErrorViewModel>();
+            return;
+        }
         ActivateModel<SelectItemsViewModel>();
     }
 

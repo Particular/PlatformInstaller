@@ -4,7 +4,7 @@ using Anotar.Serilog;
 using Caliburn.Micro;
 using Microsoft.Win32;
 
-public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<InstallCancelledEvent>
+public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>
 {
     bool isNewUserAtStartup;
 
@@ -20,8 +20,7 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<I
             LogTo.Information("Install feedback has already been reported no new browser will be popped");
             return;
         }
-
-
+        
         LogTo.Information("Install successfull, new user: " + isNewUserAtStartup);
 
         var url = string.Format(@"http://particular.net/thank-you-for-installing-the-particular-service-platform?new_user={0}&installed={1}", isNewUserAtStartup.ToString().ToLower(), string.Join(";", message.InstalledItems));
@@ -29,13 +28,7 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<I
 
         RecordSuccessfullInstallationFeeback();
     }
-
-    public void Handle(InstallCancelledEvent message)
-    {
-        
-
-    }
-
+    
     void RecordSuccessfullInstallationFeeback()
     {
         using (var regRoot = Registry.CurrentUser.CreateSubKey(@"Software\ParticularSoftware\PlatformInstaller\"))

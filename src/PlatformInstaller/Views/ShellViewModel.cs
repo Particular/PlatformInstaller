@@ -40,7 +40,6 @@ public class ShellViewModel : Conductor<object>,
         RunStartupSequence();
     }
 
-
     public void ActivateModel<T>(params Autofac.Core.Parameter[] parameters) where T : Screen
     {
         var activeScreen = ActiveItem;
@@ -140,16 +139,13 @@ public class ShellViewModel : Conductor<object>,
 
     public void Handle(InstallCancelledEvent message)
     {
-        var url = string.Format(@"http://particular.net/platform-installation-cancelled");
-        Process.Start(url);
+        Process.Start(@"http://particular.net/platform-installation-cancelled");
     }
 
     public void Handle(HomeEvent message)
     {
         ActivateModel<SelectItemsViewModel>();
     }
-
-    
 
     public void Handle(ExitApplicationEvent message)
     {

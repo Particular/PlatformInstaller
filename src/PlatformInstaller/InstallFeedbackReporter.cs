@@ -4,7 +4,7 @@ using Anotar.Serilog;
 using Caliburn.Micro;
 using Microsoft.Win32;
 
-public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>
+public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<InstallCancelledEvent>
 {
     bool isNewUserAtStartup;
 
@@ -28,6 +28,12 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>
         Process.Start(url);
 
         RecordSuccessfullInstallationFeeback();
+    }
+
+    public void Handle(InstallCancelledEvent message)
+    {
+        
+
     }
 
     void RecordSuccessfullInstallationFeeback()
@@ -60,5 +66,4 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>
             subKey != "NServiceBus" &&
             subKey != "ParticularSoftware");
     }
-
 }

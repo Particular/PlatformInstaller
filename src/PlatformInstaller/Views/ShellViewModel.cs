@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Autofac;
 using Caliburn.Micro;
@@ -11,6 +12,7 @@ public class ShellViewModel : Conductor<object>,
     IHandle<AgeedToLicenseEvent>,
     IHandle<RunInstallEvent>,
     IHandle<InstallSucceededEvent>,
+    IHandle<InstallCancelledEvent>,
     IHandle<InstallFailedEvent>,
     IHandle<RebootNeeded>,
     IHandle<ExitApplicationEvent>,
@@ -136,10 +138,18 @@ public class ShellViewModel : Conductor<object>,
         ActivateModel<RebootNeededViewModel>();
     }
 
+    public void Handle(InstallCancelledEvent message)
+    {
+        var url = string.Format(@"http://particular.net/platform-installation-cancelled");
+        Process.Start(url);
+    }
+
     public void Handle(HomeEvent message)
     {
         ActivateModel<SelectItemsViewModel>();
     }
+
+    
 
     public void Handle(ExitApplicationEvent message)
     {

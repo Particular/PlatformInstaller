@@ -91,6 +91,7 @@
     <Compile Include="Caliburn\CaliburnExtensions.cs" />
     <Compile Include="Caliburn\ViewModelConventions.cs" />
     <Compile Include="Chocolatey\FileEx.cs" />
+    <Compile Include="Events\InstallCancelledEvent.cs" />
     <Compile Include="Events\UserFixedExecutionPolicy.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Runner.cs" />

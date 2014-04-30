@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Autofac;
 using Caliburn.Micro;
@@ -12,7 +11,6 @@ public class ShellViewModel : Conductor<object>,
     IHandle<AgeedToLicenseEvent>,
     IHandle<RunInstallEvent>,
     IHandle<InstallSucceededEvent>,
-    IHandle<InstallCancelledEvent>,
     IHandle<InstallFailedEvent>,
     IHandle<RebootNeeded>,
     IHandle<ExitApplicationEvent>,
@@ -29,6 +27,8 @@ public class ShellViewModel : Conductor<object>,
     IEventAggregator eventAggregator;
     List<string> itemsToInstall;
     ILifetimeScope currentLifetimeScope;
+
+    bool installWasAttempted;
 
     public ShellViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, PowerShellRunner powerShellRunner)
     {
@@ -92,6 +92,7 @@ public class ShellViewModel : Conductor<object>,
 
     public async void Handle(RunInstallEvent message)
     {
+        installWasAttempted = true;
         itemsToInstall = message.SelectedItems;
         if (chocolateyInstaller.IsInstalled())
         {
@@ -137,11 +138,6 @@ public class ShellViewModel : Conductor<object>,
         ActivateModel<RebootNeededViewModel>();
     }
 
-    public void Handle(InstallCancelledEvent message)
-    {
-        Process.Start(@"http://particular.net/platform-installation-cancelled");
-    }
-
     public void Handle(HomeEvent message)
     {
         ActivateModel<SelectItemsViewModel>();
@@ -149,6 +145,10 @@ public class ShellViewModel : Conductor<object>,
 
     public void Handle(ExitApplicationEvent message)
     {
+        if (!installWasAttempted)
+        {
+            eventAggregator.Publish<NoInstallAttemptedEvent>();
+        }
         base.TryClose();
     }
 

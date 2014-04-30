@@ -4,10 +4,12 @@ using Anotar.Serilog;
 using Caliburn.Micro;
 using Microsoft.Win32;
 
-public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>
+public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<InstallCancelledEvent>, IHandle<NoInstallAttemptedEvent>
 {
     bool isNewUserAtStartup;
 
+    const string cancelledUrl = @"http://particular.net/platform-installation-cancelled";
+    
     public InstallFeedbackReporter()
     {
         isNewUserAtStartup = IsNewUser();
@@ -20,16 +22,31 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>
             LogTo.Information("Install feedback has already been reported no new browser will be popped");
             return;
         }
-        
         LogTo.Information("Install successfull, new user: " + isNewUserAtStartup);
-
-        var url = string.Format(@"http://particular.net/thank-you-for-installing-the-particular-service-platform?new_user={0}&installed={1}", isNewUserAtStartup.ToString().ToLower(), string.Join(";", message.InstalledItems));
-        Process.Start(url);
-
-        RecordSuccessfullInstallationFeeback();
+        RunUrlAndRecordFeedback(@"http://particular.net/thank-you-for-installing-the-particular-service-platform?new_user={0}&installed={1}", isNewUserAtStartup.ToString().ToLower(), string.Join(";", message.InstalledItems));
     }
-    
-    void RecordSuccessfullInstallationFeeback()
+
+    public void Handle(InstallCancelledEvent message)
+    {
+        // Show the feedback page on every cancelled install
+        RunUrlAndRecordFeedback(cancelledUrl);
+    }
+
+    public void Handle(NoInstallAttemptedEvent message)
+    {
+        // Show the feedback page on first run if they close without installing stuff
+        if (HasFeebackBeenReportedForThisMachine()) 
+            return;
+        RunUrlAndRecordFeedback(cancelledUrl);
+    }
+   
+    void RunUrlAndRecordFeedback(string url, params object[] args)
+    {
+        Process.Start(string.Format(url, args));
+        RecordInstallationFeeback();
+    }
+
+    void RecordInstallationFeeback()
     {
         using (var regRoot = Registry.CurrentUser.CreateSubKey(@"Software\ParticularSoftware\PlatformInstaller\"))
         {

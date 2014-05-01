@@ -67,6 +67,7 @@ public class ShellViewModel : Conductor<object>,
 
     public void Handle(AgeedToLicenseEvent message)
     {
+        licenseAgreement.Agree();
         RunStartupSequence();
     }
 

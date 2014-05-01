@@ -1,7 +1,6 @@
-﻿using Caliburn.Micro;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 
-public class LicenseAgreement : IHandle<AgeedToLicenseEvent>
+public class LicenseAgreement 
 {
     public bool HasAgreedToLicense()
     {
@@ -35,10 +34,5 @@ public class LicenseAgreement : IHandle<AgeedToLicenseEvent>
         {
             registryKey.DeleteValue("AgreedToLicense", false);
         }
-    }
-
-    public void Handle(AgeedToLicenseEvent message)
-    {
-        Agree();
     }
 }

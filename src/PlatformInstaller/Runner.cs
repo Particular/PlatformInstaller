@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows;
@@ -9,6 +10,7 @@ public static class Runner
 {
     public static void Run()
     {
+        const int CancelledByUser = 1223;
         if (!IsAdminChecker.IsAdministrator())
         {
             var processStartInfo = new ProcessStartInfo
@@ -16,8 +18,19 @@ public static class Runner
                     FileName = AssemblyLocation.ExeFileName,
                     Verb = "runas"
                 };
-            using (Process.Start(processStartInfo))
+
+            try
             {
+                using (Process.Start(processStartInfo))
+                {
+                }
+            }
+            catch (Win32Exception ex)
+            {
+                if (ex.NativeErrorCode != CancelledByUser)
+                {
+                    throw;
+                }
             }
             Environment.Exit(0);
         }

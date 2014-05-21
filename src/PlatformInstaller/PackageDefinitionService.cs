@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using PlatformInstaller;
 
 public class PackageDefinitionService
 {
@@ -89,7 +90,8 @@ public class PackageDefinitionService
                 },
                 SelectedByDefault = !packageManager.IsInstalled("ServiceInsight.install")
             },
-           ServiceMatrix.InstallationDefinition(packageManager)
+            ServiceMatrix.InstallationDefinition(packageManager, VisualStudioVersions.VS2013),
+            ServiceMatrix.InstallationDefinition(packageManager, VisualStudioVersions.VS2012)
         };
     }
 }

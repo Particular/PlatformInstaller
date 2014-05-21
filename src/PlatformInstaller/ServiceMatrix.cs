@@ -1,66 +1,70 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using PlatformInstaller;
 
 public class ServiceMatrix
 {
 
-    public static InstallationDefinition InstallationDefinition(PackageManager packageManager)
+    public static InstallationDefinition InstallationDefinition(PackageManager packageManager, string visualStudioVersion)
     {
-        var versionsToInstall = VisualStudioDetecter.InstalledVersions.Where(version => supportedVersions.Contains(version));
+        var isVisualStudioInstalled = VisualStudioDetecter.InstalledVersions.Contains(visualStudioVersion);
+        var packageName = string.Format("ServiceMatrix.{0}.install", visualStudioVersion);
+        var isChocolateyPackageInstalled = packageManager.IsInstalled(packageName);
+        return GetInstallationDefinition(visualStudioVersion, isVisualStudioInstalled, isChocolateyPackageInstalled, packageName);
+    }
 
-        
+    public static InstallationDefinition GetInstallationDefinition(string visualStudioVersion, bool isVisualStudioInstalled, bool isChocolateyPackageInstalled, string packageName)
+    {
+        string iconToUse;
+        switch (visualStudioVersion)
+        {
+            case VisualStudioVersions.VS2013:
+                iconToUse = "/Images/SM2013.png";
+                break;
+            case VisualStudioVersions.VS2012:
+                iconToUse = "/Images/SM2012.png";
+                break;
+            default:
+                throw new Exception(string.Format("Specified VisualStudio version: {0} is not supported", visualStudioVersion));
+        }
+
         var installationDefinition = new InstallationDefinition
         {
             SortOrder = 20,
             Name = "ServiceMatrix",
-            Image = "/Images/SM.png",
+            Image = iconToUse,
             Disabled = true,
-            ToolTip = "ServiceMatrix requires Visual Studio 2012 to be installed,",
             PackageDefinitions = new List<PackageDefinition>(),
             SelectedByDefault = false
         };
 
-        
-        foreach (var version in versionsToInstall)
+        if (!isVisualStudioInstalled)
         {
-            var packageName = "ServiceMatrix." + version + ".install";
-
-            if (packageManager.IsInstalled(packageName))
-            {
-                continue;
-            }
-
-            installationDefinition.PackageDefinitions.Add(new PackageDefinition
-                 {
-                     Name =packageName,
-                     DisplayName = "ServiceMatrix for " + version
-                 });
+            installationDefinition.Status = string.Format("{0} Required", visualStudioVersion);
+            installationDefinition.ToolTip = string.Format("This option requires {0}", visualStudioVersion);
+            return installationDefinition;
         }
 
-        if (installationDefinition.PackageDefinitions.Any())
+        if (!isChocolateyPackageInstalled)
         {
+            installationDefinition.PackageDefinitions.Add(new PackageDefinition
+            {
+                Name = packageName,
+                DisplayName = "ServiceMatrix for " + visualStudioVersion
+            });
             installationDefinition.Status = "Install";
             installationDefinition.SelectedByDefault = true;
             installationDefinition.Disabled = false;
-            installationDefinition.ToolTip = "Install ServiceMatrix";
+            installationDefinition.ToolTip = string.Format("Install ServiceMatrix for {0}", visualStudioVersion);
         }
         else
         {
-            if (versionsToInstall.Any())
-            {
-                installationDefinition.Status = "Already installed";
-                installationDefinition.ToolTip = "ServiceMatrix for Visual Studio 2012";
-            }
-            else
-            {
-                installationDefinition.Status = "VS 2012 required";
-                installationDefinition.ToolTip = "ServiceMatrix requires Visual Studio 2012";
-            }
+            installationDefinition.Status = "Already Installed";
+            installationDefinition.ToolTip = string.Format("ServiceMatrix for {0} is already installed", visualStudioVersion);
         }
-
         return installationDefinition;
     }
 
-    static List<string> supportedVersions = new List<string> { "VS2012" };
+    static List<string> supportedVersions = new List<string> { "VS2012", "VS2013" };
 }

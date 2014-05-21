@@ -5,19 +5,26 @@
     using System.IO;
     using System.Linq;
 
+
+    public static class VisualStudioVersions
+    {
+        public const string VS2013 = "VS2013";
+        public const string VS2012 = "VS2012";
+        public const string VS2010 = "VS2010";
+    }
     public class VisualStudioDetecter
     {
         public static bool VS2013Installed
         {
-            get { return InstalledVersions.Contains("VS2013"); }
+            get { return InstalledVersions.Contains(VisualStudioVersions.VS2013); }
         }
         public static bool VS2012Installed
         {
-            get { return InstalledVersions.Contains("VS2012"); }
+            get { return InstalledVersions.Contains(VisualStudioVersions.VS2012); }
         }
         public static bool VS2010Installed
         {
-            get { return InstalledVersions.Contains("VS2010"); }
+            get { return InstalledVersions.Contains(VisualStudioVersions.VS2010); }
         }
 
         public static IEnumerable<string> InstalledVersions
@@ -49,19 +56,19 @@
 
             if (CheckVSTools("VS100COMNTOOLS"))
             {
-                versions.Add("VS2010");
+                versions.Add(VisualStudioVersions.VS2010);
             }
 
 
             if (CheckVSTools("VS110COMNTOOLS"))
             {
-                versions.Add("VS2012");
+                versions.Add(VisualStudioVersions.VS2012);
             }
 
 
             if (CheckVSTools("VS120COMNTOOLS"))
             {
-                versions.Add("VS2013");
+                versions.Add(VisualStudioVersions.VS2013);
             }
 
             return versions;

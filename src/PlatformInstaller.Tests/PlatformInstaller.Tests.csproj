@@ -87,6 +87,7 @@
     <Compile Include="FakeChocolateyInstaller.cs" />
     <Compile Include="LicenseAgreementTests.cs" />
     <Compile Include="NewUserDetecterTests.cs" />
+    <Compile Include="ServiceMatrixPackageTests.cs" />
     <Compile Include="ToFriendlyStringTests.cs" />
     <Compile Include="Views\FailedInstallationViewTests.cs" />
     <Compile Include="Views\GroupPollicyErrorViewTests.cs" />

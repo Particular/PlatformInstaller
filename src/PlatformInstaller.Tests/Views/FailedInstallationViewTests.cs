@@ -12,19 +12,11 @@ public class FailedInstallationViewTests
         var model = GetModel();
         ViewTester.ShowView(model);
     }
-    
-#if(DEBUG)
-    [Test]
-    [RequiresSTA]
-    public void Verify()
-    {
-        var model = GetModel();
-        ViewTester.VerifyView(model);
-    }
-#endif
+
 
     [Test]
     [RequiresSTA]
+    [Explicit]
     public void Screenshot()
     {
         var model = GetModel();

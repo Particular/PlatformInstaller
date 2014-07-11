@@ -77,6 +77,7 @@ class GifImage : Image
     string GifSource
     {
         get { return (string) GetValue(GifSourceProperty); }
+// ReSharper disable once UnusedMember.Local
         set
         {
             SetValue(GifSourceProperty, value);

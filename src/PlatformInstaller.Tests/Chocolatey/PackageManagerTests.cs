@@ -17,7 +17,7 @@ public class PackageManagerTests
     public async void InstallWithParams()
     {
         var packageInstaller = GetPackageInstaller();
-        var installArguments = @"/quiet /log C:\raven_log.txt /msicl RAVEN_TARGET_ENVIRONMENT=DEVELOPMENT /msicl TARGETDIR=C:\ /msicl INSTALLFOLDER=C:\RavenDB /msicl RAVEN_INSTALLATION_TYPE=SERVICE /msicl REMOVE=IIS /msicl ADDLOCAL=Service";
+        const string installArguments = @"/quiet /log C:\raven_log.txt /msicl RAVEN_TARGET_ENVIRONMENT=DEVELOPMENT /msicl TARGETDIR=C:\ /msicl INSTALLFOLDER=C:\RavenDB /msicl RAVEN_INSTALLATION_TYPE=SERVICE /msicl REMOVE=IIS /msicl ADDLOCAL=Service";
         await packageInstaller.Install("RavenDB", installArguments, null, null, null, null);
     }
     

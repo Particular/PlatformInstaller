@@ -27,7 +27,7 @@ public class PowerShellRunner : IDisposable
         // Allows scripts to be run for this process
         using (var pipeline = runSpace.CreatePipeline())
         {
-            var psExecutionPolicyScript = @"
+            const string psExecutionPolicyScript = @"
                     try 
                     {
                         Set-ExecutionPolicy -ExecutionPolicy unrestricted -Scope Process -Force  -ErrorAction SilentlyContinue

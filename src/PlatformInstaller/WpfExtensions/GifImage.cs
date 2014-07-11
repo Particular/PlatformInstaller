@@ -21,6 +21,7 @@ class GifImage : Image
     void Initialize()
     {
         gifDecoder = new GifBitmapDecoder(new Uri(GifSource), BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+// ReSharper disable once PossibleLossOfFraction
         animation = new Int32Animation(0, gifDecoder.Frames.Count - 1, new Duration(new TimeSpan(0, 0, 0, gifDecoder.Frames.Count/10, (int) ((gifDecoder.Frames.Count/10.0 - gifDecoder.Frames.Count/10)*1000))))
             {
                 RepeatBehavior = RepeatBehavior.Forever
@@ -47,7 +48,7 @@ class GifImage : Image
         }
     }
 
-    public static DependencyProperty FrameIndexProperty =
+    static DependencyProperty FrameIndexProperty =
         DependencyProperty.Register("FrameIndex", typeof(int), typeof(GifImage), new UIPropertyMetadata(0, ChangingFrameIndex));
 
     static void ChangingFrameIndex(DependencyObject obj, DependencyPropertyChangedEventArgs ev)
@@ -62,7 +63,7 @@ class GifImage : Image
         set { SetValue(AutoStartProperty, value); }
     }
 
-    public static DependencyProperty AutoStartProperty = DependencyProperty.Register("AutoStart", typeof(bool), typeof(GifImage), new UIPropertyMetadata(false, AutoStartPropertyChanged));
+    static DependencyProperty AutoStartProperty = DependencyProperty.Register("AutoStart", typeof(bool), typeof(GifImage), new UIPropertyMetadata(false, AutoStartPropertyChanged));
 
     static void AutoStartPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
@@ -73,7 +74,7 @@ class GifImage : Image
         }
     }
 
-    public string GifSource
+    string GifSource
     {
         get { return (string) GetValue(GifSourceProperty); }
         set
@@ -90,7 +91,7 @@ class GifImage : Image
         }
     }
 
-    public static DependencyProperty GifSourceProperty = DependencyProperty.Register("GifSource", typeof(string), typeof(GifImage), new UIPropertyMetadata(string.Empty, GifSourcePropertyChanged));
+    static DependencyProperty GifSourceProperty = DependencyProperty.Register("GifSource", typeof(string), typeof(GifImage), new UIPropertyMetadata(string.Empty, GifSourcePropertyChanged));
 
     static void GifSourcePropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
@@ -98,7 +99,7 @@ class GifImage : Image
         gifImage.Initialize();
     }
 
-    public void StartAnimation()
+    void StartAnimation()
     {
         if (!isInitialized)
             Initialize();
@@ -106,7 +107,7 @@ class GifImage : Image
         BeginAnimation(FrameIndexProperty, animation);
     }
 
-    public void StopAnimation()
+    void StopAnimation()
     {
         BeginAnimation(FrameIndexProperty, null);
     }

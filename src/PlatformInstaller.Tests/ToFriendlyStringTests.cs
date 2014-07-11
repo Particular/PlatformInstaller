@@ -22,7 +22,7 @@ public class ToFriendlyStringTests
             friendlyString = friendlyString
                 .Replace(currentDirectory, string.Empty);
 // ReSharper disable StringLiteralTypo
-            var expected = @"an unhandled exception occurred:
+            const string expected = @"an unhandled exception occurred:
 exception:
 foo
 stacktrace:

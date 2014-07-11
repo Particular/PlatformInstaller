@@ -22,12 +22,12 @@ public static class ViewModelConventions
         return type.IsView() || type.IsViewModel();
     }
 
-    public static bool IsViewModel(this Type type)
+    static bool IsViewModel(this Type type)
     {
         return type.Name.EndsWith("ViewModel");
     }
 
-    public static bool IsView(this Type type)
+    static bool IsView(this Type type)
     {
         return type.Name.EndsWith("View");
     }

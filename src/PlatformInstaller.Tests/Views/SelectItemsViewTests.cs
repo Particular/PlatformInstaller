@@ -31,7 +31,7 @@ public class SelectItemsViewTests
             };
     }
 
-    public static List<SelectItemsViewModel.PackageDefinitionBindable> GetPackages()
+    static List<SelectItemsViewModel.PackageDefinitionBindable> GetPackages()
     {
         return new List<SelectItemsViewModel.PackageDefinitionBindable>
         {

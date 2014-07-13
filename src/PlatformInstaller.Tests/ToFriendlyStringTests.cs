@@ -1,12 +1,13 @@
 using System;
+using System.Text.RegularExpressions;
+using ApprovalTests;
 using NUnit.Framework;
 
 [TestFixture]
 public class ToFriendlyStringTests
 {
     [Test]
-    [Ignore]
-    public void ToFriendlyName()
+    public void ToFriendlyString()
     {
         var currentDirectory = AssemblyLocation.CurrentDirectory.ToLowerInvariant()
             .Replace(@"bin\debug", string.Empty)
@@ -14,28 +15,14 @@ public class ToFriendlyStringTests
         try
         {
             ThrowException1();
-
         }
         catch (Exception exception)
         {
             var friendlyString = exception.ToFriendlyString().ToLowerInvariant();
             friendlyString = friendlyString
                 .Replace(currentDirectory, string.Empty);
-// ReSharper disable StringLiteralTypo
-            const string expected = @"an unhandled exception occurred:
-exception:
-foo
-stacktrace:
-   at tofriendlystringtests.throwexception2() in tofriendlystringtests.cs:line 60
-   at tofriendlystringtests.throwexception1() in tofriendlystringtests.cs:line 55
-   at tofriendlystringtests.tofriendlyname() in tofriendlystringtests.cs:line 15
-source:
-fodycommon.tests
-targetsite:
-void throwexception2()
-";
-// ReSharper restore StringLiteralTypo
-            Assert.AreEqual(expected, friendlyString);
+            friendlyString = new Regex(":line.*").Replace(friendlyString, "");
+            Approvals.Verify(friendlyString);
         }
     }
     void ThrowException1()

@@ -1,0 +1,11 @@
+﻿an unhandled exception occurred:
+exception:
+foo
+stacktrace:
+   at tofriendlystringtests.throwexception2() in tofriendlystringtests.cs
+   at tofriendlystringtests.throwexception1() in tofriendlystringtests.cs
+   at tofriendlystringtests.tofriendlystring() in tofriendlystringtests.cs
+source:
+platforminstaller.tests
+targetsite:
+void throwexception2()

@@ -10,7 +10,7 @@ public class ChocolateyInstaller
     ProcessRunner processRunner;
     PowerShellRunner powerShellRunner;
     public Version MinimumChocolateyVersion = new Version(0, 9, 8, 23);
-    public const string InstallCommand = "@powershell -NoProfile -ExecutionPolicy unrestricted -Command \"iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))\" && SET PATH=%PATH%;%systemdrive%\\chocolatey\\bin";
+    public const string InstallCommand = "@powershell -NoProfile -ExecutionPolicy unrestricted -Command \"iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))\" && SET PATH=%PATH%;%ALLUSERSPROFILE%\\chocolatey\\bin";
     public const string UpdateCommand = "chocolatey update";
 
     public ChocolateyInstaller(ProcessRunner processRunner, PowerShellRunner powerShellRunner)
@@ -55,7 +55,7 @@ public class ChocolateyInstaller
         LogTo.Information(string.Format("Patching '{0}' to include 'CreateNoWindow = $true'", runNugetPath));
         try
         {
-            var newText = allText.Replace("$process.StartInfo.RedirectStandardError = $true", 
+            var newText = allText.Replace("$process.StartInfo.RedirectStandardError = $true",
 @"$process.StartInfo.RedirectStandardError = $true
   $process.StartInfo.CreateNoWindow = $true");
             File.WriteAllText(runNugetPath, newText);
@@ -70,7 +70,7 @@ public class ChocolateyInstaller
     {
         outputAction = outputAction.ValueOrDefault();
         errorAction = errorAction.ValueOrDefault();
-        var arguments = @"/c @powershell -NoProfile -ExecutionPolicy unrestricted -Command ""iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))"" && SET PATH=%PATH%;%systemdrive%\chocolatey\bin";
+        var arguments = @"/c " + InstallCommand;
         return processRunner.RunProcess("cmd.exe", arguments, outputAction, errorAction);
     }
 
@@ -81,8 +81,27 @@ public class ChocolateyInstaller
 
     public virtual string GetInstallPath()
     {
-        var installPath = Environment.GetEnvironmentVariable("ChocolateyInstall") ?? @"C:\Chocolatey";
-        return Directory.Exists(installPath) ? installPath : null;
+        var chocolateyInstallFromEnvironment = Environment.GetEnvironmentVariable("ChocolateyInstall");
+        if (chocolateyInstallFromEnvironment != null)
+        {
+            if (Directory.Exists(chocolateyInstallFromEnvironment))
+            {
+                return chocolateyInstallFromEnvironment;
+            }
+        }
+        var programDataChocolateyPath = Environment.ExpandEnvironmentVariables(@"%allusersprofile%\chocolatey");
+        if (Directory.Exists(programDataChocolateyPath))
+        {
+            return programDataChocolateyPath;
+        }
+
+        var systemChocolateyPath = Environment.ExpandEnvironmentVariables(@"%systemdrive%\chocolatey");
+        if (Directory.Exists(systemChocolateyPath))
+        {
+            return systemChocolateyPath;
+        }
+
+        return null;
     }
 
     public virtual async Task<bool> ChocolateyUpgradeRequired()
@@ -145,12 +164,12 @@ public class ChocolateyInstaller
         {
             return null;
         }
-      var versionPart = lineWithVersion
-          .Replace("$chocVer = '", "")
-          .Replace("'", "")
-          .Trim()
-          .Split(new []{'-'},StringSplitOptions.RemoveEmptyEntries)
-          .FirstOrDefault();
+        var versionPart = lineWithVersion
+            .Replace("$chocVer = '", "")
+            .Replace("'", "")
+            .Trim()
+            .Split(new[] { '-' }, StringSplitOptions.RemoveEmptyEntries)
+            .FirstOrDefault();
         Version version = null;
         if (versionPart != null)
         {

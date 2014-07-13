@@ -145,6 +145,7 @@
       <DependentUpon>RebootNeededView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RebootNeededViewModel.cs" />
+    <Compile Include="VisualStudioVersions.cs" />
     <Compile Include="WpfExtensions\ResourceResolver.cs" />
     <Compile Include="Views\UpdateChocolateyView.xaml.cs">
       <DependentUpon>UpdateChocolateyView.xaml</DependentUpon>

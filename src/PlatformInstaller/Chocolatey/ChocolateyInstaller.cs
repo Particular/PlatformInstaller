@@ -89,6 +89,7 @@ public class ChocolateyInstaller
                 return chocolateyInstallFromEnvironment;
             }
         }
+
         var programDataChocolateyPath = Environment.ExpandEnvironmentVariables(@"%allusersprofile%\chocolatey");
         if (Directory.Exists(programDataChocolateyPath))
         {

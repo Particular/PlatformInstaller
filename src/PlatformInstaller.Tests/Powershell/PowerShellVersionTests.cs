@@ -9,7 +9,8 @@ public class PowerShellVersionTests
     {
         var packageInstaller = new PowerShellVersion();
         packageInstaller.Initialise();
-        Debug.WriteLine(packageInstaller.Version);
+        Trace.WriteLine(packageInstaller.Version);
+        Trace.WriteLine(packageInstaller.IsInstalled);
     }
 
 }

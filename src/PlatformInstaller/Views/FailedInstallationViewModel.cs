@@ -1,3 +1,4 @@
+// ReSharper disable NotAccessedField.Global
 using System;
 using System.Collections.Generic;
 using Caliburn.Micro;

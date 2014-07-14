@@ -83,9 +83,16 @@ public class ChocolateyInstallerTests
     }
 
     [Test]
-    public void PatchRunNuget()
+    public void PatchRunNugetBefore_9_8_25()
     {
-        var sourcefile = Path.Combine(AssemblyLocation.CurrentDirectory, @"Chocolatey\Run-NuGet.ps1");
+        var sourcefile = Path.Combine(AssemblyLocation.CurrentDirectory, @"Chocolatey\Run-NuGet_Before_9_8_25.ps1");
+        ChocolateyInstaller.PatchRunNuget(sourcefile);
+        Approvals.Verify(File.ReadAllText(sourcefile));
+    }
+    [Test]
+    public void PatchRunNuget_9_8_25()
+    {
+        var sourcefile = Path.Combine(AssemblyLocation.CurrentDirectory, @"Chocolatey\Run-NuGet_9_8_25.ps1");
         ChocolateyInstaller.PatchRunNuget(sourcefile);
         Approvals.Verify(File.ReadAllText(sourcefile));
     }

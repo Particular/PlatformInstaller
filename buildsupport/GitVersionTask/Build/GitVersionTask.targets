@@ -14,26 +14,26 @@
       TaskName="GitVersionTask.WriteVersionInfoToBuildLog"
       AssemblyFile="$(MSBuildThisFileDirectory)..\GitVersionTask.dll" />
 
-  <Target Name="UpdateAssemblyInfo"
-          BeforeTargets="CoreCompile">
-    <WriteVersionInfoToBuildLog
-      SolutionDirectory="$(SolutionDir)"
+    <Target Name="UpdateAssemblyInfo"
+            BeforeTargets="CoreCompile">
+      <WriteVersionInfoToBuildLog
+        SolutionDirectory="$(SolutionDir)"
         />
-    <UpdateAssemblyInfo
-      SolutionDirectory="$(SolutionDir)"
-      ProjectFile="$(ProjectPath)"
-      AppendRevision="$(GitVersionAppendRevision)"
-      AssemblyVersioningScheme="Major"
-      CompileFiles ="@(Compile)">
-      <Output
-        TaskParameter="AssemblyInfoTempFilePath"
-        PropertyName="AssemblyInfoTempFilePath" />
-    </UpdateAssemblyInfo>
+      <UpdateAssemblyInfo 
+        SolutionDirectory="$(SolutionDir)"
+        ProjectFile="$(ProjectPath)"
+        AppendRevision="$(GitVersionAppendRevision)" 
+        SignAssembly="$(SignAssembly)"
+        CompileFiles ="@(Compile)">
+        <Output 
+          TaskParameter="AssemblyInfoTempFilePath" 
+          PropertyName="AssemblyInfoTempFilePath" />
+      </UpdateAssemblyInfo>
 
-    <ItemGroup>
-      <Compile Include="$(AssemblyInfoTempFilePath)" />
-    </ItemGroup>
-  </Target>
+      <ItemGroup>
+          <Compile Include="$(AssemblyInfoTempFilePath)" />
+      </ItemGroup>
+    </Target>
 
   <!--Support for ncrunch-->
   <ItemGroup>

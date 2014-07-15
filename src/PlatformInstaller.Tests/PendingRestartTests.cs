@@ -7,12 +7,12 @@ public class PendingRestartTests
     [Explicit]
     public void AddPendingRestart()
     {
-        new PendingRestart().AddPendingRestart();
+        new PendingRestartAndResume().AddPendingRestart();
     }
     [Test]
     [Explicit]
     public void RemovePendingRestart()
     {
-        new PendingRestart().RemovePendingRestart();
+        new PendingRestartAndResume().RemovePendingRestart();
     }
 }

@@ -25,7 +25,7 @@ public class SelectItemsViewTests
 
     static SelectItemsViewModel GetModel()
     {
-        return new SelectItemsViewModel(new FakePackageDefinitionService(), new FakeEventAggregator())
+        return new SelectItemsViewModel(new FakePackageDefinitionService(), new FakeEventAggregator(), new FakePendingRestartAndResume(), null, null  )
             {
                 PackageDefinitions = GetPackages()
             };
@@ -64,5 +64,13 @@ public class SelectItemsViewTests
                 Enabled = true,
             },
         };
+    }
+}
+
+public class FakePendingRestartAndResume : PendingRestartAndResume
+{
+    public override bool ResumedFromRestart
+    {
+        get { return false; }
     }
 }

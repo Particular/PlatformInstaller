@@ -19,6 +19,7 @@ public class ShellViewModel : Conductor<object>,
     IHandle<UserInstalledChocolatey>,
     IHandle<UserUpdatedChocolatey>,
     IHandle<UserFixedExecutionPolicy>
+    
 {
     ChocolateyInstaller chocolateyInstaller;
     LicenseAgreement licenseAgreement;
@@ -88,6 +89,7 @@ public class ShellViewModel : Conductor<object>,
             ActivateModel<GroupPollicyErrorViewModel>();
             return;
         }
+                      
         ActivateModel<SelectItemsViewModel>();
     }
 

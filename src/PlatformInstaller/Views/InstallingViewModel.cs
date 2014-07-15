@@ -10,7 +10,7 @@ using Caliburn.Micro;
 
 public class InstallingViewModel : Screen
 {
-    public InstallingViewModel(PackageDefinitionService packageDefinitionDiscovery, ChocolateyInstaller chocolateyInstaller, IEventAggregator eventAggregator, PackageManager packageManager, IWindowManager windowManager, PowerShellRunner powerShellRunner, List<string> itemsToInstall, ILifetimeScope lifetimeScope)
+    public InstallingViewModel(PackageDefinitionService packageDefinitionDiscovery, ChocolateyInstaller chocolateyInstaller, IEventAggregator eventAggregator, PackageManager packageManager, IWindowManager windowManager, PowerShellRunner powerShellRunner, PendingRestartAndResume pendingRestartAndResume, List<string> itemsToInstall, ILifetimeScope lifetimeScope)
     {
         PackageDefinitionService = packageDefinitionDiscovery;
         this.chocolateyInstaller = chocolateyInstaller;
@@ -20,10 +20,12 @@ public class InstallingViewModel : Screen
         this.powerShellRunner = powerShellRunner;
         this.itemsToInstall = itemsToInstall;
         this.lifetimeScope = lifetimeScope;
+        this.pendingRestartAndResume = pendingRestartAndResume;
     }
 
     public string CurrentStatus;
     public PackageDefinitionService PackageDefinitionService;
+    public PendingRestartAndResume pendingRestartAndResume;
     ChocolateyInstaller chocolateyInstaller;
     IEventAggregator eventAggregator;
     PackageManager packageManager;
@@ -88,8 +90,20 @@ public class InstallingViewModel : Screen
             .Where(p => itemsToInstall.Contains(p.Name))
             .SelectMany(x => x.PackageDefinitions)
             .ToList();
-        InstallCount = packageDefinitions.Count();
 
+        if (pendingRestartAndResume.ResumedFromRestart)
+        {
+            var checkpoint = pendingRestartAndResume.Checkpoint();
+            if (packageDefinitions.Any(p => p.Name.Equals(checkpoint)))
+            {
+                // Fast Forward to the step after the last successful step
+                packageDefinitions = packageDefinitions.SkipWhile(p => !p.Name.Equals(checkpoint)).Skip(1).ToList();
+            }
+        }
+        pendingRestartAndResume.CleanupResume();
+
+        InstallCount = packageDefinitions.Count();
+        
         if (!chocolateyInstaller.IsInstalled())
         {
             InstallCount++;
@@ -110,6 +124,8 @@ public class InstallingViewModel : Screen
             AddOutput(Environment.NewLine);
             InstallProgress++;
         }
+
+
 
         foreach (var packageDefinition in packageDefinitions)
         {
@@ -134,6 +150,7 @@ public class InstallingViewModel : Screen
 
             ClearNestedAction();
             AddOutput(Environment.NewLine);
+            eventAggregator.Publish(new CheckPointInstallEvent{ Item = packageDefinition.Name});
             InstallProgress++;
         }
 

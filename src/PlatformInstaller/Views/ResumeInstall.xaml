@@ -1,0 +1,24 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="ResumeInstallView"  WindowStartupLocation="CenterScreen"
+        Title="Particular Platform Installer" Height="190" Width="400" WindowStyle="None" ResizeMode="NoResize" BorderBrush="White" >
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Border BorderBrush="#20000000" BorderThickness="2">
+        <StackPanel Margin="10">
+            <Image Source="pack://application:,,,/PlatformInstaller;component/Images/particularSmall.png" HorizontalAlignment="Left" Stretch="None" />
+            <TextBlock Margin="0,10,0,0" FontSize="15" FontWeight="Bold" ><Run Text="R"/><Run Text="esume "/><Run Text="the previous "/><Run Text="installation?"/></TextBlock>
+            <TextBlock Margin="0,10,0,0" FontSize="13" TextWrapping="Wrap"><Run Text="Platform Installer required a reboot prior to installing a component. "/><Run Text=" "/><Run Text="Continue the installation?"/></TextBlock>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0"  FlowDirection="RightToLeft">
+                <Button x:Name="ConfirmCancellation">No cancel the installation</Button>
+                <Button x:Name="ContinueInstallation">Yes continue installing</Button>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>

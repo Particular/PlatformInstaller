@@ -39,9 +39,9 @@ public static class ContainerFactory
         builder.RegisterType<AutoSubscriber>();
         builder.RegisterType<PackageDefinitionService>()
             .SingleInstance();
-        builder.RegisterType<PendingRestart>()
+        builder.RegisterType<PendingRestartAndResume>()
             .SingleInstance();
-
+        
         return builder.Build();
     }
 

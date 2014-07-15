@@ -1,4 +1,5 @@
 using System;
+using Autofac;
 // ReSharper disable NotAccessedField.Global
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,12 +9,18 @@ using System.Reflection;
 
 public class SelectItemsViewModel : Screen
 {
-    public SelectItemsViewModel(PackageDefinitionService packageDefinitionDiscovery, IEventAggregator eventAggregator)
+    public SelectItemsViewModel(PackageDefinitionService packageDefinitionDiscovery, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume, ILifetimeScope lifetimeScope, IWindowManager windowManager)
     {
         this.packageDefinitionDiscovery = packageDefinitionDiscovery;
         this.eventAggregator = eventAggregator;
+        this.pendingRestartAndResume = pendingRestartAndResume;
+        this.windowManager = windowManager;
+        this.lifetimeScope = lifetimeScope;
     }
 
+    IWindowManager windowManager;
+    ILifetimeScope lifetimeScope;
+   
     public bool IsInstallEnabled;
 
     public string AppVersion = String.Format("Version: {0}", Assembly.GetExecutingAssembly().GetName().Version);
@@ -21,7 +28,8 @@ public class SelectItemsViewModel : Screen
     PackageDefinitionService packageDefinitionDiscovery;
     IEventAggregator eventAggregator;
     public List<PackageDefinitionBindable> PackageDefinitions;
-    
+    public PendingRestartAndResume pendingRestartAndResume;
+
     protected override void OnInitialize()
     {
         base.OnInitialize(); 
@@ -44,6 +52,30 @@ public class SelectItemsViewModel : Screen
         {
             IsInstallEnabled = PackageDefinitions.Any(p => p.Selected);
         }, "Selected");
+
+        if (pendingRestartAndResume.ResumedFromRestart)
+        {
+            using (var beginLifetimeScope = lifetimeScope.BeginLifetimeScope())
+            {
+                var resumeInstallModel = beginLifetimeScope.Resolve<ResumeInstallViewModel>();
+                windowManager.ShowDialog(resumeInstallModel);
+                if (resumeInstallModel.AbortInstallation)
+                {
+                    pendingRestartAndResume.CleanupResume();
+                    pendingRestartAndResume.RemovePendingRestart();
+                    return;
+                }
+            }
+            var runInstallEvent = new RunInstallEvent
+            {
+                SelectedItems = pendingRestartAndResume.Installs()
+            };
+            if (runInstallEvent.SelectedItems.Count > 0)
+            {
+                eventAggregator.Publish(runInstallEvent);
+            }
+
+        }
     }
 
     public void Install()

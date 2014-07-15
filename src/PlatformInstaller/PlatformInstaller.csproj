@@ -97,6 +97,7 @@
     <Compile Include="Caliburn\CaliburnExtensions.cs" />
     <Compile Include="Caliburn\ViewModelConventions.cs" />
     <Compile Include="Chocolatey\FileEx.cs" />
+    <Compile Include="Events\CheckPointInstallEvent.cs" />
     <Compile Include="Events\NoInstallAttemptedEvent.cs" />
     <Compile Include="Events\InstallCancelledEvent.cs" />
     <Compile Include="Events\UserFixedExecutionPolicy.cs" />
@@ -108,7 +109,7 @@
     <Compile Include="Events\UserUpdatedChocolatey.cs" />
     <Compile Include="IsAdminChecker.cs" />
     <Compile Include="Autofac\AutofacExtensions.cs" />
-    <Compile Include="PendingRestart.cs" />
+    <Compile Include="PendingRestartAndResume.cs" />
     <Compile Include="ServiceMatrix.cs" />
     <Compile Include="Splash.cs" />
     <Compile Include="VersionFinder.cs" />
@@ -129,6 +130,10 @@
     <Compile Include="Events\HomeEvent.cs" />
     <Compile Include="Events\AgreedToInstallChocolatey.cs" />
     <Compile Include="PackageDefinition.cs" />
+    <Compile Include="Views\ResumeInstallViewModel.cs" />
+    <Compile Include="Views\ResumeInstall.xaml.cs">
+      <DependentUpon>ResumeInstall.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ConfirmAbortInstallView.xaml.cs">
       <DependentUpon>ConfirmAbortInstallView.xaml</DependentUpon>
     </Compile>
@@ -194,6 +199,10 @@
     <Page Include="Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ResumeInstall.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ConfirmAbortInstallView.xaml">
       <Generator>MSBuild:Compile</Generator>

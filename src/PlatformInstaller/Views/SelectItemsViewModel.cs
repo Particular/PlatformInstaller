@@ -1,8 +1,10 @@
+using System;
 // ReSharper disable NotAccessedField.Global
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Caliburn.Micro;
+using System.Reflection;
 
 public class SelectItemsViewModel : Screen
 {
@@ -13,10 +15,13 @@ public class SelectItemsViewModel : Screen
     }
 
     public bool IsInstallEnabled;
+
+    public string AppVersion = String.Format("Version: {0}", Assembly.GetExecutingAssembly().GetName().Version);
+
     PackageDefinitionService packageDefinitionDiscovery;
     IEventAggregator eventAggregator;
     public List<PackageDefinitionBindable> PackageDefinitions;
-
+    
     protected override void OnInitialize()
     {
         base.OnInitialize(); 

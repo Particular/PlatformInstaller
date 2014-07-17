@@ -1,12 +1,12 @@
 using System.Windows;
 using Caliburn.Micro;
 
-public class GroupPollicyErrorViewModel : Screen
+public class GroupPolicyErrorViewModel : Screen
 {
     IEventAggregator eventAggregator;
     PowerShellRunner powerShellRunner;
 
-    public GroupPollicyErrorViewModel(IEventAggregator eventAggregator, PowerShellRunner powerShellRunner)
+    public GroupPolicyErrorViewModel(IEventAggregator eventAggregator, PowerShellRunner powerShellRunner)
     {
         DisplayName = "Group Policy Error";
         this.eventAggregator = eventAggregator;

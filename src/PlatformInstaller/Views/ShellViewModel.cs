@@ -87,7 +87,7 @@ public class ShellViewModel : Conductor<object>,
         }
         if (!powerShellRunner.TrySetExecutionPolicyToUnrestricted())
         {
-            ActivateModel<GroupPollicyErrorViewModel>();
+            ActivateModel<GroupPolicyErrorViewModel>();
             return;
         }
                       

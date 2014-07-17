@@ -6,7 +6,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d" 
         d:DesignHeight="400" d:DesignWidth="450"
-        x:Class="GroupPollicyErrorView">
+        x:Class="GroupPolicyErrorView">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

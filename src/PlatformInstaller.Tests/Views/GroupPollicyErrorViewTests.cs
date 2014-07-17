@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 
 [TestFixture]
-public class GroupPollicyErrorViewTests
+public class GroupPolicyErrorViewTests
 {
     [Test]
     [Explicit]
@@ -22,8 +22,8 @@ public class GroupPollicyErrorViewTests
         ViewTester.ScreenCapture(model);
     }
 
-    static GroupPollicyErrorViewModel GetModel()
+    static GroupPolicyErrorViewModel GetModel()
     {
-        return new GroupPollicyErrorViewModel(new FakeEventAggregator(), new PowerShellRunner());
+        return new GroupPolicyErrorViewModel(new FakeEventAggregator(), new PowerShellRunner());
     }
 }

@@ -142,10 +142,10 @@
     <Compile Include="Views\FailedInstallationView.xaml.cs">
       <DependentUpon>FailedInstallationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GroupPollicyErrorView.xaml.cs">
-      <DependentUpon>GroupPollicyErrorView.xaml</DependentUpon>
+    <Compile Include="Views\GroupPolicyErrorView.xaml.cs">
+      <DependentUpon>GroupPolicyErrorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GroupPollicyErrorViewModel.cs" />
+    <Compile Include="Views\GroupPolicyErrorViewModel.cs" />
     <Compile Include="Views\RebootNeededView.xaml.cs">
       <DependentUpon>RebootNeededView.xaml</DependentUpon>
     </Compile>
@@ -212,7 +212,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\GroupPollicyErrorView.xaml">
+    <Page Include="Views\GroupPolicyErrorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -79,11 +79,11 @@
     <DockPanel>
         <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Bold">Install the Particular Service Platform</TextBlock>
         <TextBlock DockPanel.Dock="Top" Foreground="Gray" TextWrapping="Wrap" >Download and install the Particular Platform applications and configure NServiceBus dependencies.</TextBlock>
-        <StackPanel  DockPanel.Dock="Bottom"  Orientation="Horizontal" FlowDirection="RightToLeft">
-            <Button x:Name="Exit" Content="Exit"/>
-            <Button x:Name="Install" IsEnabled="{Binding IsInstallEnabled}" Content="Install"/>
-            <TextBlock FlowDirection="LeftToRight" Foreground="Gray" VerticalAlignment="Bottom" Width="300" Text="{Binding AppVersion}" />
-        </StackPanel>
+        <DockPanel  DockPanel.Dock="Bottom"  >
+            <Button x:Name="Exit" Content="Exit"  DockPanel.Dock="Right"/>
+            <Button x:Name="Install" IsEnabled="{Binding IsInstallEnabled}" Content="Install" DockPanel.Dock="Right"/>
+            <TextBlock Foreground="Gray" Text="{Binding AppVersion}" VerticalAlignment="Center" Margin ="10,0,10,0"/>
+        </DockPanel>
         <ItemsControl Focusable="False" ItemTemplate="{StaticResource ProductItemTemplate}" ItemsSource="{Binding PackageDefinitions}" Margin="0 10"/>
 
     </DockPanel>

@@ -38,6 +38,7 @@ public class ShellViewModel : Conductor<object>,
         this.lifetimeScope = lifetimeScope;
         this.powerShellRunner = powerShellRunner;
         this.eventAggregator = eventAggregator;
+        DisplayName = "Platform Installer";
         RunStartupSequence();
     }
 

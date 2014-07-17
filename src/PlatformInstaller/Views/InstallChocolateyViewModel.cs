@@ -9,6 +9,7 @@ public class InstallChocolateyViewModel : Screen
 
     public InstallChocolateyViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller)
     {
+        DisplayName = "Install Chocolatey";
         this.eventAggregator = eventAggregator;
         this.chocolateyInstaller = chocolateyInstaller;
     }

@@ -4,6 +4,7 @@ public class SuccessViewModel : Screen
 {
     public SuccessViewModel(IEventAggregator eventAggregator)
     {
+        DisplayName = "Success";
         this.eventAggregator = eventAggregator;
     }
 

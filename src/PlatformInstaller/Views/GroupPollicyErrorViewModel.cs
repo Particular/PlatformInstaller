@@ -8,6 +8,7 @@ public class GroupPollicyErrorViewModel : Screen
 
     public GroupPollicyErrorViewModel(IEventAggregator eventAggregator, PowerShellRunner powerShellRunner)
     {
+        DisplayName = "Group Policy Error";
         this.eventAggregator = eventAggregator;
         this.powerShellRunner = powerShellRunner;
     }

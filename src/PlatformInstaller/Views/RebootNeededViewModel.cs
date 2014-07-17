@@ -5,6 +5,7 @@ public class RebootNeededViewModel : Screen
     public RebootNeededViewModel(IEventAggregator eventAggregator)
     {
         this.eventAggregator = eventAggregator;
+        DisplayName = "Reboot Required";
     }
 
     IEventAggregator eventAggregator;

@@ -10,6 +10,7 @@ public class LicenseAgreementViewModel : Screen
     public LicenseAgreementViewModel(IEventAggregator eventAggregator)
     {
         this.eventAggregator = eventAggregator;
+        DisplayName = "License Agreement";
     }
 
     public void Agree()

@@ -1,6 +1,5 @@
 using System;
 using Autofac;
-// ReSharper disable NotAccessedField.Global
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -11,6 +10,7 @@ public class SelectItemsViewModel : Screen
 {
     public SelectItemsViewModel(PackageDefinitionService packageDefinitionDiscovery, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume, ILifetimeScope lifetimeScope, IWindowManager windowManager)
     {
+        DisplayName = "Selected Items";
         this.packageDefinitionDiscovery = packageDefinitionDiscovery;
         this.eventAggregator = eventAggregator;
         this.pendingRestartAndResume = pendingRestartAndResume;

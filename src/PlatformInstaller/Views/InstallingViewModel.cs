@@ -21,6 +21,7 @@ public class InstallingViewModel : Screen
         this.itemsToInstall = itemsToInstall;
         this.lifetimeScope = lifetimeScope;
         this.pendingRestartAndResume = pendingRestartAndResume;
+        DisplayName = "Installing";
     }
 
     public string CurrentStatus;

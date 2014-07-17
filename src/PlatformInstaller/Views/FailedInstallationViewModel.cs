@@ -8,6 +8,7 @@ public class FailedInstallationViewModel : Screen
     public FailedInstallationViewModel(IEventAggregator eventAggregator, string failureReason, List<string> failures)
     {
         this.eventAggregator = eventAggregator;
+        DisplayName = "Installation Failed";
         FailureDescription = failureReason;
         FailuresText = string.Join(Environment.NewLine, failures);
     }

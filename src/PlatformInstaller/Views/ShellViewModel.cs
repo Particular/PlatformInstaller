@@ -33,12 +33,12 @@ public class ShellViewModel : Conductor<object>,
 
     public ShellViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, PowerShellRunner powerShellRunner)
     {
+        DisplayName = "Platform Installer";
         this.chocolateyInstaller = chocolateyInstaller;
         this.licenseAgreement = licenseAgreement;
         this.lifetimeScope = lifetimeScope;
         this.powerShellRunner = powerShellRunner;
         this.eventAggregator = eventAggregator;
-        DisplayName = "Platform Installer";
         RunStartupSequence();
     }
 

@@ -8,21 +8,16 @@ public class UpdateChocolateyViewModel : Screen
     IEventAggregator eventAggregator;
     ChocolateyInstaller chocolateyInstaller;
 
-    // ReSharper disable ConvertToConstant.Global
-    // ReSharper disable MemberCanBePrivate.Global
-    // ReSharper disable NotAccessedField.Global
     public Version MinimumChocolateyVersion;
     public Version DetectedChocolateyVersion;
     public string LastCheckedTime;
     public bool CanAcceptInput;
     public string InstallCommand = ChocolateyInstaller.InstallCommand;
     public string UpdateCommand = ChocolateyInstaller.UpdateCommand;
-    // ReSharper restore ConvertToConstant.Global
-    // ReSharper restore MemberCanBePrivate.Global
-    // ReSharper restore NotAccessedField.Global
-
+    
     public UpdateChocolateyViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller)
     {
+        DisplayName = "Update Chocolatey";
         this.eventAggregator = eventAggregator;
         this.chocolateyInstaller = chocolateyInstaller;
     }

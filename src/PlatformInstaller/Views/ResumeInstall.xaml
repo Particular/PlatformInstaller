@@ -13,8 +13,8 @@
     <Border BorderBrush="#20000000" BorderThickness="2">
         <StackPanel Margin="10">
             <Image Source="pack://application:,,,/PlatformInstaller;component/Images/particularSmall.png" HorizontalAlignment="Left" Stretch="None" />
-            <TextBlock Margin="0,10,0,0" FontSize="15" FontWeight="Bold" ><Run Text="R"/><Run Text="esume "/><Run Text="the previous "/><Run Text="installation?"/></TextBlock>
-            <TextBlock Margin="0,10,0,0" FontSize="13" TextWrapping="Wrap"><Run Text="Platform Installer required a reboot prior to installing a component. "/><Run Text=" "/><Run Text="Continue the installation?"/></TextBlock>
+            <TextBlock Margin="0,10,0,0" FontSize="15" FontWeight="Bold" >Resume the previous installation?</TextBlock>
+            <TextBlock Margin="0,10,0,0" FontSize="13" TextWrapping="Wrap">The Platform Installer has completed the required reboot and you may now resume the installation. Do you wish to continue?"</TextBlock>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0"  FlowDirection="RightToLeft">
                 <Button x:Name="ConfirmCancellation">No cancel the installation</Button>
                 <Button x:Name="ContinueInstallation">Yes continue installing</Button>

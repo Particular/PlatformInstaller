@@ -13,7 +13,7 @@ public class AutoSubscriber
         this.eventAggregator = eventAggregator;
     }
 
-    public void SubScribe()
+    public void Subscribe()
     {
         foreach (var service in lifetimeScope.GetSingleInstanceRegistrations())
         {

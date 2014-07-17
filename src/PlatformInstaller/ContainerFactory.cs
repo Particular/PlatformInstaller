@@ -20,6 +20,8 @@ public static class ContainerFactory
         builder.RegisterType<WindowManager>()
             .As<IWindowManager>()
             .SingleInstance();
+        builder.RegisterType<RebootMachine>()
+            .SingleInstance();
         builder.RegisterType<InstallFeedbackReporter>()
             .SingleInstance();
         builder.RegisterType<ShellViewModel>()

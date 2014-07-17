@@ -2,9 +2,13 @@ using Caliburn.Micro;
 
 public class ResumeInstallViewModel : Screen
 {
-    public void ConfirmCancellation()
+    public ResumeInstallViewModel()
     {
         DisplayName = "Resume Installation";
+    }
+
+    public void ConfirmCancellation()
+    {
         AbortInstallation = true;
         TryClose();
     }

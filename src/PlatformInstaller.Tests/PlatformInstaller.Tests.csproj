@@ -95,9 +95,11 @@
     <Compile Include="ServiceMatrixPackageTests.cs" />
     <Compile Include="ToFriendlyStringTests.cs" />
     <Compile Include="Views\FailedInstallationViewTests.cs" />
+    <Compile Include="FakePendingRestartAndResume.cs" />
     <Compile Include="Views\GroupPollicyErrorViewTests.cs" />
     <Compile Include="Views\InstallChocolateyViewTests.cs" />
     <Compile Include="Views\LicenseAgreementViewTests.cs" />
+    <Compile Include="Views\RebootNeededViewTests.cs" />
     <Compile Include="Views\SelectItemsViewTests.cs" />
     <Compile Include="Views\UpdateChocolateyViewTests.cs" />
     <Compile Include="Views\ViewTester.cs" />

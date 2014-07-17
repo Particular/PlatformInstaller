@@ -65,7 +65,7 @@ public static class Runner
         {
             container.Resolve<ChocolateyInstaller>().PatchRunNuget();
             container.Resolve<PendingRestartAndResume>().RemovePendingRestart();
-            container.Resolve<AutoSubscriber>().SubScribe();
+            container.Resolve<AutoSubscriber>().Subscribe();
             var appBootstrapper = container.Resolve<AppBootstrapper>();
             appBootstrapper.Start();
             container.Resolve<IWindowManager>().ShowDialog(container.Resolve<ShellViewModel>());

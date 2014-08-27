@@ -1,7 +1,5 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
-using System.Windows.Controls;
 using Anotar.Serilog;
 using Caliburn.Micro;
 using Microsoft.Win32;
@@ -72,7 +70,7 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<I
         }
     }
 
-    public string NugetFlag()
+    string NugetFlag()
     {
         using (var regRoot = Registry.CurrentUser.OpenSubKey(@"Software\ParticularSoftware"))
         {

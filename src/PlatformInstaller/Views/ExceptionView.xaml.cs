@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using Mindscape.Raygun4Net;
+
 
 public partial class ExceptionView
 {
     string exceptonText;
+    Exception exception;
 
     public ExceptionView()
     {
@@ -19,6 +22,7 @@ public partial class ExceptionView
         }
         else
         {
+            this.exception = exception;
             exceptonText = ExceptionTextBox.Text = exception.ToFriendlyString();
         }
     }
@@ -48,4 +52,20 @@ public partial class ExceptionView
         Logging.OpenLogDirectory();
     }
 
+    void SendErrorToRaygunClick(object sender, RoutedEventArgs e)
+    {
+        var confirmSendExceptionView = new ConfirmSendExceptionView()
+        {
+            Owner = this
+        };
+
+        confirmSendExceptionView.ShowDialog();
+
+        if (confirmSendExceptionView.SendExceptionReport)
+        {
+            var client = new RaygunClient(Program.RaygunApiKey);
+            client.Send(exception);
+            MessageBox.Show("Exception Report Sent", "Send Complete", MessageBoxButton.OK);
+        }
+    }
 }

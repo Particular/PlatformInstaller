@@ -62,6 +62,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
+    <Reference Include="Mindscape.Raygun4Net">
+      <HintPath>..\packages\Mindscape.Raygun4Net.3.3.3\lib\net45\Mindscape.Raygun4Net.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="PropertyChanged">
@@ -100,7 +103,9 @@
     <Compile Include="Events\CheckPointInstallEvent.cs" />
     <Compile Include="Events\NoInstallAttemptedEvent.cs" />
     <Compile Include="Events\InstallCancelledEvent.cs" />
+    <Compile Include="Events\ReportInstallFailedEvent.cs" />
     <Compile Include="Events\UserFixedExecutionPolicy.cs" />
+    <Compile Include="ProductInstallException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Runner.cs" />
     <Compile Include="Events\InstallFailedEvent.cs" />
@@ -131,6 +136,9 @@
     <Compile Include="Events\AgreedToInstallChocolatey.cs" />
     <Compile Include="PackageDefinition.cs" />
     <Compile Include="Events\RebootMachineEvent.cs" />
+    <Compile Include="Views\ConfirmSendExceptionView.xaml.cs">
+      <DependentUpon>ConfirmSendExceptionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ResumeInstallViewModel.cs" />
     <Compile Include="Views\ResumeInstall.xaml.cs">
       <DependentUpon>ResumeInstall.xaml</DependentUpon>
@@ -201,6 +209,10 @@
     <Page Include="Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConfirmSendExceptionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ResumeInstall.xaml">
       <Generator>MSBuild:Compile</Generator>

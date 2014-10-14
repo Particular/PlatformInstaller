@@ -1,3 +1,5 @@
+using System.Windows;
+using Mindscape.Raygun4Net;
 // ReSharper disable NotAccessedField.Global
 using System;
 using System.Collections.Generic;
@@ -29,4 +31,19 @@ public class FailedInstallationViewModel : Screen
         eventAggregator.Publish<HomeEvent>();
     }
 
+    public void ReportError()
+    {
+
+        var confirmSendExceptionView = new ConfirmSendExceptionView()
+        {
+            Owner = ShellView.CurrentInstance
+        };
+
+        confirmSendExceptionView.ShowDialog();
+        if (confirmSendExceptionView.SendExceptionReport)
+        {
+            eventAggregator.Publish(new ReportInstallFailedEvent { Failure = FailuresText, FailureDetails = FailureDescription });    
+            MessageBox.Show("Exception Report Sent", "Send Complete", MessageBoxButton.OK);
+        }
+    }
 }

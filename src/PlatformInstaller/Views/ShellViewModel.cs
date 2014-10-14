@@ -4,6 +4,8 @@ using System.Linq;
 using Autofac;
 using Caliburn.Micro;
 using Janitor;
+using Mindscape.Raygun4Net;
+
 
 [SkipWeaving]
 public class ShellViewModel : Conductor<object>,
@@ -18,8 +20,8 @@ public class ShellViewModel : Conductor<object>,
     IHandle<HomeEvent>,
     IHandle<UserInstalledChocolatey>,
     IHandle<UserUpdatedChocolatey>,
-    IHandle<UserFixedExecutionPolicy>
-    
+    IHandle<UserFixedExecutionPolicy>,
+    IHandle<ReportInstallFailedEvent>
 {
     ChocolateyInstaller chocolateyInstaller;
     LicenseAgreement licenseAgreement;
@@ -28,12 +30,14 @@ public class ShellViewModel : Conductor<object>,
     IEventAggregator eventAggregator;
     List<string> itemsToInstall;
     ILifetimeScope currentLifetimeScope;
+    RaygunClient raygunClient;
 
     bool installWasAttempted;
 
-    public ShellViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, PowerShellRunner powerShellRunner)
+    public ShellViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, PowerShellRunner powerShellRunner, RaygunClient raygunClient)
     {
         DisplayName = "Platform Installer";
+        this.raygunClient = raygunClient;
         this.chocolateyInstaller = chocolateyInstaller;
         this.licenseAgreement = licenseAgreement;
         this.lifetimeScope = lifetimeScope;
@@ -167,6 +171,13 @@ public class ShellViewModel : Conductor<object>,
 
         ActivateModel<FailedInstallationViewModel>(new NamedParameter("failureReason", message.Reason), new NamedParameter("failures", message.Failures));
     }
+
+    public void Handle(ReportInstallFailedEvent message)
+    {
+        var messageInfo = string.Format("{0} - {1}", message.Failure, message.FailureDetails);
+        raygunClient.Send(new ProductInstallException(messageInfo));
+    }
+
 
     public void Dispose()
     {

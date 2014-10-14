@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Autofac;
 using Caliburn.Micro;
+using Mindscape.Raygun4Net;
 
 public static class ContainerFactory
 {
@@ -42,6 +43,8 @@ public static class ContainerFactory
         builder.RegisterType<PackageDefinitionService>()
             .SingleInstance();
         builder.RegisterType<PendingRestartAndResume>()
+            .SingleInstance();
+        builder.RegisterInstance(new RaygunClient(Program.RaygunApiKey))
             .SingleInstance();
         
         return builder.Build();

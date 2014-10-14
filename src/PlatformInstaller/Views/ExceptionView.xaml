@@ -18,6 +18,7 @@
                 <Button Click="ExitClick">Exit</Button>
                 <Button Click="CopyClick">Copy</Button>
                 <Button Click="OpenLogsClick">Open Logs</Button>
+                <Button Click="SendErrorToRaygunClick">Send Exception Report</Button>
             </StackPanel>
             <TextBox x:Name="ExceptionTextBox"  Margin="10" IsReadOnly="True" Background="#E7E7E7"/>
         </DockPanel>

@@ -54,7 +54,7 @@ public partial class ExceptionView
 
     void SendErrorToRaygunClick(object sender, RoutedEventArgs e)
     {
-        var confirmSendExceptionView = new ConfirmSendExceptionView()
+        var confirmSendExceptionView = new ConfirmSendExceptionView
         {
             Owner = this
         };

@@ -34,7 +34,7 @@ public class FailedInstallationViewModel : Screen
     public void ReportError()
     {
 
-        var confirmSendExceptionView = new ConfirmSendExceptionView()
+        var confirmSendExceptionView = new ConfirmSendExceptionView
         {
             Owner = ShellView.CurrentInstance
         };

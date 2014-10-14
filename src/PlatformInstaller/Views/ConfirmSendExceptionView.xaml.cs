@@ -1,7 +1,5 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
-using Mindscape.Raygun4Net;
 
 
 public partial class ConfirmSendExceptionView

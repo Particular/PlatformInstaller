@@ -35,11 +35,6 @@ public class PackageDefinitionService
                         Name = "NServicebus.Msmq.install",
                         DisplayName = "Default transport - Microsoft Message Queuing (MSMQ)"
                     },
-                    new PackageDefinition
-                    {
-                        Name = "NServicebus.RavenDB.install",
-                        DisplayName = "Default storage - RavenDB",
-                    },
                 },
                 SelectedByDefault = !packageManager.IsInstalled("NServicebus.Msmq.install")
                 

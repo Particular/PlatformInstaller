@@ -1,5 +1,4 @@
 using System.Windows;
-using Mindscape.Raygun4Net;
 // ReSharper disable NotAccessedField.Global
 using System;
 using System.Collections.Generic;

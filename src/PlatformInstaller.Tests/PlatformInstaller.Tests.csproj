@@ -116,46 +116,46 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.2.0.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.2.00.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.3.0.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.3.00.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.4.0.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.4.00.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.5.0.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.5.00.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.6.0.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.6.00.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.6.1.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.6.01.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.6.2.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.6.02.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.6.3.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.6.03.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.6.4.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.6.04.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.7.1.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.7.01.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.7.2.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.7.02.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.7.3.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.7.03.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.7.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.7.00.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.1.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.01.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.10.ps1">
@@ -188,7 +188,7 @@
     <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.19.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.2.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.02.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.20.ps1">
@@ -209,31 +209,61 @@
     <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.24-alpha2.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.3.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.26-alpha1.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.4.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.26-alpha2.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.5.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.26.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.6.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.03.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.7.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.04.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.8.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.05.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.9.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.06.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.ps1">
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.07.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.08.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.09.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.00.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.25.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.25-alpha1.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.27-beta1.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.27.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.28-alpha1.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.28-alpha2.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.28-rc1.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.28.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Chocolatey\Run-NuGet_9_8_25.ps1">

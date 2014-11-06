@@ -94,6 +94,7 @@
     <Compile Include="NewUserDetecterTests.cs" />
     <Compile Include="ServiceMatrixPackageTests.cs" />
     <Compile Include="ToFriendlyStringTests.cs" />
+    <Compile Include="VersionFinderTests.cs" />
     <Compile Include="Views\FailedInstallationViewTests.cs" />
     <Compile Include="FakePendingRestartAndResume.cs" />
     <Compile Include="Views\GroupPollicyErrorViewTests.cs" />

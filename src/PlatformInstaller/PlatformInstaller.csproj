@@ -115,6 +115,7 @@
     <Compile Include="Events\InstallCancelledEvent.cs" />
     <Compile Include="Events\ReportInstallFailedEvent.cs" />
     <Compile Include="Events\UserFixedExecutionPolicy.cs" />
+    <Compile Include="PowerShell\ReadableBytesConverter.cs" />
     <Compile Include="ProductInstallException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Runner.cs" />

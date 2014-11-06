@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using ApprovalTests;
 using NUnit.Framework;
 
+
 [TestFixture]
 public class ToFriendlyStringTests
 {

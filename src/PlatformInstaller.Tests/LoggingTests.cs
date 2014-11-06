@@ -9,4 +9,5 @@ public class LoggingTests
     {
         Logging.OpenLogDirectory();
     }
+
 }

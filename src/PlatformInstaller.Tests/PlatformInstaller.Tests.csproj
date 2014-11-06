@@ -63,6 +63,14 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Serilog, Version=1.4.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Serilog.1.4.15\lib\net45\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.FullNetFx, Version=1.4.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Serilog.1.4.15\lib\net45\Serilog.FullNetFx.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -102,6 +110,7 @@
     <Compile Include="FakeChocolateyInstaller.cs" />
     <Compile Include="LicenseAgreementTests.cs" />
     <Compile Include="NewUserDetecterTests.cs" />
+    <Compile Include="ReadableBytesConverterTests.cs" />
     <Compile Include="ServiceMatrixPackageTests.cs" />
     <Compile Include="ToFriendlyStringTests.cs" />
     <Compile Include="VersionFinderTests.cs" />

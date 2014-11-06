@@ -24,7 +24,7 @@ public static class Logging
         loggingContext.Information(string.Format("Logging to {0}", LogDirectory));
     }
 
-    static bool IsEmptyTextMessage(LogEvent logEvent)
+    public static bool IsEmptyTextMessage(LogEvent logEvent)
     {
         if (logEvent.MessageTemplate == null)
         {

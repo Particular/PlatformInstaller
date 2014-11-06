@@ -72,7 +72,7 @@ public class SelectItemsViewModel : Screen
             };
             if (runInstallEvent.SelectedItems.Count > 0)
             {
-                eventAggregator.Publish(runInstallEvent);
+                eventAggregator.PublishOnUIThread(runInstallEvent);
             }
 
         }
@@ -85,7 +85,7 @@ public class SelectItemsViewModel : Screen
         {
             SelectedItems = selectedItems
         };
-        eventAggregator.Publish(runInstallEvent);
+        eventAggregator.PublishOnUIThread(runInstallEvent);
     }
 
     public void Exit()

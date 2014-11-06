@@ -40,7 +40,7 @@ public class LicenseAgreementViewModel : Screen
 
     RichTextBox GetRichTextBox()
     {
-        var view = (LicenseAgreementView) base.GetView();
+        var view = (LicenseAgreementView) GetView();
         return view.licenseBrowser;
     }
 }

@@ -67,7 +67,7 @@ public static class Runner
             container.Resolve<PendingRestartAndResume>().RemovePendingRestart();
             container.Resolve<AutoSubscriber>().Subscribe();
             var appBootstrapper = container.Resolve<AppBootstrapper>();
-            appBootstrapper.Start();
+            appBootstrapper.Initialize();
             container.Resolve<IWindowManager>().ShowDialog(container.Resolve<ShellViewModel>());
         }
     }

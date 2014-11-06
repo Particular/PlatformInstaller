@@ -6,9 +6,9 @@ public static class CaliburnExtensions
 {
     public static void Publish<T>(this IEventAggregator eventAggregator) where T : new()
     {
-        eventAggregator.Publish(new T());
+        eventAggregator.PublishOnUIThread(new T());
     }
-
+    
     public static bool IsHandler(this Type type)
     {
         return type.GetInterfaces().Any(x => x.Name.Contains("IHandle"));

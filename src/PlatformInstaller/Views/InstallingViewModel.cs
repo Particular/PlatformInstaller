@@ -113,7 +113,7 @@ public class InstallingViewModel : Screen
             if (InstallFailed)
             {
                 isInstalling = false;
-                eventAggregator.Publish(new InstallFailedEvent
+                eventAggregator.PublishOnUIThread(new InstallFailedEvent
                     {
                         Reason = "Failed to install chocolatey",
                         Failures = Errors
@@ -141,7 +141,7 @@ public class InstallingViewModel : Screen
             if (InstallFailed)
             {
                 isInstalling = false;
-                eventAggregator.Publish(new InstallFailedEvent
+                eventAggregator.PublishOnUIThread(new InstallFailedEvent
                     {
                         Reason = "Failed to install package: " + packageDefinition.Name,
                         Failures = Errors
@@ -151,12 +151,12 @@ public class InstallingViewModel : Screen
 
             ClearNestedAction();
             AddOutput(Environment.NewLine);
-            eventAggregator.Publish(new CheckPointInstallEvent{ Item = packageDefinition.Name});
+            eventAggregator.PublishOnUIThread(new CheckPointInstallEvent{ Item = packageDefinition.Name});
             InstallProgress++;
         }
 
         isInstalling = false;
-        eventAggregator.Publish(new InstallSucceededEvent { InstalledItems = itemsToInstall });
+        eventAggregator.PublishOnUIThread(new InstallSucceededEvent { InstalledItems = itemsToInstall });
     }
 
     void OnProgressAction(ProgressRecord progressRecord)

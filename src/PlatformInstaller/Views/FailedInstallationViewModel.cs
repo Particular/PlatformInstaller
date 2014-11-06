@@ -41,7 +41,11 @@ public class FailedInstallationViewModel : Screen
         confirmSendExceptionView.ShowDialog();
         if (confirmSendExceptionView.SendExceptionReport)
         {
-            eventAggregator.Publish(new ReportInstallFailedEvent { Failure = FailuresText, FailureDetails = FailureDescription });    
+            eventAggregator.PublishOnUIThread(new ReportInstallFailedEvent
+                                              {
+                                                  Failure = FailuresText, 
+                                                  FailureDetails = FailureDescription
+                                              });    
             MessageBox.Show("Exception Report Sent", "Send Complete", MessageBoxButton.OK);
         }
     }

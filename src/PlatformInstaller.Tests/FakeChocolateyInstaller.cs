@@ -47,7 +47,4 @@ public class FakeChocolateyInstaller : ChocolateyInstaller
         return true;
     }
 
-    public override void PatchRunNuget()
-    {
-    }
 }

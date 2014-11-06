@@ -63,7 +63,6 @@ public static class Runner
         ExceptionHandler.Attach();
         using (var container = ContainerFactory.BuildContainer())
         {
-            container.Resolve<ChocolateyInstaller>().PatchRunNuget();
             container.Resolve<PendingRestartAndResume>().RemovePendingRestart();
             container.Resolve<AutoSubscriber>().Subscribe();
             var appBootstrapper = container.Resolve<AppBootstrapper>();

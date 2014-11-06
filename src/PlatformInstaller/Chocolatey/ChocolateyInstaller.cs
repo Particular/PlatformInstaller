@@ -9,7 +9,7 @@ public class ChocolateyInstaller
 {
     ProcessRunner processRunner;
     PowerShellRunner powerShellRunner;
-    public Version MinimumChocolateyVersion = new Version(0, 9, 8, 23);
+    public Version MinimumChocolateyVersion = new Version(0, 9, 8, 26);
     public const string InstallCommand = "@powershell -NoProfile -ExecutionPolicy unrestricted -Command \"iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))\" && SET PATH=%PATH%;%ALLUSERSPROFILE%\\chocolatey\\bin";
     public const string UpdateCommand = "chocolatey update";
 
@@ -22,48 +22,6 @@ public class ChocolateyInstaller
     public virtual string GetChocolateyPs1Path()
     {
         return Path.Combine(GetInstallPath(), @"chocolateyinstall\chocolatey.ps1");
-    }
-
-    //TODO: remove this when https://github.com/chocolatey/chocolatey/pull/450 is completed
-    public virtual void PatchRunNuget()
-    {
-        var installPath = GetInstallPath();
-        if (string.IsNullOrWhiteSpace(installPath))
-        {
-            return;
-        }
-
-        var runNugetPath = Path.Combine(installPath, @"chocolateyinstall\functions\Run-NuGet.ps1");
-        if (!File.Exists(runNugetPath))
-        {
-            return;
-        }
-        PatchRunNuget(runNugetPath);
-    }
-
-    public static void PatchRunNuget(string runNugetPath)
-    {
-        var allText = File.ReadAllText(runNugetPath);
-        if (!allText.Contains("$process.StartInfo.RedirectStandardError = $true"))
-        {
-            return;
-        }
-        if (allText.Contains("CreateNoWindow"))
-        {
-            return;
-        }
-        LogTo.Information(string.Format("Patching '{0}' to include 'CreateNoWindow = $true'", runNugetPath));
-        try
-        {
-            var newText = allText.Replace("$process.StartInfo.RedirectStandardError = $true",
-@"$process.StartInfo.RedirectStandardError = $true
-  $process.StartInfo.CreateNoWindow = $true");
-            File.WriteAllText(runNugetPath, newText);
-        }
-        catch (Exception exception)
-        {
-            LogTo.Warning(exception, string.Format("Could not patch '{0}'. You may get some nuget console dialogs showing.", runNugetPath));
-        }
     }
 
     public virtual Task<int> InstallChocolatey(Action<string> outputAction, Action<string> errorAction)

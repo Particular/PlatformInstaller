@@ -277,12 +277,6 @@
     <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.28.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Chocolatey\Run-NuGet_9_8_25.ps1">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Chocolatey\Run-NuGet_Before_9_8_25.ps1">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

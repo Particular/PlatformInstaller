@@ -123,7 +123,7 @@
     <Compile Include="Events\UserInstalledChocolatey.cs" />
     <Compile Include="Events\UserUpdatedChocolatey.cs" />
     <Compile Include="IsAdminChecker.cs" />
-    <Compile Include="Autofac\AutofacExtensions.cs" />
+    <Compile Include="AutofacExtensions.cs" />
     <Compile Include="PendingRestartAndResume.cs" />
     <Compile Include="ServiceMatrix.cs" />
     <Compile Include="Splash.cs" />

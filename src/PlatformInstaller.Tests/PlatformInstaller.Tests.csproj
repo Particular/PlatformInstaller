@@ -87,9 +87,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApprovalTestConfig.cs" />
+    <Compile Include="AutofacExtensionsTests.cs" />
     <Compile Include="Chocolatey\ChocolateyInstallerTests.cs" />
     <Compile Include="FakeEventAggregator.cs" />
     <Compile Include="FakePackageDefinitionService.cs" />
+    <Compile Include="AssemblyLocationTests.cs" />
     <Compile Include="LoggingTests.cs" />
     <Compile Include="PendingRestartTests.cs" />
     <Compile Include="Powershell\PowerShellExtensionsTests.cs" />

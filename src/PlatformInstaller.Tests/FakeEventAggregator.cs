@@ -11,11 +11,7 @@ public class FakeEventAggregator : IEventAggregator
     public void Unsubscribe(object instance)
     {
     }
-
-    public void Publish(object message)
-    {
-    }
-
+    
     public void Publish(object message, Action<Action> marshal)
     {
     }

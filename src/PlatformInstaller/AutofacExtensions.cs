@@ -5,7 +5,7 @@ using Autofac;
 using Autofac.Core;
 using Autofac.Core.Lifetime;
 
-static class AutofacExtensions
+public static class AutofacExtensions
 {
     public static IEnumerable<Type> GetSingleInstanceRegistrations(this ILifetimeScope container)
     {

@@ -23,6 +23,8 @@ public static class ContainerFactory
             .SingleInstance();
         builder.RegisterType<RebootMachine>()
             .SingleInstance();
+        builder.RegisterType<AbortInstallationHandler>()
+            .SingleInstance();
         builder.RegisterType<InstallFeedbackReporter>()
             .SingleInstance();
         builder.RegisterType<ShellViewModel>()
@@ -32,6 +34,8 @@ public static class ContainerFactory
         builder.RegisterType<ChocolateyInstaller>()
             .SingleInstance();
         builder.RegisterType<ProcessRunner>()
+            .SingleInstance();
+        builder.RegisterType<Installer>()
             .SingleInstance();
         builder.RegisterType<LicenseAgreement>()
             .SingleInstance();

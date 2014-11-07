@@ -6,7 +6,6 @@ using Caliburn.Micro;
 using Janitor;
 using Mindscape.Raygun4Net;
 
-
 [SkipWeaving]
 public class ShellViewModel : Conductor<object>,
     IDisposable,
@@ -14,12 +13,12 @@ public class ShellViewModel : Conductor<object>,
     IHandle<RunInstallEvent>,
     IHandle<InstallSucceededEvent>,
     IHandle<InstallFailedEvent>,
-    IHandle<RebootNeeded>,
-    IHandle<ExitApplicationEvent>,
-    IHandle<AgreedToInstallChocolatey>,
-    IHandle<HomeEvent>,
-    IHandle<UserInstalledChocolatey>,
-    IHandle<UserUpdatedChocolatey>,
+    IHandle<RebootRequiredEvent>,
+    IHandle<ExitApplicationCommand>,
+    IHandle<AgreedToInstallChocolateyEvent>,
+    IHandle<NavigateHomeCommand>,
+    IHandle<UserInstalledChocolateyEvent>,
+    IHandle<UserUpdatedChocolateyEvent>,
     IHandle<UserFixedExecutionPolicy>,
     IHandle<ReportInstallFailedEvent>
 {
@@ -31,13 +30,15 @@ public class ShellViewModel : Conductor<object>,
     List<string> itemsToInstall;
     ILifetimeScope currentLifetimeScope;
     RaygunClient raygunClient;
+    Installer installer;
 
     bool installWasAttempted;
 
-    public ShellViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, PowerShellRunner powerShellRunner, RaygunClient raygunClient)
+    public ShellViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, PowerShellRunner powerShellRunner, RaygunClient raygunClient, Installer installer)
     {
         DisplayName = "Platform Installer";
         this.raygunClient = raygunClient;
+        this.installer = installer;
         this.chocolateyInstaller = chocolateyInstaller;
         this.licenseAgreement = licenseAgreement;
         this.lifetimeScope = lifetimeScope;
@@ -68,7 +69,7 @@ public class ShellViewModel : Conductor<object>,
 
     public void Exit()
     {
-        eventAggregator.Publish<ExitApplicationEvent>();
+        eventAggregator.Publish<RequestExitApplicationEvent>();
     }
 
     public void Handle(AgeedToLicenseEvent message)
@@ -118,20 +119,21 @@ public class ShellViewModel : Conductor<object>,
 
     void ActivateInstallingViewModel()
     {
-        ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
+        ActivateModel<InstallingViewModel>();
+        installer.Install(itemsToInstall);
     }
 
-    public void Handle(AgreedToInstallChocolatey message)
+    public void Handle(AgreedToInstallChocolateyEvent message)
     {
         ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
     }
 
-    public void Handle(UserUpdatedChocolatey message)
+    public void Handle(UserUpdatedChocolateyEvent message)
     {
         ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
     }
 
-    public void Handle(UserInstalledChocolatey message)
+    public void Handle(UserInstalledChocolateyEvent message)
     {
         ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
     }
@@ -141,17 +143,17 @@ public class ShellViewModel : Conductor<object>,
         ActivateModel<SuccessViewModel>();
     }
 
-    public void Handle(RebootNeeded message)
+    public void Handle(RebootRequiredEvent message)
     {
         ActivateModel<RebootNeededViewModel>();
     }
 
-    public void Handle(HomeEvent message)
+    public void Handle(NavigateHomeCommand message)
     {
         ActivateModel<SelectItemsViewModel>();
     }
 
-    public void Handle(ExitApplicationEvent message)
+    public void Handle(ExitApplicationCommand message)
     {
         if (!installWasAttempted)
         {
@@ -165,7 +167,7 @@ public class ShellViewModel : Conductor<object>,
         var reboot = message.Failures.FirstOrDefault(f => f.Contains("reboot is required"));
         if (reboot != null)
         {
-            eventAggregator.Publish<RebootNeeded>();
+            eventAggregator.Publish<RebootRequiredEvent>();
             return;
         }
 

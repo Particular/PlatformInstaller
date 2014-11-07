@@ -1,3 +1,3 @@
-public class ExitApplicationEvent
+public class ExitApplicationCommand
 {
 }

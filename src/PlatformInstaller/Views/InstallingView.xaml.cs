@@ -26,7 +26,7 @@ public partial class InstallingView
 
     void outputText_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-        foreach (InstallingViewModel.OutputLine x in e.NewItems)
+        foreach (InstallerOutputEvent x in e.NewItems)
         {
             Dispatcher.Invoke(() =>
             {

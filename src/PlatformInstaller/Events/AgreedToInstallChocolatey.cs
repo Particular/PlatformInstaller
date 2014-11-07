@@ -1,3 +1,3 @@
-public class AgreedToInstallChocolatey
+public class AgreedToInstallChocolateyEvent
 {
 }

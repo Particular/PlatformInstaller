@@ -24,7 +24,7 @@ public class UpdateChocolateyViewModel : Screen
     
     public void Cancel()
     {
-        eventAggregator.Publish<HomeEvent>();
+        eventAggregator.Publish<NavigateHomeCommand>();
     }
 
     public void Copy()
@@ -60,7 +60,7 @@ public class UpdateChocolateyViewModel : Screen
             var chocolateyUpgradeRequired = await chocolateyInstaller.ChocolateyUpgradeRequired();
             if (chocolateyInstaller.IsInstalled() && !chocolateyUpgradeRequired)
             {
-                eventAggregator.Publish<UserInstalledChocolatey>();
+                eventAggregator.Publish<UserInstalledChocolateyEvent>();
             }
         }
         finally

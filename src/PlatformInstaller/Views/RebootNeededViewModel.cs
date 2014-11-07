@@ -12,12 +12,12 @@ public class RebootNeededViewModel : Screen
     
     public void Exit()
     {
-        eventAggregator.Publish<ExitApplicationEvent>();
+        eventAggregator.Publish<ExitApplicationCommand>();
     }
     public void Reboot()
     {
-        eventAggregator.Publish<RebootMachineEvent>();
-        eventAggregator.Publish<ExitApplicationEvent>();
+        eventAggregator.Publish<RebootMachineCommand>();
+        eventAggregator.Publish<ExitApplicationCommand>();
     }
 
 }

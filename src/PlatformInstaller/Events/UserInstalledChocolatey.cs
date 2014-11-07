@@ -1,3 +1,3 @@
-public class UserInstalledChocolatey
+public class UserInstalledChocolateyEvent
 {
 }

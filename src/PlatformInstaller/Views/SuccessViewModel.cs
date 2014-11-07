@@ -12,12 +12,12 @@ public class SuccessViewModel : Screen
 
     public void Exit()
     {
-        eventAggregator.Publish<ExitApplicationEvent>();
+        eventAggregator.Publish<ExitApplicationCommand>();
     }
 
     public void Home()
     {
-        eventAggregator.Publish<HomeEvent>();
+        eventAggregator.Publish<NavigateHomeCommand>();
     }
 
 }

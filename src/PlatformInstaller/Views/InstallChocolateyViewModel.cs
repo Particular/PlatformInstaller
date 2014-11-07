@@ -16,19 +16,19 @@ public class InstallChocolateyViewModel : Screen
 
     public void Continue()
     {
-        eventAggregator.Publish<AgreedToInstallChocolatey>();
+        eventAggregator.Publish<AgreedToInstallChocolateyEvent>();
     }
 
     public void Cancel()
     {
-        eventAggregator.Publish<HomeEvent>();
+        eventAggregator.Publish<NavigateHomeCommand>();
     }
 
     public void ReCheck()
     {
         if (chocolateyInstaller.IsInstalled())
         {
-            eventAggregator.Publish<UserInstalledChocolatey>();
+            eventAggregator.Publish<UserInstalledChocolateyEvent>();
         }
     }
 

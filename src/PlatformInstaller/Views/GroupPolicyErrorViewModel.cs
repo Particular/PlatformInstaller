@@ -15,7 +15,7 @@ public class GroupPolicyErrorViewModel : Screen
 
     public void Exit()
     {
-        eventAggregator.Publish<ExitApplicationEvent>();
+        eventAggregator.Publish<ExitApplicationCommand>();
     }
 
     public void ReCheck()

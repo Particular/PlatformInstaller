@@ -3,7 +3,10 @@ using System.Linq;
 using Caliburn.Micro;
 using Microsoft.Win32;
 
-public class PendingRestartAndResume : IHandle<RebootNeeded>, IHandle<RunInstallEvent>, IHandle<CheckPointInstallEvent>
+public class PendingRestartAndResume :
+    IHandle<RebootRequiredEvent>, 
+    IHandle<RunInstallEvent>, 
+    IHandle<CheckPointInstallEvent>
 {
     public virtual bool ResumedFromRestart { private set;  get; }
 
@@ -16,6 +19,11 @@ public class PendingRestartAndResume : IHandle<RebootNeeded>, IHandle<RunInstall
         {
             ResumedFromRestart = runKey.GetValueNames().Contains("PlatformInstaller");
         }     
+    }
+
+    public void Handle(RebootRequiredEvent message)
+    {
+        AddPendingRestart();
     }
 
     public void AddPendingRestart()
@@ -52,10 +60,6 @@ public class PendingRestartAndResume : IHandle<RebootNeeded>, IHandle<RunInstall
         }
     }
 
-    public void Handle(RebootNeeded message)
-    {
-        AddPendingRestart();
-    }
 
     public void Handle(RunInstallEvent message)
     {

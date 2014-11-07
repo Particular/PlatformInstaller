@@ -20,7 +20,7 @@ public class LicenseAgreementViewModel : Screen
 
     public void Exit()
     {
-        eventAggregator.Publish<ExitApplicationEvent>();
+        eventAggregator.Publish<ExitApplicationCommand>();
     }
 
     protected override void OnActivate()

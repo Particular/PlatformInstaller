@@ -1,216 +1,48 @@
 // ReSharper disable NotAccessedField.Global
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Management.Automation;
-using System.Threading.Tasks;
-using Autofac;
 using Caliburn.Micro;
 
-public class InstallingViewModel : Screen
+public class InstallingViewModel : Screen, IHandle<InstallerOutputEvent>, 
+    IHandle<InstallProgressEvent>
 {
-    public InstallingViewModel(PackageDefinitionService packageDefinitionDiscovery, ChocolateyInstaller chocolateyInstaller, IEventAggregator eventAggregator, PackageManager packageManager, IWindowManager windowManager, PowerShellRunner powerShellRunner, PendingRestartAndResume pendingRestartAndResume, List<string> itemsToInstall, ILifetimeScope lifetimeScope)
+    public InstallingViewModel(IEventAggregator eventAggregator)
     {
-        PackageDefinitionService = packageDefinitionDiscovery;
-        this.chocolateyInstaller = chocolateyInstaller;
         this.eventAggregator = eventAggregator;
-        this.packageManager = packageManager;
-        this.windowManager = windowManager;
-        this.powerShellRunner = powerShellRunner;
-        this.itemsToInstall = itemsToInstall;
-        this.lifetimeScope = lifetimeScope;
-        this.pendingRestartAndResume = pendingRestartAndResume;
         DisplayName = "Installing";
     }
 
     public string CurrentStatus;
-    public PackageDefinitionService PackageDefinitionService;
-    public PendingRestartAndResume pendingRestartAndResume;
-    ChocolateyInstaller chocolateyInstaller;
     IEventAggregator eventAggregator;
-    PackageManager packageManager;
-    IWindowManager windowManager;
-    PowerShellRunner powerShellRunner;
-    List<string> itemsToInstall;
-    ILifetimeScope lifetimeScope;
-    public List<string> Errors = new List<string>();
-    public List<string> Warnings = new List<string>();
-    public ObservableCollection<OutputLine> OutputText = new ObservableCollection<OutputLine>();
+    public ObservableCollection<InstallerOutputEvent> OutputText = new ObservableCollection<InstallerOutputEvent>();
     public int NestedActionPercentComplete;
     public bool HasNestedAction;
     public string NestedActionDescription;
-
-    public bool InstallFailed
-    {
-        get { return Errors.Any(); }
-    }
-
+    public bool InstallFailed;
     public int InstallProgress;
     public int InstallCount;
-    bool aborting;
-    bool isInstalling;
 
     public void Back()
     {
-        eventAggregator.Publish<HomeEvent>();
+        eventAggregator.Publish<NavigateHomeCommand>();
     }
 
-    public override void CanClose(Action<bool> callback)
+
+    public void Handle(InstallerOutputEvent message)
     {
-        if (isInstalling)
+        if (message.IsError)
         {
-            using (var beginLifetimeScope = lifetimeScope.BeginLifetimeScope())
-            {
-                var confirmModel = beginLifetimeScope.Resolve<ConfirmAbortInstallViewModel>();
-                windowManager.ShowDialog(confirmModel);
-                if (confirmModel.AbortInstallation)
-                {
-                    aborting = true;
-                    powerShellRunner.Abort();
-                    callback(true);
-                    eventAggregator.Publish<InstallCancelledEvent>();
-                    return;
-                }
-                callback(false);
-            }
+            InstallFailed = true;
         }
-        callback(true);
+        OutputText.Add(message);
     }
 
-    protected override void OnActivate()
+    public void Handle(InstallProgressEvent message)
     {
-        base.OnActivate();
-        InstallSelected();
-    }
-
-    public async Task InstallSelected()
-    {
-        isInstalling = true;
-        var packageDefinitions = PackageDefinitionService.GetPackages()
-            .Where(p => itemsToInstall.Contains(p.Name))
-            .SelectMany(x => x.PackageDefinitions)
-            .ToList();
-
-        if (pendingRestartAndResume.ResumedFromRestart)
-        {
-            var checkpoint = pendingRestartAndResume.Checkpoint();
-            if (packageDefinitions.Any(p => p.Name.Equals(checkpoint)))
-            {
-                // Fast Forward to the step after the last successful step
-                packageDefinitions = packageDefinitions.SkipWhile(p => !p.Name.Equals(checkpoint)).Skip(1).ToList();
-            }
-        }
-        pendingRestartAndResume.CleanupResume();
-
-        InstallCount = packageDefinitions.Count();
-        
-        if (!chocolateyInstaller.IsInstalled())
-        {
-            InstallCount++;
-            await chocolateyInstaller.InstallChocolatey(AddOutput, AddError);
-
-            if (InstallFailed)
-            {
-                isInstalling = false;
-                eventAggregator.PublishOnUIThread(new InstallFailedEvent
-                    {
-                        Reason = "Failed to install chocolatey",
-                        Failures = Errors
-                    });
-                return;
-            }
-
-            ClearNestedAction();
-            AddOutput(Environment.NewLine);
-            InstallProgress++;
-        }
-
-
-
-        foreach (var packageDefinition in packageDefinitions)
-        {
-            if (aborting)
-            {
-                return;
-            }
-            CurrentStatus = packageDefinition.DisplayName ?? packageDefinition.Name;
-            await packageManager.Install(packageDefinition.Name, packageDefinition.Parameters, AddOutput, AddWarning, AddError, OnProgressAction);
-
-
-            if (InstallFailed)
-            {
-                isInstalling = false;
-                eventAggregator.PublishOnUIThread(new InstallFailedEvent
-                    {
-                        Reason = "Failed to install package: " + packageDefinition.Name,
-                        Failures = Errors
-                    });
-                return;
-            }
-
-            ClearNestedAction();
-            AddOutput(Environment.NewLine);
-            eventAggregator.PublishOnUIThread(new CheckPointInstallEvent{ Item = packageDefinition.Name});
-            InstallProgress++;
-        }
-
-        isInstalling = false;
-        eventAggregator.PublishOnUIThread(new InstallSucceededEvent { InstalledItems = itemsToInstall });
-    }
-
-    void OnProgressAction(ProgressRecord progressRecord)
-    {
-        if (progressRecord.PercentComplete == -1)
-        {
-            ClearNestedAction();
-            return;
-        }
-
-        HasNestedAction = true;
-        NestedActionPercentComplete = progressRecord.PercentComplete;
-        NestedActionDescription = progressRecord.ToDownloadingString();
-    }
-
-    void ClearNestedAction()
-    {
-        HasNestedAction = false;
-        NestedActionPercentComplete = 0;
-        NestedActionDescription = "";
-    }
-
-    void AddOutput(string output)
-    {
-        OutputText.Add(new OutputLine
-            {
-                Text = output
-            });
-    }
-
-    void AddError(string error)
-    {
-        OutputText.Add(new OutputLine
-            {
-                IsError = true,
-                Text = error
-            });
-        Errors.Add(error);
-    }
-
-    void AddWarning(string warning)
-    {
-        OutputText.Add(new OutputLine
-            {
-                IsWarning = true,
-                Text = warning
-            });
-        Warnings.Add(warning);
-    }
-
-    public class OutputLine
-    {
-        public bool IsError;
-        public bool IsWarning;
-        public string Text;
+        CurrentStatus = message.CurrentStatus;
+        InstallProgress = message.InstallProgress;
+        InstallCount = message.InstallCount;
+        HasNestedAction = message.HasNestedAction;
+        NestedActionPercentComplete = message.NestedActionPercentComplete;
+        NestedActionDescription = message.NestedActionDescription;
     }
 }

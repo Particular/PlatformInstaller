@@ -120,7 +120,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Runner.cs" />
     <Compile Include="Events\InstallFailedEvent.cs" />
-    <Compile Include="Events\RebootNeeded.cs" />
+    <Compile Include="Events\RebootRequiredEvent.cs" />
     <Compile Include="Events\UserInstalledChocolatey.cs" />
     <Compile Include="Events\UserUpdatedChocolatey.cs" />
     <Compile Include="IsAdminChecker.cs" />
@@ -146,10 +146,16 @@
     <Compile Include="Events\HomeEvent.cs" />
     <Compile Include="Events\AgreedToInstallChocolatey.cs" />
     <Compile Include="PackageDefinition.cs" />
-    <Compile Include="Events\RebootMachineEvent.cs" />
+    <Compile Include="Events\RebootMachineCommand.cs" />
     <Compile Include="Views\ConfirmSendExceptionView.xaml.cs">
       <DependentUpon>ConfirmSendExceptionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events\InstallerOutputEvent.cs" />
+    <Compile Include="Views\Installer.cs" />
+    <Compile Include="Events\InstallProgressEvent.cs" />
+    <Compile Include="Events\RequestExitApplicationEvent.cs" />
+    <Compile Include="Views\AbortInstallationHandler.cs" />
+    <Compile Include="Events\InstallStartedEvent.cs" />
     <Compile Include="Views\ResumeInstallViewModel.cs" />
     <Compile Include="Views\ResumeInstall.xaml.cs">
       <DependentUpon>ResumeInstall.xaml</DependentUpon>

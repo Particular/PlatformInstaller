@@ -90,7 +90,7 @@ public class SelectItemsViewModel : Screen
 
     public void Exit()
     {
-        eventAggregator.Publish<ExitApplicationEvent>();
+        eventAggregator.Publish<ExitApplicationCommand>();
     }
 
     public class PackageDefinitionBindable : INotifyPropertyChanged

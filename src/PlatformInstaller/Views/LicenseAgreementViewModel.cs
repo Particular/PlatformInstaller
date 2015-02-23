@@ -27,6 +27,7 @@ public class LicenseAgreementViewModel : Screen
         eventAggregator.Publish<ExitApplicationCommand>();
     }
 
+    
     protected override void OnActivate()
     {
         var richTextBox = GetRichTextBox();

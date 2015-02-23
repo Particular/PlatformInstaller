@@ -2,6 +2,10 @@ using Caliburn.Micro;
 
 public class SuccessViewModel : Screen
 {
+    public SuccessViewModel()
+    {
+        
+    }
     public SuccessViewModel(IEventAggregator eventAggregator)
     {
         DisplayName = "Success";

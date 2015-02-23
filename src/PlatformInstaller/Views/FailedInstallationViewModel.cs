@@ -6,6 +6,10 @@ using Caliburn.Micro;
 
 public class FailedInstallationViewModel : Screen
 {
+    public FailedInstallationViewModel()
+    {
+        
+    }
     public FailedInstallationViewModel(IEventAggregator eventAggregator, string failureReason, List<string> failures)
     {
         this.eventAggregator = eventAggregator;
@@ -16,9 +20,9 @@ public class FailedInstallationViewModel : Screen
 
     IEventAggregator eventAggregator;
 
-    public string FailureDescription;
+    public string FailureDescription { get; set; }
 
-    public string FailuresText;
+    public string FailuresText { get; set; }
 
     public void Exit()
     {

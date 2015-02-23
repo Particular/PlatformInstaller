@@ -5,11 +5,17 @@ public class InstallChocolateyViewModel : Screen
 {
     IEventAggregator eventAggregator;
     ChocolateyInstaller chocolateyInstaller;
-    public string InstallCommand = ChocolateyInstaller.InstallCommand;
+    public string InstallCommand { get; set; }
+
+    public InstallChocolateyViewModel()
+    {
+        InstallCommand = ChocolateyInstaller.InstallCommand;
+    }
 
     public InstallChocolateyViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller)
     {
         DisplayName = "Install Chocolatey";
+        InstallCommand = ChocolateyInstaller.InstallCommand;
         this.eventAggregator = eventAggregator;
         this.chocolateyInstaller = chocolateyInstaller;
     }

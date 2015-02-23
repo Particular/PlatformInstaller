@@ -7,6 +7,10 @@ public class LicenseAgreementViewModel : Screen
 {
     IEventAggregator eventAggregator;
 
+    public LicenseAgreementViewModel()
+    {
+        
+    }
     public LicenseAgreementViewModel(IEventAggregator eventAggregator)
     {
         this.eventAggregator = eventAggregator;

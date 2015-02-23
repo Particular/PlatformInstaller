@@ -8,9 +8,14 @@ using System.Reflection;
 
 public class SelectItemsViewModel : Screen
 {
+    public SelectItemsViewModel()
+    {
+        
+    }
     public SelectItemsViewModel(PackageDefinitionService packageDefinitionDiscovery, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume, ILifetimeScope lifetimeScope, IWindowManager windowManager)
     {
         DisplayName = "Selected Items";
+        AppVersion = String.Format("Version: {0}", Assembly.GetExecutingAssembly().GetName().Version);
         this.packageDefinitionDiscovery = packageDefinitionDiscovery;
         this.eventAggregator = eventAggregator;
         this.pendingRestartAndResume = pendingRestartAndResume;
@@ -20,15 +25,15 @@ public class SelectItemsViewModel : Screen
 
     IWindowManager windowManager;
     ILifetimeScope lifetimeScope;
-   
-    public bool IsInstallEnabled;
 
-    public string AppVersion = String.Format("Version: {0}", Assembly.GetExecutingAssembly().GetName().Version);
+    public bool IsInstallEnabled { get; set; }
+
+    public string AppVersion { get; set; }
 
     PackageDefinitionService packageDefinitionDiscovery;
     IEventAggregator eventAggregator;
-    public List<PackageDefinitionBindable> PackageDefinitions;
-    public PendingRestartAndResume pendingRestartAndResume;
+    public List<PackageDefinitionBindable> PackageDefinitions { get; set; }
+    public PendingRestartAndResume pendingRestartAndResume { get; set; }
 
     protected override void OnInitialize()
     {
@@ -95,12 +100,12 @@ public class SelectItemsViewModel : Screen
 
     public class PackageDefinitionBindable : INotifyPropertyChanged
     {
-        public string Name;
-        public string ImageUrl;
-        public string Status;
-        public bool Selected;
-        public bool Enabled;
+        public string Name { get; set; }
+        public string ImageUrl { get; set; }
+        public string Status { get; set; }
+        public bool Selected { get; set; }
+        public bool Enabled { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
-        public string ToolTip;
+        public string ToolTip { get; set; }
     }
 }

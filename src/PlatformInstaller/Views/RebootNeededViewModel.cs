@@ -2,6 +2,10 @@ using Caliburn.Micro;
 
 public class RebootNeededViewModel : Screen
 {
+    public RebootNeededViewModel()
+    {
+        
+    }
     public RebootNeededViewModel(IEventAggregator eventAggregator)
     {
         DisplayName = "Reboot Required";

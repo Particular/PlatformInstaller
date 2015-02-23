@@ -6,9 +6,15 @@ public class GroupPolicyErrorViewModel : Screen
     IEventAggregator eventAggregator;
     PowerShellRunner powerShellRunner;
 
+    public GroupPolicyErrorViewModel()
+    {
+        
+    }
     public GroupPolicyErrorViewModel(IEventAggregator eventAggregator, PowerShellRunner powerShellRunner)
     {
         DisplayName = "Group Policy Error";
+        ListGpoCommand = "Get-ExecutionPolicy -List";
+        OverrideCommand = "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine";
         this.eventAggregator = eventAggregator;
         this.powerShellRunner = powerShellRunner;
     }
@@ -27,8 +33,8 @@ public class GroupPolicyErrorViewModel : Screen
     }
 
 
-    public string OverrideCommand = "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine";
-    public string ListGpoCommand = "Get-ExecutionPolicy -List";
+    public string OverrideCommand { get; set; }
+    public string ListGpoCommand { get; set; }
     
     public void CopyListGpoCommand()
     {

@@ -8,16 +8,22 @@ public class UpdateChocolateyViewModel : Screen
     IEventAggregator eventAggregator;
     ChocolateyInstaller chocolateyInstaller;
 
-    public Version MinimumChocolateyVersion;
-    public Version DetectedChocolateyVersion;
-    public string LastCheckedTime;
-    public bool CanAcceptInput;
-    public string InstallCommand = ChocolateyInstaller.InstallCommand;
-    public string UpdateCommand = ChocolateyInstaller.UpdateCommand;
-    
+    public Version MinimumChocolateyVersion { get; set; }
+    public Version DetectedChocolateyVersion { get; set; }
+    public string LastCheckedTime { get; set; }
+    public bool CanAcceptInput { get; set; }
+    public string InstallCommand { get; set; }
+    public string UpdateCommand { get; set; }
+
+    public UpdateChocolateyViewModel()
+    {
+        
+    }
     public UpdateChocolateyViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller)
     {
         DisplayName = "Update Chocolatey";
+        UpdateCommand = ChocolateyInstaller.UpdateCommand;
+        InstallCommand = ChocolateyInstaller.InstallCommand;
         this.eventAggregator = eventAggregator;
         this.chocolateyInstaller = chocolateyInstaller;
     }

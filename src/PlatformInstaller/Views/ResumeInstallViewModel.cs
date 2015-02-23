@@ -13,7 +13,7 @@ public class ResumeInstallViewModel : Screen
         TryClose();
     }
 
-    public bool AbortInstallation;
+    public bool AbortInstallation { get; set; }
 
     public void ContinueInstallation()
     {

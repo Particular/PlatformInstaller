@@ -44,7 +44,7 @@ public class PackageManagerTests
 
     [Test]
     [Explicit("Integration")]
-    public async void TryGetInstalledVersion()
+    public void TryGetInstalledVersion()
     {
         var packageInstaller = GetPackageInstaller();
         SemanticVersion version;

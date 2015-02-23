@@ -32,9 +32,9 @@ public class FakeChocolateyInstaller : ChocolateyInstaller
         return new Task<Version>(() => new Version(1, 1, 1, 1));
     }
 
-    public override Task<Version> GetVersionFromRawFile()
+    public override Version GetVersionFromRawFile()
     {
-        return new Task<Version>(() => new Version(1,1,1,1) );
+        return new Version(1,1,1,1);
     }
 
     public override Task<int> InstallChocolatey(Action<string> outputAction, Action<string> errorAction)

@@ -61,10 +61,10 @@ public class ChocolateyInstallerTests
 
     [Test]
     [Explicit("Integration")]
-    public async void GetVersionFromRawFile()
+    public void GetVersionFromRawFile()
     {
         var chocolateyInstaller = new ChocolateyInstaller(new ProcessRunner(), new PowerShellRunner());
-        var installVersion = await chocolateyInstaller.GetVersionFromRawFile();
+        var installVersion = chocolateyInstaller.GetVersionFromRawFile();
         Debug.WriteLine(installVersion);
         Assert.IsNotNull(installVersion);
     }

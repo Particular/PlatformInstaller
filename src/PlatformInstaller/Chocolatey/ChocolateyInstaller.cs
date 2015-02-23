@@ -76,7 +76,7 @@ public class ChocolateyInstaller
 
     public virtual async Task<Version> GetInstalledVersion()
     {
-        var version = await GetVersionFromRawFile();
+        var version = GetVersionFromRawFile();
         if (version != null)
         {
             return version;
@@ -111,7 +111,7 @@ public class ChocolateyInstaller
         return version;
     }
 
-    public virtual async Task<Version> GetVersionFromRawFile()
+    public virtual Version GetVersionFromRawFile()
     {
         return ParseVersionFromRawFile(GetChocolateyPs1Path());
     }

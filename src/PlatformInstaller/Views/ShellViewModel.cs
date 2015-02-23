@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
 using Janitor;
@@ -111,16 +112,16 @@ public class ShellViewModel : Conductor<object>,
                 ActivateModel<UpdateChocolateyViewModel>();
                 return;
             }
-            ActivateInstallingViewModel();
+            await ActivateInstallingViewModel();
             return;
         }
         ActivateModel<InstallChocolateyViewModel>();
     }
 
-    void ActivateInstallingViewModel()
+    Task ActivateInstallingViewModel()
     {
         ActivateModel<InstallingViewModel>();
-        installer.Install(itemsToInstall);
+        return installer.Install(itemsToInstall);
     }
 
     public void Handle(AgreedToInstallChocolateyEvent message)

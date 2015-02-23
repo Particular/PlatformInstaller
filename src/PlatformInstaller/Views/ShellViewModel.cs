@@ -124,19 +124,22 @@ public class ShellViewModel : Conductor<object>,
         return installer.Install(itemsToInstall);
     }
 
-    public void Handle(AgreedToInstallChocolateyEvent message)
+    public async void Handle(AgreedToInstallChocolateyEvent message)
     {
         ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
+        await ActivateInstallingViewModel();
     }
 
-    public void Handle(UserUpdatedChocolateyEvent message)
+    public async void Handle(UserUpdatedChocolateyEvent message)
     {
         ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
+        await ActivateInstallingViewModel();
     }
 
-    public void Handle(UserInstalledChocolateyEvent message)
+    public async void Handle(UserInstalledChocolateyEvent message)
     {
         ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
+        await ActivateInstallingViewModel();
     }
 
     public void Handle(InstallSucceededEvent message)

@@ -283,6 +283,21 @@
     <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.28.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.29.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.30.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.31.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.32.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Chocolatey\ChocolateyPs1\chocolatey.0.9.8.33.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

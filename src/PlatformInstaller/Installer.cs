@@ -38,12 +38,7 @@ public class Installer : IHandle<CancelInstallCommand>
     }
 
     bool aborting;
-
-    public void Back()
-    {
-        eventAggregator.Publish<NavigateHomeCommand>();
-    }
-
+    
     public void Handle(CancelInstallCommand message)
     {
         aborting = true;

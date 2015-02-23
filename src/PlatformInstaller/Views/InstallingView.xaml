@@ -4,8 +4,12 @@
         x:Class="InstallingView" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:global="clr-namespace:"
         mc:Ignorable="d" 
         d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <global:InstallingViewModel/>
+    </UserControl.DataContext>
     <UserControl.Resources>
         <ResourceDictionary>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />

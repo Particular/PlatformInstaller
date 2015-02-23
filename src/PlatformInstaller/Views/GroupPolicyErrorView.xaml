@@ -7,6 +7,9 @@
         mc:Ignorable="d" 
         d:DesignHeight="400" d:DesignWidth="450"
         x:Class="GroupPolicyErrorView">
+    <UserControl.DataContext>
+        <global:GroupPolicyErrorViewModel/>
+    </UserControl.DataContext>
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

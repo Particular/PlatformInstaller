@@ -1,7 +1,6 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:cal="http://www.caliburnproject.org"
         xmlns:global="clr-namespace:"
         x:Class="ShellView" WindowStartupLocation="CenterScreen"
         Title="Particular Platform Installer" Height="550" Width="450" WindowStyle="None" ResizeMode="NoResize" BorderBrush="White" >

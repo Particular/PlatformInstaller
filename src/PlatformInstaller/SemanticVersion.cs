@@ -4,6 +4,7 @@
 // ReSharper disable SuggestUseVarKeywordEverywhere
 // ReSharper disable SuggestUseVarKeywordEvident
 //Copied from the nuget source
+// ReSharper disable ArrangeStaticMemberQualifier
 namespace NuGet
 {
     using System;

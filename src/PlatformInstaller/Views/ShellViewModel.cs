@@ -159,7 +159,7 @@ public class ShellViewModel : Conductor<object>,
         {
             eventAggregator.Publish<NoInstallAttemptedEvent>();
         }
-        base.TryClose();
+        TryClose();
     }
 
     public void Handle(InstallFailedEvent message)

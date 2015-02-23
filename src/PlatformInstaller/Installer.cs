@@ -68,7 +68,7 @@ public class Installer : IHandle<CancelInstallCommand>
 
         installCount = packageDefinitions.Count();
 
-        if (!chocolateyInstaller.IsInstalled())
+        if (!chocolateyInstaller.IsInstalled() || await chocolateyInstaller.ChocolateyUpgradeRequired())
         {
             installCount++;
             PublishProgressEvent();
@@ -77,10 +77,10 @@ public class Installer : IHandle<CancelInstallCommand>
             if (InstallFailed)
             {
                 eventAggregator.PublishOnUIThread(new InstallFailedEvent
-                    {
-                        Reason = "Failed to install chocolatey",
-                        Failures = errors
-                    });
+                                                  {
+                                                      Reason = "Failed to install chocolatey",
+                                                      Failures = errors
+                                                  });
                 return;
             }
 

@@ -40,6 +40,10 @@ NavigateUri="https://github.com/chocolatey/chocolatey/wiki/CommandsUpdate#chocol
         <Border BorderBrush="#FF000000" DockPanel.Dock="Top" BorderThickness="1" Margin="5" CornerRadius="2">
             <TextBox Background="#E7E7E7" Text="{Binding UpdateCommand}"/>
         </Border>
+
+        <StackPanel DockPanel.Dock="Top"  Orientation="Horizontal"  FlowDirection="RightToLeft">
+            <Button x:Name="CopyUpdate">Copy update command</Button>
+        </StackPanel>
         <TextBlock DockPanel.Dock="Top" Foreground="Gray">Once you have run this command click the "Re-Check" button below.</TextBlock>
         <TextBlock DockPanel.Dock="Top" FontWeight="Bold" Margin="0,10,0,0">OR</TextBlock>
         <TextBlock DockPanel.Dock="Top" FontWeight="Bold" Margin="0,10,0,0">Re-Install Chocolatey.</TextBlock>
@@ -48,11 +52,12 @@ NavigateUri="https://github.com/chocolatey/chocolatey/wiki/CommandsUpdate#chocol
             <TextBox Background="#E7E7E7" Text="{Binding InstallCommand}"/>
         </Border>
         <StackPanel DockPanel.Dock="Top"  Orientation="Horizontal"  FlowDirection="RightToLeft">
-            <Button x:Name="Copy">Copy</Button>
+            <Button x:Name="CopyInstall">Copy re-install command</Button>
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Bottom" IsEnabled="{Binding CanAcceptInput}" Orientation="Horizontal" FlowDirection="RightToLeft">
             <Button x:Name="Cancel">Cancel</Button>
+            <Button x:Name="Continue">Update Chocolatey</Button>
             <Button x:Name="ReCheck">Re-Check</Button>
         </StackPanel>
     </DockPanel>

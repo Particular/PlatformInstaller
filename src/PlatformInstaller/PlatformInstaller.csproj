@@ -148,7 +148,7 @@
     <Compile Include="Events\AgeedToLicenseEvent.cs" />
     <Compile Include="Events\ExitApplicationEvent.cs" />
     <Compile Include="Events\HomeEvent.cs" />
-    <Compile Include="Events\AgreedToInstallChocolatey.cs" />
+    <Compile Include="Events\AgreedToInstallChocolateyEvent.cs" />
     <Compile Include="PackageDefinition.cs" />
     <Compile Include="Events\RebootMachineCommand.cs" />
     <Compile Include="Views\ConfirmSendExceptionView.xaml.cs">

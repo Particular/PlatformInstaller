@@ -17,8 +17,8 @@ public class UpdateChocolateyViewModel : Screen
 
     public UpdateChocolateyViewModel()
     {
-        
     }
+
     public UpdateChocolateyViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller)
     {
         DisplayName = "Update Chocolatey";
@@ -33,9 +33,20 @@ public class UpdateChocolateyViewModel : Screen
         eventAggregator.Publish<NavigateHomeCommand>();
     }
 
-    public void Copy()
+
+    public void Continue()
+    {
+        eventAggregator.Publish<AgreedToInstallChocolateyEvent>();
+    }
+
+    public void CopyInstall()
     {
         Clipboard.SetText(InstallCommand);
+    }
+
+    public void CopyUpdate()
+    {
+        Clipboard.SetText(UpdateCommand);
     }
 
     protected override async void OnActivate()

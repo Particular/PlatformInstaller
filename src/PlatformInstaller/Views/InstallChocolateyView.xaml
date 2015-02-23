@@ -31,7 +31,7 @@
             <TextBox Background="#E7E7E7" Text="{Binding InstallCommand}"/>
         </Border>
         <StackPanel DockPanel.Dock="Top"  Orientation="Horizontal"  FlowDirection="RightToLeft">
-            <Button x:Name="Copy">Copy</Button>
+            <Button x:Name="Copy">Copy install command</Button>
         </StackPanel>
         <StackPanel DockPanel.Dock="Bottom"  Orientation="Horizontal"  FlowDirection="RightToLeft">
             <Button x:Name="Cancel">Cancel</Button>

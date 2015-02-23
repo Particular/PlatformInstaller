@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:global="clr-namespace:"
         x:Class="ShellView" WindowStartupLocation="CenterScreen"
-        Title="Particular Platform Installer" Height="550" Width="450" WindowStyle="None" ResizeMode="NoResize" BorderBrush="White" >
+        Title="Particular Platform Installer" Height="560" Width="500" WindowStyle="None" ResizeMode="NoResize" BorderBrush="White" >
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

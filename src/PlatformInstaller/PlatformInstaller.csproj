@@ -155,7 +155,7 @@
       <DependentUpon>ConfirmSendExceptionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\InstallerOutputEvent.cs" />
-    <Compile Include="Views\Installer.cs" />
+    <Compile Include="Installer.cs" />
     <Compile Include="Events\InstallProgressEvent.cs" />
     <Compile Include="Events\RequestExitApplicationEvent.cs" />
     <Compile Include="Views\AbortInstallationHandler.cs" />

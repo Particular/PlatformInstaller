@@ -40,7 +40,8 @@ public class PackageManager
 #if (DEBUG)
                 {"pre", true},
 #endif
-                {"force", true}
+                {"force", true},
+                {"y", true}
         };
         if (installArguments != null)
         {

@@ -1,81 +1,68 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Management.Automation;
+using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using NuGet;
 
 public class PackageManager
 {
-    PowerShellRunner powerShellRunner;
     ChocolateyInstaller chocolateyInstaller;
+    ProcessRunner processRunner;
 
-    public PackageManager(PowerShellRunner powerShellRunner, ChocolateyInstaller chocolateyInstaller)
+    public PackageManager(ProcessRunner processRunner,ChocolateyInstaller chocolateyInstaller)
     {
-        this.powerShellRunner = powerShellRunner;
+        this.processRunner = processRunner;
         this.chocolateyInstaller = chocolateyInstaller;
     }
 
-
-    public Task Uninstall(string packageName, Action<string> logOutput, Action<string> logWarning, Action<string> logError, Action<ProgressRecord> logProgress)
+    public Task Uninstall(string packageName, Action<string> logOutput, Action<string> logError)
     {
-        var parameters = new Dictionary<string, object>
-        {
-                {"command", "uninstall"},
-                {"packageNames", packageName}
-        };
-        var chocolateyPs1Path = chocolateyInstaller.GetChocolateyPs1Path();
-        return powerShellRunner.Run(chocolateyPs1Path, parameters, logOutput, logWarning, logError, logProgress);
+        var chocolateyExePath = Path.Combine(chocolateyInstaller.GetInstallPath(), @"bin\chocolatey.exe");
+        var parameters = new StringBuilder();
+        parameters.AppendFormat(" uninstall {0}", packageName);
+        parameters.Append(" --confirm");
+        parameters.Append(" --force");
+        return processRunner.RunProcess(chocolateyExePath, parameters.ToString(), logOutput, logError);
     }
-
-    public async Task Install(string packageName, string installArguments, Action<string> logOutput, Action<string> logWarning, Action<string> logError, Action<ProgressRecord> logProgress)
+    
+    public async Task Install(string packageName, string installArguments, Action<string> logOutput, Action<string> logError)
     {
-        var parameters = new Dictionary<string, object>
-        {
-                {"command", "install"},
-                {"packageNames", packageName},
-                {"source", GetSource()},
-                {"verbosity", true},
-#if (DEBUG)
-                {"pre", true},
-#endif
-                {"force", true},
-                {"y", true}
+
+        var outputLog  = new List<string>();
+        Action<string> wrappedLogOutput = s => {
+             outputLog.Add(s);
+             logOutput(s);
         };
+
+        var chocolateyExePath = Path.Combine(chocolateyInstaller.GetInstallPath(), @"bin\chocolatey.exe");
+        var parameters = new StringBuilder();
+        parameters.AppendFormat(" install {0}", packageName);
+        parameters.AppendFormat(" --source=\"{0}\"", GetSource());
+        parameters.Append(" --confirm");
+        parameters.Append(" --force");
+#if (DEBUG)
+        parameters.Append(" --prerelease");
+#endif
+
         if (installArguments != null)
         {
-            parameters["installArguments"] = installArguments;
+            parameters.AppendFormat(" --params=\"{0}\"", installArguments);
         }
-        var chocolateyPs1Path = Path.Combine(chocolateyInstaller.GetInstallPath(), @"chocolateyinstall\chocolatey.ps1");
-        Action<string> wrappedLogOutput = s =>
+        var exitCode = await processRunner.RunProcess(chocolateyExePath, parameters.ToString(), wrappedLogOutput, logError);
+        if (exitCode != 0)
         {
-            if (s.ToLower().Contains("reboot is required"))
+            foreach (var s in outputLog)
             {
-                logError(s);
-                return;
+                logError(s);                      
             }
-
-            if (s.ToLower().Contains("the remote name could not be resolved:"))
-            {
-                logError(s);
-                return;
-            }
-
-
-            if (s.ToLower().Contains("unable to find package"))
-            {
-                logError(s);
-                return;
-            }
-
-
-            logOutput(s);
-
-        };
-        await powerShellRunner.Run(chocolateyPs1Path, parameters, wrappedLogOutput, logWarning, logError, logProgress);
+        }
         CopyLogFiles(packageName);
     }
+
 
     public static void CopyLogFiles(string packageName)
     {
@@ -115,30 +102,27 @@ public class PackageManager
 
     public bool TryGetInstalledVersion(string packageName, out SemanticVersion version)
     {
-        version = null;
-        var installPath = chocolateyInstaller.GetInstallPath();
-        if (installPath == null)
+        var processStartInfo = new ProcessStartInfo
         {
-            return false;
-        }
-        var chocolateyLibPath = Path.Combine(installPath, "lib");
-        if (!Directory.Exists(chocolateyLibPath))
+            FileName = Path.Combine(chocolateyInstaller.GetInstallPath(), @"bin\chocolatey.exe"),
+            Arguments = string.Format("list {0} -l -r", packageName),
+            RedirectStandardOutput = true,
+            UseShellExecute = false,
+            CreateNoWindow = true,
+            WindowStyle = ProcessWindowStyle.Hidden
+        };
+        var process = Process.Start(processStartInfo);
+        if (process != null)
         {
-            return false;
-        }
-        foreach (var directory in Directory.EnumerateDirectories(chocolateyLibPath, packageName + ".*"))
-        {
-            var versionString = Path.GetFileName(directory).ReplaceCaseless(packageName + ".", "");
-            SemanticVersion newVersion;
-            if (SemanticVersion.TryParse(versionString, out newVersion))
+            process.WaitForExit();
+            var output = process.StandardOutput.ReadToEnd();
+            if (output.Contains("|"))
             {
-                if (version == null || newVersion > version)
-                {
-                    version = newVersion;
-                }
+                return SemanticVersion.TryParse(output.Split("|".ToCharArray()).Last(), out version);
             }
         }
-        return version != null;
+        version = null;
+        return false;
     }
 
     public bool IsInstalled(string packageName)

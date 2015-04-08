@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ public class ChocolateyInstaller
 {
     ProcessRunner processRunner;
     PowerShellRunner powerShellRunner;
-    public Version MinimumChocolateyVersion = new Version(0, 9, 8, 33);
+    public Version MinimumChocolateyVersion = new Version(0, 9, 9, 4);
     public const string InstallCommand = "@powershell -NoProfile -ExecutionPolicy unrestricted -Command \"iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))\" && SET PATH=%PATH%;%ALLUSERSPROFILE%\\chocolatey\\bin";
     public const string UpdateCommand = "chocolatey update";
 
@@ -19,9 +20,15 @@ public class ChocolateyInstaller
         this.powerShellRunner = powerShellRunner;
     }
 
+
     public virtual string GetChocolateyPs1Path()
     {
         return Path.Combine(GetInstallPath(), @"chocolateyinstall\chocolatey.ps1");
+    }
+
+    public virtual string GetChocoExePath()
+    {
+        return Path.Combine(GetInstallPath(), "choco.exe");
     }
 
     public virtual Task<int> InstallChocolatey(Action<string> outputAction, Action<string> errorAction)
@@ -76,12 +83,24 @@ public class ChocolateyInstaller
 
     public virtual async Task<Version> GetInstalledVersion()
     {
-        var version = GetVersionFromRawFile();
-        if (version != null)
+        if (File.Exists(GetChocolateyPs1Path()))
         {
+            var version = GetVersionFromRawFile();
+            if (version != null)
+            {
+                return version;
+            }
+            return await GetVersionFromHelpOutput();
+        }
+
+        // As of v0.9.9 the chocolateyinstall.ps1 file is gone and we have choco.exe instead 
+        if (File.Exists(GetChocoExePath()))
+        {
+            Version version;
+            Version.TryParse(FileVersionInfo.GetVersionInfo(GetChocoExePath()).ProductVersion, out version);
             return version;
         }
-        return await GetVersionFromHelpOutput();
+        return null;
     }
 
     public virtual async Task<Version> GetVersionFromHelpOutput()
@@ -136,5 +155,4 @@ public class ChocolateyInstaller
         }
         return version;
     }
-
 }

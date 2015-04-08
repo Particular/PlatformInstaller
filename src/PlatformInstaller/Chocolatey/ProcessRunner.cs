@@ -20,7 +20,7 @@ public class ProcessRunner
                 UseShellExecute = false,
                 WindowStyle = ProcessWindowStyle.Hidden,
                 RedirectStandardError = true,
-                RedirectStandardOutput = true,
+                RedirectStandardOutput = true
             },
             EnableRaisingEvents = true,
         };
@@ -43,7 +43,6 @@ public class ProcessRunner
         process.Exited += (sender, args) =>
         {
             tcs.SetResult(process.ExitCode);
-            //TODO: result
             process.Dispose();
         };
 

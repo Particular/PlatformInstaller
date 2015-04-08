@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Management.Automation;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 
@@ -97,8 +96,10 @@ public class Installer : IHandle<CancelInstallCommand>
                 return;
             }
             currentStatus = packageDefinition.DisplayName ?? packageDefinition.Name;
-            await packageManager.Install(packageDefinition.Name, packageDefinition.Parameters, AddOutput, AddWarning, AddError, OnProgressAction);
+            
 
+            //await packageManager.Install(packageDefinition.Name, packageDefinition.Parameters, AddOutput, AddWarning, AddError, OnProgressAction);
+            await packageManager.Install(packageDefinition.Name, packageDefinition.Parameters, AddOutput, AddError);
             if (InstallFailed)
             {
                 eventAggregator.PublishOnUIThread(new InstallFailedEvent
@@ -135,20 +136,6 @@ public class Installer : IHandle<CancelInstallCommand>
                                           });
     }
 
-    void OnProgressAction(ProgressRecord progressRecord)
-    {
-        if (progressRecord.PercentComplete == -1)
-        {
-            ClearNestedAction();
-            return;
-        }
-
-        HasNestedAction = true;
-        NestedActionPercentComplete = progressRecord.PercentComplete;
-        NestedActionDescription = progressRecord.ToDownloadingString();
-        PublishProgressEvent();
-    }
-
     void ClearNestedAction()
     {
         HasNestedAction = false;
@@ -174,15 +161,4 @@ public class Installer : IHandle<CancelInstallCommand>
             });
         errors.Add(error);
     }
-
-    void AddWarning(string warning)
-    {
-        eventAggregator.PublishOnUIThread(new InstallerOutputEvent
-            {
-                IsWarning = true,
-                Text = warning
-            });
-    }
-
-
 }

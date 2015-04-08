@@ -10,15 +10,16 @@ public class PackageManagerTests
     public async void Install()
     {
         var packageInstaller = GetPackageInstaller();
-        await packageInstaller.Install("Pester", null,null,null,null,null);
+        await packageInstaller.Install("Pester", null,null,null);
     }
+
     [Test]
     [Explicit("Integration")]
     public async void InstallWithParams()
     {
         var packageInstaller = GetPackageInstaller();
         const string installArguments = @"/quiet /log C:\raven_log.txt /msicl RAVEN_TARGET_ENVIRONMENT=DEVELOPMENT /msicl TARGETDIR=C:\ /msicl INSTALLFOLDER=C:\RavenDB /msicl RAVEN_INSTALLATION_TYPE=SERVICE /msicl REMOVE=IIS /msicl ADDLOCAL=Service";
-        await packageInstaller.Install("RavenDB", installArguments, null, null, null, null);
+        await packageInstaller.Install("RavenDB", installArguments, null, null);
     }
     
     [Test]
@@ -30,7 +31,7 @@ public class PackageManagerTests
 
     static PackageManager GetPackageInstaller()
     {
-        return new PackageManager(new PowerShellRunner(), new ChocolateyInstaller(null,null));
+        return new PackageManager(new ProcessRunner(), new ChocolateyInstaller(null,null));
     }
 
 
@@ -39,7 +40,7 @@ public class PackageManagerTests
     public async void Uninstall()
     {
         var packageInstaller = GetPackageInstaller();
-        await packageInstaller.Uninstall("Pester", null, null, null, null);
+        await packageInstaller.Uninstall("Pester", null, null);
     }
 
     [Test]

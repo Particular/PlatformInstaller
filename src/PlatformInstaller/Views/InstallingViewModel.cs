@@ -13,6 +13,7 @@ public class InstallingViewModel : Screen, IHandle<InstallerOutputEvent>,
     public InstallingViewModel(IEventAggregator eventAggregator)
     {
         this.eventAggregator = eventAggregator;
+        // ReSharper disable once DoNotCallOverridableMethodsInConstructor
         DisplayName = "Installing";
         OutputText = new ObservableCollection<InstallerOutputEvent>();
     }

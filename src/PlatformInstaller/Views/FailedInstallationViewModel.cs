@@ -13,6 +13,7 @@ public class FailedInstallationViewModel : Screen
     public FailedInstallationViewModel(IEventAggregator eventAggregator, string failureReason, List<string> failures)
     {
         this.eventAggregator = eventAggregator;
+        // ReSharper disable once DoNotCallOverridableMethodsInConstructor
         DisplayName = "Installation Failed";
         FailureDescription = failureReason;
         FailuresText = string.Join(Environment.NewLine, failures);

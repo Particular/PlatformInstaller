@@ -14,6 +14,7 @@ public class InstallChocolateyViewModel : Screen
 
     public InstallChocolateyViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller)
     {
+        // ReSharper disable once DoNotCallOverridableMethodsInConstructor
         DisplayName = "Install Chocolatey";
         InstallCommand = ChocolateyInstaller.InstallCommand;
         this.eventAggregator = eventAggregator;

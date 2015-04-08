@@ -12,6 +12,7 @@ public class GroupPolicyErrorViewModel : Screen
     }
     public GroupPolicyErrorViewModel(IEventAggregator eventAggregator, PowerShellRunner powerShellRunner)
     {
+        // ReSharper disable once DoNotCallOverridableMethodsInConstructor
         DisplayName = "Group Policy Error";
         ListGpoCommand = "Get-ExecutionPolicy -List";
         OverrideCommand = "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine";

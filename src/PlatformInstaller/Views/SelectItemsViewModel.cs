@@ -14,6 +14,7 @@ public class SelectItemsViewModel : Screen
     }
     public SelectItemsViewModel(PackageDefinitionService packageDefinitionDiscovery, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume, ILifetimeScope lifetimeScope, IWindowManager windowManager)
     {
+        // ReSharper disable once DoNotCallOverridableMethodsInConstructor
         DisplayName = "Selected Items";
         AppVersion = String.Format("Version: {0}", Assembly.GetExecutingAssembly().GetName().Version);
         this.packageDefinitionDiscovery = packageDefinitionDiscovery;

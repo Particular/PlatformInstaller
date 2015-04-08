@@ -31,10 +31,6 @@ public partial class InstallingView
             Dispatcher.Invoke(() =>
             {
                 var run = new Run(x.Text);
-                if (x.IsWarning)
-                {
-                    run.Foreground = Brushes.LightSalmon;
-                }
                 if (x.IsError)
                 {
                     run.Foreground = Brushes.LightCoral;

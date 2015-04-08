@@ -14,6 +14,7 @@ public class LicenseAgreementViewModel : Screen
     public LicenseAgreementViewModel(IEventAggregator eventAggregator)
     {
         this.eventAggregator = eventAggregator;
+        // ReSharper disable once DoNotCallOverridableMethodsInConstructor
         DisplayName = "License Agreement";
     }
 

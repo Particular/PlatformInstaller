@@ -31,7 +31,7 @@ public class Installer : IHandle<CancelInstallCommand>
     int installProgress;
     int installCount;
 
-    public bool InstallFailed
+    bool InstallFailed
     {
         get { return errors.Any(); }
     }

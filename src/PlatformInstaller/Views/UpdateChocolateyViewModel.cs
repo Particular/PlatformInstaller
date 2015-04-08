@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
@@ -21,6 +22,7 @@ public class UpdateChocolateyViewModel : Screen
 
     public UpdateChocolateyViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller)
     {
+        // ReSharper disable once DoNotCallOverridableMethodsInConstructor
         DisplayName = "Update Chocolatey";
         UpdateCommand = ChocolateyInstaller.UpdateCommand;
         InstallCommand = ChocolateyInstaller.InstallCommand;
@@ -65,7 +67,7 @@ public class UpdateChocolateyViewModel : Screen
     {
         var detectedChocolateyVersion = await chocolateyInstaller.GetInstalledVersion();
         DetectedChocolateyVersion = detectedChocolateyVersion;
-        LastCheckedTime = DateTime.Now.ToString("h:mm:ss tt");
+        LastCheckedTime = DateTime.Now.ToString("h:mm:ss tt",  CultureInfo.InvariantCulture);
     }
 
     public async void ReCheck()

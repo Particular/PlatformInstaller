@@ -44,6 +44,7 @@ public class PackageManager
         parameters.Append(" --confirm");
         parameters.Append(" --force");
 #if (DEBUG)
+        // ReSharper disable once StringLiteralTypo
         parameters.Append(" --prerelease");
 #endif
 

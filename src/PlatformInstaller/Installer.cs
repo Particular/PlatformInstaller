@@ -91,13 +91,14 @@ public class Installer : IHandle<CancelInstallCommand>
 
         foreach (var packageDefinition in packageDefinitions)
         {
+            
             if (aborting)
             {
                 return;
             }
-            currentStatus = packageDefinition.DisplayName ?? packageDefinition.Name;
-            
 
+            currentStatus = packageDefinition.DisplayName ?? packageDefinition.Name;
+            PublishProgressEvent();
             //await packageManager.Install(packageDefinition.Name, packageDefinition.Parameters, AddOutput, AddWarning, AddError, OnProgressAction);
             await packageManager.Install(packageDefinition.Name, packageDefinition.Parameters, AddOutput, AddError);
             if (InstallFailed)

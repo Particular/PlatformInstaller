@@ -102,27 +102,61 @@ public class PackageManager
 
     public bool TryGetInstalledVersion(string packageName, out SemanticVersion version)
     {
-        var processStartInfo = new ProcessStartInfo
+        version = null;
+        var installPath = chocolateyInstaller.GetInstallPath();
+        if (installPath == null)
         {
-            FileName = Path.Combine(chocolateyInstaller.GetInstallPath(), @"bin\chocolatey.exe"),
-            Arguments = string.Format("list {0} -l -r", packageName),
-            RedirectStandardOutput = true,
-            UseShellExecute = false,
-            CreateNoWindow = true,
-            WindowStyle = ProcessWindowStyle.Hidden
-        };
-        var process = Process.Start(processStartInfo);
-        if (process != null)
+            return false;
+        }
+
+        var chocoExe = Path.Combine(installPath, @"bin\chocolatey.exe");
+        //If chocoExe exists then use the new way to lookup versions
+        if (File.Exists(chocoExe))
         {
-            process.WaitForExit();
-            var output = process.StandardOutput.ReadToEnd();
-            if (output.Contains("|"))
+
+            var processStartInfo = new ProcessStartInfo
             {
-                return SemanticVersion.TryParse(output.Split("|".ToCharArray()).Last(), out version);
+                FileName = Path.Combine(chocolateyInstaller.GetInstallPath(), @"bin\chocolatey.exe"),
+                Arguments = string.Format("list {0} -l -r", packageName),
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden
+            };
+            var process = Process.Start(processStartInfo);
+            if (process != null)
+            {
+                process.WaitForExit();
+                var output = process.StandardOutput.ReadToEnd();
+                if (output.Contains("|"))
+                {
+                    return SemanticVersion.TryParse(output.Split("|".ToCharArray()).Last(), out version);
+                }
+            }
+            
+            return false;
+        }
+
+        //No Choco Exe so scan the choco lib 
+        
+        var chocolateyLibPath = Path.Combine(installPath, "lib");
+        if (!Directory.Exists(chocolateyLibPath))
+        {
+            return false;
+        }
+        foreach (var directory in Directory.EnumerateDirectories(chocolateyLibPath, packageName + ".*"))
+        {
+            var versionString = Path.GetFileName(directory).ReplaceCaseless(packageName + ".", "");
+            SemanticVersion newVersion;
+            if (SemanticVersion.TryParse(versionString, out newVersion))
+            {
+                if (version == null || newVersion > version)
+                {
+                    version = newVersion;
+                }
             }
         }
-        version = null;
-        return false;
+        return version != null;
     }
 
     public bool IsInstalled(string packageName)

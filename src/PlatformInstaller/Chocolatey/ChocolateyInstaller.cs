@@ -46,7 +46,7 @@ public class ChocolateyInstaller
 
     public virtual string GetInstallPath()
     {
-        var chocolateyInstallFromEnvironment = Environment.GetEnvironmentVariable("ChocolateyInstall");
+        var chocolateyInstallFromEnvironment = Environment.GetEnvironmentVariable("ChocolateyInstall", EnvironmentVariableTarget.Machine);
         if (chocolateyInstallFromEnvironment != null)
         {
             if (Directory.Exists(chocolateyInstallFromEnvironment))

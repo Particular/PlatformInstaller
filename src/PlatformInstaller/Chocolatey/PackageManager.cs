@@ -32,6 +32,17 @@ public class PackageManager
     {
         await RunInstallCommand("install", packageName, installArguments, logOutput, logError);
     }
+    public async Task InstallOrUpgrade(string packageName, string installArguments, Action<string> logOutput, Action<string> logError)
+    {
+        if (IsInstalled(packageName))
+        {
+            await Upgrade(packageName, installArguments, logOutput, logError);
+        }
+        else
+        {
+            await Install(packageName, installArguments, logOutput, logError);
+        }
+    }
 
     public async Task Upgrade(string packageName, string installArguments, Action<string> logOutput, Action<string> logError)
     {

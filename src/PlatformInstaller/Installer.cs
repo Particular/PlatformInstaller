@@ -100,7 +100,7 @@ public class Installer : IHandle<CancelInstallCommand>
             currentStatus = packageDefinition.DisplayName ?? packageDefinition.Name;
             PublishProgressEvent();
             //await packageManager.Install(packageDefinition.Name, packageDefinition.Parameters, AddOutput, AddWarning, AddError, OnProgressAction);
-            await packageManager.Install(packageDefinition.Name, packageDefinition.Parameters, AddOutput, AddError);
+            await packageManager.InstallOrUpgrade(packageDefinition.Name, packageDefinition.Parameters, AddOutput, AddError);
             if (InstallFailed)
             {
                 eventAggregator.PublishOnUIThread(new InstallFailedEvent

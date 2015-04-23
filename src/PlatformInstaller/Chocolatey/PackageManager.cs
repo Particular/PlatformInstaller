@@ -30,16 +30,26 @@ public class PackageManager
     
     public async Task Install(string packageName, string installArguments, Action<string> logOutput, Action<string> logError)
     {
+        await RunInstallCommand("install", packageName, installArguments, logOutput, logError);
+    }
 
-        var outputLog  = new List<string>();
-        Action<string> wrappedLogOutput = s => {
-             outputLog.Add(s);
-             logOutput(s);
+    public async Task Upgrade(string packageName, string installArguments, Action<string> logOutput, Action<string> logError)
+    {
+        await RunInstallCommand("upgrade ", packageName, installArguments, logOutput, logError);
+    }
+
+    async Task RunInstallCommand(string command, string packageName, string installArguments, Action<string> logOutput, Action<string> logError)
+    {
+        var outputLog = new List<string>();
+        Action<string> wrappedLogOutput = s =>
+        {
+            outputLog.Add(s);
+            logOutput(s);
         };
 
         var chocolateyExePath = Path.Combine(chocolateyInstaller.GetInstallPath(), @"bin\chocolatey.exe");
         var parameters = new StringBuilder();
-        parameters.AppendFormat(" install {0}", packageName);
+        parameters.AppendFormat(" {1} {0}", packageName, command);
         parameters.AppendFormat(" --source=\"{0}\"", GetSource());
         parameters.Append(" --confirm");
         parameters.Append(" --force");
@@ -57,7 +67,7 @@ public class PackageManager
         {
             foreach (var s in outputLog)
             {
-                logError(s);                      
+                logError(s);
             }
         }
         CopyLogFiles(packageName);

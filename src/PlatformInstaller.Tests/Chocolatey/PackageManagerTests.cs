@@ -12,6 +12,13 @@ public class PackageManagerTests
         var packageInstaller = GetPackageInstaller();
         await packageInstaller.Install("Pester", null,null,null);
     }
+    [Test]
+    [Explicit("Integration")]
+    public async void Upgrade()
+    {
+        var packageInstaller = GetPackageInstaller();
+        await packageInstaller.Upgrade("Pester", null,null,null);
+    }
 
     [Test]
     [Explicit("Integration")]

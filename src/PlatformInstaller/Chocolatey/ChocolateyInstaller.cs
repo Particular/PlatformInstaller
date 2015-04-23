@@ -10,7 +10,7 @@ public class ChocolateyInstaller
 {
     ProcessRunner processRunner;
     PowerShellRunner powerShellRunner;
-    public Version MinimumChocolateyVersion = new Version(0, 9, 9, 4);
+    public Version MinimumChocolateyVersion = new Version(0, 9, 9, 5);
     public const string InstallCommand = "@powershell -NoProfile -ExecutionPolicy unrestricted -Command \"iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))\" && SET PATH=%PATH%;%ALLUSERSPROFILE%\\chocolatey\\bin";
     public const string UpdateCommand = "chocolatey update";
 

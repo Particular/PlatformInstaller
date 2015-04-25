@@ -22,11 +22,6 @@ public class PackageDefinitionService
                 {
                     new PackageDefinition
                     {
-                        Name = "NServicebus.PerfCounters.install",
-                        DisplayName = "Prerequisites - Custom performance counters"
-                    },
-                    new PackageDefinition
-                    {
                         Name = "NServicebus.Dtc.install",
                         DisplayName = "Prerequisites - Distributed Transaction Coordinator (DTC)"
                     },

@@ -29,7 +29,6 @@ public class VisualStudioDetecter
             {
                 installedVersions = DetectVersions();
             }
-
             return installedVersions;
         }
     }

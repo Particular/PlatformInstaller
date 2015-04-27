@@ -131,7 +131,6 @@
     <Compile Include="Versions\StatusMessage.cs" />
     <Compile Include="Versions\VSIXFind.cs" />
     <Compile Include="Releases\Asset.cs" />
-    <Compile Include="Chocolatey\FileEx.cs" />
     <Compile Include="Releases\ReleaseManager.cs" />
     <Compile Include="Releases\Release.cs" />
     <Compile Include="Events\CheckPointInstallEvent.cs" />
@@ -157,7 +156,6 @@
     <Compile Include="PendingRestartAndResume.cs" />
     <Compile Include="Splash.cs" />
     <Compile Include="VersionFinder.cs" />
-    <Compile Include="Chocolatey\TaskEx.cs" />
     <Compile Include="ContainerFactory.cs" />
     <Compile Include="Caliburn\AppBootstrapper.cs" />
     <Compile Include="AssemblyLocation.cs" />
@@ -281,7 +279,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Chocolatey\ProcessRunner.cs" />
+    <Compile Include="Installations\ProcessRunner.cs" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

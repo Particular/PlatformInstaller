@@ -8,7 +8,7 @@
     {
         public static bool TryFindInstalledVersion(string product, out SemanticVersion versionFound)
         {
-            var uninstallKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Uninstall";
+            const string uninstallKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Uninstall";
 
             var views = new[]
             {

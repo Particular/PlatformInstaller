@@ -88,13 +88,7 @@
                         };
                         client.DownloadFileCompleted += (sender, args) =>
                         {
-                            eventAggregator.PublishOnUIThread(new DownloadCompleteEvent
-                            {
-                                Cancelled = args.Cancelled,
-                                Error = args.Error,
-                                FileName = localAsset.FullName,
-                                Name = asset1.Name
-                            });
+                            eventAggregator.PublishOnUIThread(new DownloadCompleteEvent());
                         };
 
                         var retries = 0;

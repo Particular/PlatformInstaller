@@ -13,7 +13,7 @@ public static class Logging
         var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         LogDirectory = Path.Combine(appData, AssemblyLocation.ExeFileName);
         Directory.CreateDirectory(LogDirectory);
-        var template = "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] {SourceContext} {Message:l}{NewLine:l}{Exception:l}";
+        const string template = "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] {SourceContext} {Message:l}{NewLine:l}{Exception:l}";
         var loggingFile = Path.Combine(LogDirectory, "log.txt");
         Log.Logger = new LoggerConfiguration()
             .WriteTo.RollingFile(loggingFile, outputTemplate: template)

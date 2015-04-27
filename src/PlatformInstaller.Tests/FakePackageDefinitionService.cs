@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-public class FakePackageDefinitionService : PackageDefinitionService
+public class FakeInstallationDefinitionService : InstallationDefinitionService
 {
-    public FakePackageDefinitionService() : base(null)
+    public FakeInstallationDefinitionService() : base(null,null,null,null,null,null)
     {
     }
 

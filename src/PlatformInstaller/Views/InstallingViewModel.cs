@@ -3,7 +3,8 @@ using System.Collections.ObjectModel;
 using Caliburn.Micro;
 
 public class InstallingViewModel : Screen, IHandle<InstallerOutputEvent>, 
-    IHandle<InstallProgressEvent>
+    IHandle<InstallProgressEvent>, IHandle<DownloadProgressEvent>, 
+    IHandle<DownloadStartedEvent>, IHandle<DownloadCompleteEvent>
 {
     public InstallingViewModel()
     {
@@ -48,8 +49,27 @@ public class InstallingViewModel : Screen, IHandle<InstallerOutputEvent>,
         CurrentStatus = message.CurrentStatus;
         InstallProgress = message.InstallProgress;
         InstallCount = message.InstallCount;
-        HasNestedAction = message.HasNestedAction;
-        NestedActionPercentComplete = message.NestedActionPercentComplete;
-        NestedActionDescription = message.NestedActionDescription;
+
     }
+
+    public void Handle(DownloadProgressEvent message)
+    {
+        NestedActionPercentComplete = message.ProgressPercentage;
+        NestedActionDescription = string.Format("{0} of {1}",  ((int)message.BytesReceived).ToBytesString(), ((int)message.TotalBytes).ToBytesString());
+    }
+
+    public void Handle(DownloadStartedEvent message)
+    {
+       OutputText.Add(new InstallerOutputEvent{ Text = string.Format("Downloading {0} to {1}", message.Url, message.FileName)});
+       HasNestedAction = true;
+       NestedActionPercentComplete = 0;
+    }
+
+    public void Handle(DownloadCompleteEvent message)
+    {
+        NestedActionPercentComplete = 0;
+        NestedActionDescription = "";
+        HasNestedAction = false;
+    }
+   
 }

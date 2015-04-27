@@ -5,15 +5,19 @@ using Anotar.Serilog;
 
 public class ProcessRunner
 {
-    public Task<int> RunProcess(string fileName, string arguments, Action<string> outputAction, Action<string> errorAction)
+    public Task<int> RunProcess(string fileName, string arguments, string workingDirectory, Action<string> outputAction, Action<string> errorAction)
     {
         LogTo.Information(string.Format("Executing process: {0} {1}", fileName, arguments));
+
+        outputAction(string.Format("Executing process: {0} {1}", fileName, arguments));
+        outputAction(string.Format("Working directory: {0}", workingDirectory));
         var tcs = new TaskCompletionSource<int>();
 
         var process = new Process
         {
             StartInfo =
             {
+                WorkingDirectory = workingDirectory,
                 FileName = fileName,
                 Arguments = arguments,
                 CreateNoWindow = true,

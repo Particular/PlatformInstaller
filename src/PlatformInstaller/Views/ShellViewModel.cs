@@ -16,17 +16,11 @@ public class ShellViewModel : Conductor<object>,
     IHandle<InstallFailedEvent>,
     IHandle<RebootRequiredEvent>,
     IHandle<ExitApplicationCommand>,
-    IHandle<AgreedToInstallChocolateyEvent>,
     IHandle<NavigateHomeCommand>,
-    IHandle<UserInstalledChocolateyEvent>,
-    IHandle<UserUpdatedChocolateyEvent>,
-    IHandle<UserFixedExecutionPolicy>,
     IHandle<ReportInstallFailedEvent>
 {
-    ChocolateyInstaller chocolateyInstaller;
     LicenseAgreement licenseAgreement;
     ILifetimeScope lifetimeScope;
-    PowerShellRunner powerShellRunner;
     IEventAggregator eventAggregator;
     List<string> itemsToInstall;
     ILifetimeScope currentLifetimeScope;
@@ -35,16 +29,14 @@ public class ShellViewModel : Conductor<object>,
 
     bool installWasAttempted;
 
-    public ShellViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, PowerShellRunner powerShellRunner, RaygunClient raygunClient, Installer installer)
+    public ShellViewModel(IEventAggregator eventAggregator, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, RaygunClient raygunClient, Installer installer)
     {
         // ReSharper disable once DoNotCallOverridableMethodsInConstructor
         DisplayName = "Platform Installer";
         this.raygunClient = raygunClient;
         this.installer = installer;
-        this.chocolateyInstaller = chocolateyInstaller;
         this.licenseAgreement = licenseAgreement;
         this.lifetimeScope = lifetimeScope;
-        this.powerShellRunner = powerShellRunner;
         this.eventAggregator = eventAggregator;
         RunStartupSequence();
     }
@@ -80,11 +72,6 @@ public class ShellViewModel : Conductor<object>,
         RunStartupSequence();
     }
 
-    public void Handle(UserFixedExecutionPolicy message)
-    {
-        RunStartupSequence();
-    }
-
     void RunStartupSequence()
     {
         if (!licenseAgreement.HasAgreedToLicense())
@@ -92,12 +79,6 @@ public class ShellViewModel : Conductor<object>,
             ActivateModel<LicenseAgreementViewModel>();
             return;
         }
-        if (!powerShellRunner.TrySetExecutionPolicyToUnrestricted())
-        {
-            ActivateModel<GroupPolicyErrorViewModel>();
-            return;
-        }
-                      
         ActivateModel<SelectItemsViewModel>();
     }
 
@@ -105,42 +86,13 @@ public class ShellViewModel : Conductor<object>,
     {
         installWasAttempted = true;
         itemsToInstall = message.SelectedItems;
-        if (chocolateyInstaller.IsInstalled())
-        {
-            var chocolateyUpgradeRequired = await chocolateyInstaller.ChocolateyUpgradeRequired();
-            if (chocolateyUpgradeRequired)
-            {
-                ActivateModel<UpdateChocolateyViewModel>();
-                return;
-            }
-            await ActivateInstallingViewModel();
-            return;
-        }
-        ActivateModel<InstallChocolateyViewModel>();
+        await ActivateInstallingViewModel();
     }
 
     Task ActivateInstallingViewModel()
     {
         ActivateModel<InstallingViewModel>();
         return installer.Install(itemsToInstall);
-    }
-
-    public async void Handle(AgreedToInstallChocolateyEvent message)
-    {
-        ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
-        await ActivateInstallingViewModel();
-    }
-
-    public async void Handle(UserUpdatedChocolateyEvent message)
-    {
-        ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
-        await ActivateInstallingViewModel();
-    }
-
-    public async void Handle(UserInstalledChocolateyEvent message)
-    {
-        ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
-        await ActivateInstallingViewModel();
     }
 
     public void Handle(InstallSucceededEvent message)

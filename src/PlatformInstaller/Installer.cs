@@ -2,34 +2,27 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 
-public class Installer : IHandle<CancelInstallCommand>
+public class Installer : IHandle<CancelInstallCommand>, IHandle<NestedInstallCompleteEvent>, IHandle<NestedInstallProgressEvent>
 {
-    public Installer(PackageDefinitionService packageDefinitionDiscovery, ChocolateyInstaller chocolateyInstaller, IEventAggregator eventAggregator, PackageManager packageManager, PowerShellRunner powerShellRunner, PendingRestartAndResume pendingRestartAndResume)
+    public Installer(InstallationDefinitionService installationDefinitionDiscovery, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume)
     {
-        PackageDefinitionService = packageDefinitionDiscovery;
-        this.chocolateyInstaller = chocolateyInstaller;
+        installationDefinitionService = installationDefinitionDiscovery;
         this.eventAggregator = eventAggregator;
-        this.packageManager = packageManager;
-        this.powerShellRunner = powerShellRunner;
         this.pendingRestartAndResume = pendingRestartAndResume;
     }
 
-    string currentStatus;
-    PackageDefinitionService PackageDefinitionService;
+    InstallationDefinitionService installationDefinitionService;
     PendingRestartAndResume pendingRestartAndResume;
-    ChocolateyInstaller chocolateyInstaller;
     IEventAggregator eventAggregator;
-    PackageManager packageManager;
-    PowerShellRunner powerShellRunner;
+    
     List<string> errors = new List<string>();
-    int NestedActionPercentComplete;
-    bool HasNestedAction;
-    string NestedActionDescription;
     int installProgress;
     int installCount;
+    string currentStatus;
 
     bool InstallFailed
     {
@@ -41,7 +34,6 @@ public class Installer : IHandle<CancelInstallCommand>
     public void Handle(CancelInstallCommand message)
     {
         aborting = true;
-        powerShellRunner.Abort();
         eventAggregator.PublishOnUIThread(new InstallCancelledEvent());
     }
 
@@ -49,79 +41,53 @@ public class Installer : IHandle<CancelInstallCommand>
     {
         eventAggregator.PublishOnUIThread(new InstallStartedEvent());
         installProgress = 0;
-        var packageDefinitions = PackageDefinitionService.GetPackages()
+        var installationDefinitions = installationDefinitionService.GetPackages()
             .Where(p => itemsToInstall.Contains(p.Name))
-            .SelectMany(x => x.PackageDefinitions)
             .ToList();
 
         if (pendingRestartAndResume.ResumedFromRestart)
         {
             var checkpoint = pendingRestartAndResume.Checkpoint();
-            if (packageDefinitions.Any(p => p.Name.Equals(checkpoint)))
+            if (installationDefinitions.Any(p => p.Name.Equals(checkpoint)))
             {
                 // Fast Forward to the step after the last successful step
-                packageDefinitions = packageDefinitions.SkipWhile(p => !p.Name.Equals(checkpoint)).Skip(1).ToList();
+                installationDefinitions = installationDefinitions.SkipWhile(p => !p.Name.Equals(checkpoint)).Skip(1).ToList();
             }
         }
         pendingRestartAndResume.CleanupResume();
+        installCount = installationDefinitions.Select(p => p.Installer.NestedActionCount).Sum();
 
-        installCount = packageDefinitions.Count();
-
-        if (!chocolateyInstaller.IsInstalled() || await chocolateyInstaller.ChocolateyUpgradeRequired())
+        foreach (var installationDefinition in installationDefinitions)
         {
-            installCount++;
-            PublishProgressEvent();
-            await chocolateyInstaller.InstallChocolatey(AddOutput, AddError);
-
-            if (InstallFailed)
-            {
-                eventAggregator.PublishOnUIThread(new InstallFailedEvent
-                                                  {
-                                                      Reason = "Failed to install chocolatey",
-                                                      Failures = errors
-                                                  });
-                return;
-            }
-
-            ClearNestedAction();
-            AddOutput(Environment.NewLine);
-            installProgress++;
-            PublishProgressEvent();
-        }
-
-        foreach (var packageDefinition in packageDefinitions)
-        {
-            
             if (aborting)
-            {
-                return;
-            }
+                break;
 
-            currentStatus = packageDefinition.DisplayName ?? packageDefinition.Name;
             PublishProgressEvent();
-            //await packageManager.Install(packageDefinition.Name, packageDefinition.Parameters, AddOutput, AddWarning, AddError, OnProgressAction);
-            await packageManager.InstallOrUpgrade(packageDefinition.Name, packageDefinition.Parameters, AddOutput, AddError);
+            var definition = installationDefinition;
+            await  Task.Run(() => { definition.Installer.Execute(AddOutput, AddError); } );
             if (InstallFailed)
             {
                 eventAggregator.PublishOnUIThread(new InstallFailedEvent
-                    {
-                        Reason = "Failed to install package: " + packageDefinition.Name,
-                        Failures = errors
-                    });
+                {
+                    Reason = "Failed to install: " + installationDefinition.Name,
+                    Failures = errors
+                });
                 return;
             }
-
-            ClearNestedAction();
+            Thread.Sleep(1000);
             AddOutput(Environment.NewLine);
-            eventAggregator.PublishOnUIThread(new CheckPointInstallEvent{ Item = packageDefinition.Name});
-            installProgress++;
-            PublishProgressEvent();
+            eventAggregator.PublishOnUIThread(new CheckPointInstallEvent
+            {
+                Item = installationDefinition.Name
+            });
         }
-
-        eventAggregator.PublishOnUIThread(new InstallSucceededEvent
-                                          {
-                                              InstalledItems = itemsToInstall
-                                          });
+        if (!InstallFailed)
+        {
+            eventAggregator.PublishOnUIThread(new InstallSucceededEvent
+            {
+                InstalledItems = itemsToInstall
+            });
+        }
     }
 
     void PublishProgressEvent()
@@ -131,18 +97,7 @@ public class Installer : IHandle<CancelInstallCommand>
                                               InstallProgress = installProgress,
                                               CurrentStatus = currentStatus,
                                               InstallCount = installCount,
-                                              HasNestedAction = HasNestedAction,
-                                              NestedActionPercentComplete = NestedActionPercentComplete,
-                                              NestedActionDescription = NestedActionDescription,
                                           });
-    }
-
-    void ClearNestedAction()
-    {
-        HasNestedAction = false;
-        NestedActionPercentComplete = 0;
-        NestedActionDescription = "";
-        PublishProgressEvent();
     }
 
     void AddOutput(string output)
@@ -161,5 +116,19 @@ public class Installer : IHandle<CancelInstallCommand>
                 Text = error
             });
         errors.Add(error);
+    }
+
+    public void Handle(NestedInstallCompleteEvent message)
+    {
+        installProgress++;
+        currentStatus = "";
+        PublishProgressEvent();
+
+    }
+
+    public void Handle(NestedInstallProgressEvent message)
+    {
+        currentStatus = message.Name;
+        PublishProgressEvent();
     }
 }

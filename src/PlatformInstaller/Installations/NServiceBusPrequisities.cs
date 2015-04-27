@@ -50,21 +50,21 @@ namespace PlatformInstaller.Installations
 
         public void Execute(Action<string> logOutput, Action<string> logError)
         {
-            eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent{Name = "NServiceBus Prerequisites", Description = "Microsoft Message Queue (MSMQ)" });
+            eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent{Name = "NServiceBus Prerequisites - Microsoft Message Queue (MSMQ)" });
             if (!MsmqSetupStep(logOutput, logError)) 
                 return;
             eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
 
             Thread.Sleep(1000);
             
-            eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent{Name = "NServiceBus Prerequisites", Description = "Distributed Transaction Co-ordinator" });
+            eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent{Name = "NServiceBus Prerequisites - Distributed Transaction Co-ordinator" });
             if (!DtcSetupStep(logOutput, logError)) 
                 return;
             eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
 
             Thread.Sleep(1000);
 
-            eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = "NServiceBus Prerequisites", Description = "Performance Counters" });
+            eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = "NServiceBus Prerequisites - Performance Counters" });
             if (!PerfCounterSetupStep(logOutput, logError)) 
                 return;
             eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());

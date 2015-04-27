@@ -72,15 +72,12 @@
                     {
                         eventAggregator.PublishOnUIThread(new DownloadStartedEvent
                         {
-                            Name = asset.Name,
                             Url = asset.Name,
                             FileName = localAsset.FullName
                         });
-                        var asset1 = asset;
-
+                        
                         client.DownloadProgressChanged += (sender, args) => {
                             eventAggregator.PublishOnUIThread(new DownloadProgressEvent{
-                                Name = asset1.Name,
                                 BytesReceived = args.BytesReceived,
                                 ProgressPercentage = args.ProgressPercentage,
                                 TotalBytes = args.TotalBytesToReceive

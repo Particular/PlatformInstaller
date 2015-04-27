@@ -67,7 +67,7 @@
 
             var installer = files.First(p => p.Extension.Equals(".exe", StringComparison.OrdinalIgnoreCase));
 
-            string log = string.Format("particular.{0}.installer.log", ProductName.ToLower());
+            var log = string.Format("particular.{0}.installer.log", ProductName.ToLower());
             var proc = processRunner.RunProcess(installer.FullName,
                 string.Format("/quiet /L*V {0}", log),
                 // ReSharper disable once PossibleNullReferenceException

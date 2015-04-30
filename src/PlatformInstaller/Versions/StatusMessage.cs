@@ -38,12 +38,6 @@ public static class InstallRunnerExtensions
 
         switch (version)
         {
-            case VisualStudioVersions.VS2010 :
-                if (!VisualStudioDetecter.VS2013Installed)
-                {
-                    return "Requires VS 2010";
-                }
-                break;
             case VisualStudioVersions.VS2012:
                 if (!VisualStudioDetecter.VS2012Installed)
                 {

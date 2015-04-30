@@ -14,9 +14,6 @@ public class VSIXFind
 
         switch (visualStudioVersion)
         {
-            case VisualStudioVersions.VS2010:
-                extensions = Path.Combine(rootDirectory, @"10.0\Extensions");
-                break;
             case VisualStudioVersions.VS2012:
                 extensions = Path.Combine(rootDirectory, @"11.0\Extensions");
                 break;

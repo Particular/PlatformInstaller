@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using PlatformInstaller.Installations;
 
 public class InstallationDefinitionService
 {

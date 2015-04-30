@@ -1,124 +1,119 @@
-﻿namespace PlatformInstaller.Installations
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Caliburn.Micro;
+using NuGet;
+
+public class ServiceInsightInstallRunner : IInstallRunner
 {
-    using System;
-    using System.IO;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Caliburn.Micro;
-    using NuGet;
-    using PlatformInstaller.Releases;
-    using PlatformInstaller.Versions;
+    const string ProductName = "ServiceInsight";
 
-    public class ServiceInsightInstallRunner : IInstallRunner
+    ProcessRunner processRunner;
+    ReleaseManager releaseManager;
+    Release[] releases;
+    IEventAggregator eventAggregator;
+
+    public ServiceInsightInstallRunner(ProcessRunner processRunner, ReleaseManager releaseManager, IEventAggregator eventAggregator)
     {
-        const string ProductName = "ServiceInsight";
+        this.eventAggregator = eventAggregator;
+        this.processRunner = processRunner;
+        this.releaseManager = releaseManager;
+    }
 
-        ProcessRunner processRunner;
-        ReleaseManager releaseManager;
-        Release[] releases;
-        IEventAggregator eventAggregator;
+    public string InstallableVersion
+    {
+        get { return releases.First().Tag; }
+    }
 
-        public ServiceInsightInstallRunner(ProcessRunner processRunner, ReleaseManager releaseManager, IEventAggregator eventAggregator)
+    public SemanticVersion CurrentVersion()
+    {
+        SemanticVersion version;
+        RegistryFind.TryFindInstalledVersion(ProductName, out version);
+        return version;
+    }
+
+    public SemanticVersion LatestAvailableVersion()
+    {
+        SemanticVersion latest = null;
+        if (releases.Any())
         {
-            this.eventAggregator = eventAggregator;
-            this.processRunner = processRunner;
-            this.releaseManager = releaseManager;
+            SemanticVersion.TryParse(releases.First().Tag, out latest);
         }
+        return latest;
+    }
 
-        public string InstallableVersion
+    public void Execute(Action<string> logOutput, Action<string> logError)
+    {   
+        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = string.Format("Run {0} Installation", ProductName) });
+        var release = releases.First();
+        FileInfo[] files;
+        try
         {
-            get { return releases.First().Tag; }
+            files = releaseManager.DownloadRelease(release).ToArray();
         }
-
-        public SemanticVersion CurrentVersion()
+        catch
         {
-            SemanticVersion version;
-            RegistryFind.TryFindInstalledVersion(ProductName, out version);
-            return version;
+            logError(string.Format("Failed to download the {0} Installation from https://github.com/Particular/{0}/releases/latest", ProductName.ToLower()));
+            return;
         }
-
-        public SemanticVersion LatestAvailableVersion()
-        {
-            SemanticVersion latest = null;
-            if (releases.Any())
-            {
-                SemanticVersion.TryParse(releases.First().Tag, out latest);
-            }
-            return latest;
-        }
-
-        public void Execute(Action<string> logOutput, Action<string> logError)
-        {   
-            eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = string.Format("Run {0} Installation", ProductName) });
-            var release = releases.First();
-            FileInfo[] files;
-            try
-            {
-                files = releaseManager.DownloadRelease(release).ToArray();
-            }
-            catch
-            {
-                logError(string.Format("Failed to download the {0} Installation from https://github.com/Particular/{0}/releases/latest", ProductName.ToLower()));
-                return;
-            }
 
          
 
-            var installer = files.First(p => p.Extension.Equals(".exe", StringComparison.OrdinalIgnoreCase));
+        var installer = files.First(p => p.Extension.Equals(".exe", StringComparison.OrdinalIgnoreCase));
 
-            var log = string.Format("particular.{0}.installer.log", ProductName.ToLower());
-            var proc = processRunner.RunProcess(installer.FullName,
-                string.Format("/quiet /L*V {0}", log),
-                // ReSharper disable once PossibleNullReferenceException
-                installer.Directory.FullName,
-                logOutput,
-                logError);
+        var log = string.Format("particular.{0}.installer.log", ProductName.ToLower());
+        var proc = processRunner.RunProcess(installer.FullName,
+            string.Format("/quiet /L*V {0}", log),
+            // ReSharper disable once PossibleNullReferenceException
+            installer.Directory.FullName,
+            logOutput,
+            logError);
 
-            Task.WaitAll(proc);
+        Task.WaitAll(proc);
 
-            var procExitCode = proc.Result;
-            if (procExitCode != 0)
-            {
-                logError(string.Format("Installation of {0} failed with exitcode: {1}", ProductName, procExitCode));
-                logError(string.Format("The MSI installation log can be found at {0}", Path.Combine(installer.Directory.FullName, log)));
-            }
-            else
-            {
-                logOutput("Installation Succeeded");
-            }
-            InstallationResult = procExitCode;
-            Thread.Sleep(1000);
+        var procExitCode = proc.Result;
+        if (procExitCode != 0)
+        {
+            logError(string.Format("Installation of {0} failed with exitcode: {1}", ProductName, procExitCode));
+            logError(string.Format("The MSI installation log can be found at {0}", Path.Combine(installer.Directory.FullName, log)));
+        }
+        else
+        {
+            logOutput("Installation Succeeded");
+        }
+        InstallationResult = procExitCode;
+        Thread.Sleep(1000);
             
-            eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
-        }
-
-
-        public bool Installed()
-        {
-            return CurrentVersion() != null;
-        }
-
-        public int NestedActionCount
-        {
-            get { return 1; }
-        }
-
-        public string Status()
-        {
-            return this.ExeInstallerStatus();
-        }
-
-        public void GetReleaseInfo()
-        {
-            releases = releaseManager.GetReleasesForProduct(ProductName);
-        }
-
-        public bool HasReleaseInfo()
-        {
-            return (releases != null) && (releases.Length > 0);
-        }
-
-        public int InstallationResult { get; private set; }
+        eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
     }
+
+
+    public bool Installed()
+    {
+        return CurrentVersion() != null;
+    }
+
+    public int NestedActionCount
+    {
+        get { return 1; }
+    }
+
+    public string Status()
+    {
+        return this.ExeInstallerStatus();
+    }
+
+    public void GetReleaseInfo()
+    {
+        releases = releaseManager.GetReleasesForProduct(ProductName);
+    }
+
+    public bool HasReleaseInfo()
+    {
+        return (releases != null) && (releases.Length > 0);
+    }
+
+    public int InstallationResult { get; private set; }
 }

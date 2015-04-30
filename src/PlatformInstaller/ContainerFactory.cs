@@ -2,8 +2,6 @@
 using Autofac;
 using Caliburn.Micro;
 using Mindscape.Raygun4Net;
-using PlatformInstaller.Installations;
-using PlatformInstaller.Releases;
 
 public static class ContainerFactory
 {

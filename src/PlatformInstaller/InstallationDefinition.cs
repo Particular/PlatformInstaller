@@ -1,6 +1,4 @@
-﻿using PlatformInstaller.Installations;
-
-public class InstallationDefinition 
+﻿public class InstallationDefinition 
 {
     public string Name;
     public string ToolTip;

@@ -58,9 +58,11 @@ public class ServiceControlInstallRunner : IInstallRunner
         var installer = files.First(p => p.Extension.Equals(".exe", StringComparison.OrdinalIgnoreCase));
            
         var log = string.Format("particular.{0}.installer.log", ProductName.ToLower());
+        var fullLogPath = Path.Combine(installer.Directory.FullName,log);
+        File.Delete(fullLogPath);
+
         var proc = processRunner.RunProcess(installer.FullName,
             string.Format("/quiet PlatformInstaller=true /L*V {0}", log),
-            // ReSharper disable once PossibleNullReferenceException
             installer.Directory.FullName,
             logOutput,
             logError);
@@ -70,7 +72,7 @@ public class ServiceControlInstallRunner : IInstallRunner
         if (procExitCode != 0)
         {
             logError(string.Format("Installation of {0} failed with exitcode: {1}", ProductName, procExitCode));
-            logError(string.Format("The MSI installation log can be found at {0}", Path.Combine(installer.Directory.FullName, log)));
+            logError(string.Format("The MSI installation log can be found at {0}", fullLogPath));
         }
         else
         {

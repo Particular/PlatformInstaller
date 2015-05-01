@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 
 public class ReleaseManager
@@ -14,16 +16,43 @@ public class ReleaseManager
     public ReleaseManager(IEventAggregator eventAggregator)
     {
         this.eventAggregator = eventAggregator;
+       
     }
 
+    public ICredentials Credentials;
+
     const string rootURL = @"http://platformupdate.particular.net";
-        
+
+    public static bool ProxyTest(ICredentials credentials)
+    {
+        using (var client = new WebClient())
+        {
+            try
+            {
+               client.Proxy.Credentials = credentials;
+               client.DownloadString(rootURL);
+            }
+            catch(WebException ex)
+            {
+                if (ex.Status == WebExceptionStatus.ProtocolError)
+                {
+                    var response = ex.Response as HttpWebResponse;
+                    if (response != null && response.StatusCode == HttpStatusCode.ProxyAuthenticationRequired)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
     public Release[] GetReleasesForProduct(string product)
     {
         var uri = string.Format("{0}/{1}.txt", rootURL, product).ToLower();
         using (var client = new WebClient())
         {
-            client.Proxy.Credentials = CredentialCache.DefaultCredentials;
+            client.Proxy.Credentials = Credentials;
 
             string data = null;
             var retries = 0;
@@ -60,7 +89,7 @@ public class ReleaseManager
 
         using (var client = new WebClient())
         {
-            client.Proxy.Credentials = CredentialCache.DefaultCredentials;
+            client.Proxy.Credentials = Credentials;
 
             var assets = (filter == null) ? release.Assets : release.Assets.Where(p => p.Name.IndexOf(filter, StringComparison.OrdinalIgnoreCase) > -1).ToArray();
             foreach (var asset in assets)
@@ -115,6 +144,37 @@ public class ReleaseManager
 
                 }
                 yield return localAsset;
+            }
+        }
+    }
+
+    public static void SaveCredentials(NetworkCredential credentials)
+    {
+        using (var credRegKey = Registry.CurrentUser.CreateSubKey(@"Software\Particular\PlatformInstaller\Credentials"))
+        {
+            if (credRegKey == null)
+            {
+                return;
+            }
+            credRegKey.SetValue("username", credentials.UserName);
+            credRegKey.SetValue("password", ProtectedData.Protect(credentials.Password.GetBytes(), null, DataProtectionScope.CurrentUser));
+        }
+    }
+
+    public void RetrieveSavedCredentials()
+    {
+        using (var credRegKey = Registry.CurrentUser.CreateSubKey(@"Software\Particular\PlatformInstaller\Credentials"))
+        {
+            if (credRegKey == null)
+            {
+                return;
+            }
+            var username = (string) credRegKey.GetValue("username", null);
+            var encryptedPassword = (byte[]) credRegKey.GetValue("password", null);
+
+            if (encryptedPassword != null)
+            {
+                Credentials = new NetworkCredential(username, ProtectedData.Unprotect(encryptedPassword, null, DataProtectionScope.CurrentUser).GetString());
             }
         }
     }

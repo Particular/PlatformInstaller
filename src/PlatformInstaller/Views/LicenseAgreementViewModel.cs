@@ -20,7 +20,7 @@ public class LicenseAgreementViewModel : Screen
 
     public void Agree()
     {
-        eventAggregator.Publish<AgeedToLicenseEvent>();
+        eventAggregator.Publish<AgreedToLicenseEvent>();
     }
 
     public void Exit()

@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Windows;
+using System.Windows.Input;
 
 public partial class ProxySettingsView
 {
@@ -29,6 +30,16 @@ public partial class ProxySettingsView
         else
         {
             MessageBox.Show(this, "The supplied username and password were not accepted by the proxy server","Credentials failed", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    protected override void OnMouseDown(MouseButtonEventArgs e)
+    {
+        base.OnMouseDown(e);
+
+        if (e.ChangedButton == MouseButton.Left)
+        {
+            DragMove();
         }
     }
 

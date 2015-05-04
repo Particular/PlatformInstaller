@@ -80,8 +80,8 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel>
-        <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Bold">Install the Particular Service Platform</TextBlock>
-        <TextBlock DockPanel.Dock="Top" Foreground="Gray" TextWrapping="Wrap" >Download and install the Particular Platform applications and configure NServiceBus dependencies.</TextBlock>
+        <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Bold">Configure your development machine for the Particular Service Platform</TextBlock>
+        <TextBlock DockPanel.Dock="Top" Foreground="Gray" TextWrapping="Wrap" >Individual installers will be downloaded from the Internet as required.</TextBlock>
         <DockPanel  DockPanel.Dock="Bottom"  >
             <Button x:Name="Exit" Content="Exit"  DockPanel.Dock="Right"/>
             <Button x:Name="Install" IsEnabled="{Binding IsInstallEnabled}" Content="Install" DockPanel.Dock="Right"/>

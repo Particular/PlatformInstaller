@@ -98,8 +98,6 @@ public class ShellViewModel : Conductor<object>,
             }
             else
             {
-
-                
                 var proxySettings = new ProxySettingsView(releaseManager)
                 {
                     Owner = ShellView.CurrentInstance

@@ -112,6 +112,7 @@
     <Compile Include="ReadableBytesConverterTests.cs" />
     <Compile Include="ToFriendlyStringTests.cs" />
     <Compile Include="VersionFinderTests.cs" />
+    <Compile Include="Views\ProxySettingsViewTests.cs" />
     <Compile Include="Views\FailedInstallationViewTests.cs" />
     <Compile Include="FakePendingRestartAndResume.cs" />
     <Compile Include="Views\LicenseAgreementViewTests.cs" />

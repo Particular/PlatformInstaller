@@ -38,9 +38,11 @@ public class MsmqInstaller
                 break;
             case OperatingSystemEnum.Windows8:
             case OperatingSystemEnum.Server2012:
+            case OperatingSystemEnum.Windows10:
                 RunExe(dismPath, @"/Online /NoRestart /English /Enable-Feature /all /FeatureName:MSMQ-Server");
                 break;
 
+            
             default:
                 throw new Exception("Unsupported Operating System");
         }
@@ -166,6 +168,9 @@ public class MsmqInstaller
 
         switch (Environment.OSVersion.Version.Major)
         {
+            case 10 :
+                return OperatingSystemEnum.Windows10;
+
             case 6:
                 switch (Environment.OSVersion.Version.Minor)
                 {
@@ -303,7 +308,8 @@ public class MsmqInstaller
         Server2008,
         Windows7,
         Windows8,
-        Server2012
+        Server2012,
+        Windows10
     }
 
     const string OcSetup = "OCSETUP";

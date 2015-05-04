@@ -15,7 +15,7 @@ public partial class ProxySettingsView
     
     public bool Cancelled { get; set; }
 
-    private void OkClick(object sender, RoutedEventArgs e)
+    void OkClick(object sender, RoutedEventArgs e)
     {
         var credentials = new NetworkCredential(username.Text, password.Password);
         if (ReleaseManager.ProxyTest(credentials))

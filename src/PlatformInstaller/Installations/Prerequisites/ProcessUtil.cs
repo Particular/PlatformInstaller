@@ -36,14 +36,14 @@ public class ProcessUtil
         }
     }
 
-    private void ThrowUnableToChangeStatus(string serviceName, ServiceControllerStatus status)
+    void ThrowUnableToChangeStatus(string serviceName, ServiceControllerStatus status)
     {
         ThrowUnableToChangeStatus(serviceName, status, null);
     }
 
-    private static void ThrowUnableToChangeStatus(string serviceName, ServiceControllerStatus status, Exception exception)
+    static void ThrowUnableToChangeStatus(string serviceName, ServiceControllerStatus status, Exception exception)
     {
-        var message = "Unable to change " + serviceName + " status to " + Enum.GetName(typeof(ServiceControllerStatus), status);
+        var message = string.Format("Unable to change {0} status to {1}", serviceName, Enum.GetName(typeof(ServiceControllerStatus), status));
 
         if (exception == null)
         {

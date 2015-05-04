@@ -77,6 +77,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Mindscape.Raygun4Net.4.2.1\lib\net40\Mindscape.Raygun4Net.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="PropertyChanged">
@@ -99,9 +102,10 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Management.Automation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\System.Management.Automation\lib\net40\System.Management.Automation.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -113,31 +117,47 @@
     <Compile Include="AutoSubscriber.cs" />
     <Compile Include="Caliburn\CaliburnExtensions.cs" />
     <Compile Include="Caliburn\ViewModelConventions.cs" />
-    <Compile Include="Chocolatey\FileEx.cs" />
+    <Compile Include="Events\NestedInstallStartedEvent.cs" />
+    <Compile Include="Events\NestedInstallCompleteEvent.cs" />
+    <Compile Include="Installations\Prerequisites\DtcInstaller.cs" />
+    <Compile Include="Installations\Prerequisites\MsmqInstaller.cs" />
+    <Compile Include="Installations\Prerequisites\PerfCountersInstaller.cs" />
+    <Compile Include="Installations\Prerequisites\ProcessUtil.cs" />
+    <Compile Include="Installations\Prerequisites\RegistryExtensions.cs" />
+    <Compile Include="Events\DownloadCompleteEvent.cs" />
+    <Compile Include="Events\DownloadProgressEvent.cs" />
+    <Compile Include="Events\DownloadStartedEvent.cs" />
+    <Compile Include="Installations\ServiceMatrix\LogFinder.cs" />
+    <Compile Include="Releases\StringExtensions.cs" />
+    <Compile Include="Versions\RegistryFind.cs" />
+    <Compile Include="Versions\StatusMessage.cs" />
+    <Compile Include="Versions\VSIXFind.cs" />
+    <Compile Include="Releases\Asset.cs" />
+    <Compile Include="Releases\ReleaseManager.cs" />
+    <Compile Include="Releases\Release.cs" />
     <Compile Include="Events\CheckPointInstallEvent.cs" />
     <Compile Include="Events\NoInstallAttemptedEvent.cs" />
     <Compile Include="Events\InstallCancelledEvent.cs" />
     <Compile Include="Events\ReportInstallFailedEvent.cs" />
-    <Compile Include="Events\UserFixedExecutionPolicy.cs" />
-    <Compile Include="PowerShell\ReadableBytesConverter.cs" />
+    <Compile Include="Installations\IRunInstaller.cs" />
+    <Compile Include="Installations\NServiceBusPrequisities.cs" />
+    <Compile Include="Installations\ServiceControlInstallRunner.cs" />
+    <Compile Include="Installations\ServiceInsightInstallRunner.cs" />
+    <Compile Include="Installations\ServiceMatrix2013InstallRunner.cs" />
+    <Compile Include="Installations\ServiceMatrix2012InstallRunner.cs" />
+    <Compile Include="Installations\ServicePulseInstallRunner.cs" />
+    <Compile Include="PackageType.cs" />
+    <Compile Include="ReadableBytesConverter.cs" />
     <Compile Include="ProductInstallException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Runner.cs" />
     <Compile Include="Events\InstallFailedEvent.cs" />
     <Compile Include="Events\RebootRequiredEvent.cs" />
-    <Compile Include="Events\UserInstalledChocolatey.cs" />
-    <Compile Include="Events\UserUpdatedChocolatey.cs" />
     <Compile Include="IsAdminChecker.cs" />
     <Compile Include="AutofacExtensions.cs" />
     <Compile Include="PendingRestartAndResume.cs" />
-    <Compile Include="ServiceMatrix.cs" />
     <Compile Include="Splash.cs" />
     <Compile Include="VersionFinder.cs" />
-    <Compile Include="PowerShell\PSHost.cs" />
-    <Compile Include="PowerShell\PSHostRawUserInterface.cs" />
-    <Compile Include="PowerShell\PSHostUserInterface.cs" />
-    <Compile Include="PowerShell\PowerShellExtensions.cs" />
-    <Compile Include="Chocolatey\TaskEx.cs" />
     <Compile Include="ContainerFactory.cs" />
     <Compile Include="Caliburn\AppBootstrapper.cs" />
     <Compile Include="AssemblyLocation.cs" />
@@ -145,12 +165,13 @@
     <Compile Include="ExceptionHandler.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Logging.cs" />
-    <Compile Include="Events\AgeedToLicenseEvent.cs" />
+    <Compile Include="Events\AgreedToLicenseEvent.cs" />
     <Compile Include="Events\ExitApplicationEvent.cs" />
-    <Compile Include="Events\HomeEvent.cs" />
-    <Compile Include="Events\AgreedToInstallChocolateyEvent.cs" />
-    <Compile Include="PackageDefinition.cs" />
+    <Compile Include="Events\NavigateHomeCommand.cs" />
     <Compile Include="Events\RebootMachineCommand.cs" />
+    <Compile Include="Views\ProxySettingsView.xaml.cs">
+      <DependentUpon>ProxySettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ConfirmSendExceptionView.xaml.cs">
       <DependentUpon>ConfirmSendExceptionView.xaml</DependentUpon>
     </Compile>
@@ -172,10 +193,6 @@
     <Compile Include="Views\FailedInstallationView.xaml.cs">
       <DependentUpon>FailedInstallationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GroupPolicyErrorView.xaml.cs">
-      <DependentUpon>GroupPolicyErrorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\GroupPolicyErrorViewModel.cs" />
     <Compile Include="Views\RebootNeededView.xaml.cs">
       <DependentUpon>RebootNeededView.xaml</DependentUpon>
     </Compile>
@@ -183,11 +200,6 @@
     <Compile Include="RebootMachine.cs" />
     <Compile Include="VisualStudioVersions.cs" />
     <Compile Include="WpfExtensions\ResourceResolver.cs" />
-    <Compile Include="Views\UpdateChocolateyView.xaml.cs">
-      <DependentUpon>UpdateChocolateyView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UpdateChocolateyViewModel.cs" />
-    <Compile Include="Views\InstallChocolateyViewModel.cs" />
     <Compile Include="Views\InstallingViewModel.cs" />
     <Compile Include="Events\InstallSucceededEvent.cs" />
     <Compile Include="Views\LicenseAgreementView.xaml.cs">
@@ -212,9 +224,6 @@
     <Compile Include="WpfExtensions.cs" />
     <Compile Include="WpfExtensions\GifImage.cs" />
     <Compile Include="WpfExtensions\InvertedBooleanToVisibilityConverter.cs" />
-    <Compile Include="Views\InstallChocolateyView.xaml.cs">
-      <DependentUpon>InstallChocolateyView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="WpfExtensions\Link.cs" />
     <Compile Include="Views\LicenseAgreementViewModel.cs" />
     <Compile Include="Views\SelectItemsViewModel.cs" />
@@ -223,13 +232,17 @@
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WpfExtensions\MultiInstanceBinder.cs" />
-    <Compile Include="PackageDefinitionService.cs" />
+    <Compile Include="InstallationDefinitionService.cs" />
     <Compile Include="InstallationDefinition.cs" />
     <Compile Include="InstallFeedbackReporter.cs" />
     <Compile Include="SemanticVersion.cs" />
     <Page Include="Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProxySettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ConfirmSendExceptionView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -247,19 +260,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\GroupPolicyErrorView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\RebootNeededView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\UpdateChocolateyView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\InstallChocolateyView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -287,11 +288,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Chocolatey\ChocolateyInstaller.cs" />
-    <Compile Include="PowerShell\PowerShellVersion.cs" />
-    <Compile Include="Chocolatey\ProcessRunner.cs" />
-    <Compile Include="Chocolatey\PackageManager.cs" />
-    <Compile Include="PowerShell\PowerShellRunner.cs" />
+    <Compile Include="Installations\ProcessRunner.cs" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -316,6 +313,7 @@
     <Resource Include="Images\SM2012.png" />
     <Resource Include="Images\SM2013.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)..\BuildSupport\GitVersionTask\Build\GitVersionTask.targets" />
   <Import Project="..\packages\Fody.1.27.1\build\Fody.targets" Condition="Exists('..\packages\Fody.1.27.1\build\Fody.targets')" />

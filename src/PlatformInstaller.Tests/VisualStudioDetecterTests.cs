@@ -12,6 +12,5 @@ public class VisualStudioDetecterTests
         Assert.True(VisualStudioDetecter.VS2013Installed);
 
         Assert.False(VisualStudioDetecter.VS2012Installed);
-        Assert.False(VisualStudioDetecter.VS2010Installed);
     }
 }

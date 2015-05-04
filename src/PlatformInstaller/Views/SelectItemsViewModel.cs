@@ -12,12 +12,12 @@ public class SelectItemsViewModel : Screen
     {
         
     }
-    public SelectItemsViewModel(PackageDefinitionService packageDefinitionDiscovery, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume, ILifetimeScope lifetimeScope, IWindowManager windowManager)
+    public SelectItemsViewModel(InstallationDefinitionService installationDefinitionDiscovery, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume, ILifetimeScope lifetimeScope, IWindowManager windowManager)
     {
         // ReSharper disable once DoNotCallOverridableMethodsInConstructor
         DisplayName = "Selected Items";
         AppVersion = String.Format("Version: {0}", Assembly.GetExecutingAssembly().GetName().Version);
-        this.packageDefinitionDiscovery = packageDefinitionDiscovery;
+        this.installationDefinitionDiscovery = installationDefinitionDiscovery;
         this.eventAggregator = eventAggregator;
         this.pendingRestartAndResume = pendingRestartAndResume;
         this.windowManager = windowManager;
@@ -31,7 +31,7 @@ public class SelectItemsViewModel : Screen
 
     public string AppVersion { get; set; }
 
-    PackageDefinitionService packageDefinitionDiscovery;
+    InstallationDefinitionService installationDefinitionDiscovery;
     IEventAggregator eventAggregator;
     public List<PackageDefinitionBindable> PackageDefinitions { get; set; }
     public PendingRestartAndResume pendingRestartAndResume { get; set; }
@@ -39,7 +39,7 @@ public class SelectItemsViewModel : Screen
     protected override void OnInitialize()
     {
         base.OnInitialize(); 
-        PackageDefinitions = packageDefinitionDiscovery
+        PackageDefinitions = installationDefinitionDiscovery
           .GetPackages()
           .OrderBy(p => p.SortOrder)
           .Select(x => new PackageDefinitionBindable
@@ -48,7 +48,7 @@ public class SelectItemsViewModel : Screen
                   ToolTip = x.ToolTip,
                   Enabled = !x.Disabled,
                   Selected = x.SelectedByDefault,
-                  Status = x.Status ?? (x.SelectedByDefault ? "Install" : "Update"),
+                  Status = x.Status,
                   Name = x.Name,
               }).ToList();
 
@@ -104,6 +104,7 @@ public class SelectItemsViewModel : Screen
         public string Name { get; set; }
         public string ImageUrl { get; set; }
         public string Status { get; set; }
+        public string InstalledVersion { get; set; }
         public bool Selected { get; set; }
         public bool Enabled { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;

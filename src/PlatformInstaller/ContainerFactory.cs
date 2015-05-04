@@ -29,24 +29,32 @@ public static class ContainerFactory
             .SingleInstance();
         builder.RegisterType<ShellViewModel>()
             .SingleInstance();
-        builder.RegisterType<PowerShellRunner>()
-            .SingleInstance();
-        builder.RegisterType<ChocolateyInstaller>()
-            .SingleInstance();
         builder.RegisterType<ProcessRunner>()
+            .SingleInstance();
+        builder.RegisterType<ReleaseManager>()
             .SingleInstance();
         builder.RegisterType<Installer>()
             .SingleInstance();
         builder.RegisterType<LicenseAgreement>()
             .SingleInstance();
-        builder.RegisterType<PackageManager>()
-            .SingleInstance();
         builder.RegisterType<AppBootstrapper>()
             .SingleInstance();
         builder.RegisterType<AutoSubscriber>();
-        builder.RegisterType<PackageDefinitionService>()
-            .SingleInstance();
         builder.RegisterType<PendingRestartAndResume>()
+            .SingleInstance();
+        builder.RegisterType<NServiceBusPrequisitiesInstallRunner>()
+            .SingleInstance();
+        builder.RegisterType<ServiceInsightInstallRunner>()
+            .SingleInstance();
+        builder.RegisterType<ServiceControlInstallRunner>()
+            .SingleInstance();
+        builder.RegisterType<ServicePulseInstallRunner>()
+            .SingleInstance();
+        builder.RegisterType<ServiceMatrix2012InstallRunner>()
+            .SingleInstance();
+        builder.RegisterType<ServiceMatrix2013InstallRunner>()
+            .SingleInstance();
+        builder.RegisterType<InstallationDefinitionService>()
             .SingleInstance();
         builder.RegisterInstance(new RaygunClient(Program.RaygunApiKey))
             .SingleInstance();

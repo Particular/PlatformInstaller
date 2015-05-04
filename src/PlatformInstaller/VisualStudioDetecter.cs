@@ -16,11 +16,6 @@ public class VisualStudioDetecter
         get { return InstalledVersions.Contains(VisualStudioVersions.VS2012); }
     }
 
-    public static bool VS2010Installed
-    {
-        get { return InstalledVersions.Contains(VisualStudioVersions.VS2010); }
-    }
-
     public static IEnumerable<string> InstalledVersions
     {
         get
@@ -29,7 +24,6 @@ public class VisualStudioDetecter
             {
                 installedVersions = DetectVersions();
             }
-
             return installedVersions;
         }
     }
@@ -47,12 +41,6 @@ public class VisualStudioDetecter
 
             return values.Split(';').ToList();
         }
-
-        if (CheckVSTools("VS100COMNTOOLS"))
-        {
-            versions.Add(VisualStudioVersions.VS2010);
-        }
-
 
         if (CheckVSTools("VS110COMNTOOLS"))
         {

@@ -1,55 +1,51 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
 using Janitor;
 using Mindscape.Raygun4Net;
+using Parameter = Autofac.Core.Parameter;
 
 [SkipWeaving]
 public class ShellViewModel : Conductor<object>,
     IDisposable,
-    IHandle<AgeedToLicenseEvent>,
+    IHandle<AgreedToLicenseEvent>,
     IHandle<RunInstallEvent>,
     IHandle<InstallSucceededEvent>,
     IHandle<InstallFailedEvent>,
     IHandle<RebootRequiredEvent>,
     IHandle<ExitApplicationCommand>,
-    IHandle<AgreedToInstallChocolateyEvent>,
     IHandle<NavigateHomeCommand>,
-    IHandle<UserInstalledChocolateyEvent>,
-    IHandle<UserUpdatedChocolateyEvent>,
-    IHandle<UserFixedExecutionPolicy>,
     IHandle<ReportInstallFailedEvent>
 {
-    ChocolateyInstaller chocolateyInstaller;
     LicenseAgreement licenseAgreement;
     ILifetimeScope lifetimeScope;
-    PowerShellRunner powerShellRunner;
     IEventAggregator eventAggregator;
     List<string> itemsToInstall;
     ILifetimeScope currentLifetimeScope;
     RaygunClient raygunClient;
     Installer installer;
+    ReleaseManager releaseManager;
 
     bool installWasAttempted;
 
-    public ShellViewModel(IEventAggregator eventAggregator, ChocolateyInstaller chocolateyInstaller, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, PowerShellRunner powerShellRunner, RaygunClient raygunClient, Installer installer)
+    public ShellViewModel(IEventAggregator eventAggregator, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, RaygunClient raygunClient, Installer installer, ReleaseManager releaseManager, IWindowManager windowManager)
     {
         // ReSharper disable once DoNotCallOverridableMethodsInConstructor
         DisplayName = "Platform Installer";
         this.raygunClient = raygunClient;
         this.installer = installer;
-        this.chocolateyInstaller = chocolateyInstaller;
         this.licenseAgreement = licenseAgreement;
         this.lifetimeScope = lifetimeScope;
-        this.powerShellRunner = powerShellRunner;
         this.eventAggregator = eventAggregator;
+        this.releaseManager = releaseManager;
         RunStartupSequence();
     }
 
-    public void ActivateModel<T>(params Autofac.Core.Parameter[] parameters) where T : Screen
+    public void ActivateModel<T>(params Parameter[] parameters) where T : Screen
     {
         var activeScreen = ActiveItem;
         if (activeScreen != null && activeScreen.IsHandler())
@@ -74,30 +70,48 @@ public class ShellViewModel : Conductor<object>,
         eventAggregator.Publish<RequestExitApplicationEvent>();
     }
 
-    public void Handle(AgeedToLicenseEvent message)
+    public void Handle(AgreedToLicenseEvent message)
     {
         licenseAgreement.Agree();
         RunStartupSequence();
     }
 
-    public void Handle(UserFixedExecutionPolicy message)
-    {
-        RunStartupSequence();
-    }
-
     void RunStartupSequence()
     {
+
         if (!licenseAgreement.HasAgreedToLicense())
         {
             ActivateModel<LicenseAgreementViewModel>();
             return;
         }
-        if (!powerShellRunner.TrySetExecutionPolicyToUnrestricted())
+
+        releaseManager.RetrieveSavedCredentials();
+        if (!ReleaseManager.ProxyTest(releaseManager.Credentials))
         {
-            ActivateModel<GroupPolicyErrorViewModel>();
-            return;
+            if (ReleaseManager.ProxyTest(CredentialCache.DefaultCredentials))
+            {
+                releaseManager.Credentials = CredentialCache.DefaultCredentials;
+            }
+            else if (ReleaseManager.ProxyTest(CredentialCache.DefaultNetworkCredentials))
+            {
+                releaseManager.Credentials = CredentialCache.DefaultNetworkCredentials;
+            }
+            else
+            {
+
+                
+                var proxySettings = new ProxySettingsView(releaseManager)
+                {
+                    Owner = ShellView.CurrentInstance
+                };
+                proxySettings.ShowDialog();
+                if (proxySettings.Cancelled)
+                {
+                    Environment.Exit(0);
+                }
+            }
         }
-                      
+
         ActivateModel<SelectItemsViewModel>();
     }
 
@@ -105,42 +119,13 @@ public class ShellViewModel : Conductor<object>,
     {
         installWasAttempted = true;
         itemsToInstall = message.SelectedItems;
-        if (chocolateyInstaller.IsInstalled())
-        {
-            var chocolateyUpgradeRequired = await chocolateyInstaller.ChocolateyUpgradeRequired();
-            if (chocolateyUpgradeRequired)
-            {
-                ActivateModel<UpdateChocolateyViewModel>();
-                return;
-            }
-            await ActivateInstallingViewModel();
-            return;
-        }
-        ActivateModel<InstallChocolateyViewModel>();
+        await ActivateInstallingViewModel();
     }
 
     Task ActivateInstallingViewModel()
     {
         ActivateModel<InstallingViewModel>();
         return installer.Install(itemsToInstall);
-    }
-
-    public async void Handle(AgreedToInstallChocolateyEvent message)
-    {
-        ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
-        await ActivateInstallingViewModel();
-    }
-
-    public async void Handle(UserUpdatedChocolateyEvent message)
-    {
-        ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
-        await ActivateInstallingViewModel();
-    }
-
-    public async void Handle(UserInstalledChocolateyEvent message)
-    {
-        ActivateModel<InstallingViewModel>(new NamedParameter("itemsToInstall", itemsToInstall));
-        await ActivateInstallingViewModel();
     }
 
     public void Handle(InstallSucceededEvent message)

@@ -45,7 +45,7 @@ public class ServiceInsightInstallRunner : IInstallRunner
     }
 
     public void Execute(Action<string> logOutput, Action<string> logError)
-    {   
+    {
         eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = string.Format("Run {0} Installation", ProductName) });
         var release = releases.First();
         FileInfo[] files;
@@ -58,8 +58,6 @@ public class ServiceInsightInstallRunner : IInstallRunner
             logError(string.Format("Failed to download the {0} Installation from https://github.com/Particular/{0}/releases/latest", ProductName.ToLower()));
             return;
         }
-
-         
 
         var installer = files.First(p => p.Extension.Equals(".exe", StringComparison.OrdinalIgnoreCase));
 
@@ -88,10 +86,9 @@ public class ServiceInsightInstallRunner : IInstallRunner
         }
         InstallationResult = procExitCode;
         Thread.Sleep(1000);
-            
+
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
     }
-
 
     public bool Installed()
     {
@@ -110,7 +107,7 @@ public class ServiceInsightInstallRunner : IInstallRunner
 
     public void GetReleaseInfo()
     {
-        releases = releaseManager.GetReleasesForProduct(ProductName);
+        releases = releaseManager.GetReleasesForProductFromGitHub(ProductName);
     }
 
     public bool HasReleaseInfo()

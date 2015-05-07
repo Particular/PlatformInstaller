@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 
+[DebuggerDisplay("{Tag}")]
 public class Release
 {
     public string Tag;

@@ -13,15 +13,16 @@ using Newtonsoft.Json;
 public class ReleaseManager
 {
     IEventAggregator eventAggregator;
+
     public ReleaseManager(IEventAggregator eventAggregator)
     {
         this.eventAggregator = eventAggregator;
-       
     }
 
     public ICredentials Credentials;
 
-    const string rootURL = @"http://platformupdate.particular.net";
+    const string rootURL = @"http://platformupdate.particular.net/{0}.txt";
+    const string githubReleasesURL = @"http://particular.github.io/{0}/releases.txt";
 
     public static bool ProxyTest(ICredentials credentials)
     {
@@ -29,10 +30,10 @@ public class ReleaseManager
         {
             try
             {
-               client.Proxy.Credentials = credentials;
-               client.DownloadString(rootURL);
+                client.Proxy.Credentials = credentials;
+                client.DownloadString(rootURL);
             }
-            catch(WebException ex)
+            catch (WebException ex)
             {
                 if (ex.Status == WebExceptionStatus.ProtocolError)
                 {
@@ -49,7 +50,18 @@ public class ReleaseManager
 
     public Release[] GetReleasesForProduct(string product)
     {
-        var uri = string.Format("{0}/{1}.txt", rootURL, product).ToLower();
+        var uri = string.Format(rootURL, product).ToLower();
+        return DownloadReleases(uri);
+    }
+
+    public Release[] GetReleasesForProductFromGitHub(string product)
+    {
+        var uri = string.Format(githubReleasesURL, product);
+        return DownloadReleases(uri);
+    }
+
+    private Release[] DownloadReleases(string uri)
+    {
         using (var client = new WebClient())
         {
             client.Proxy.Credentials = Credentials;
@@ -75,9 +87,9 @@ public class ReleaseManager
 
             if (!string.IsNullOrWhiteSpace(data))
             {
-                return (Release[])JsonConvert.DeserializeObject(data, typeof(Release[]));    
+                return (Release[])JsonConvert.DeserializeObject(data, typeof(Release[]));
             }
-            return new Release[] {};
+            return new Release[] { };
         }
     }
 
@@ -102,9 +114,11 @@ public class ReleaseManager
                         Url = asset.Name,
                         FileName = localAsset.FullName
                     });
-                        
-                    client.DownloadProgressChanged += (sender, args) => {
-                        eventAggregator.PublishOnUIThread(new DownloadProgressEvent{
+
+                    client.DownloadProgressChanged += (sender, args) =>
+                    {
+                        eventAggregator.PublishOnUIThread(new DownloadProgressEvent
+                        {
                             BytesReceived = args.BytesReceived,
                             ProgressPercentage = args.ProgressPercentage,
                             TotalBytes = args.TotalBytesToReceive
@@ -125,10 +139,10 @@ public class ReleaseManager
                             Task.WaitAll(t);
                             break;
                         }
-                        catch 
+                        catch
                         {
                             retries++;
-                            eventAggregator.PublishOnUIThread(new InstallerOutputEvent{Text = "Download failed. Retrying..."});
+                            eventAggregator.PublishOnUIThread(new InstallerOutputEvent { Text = "Download failed. Retrying..." });
                             Thread.Sleep(500);
                             if (retries > maxretries)
                             {
@@ -141,7 +155,6 @@ public class ReleaseManager
                             }
                         }
                     }
-
                 }
                 yield return localAsset;
             }
@@ -169,8 +182,8 @@ public class ReleaseManager
             {
                 return;
             }
-            var username = (string) credRegKey.GetValue("username", null);
-            var encryptedPassword = (byte[]) credRegKey.GetValue("password", null);
+            var username = (string)credRegKey.GetValue("username", null);
+            var encryptedPassword = (byte[])credRegKey.GetValue("password", null);
 
             if (encryptedPassword != null)
             {

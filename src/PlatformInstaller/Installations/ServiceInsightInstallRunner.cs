@@ -107,7 +107,7 @@ public class ServiceInsightInstallRunner : IInstallRunner
 
     public void GetReleaseInfo()
     {
-        releases = releaseManager.GetReleasesForProductFromGitHub(ProductName);
+        releases = releaseManager.GetReleasesForProduct(ProductName);
     }
 
     public bool HasReleaseInfo()

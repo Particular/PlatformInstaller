@@ -22,7 +22,6 @@ public class ReleaseManager
     public ICredentials Credentials;
 
     const string rootURL = @"http://platformupdate.particular.net/{0}.txt";
-    const string githubReleasesURL = @"http://particular.github.io/{0}/releases.txt";
 
     public static bool ProxyTest(ICredentials credentials)
     {
@@ -51,12 +50,6 @@ public class ReleaseManager
     public Release[] GetReleasesForProduct(string product)
     {
         var uri = string.Format(rootURL, product).ToLower();
-        return DownloadReleases(uri);
-    }
-
-    public Release[] GetReleasesForProductFromGitHub(string product)
-    {
-        var uri = string.Format(githubReleasesURL, product);
         return DownloadReleases(uri);
     }
 

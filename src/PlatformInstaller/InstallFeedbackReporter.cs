@@ -42,7 +42,14 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<I
 
     void RunUrlAndRecordFeedback(string url, params object[] args)
     {
-        Process.Start(string.Format(url, args));
+        try
+        {
+            Process.Start(string.Format(url, args));
+        }
+        catch
+        {
+            // Ignore - See Issue https://github.com/Particular/PlatformInstaller/issues/169
+        }
         RecordInstallationFeeback();
     }
 
@@ -50,6 +57,7 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<I
     {
         using (var regRoot = Registry.CurrentUser.CreateSubKey(@"Software\ParticularSoftware\PlatformInstaller\"))
         {
+            // ReSharper disable once PossibleNullReferenceException
             regRoot.SetValue("InstallationFeedbackReported", "true");
         }
     }

@@ -46,6 +46,7 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<I
         {
             Process.Start(string.Format(url, args));
         }
+        // ReSharper disable once EmptyGeneralCatchClause
         catch
         {
             // Ignore - See Issue https://github.com/Particular/PlatformInstaller/issues/169

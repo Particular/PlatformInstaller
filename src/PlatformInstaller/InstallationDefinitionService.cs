@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+
 public class InstallationDefinitionService
 {
     ServiceControlInstallRunner scRunner;
@@ -31,7 +32,7 @@ public class InstallationDefinitionService
             runner.GetReleaseInfo();
         }
 
-        return new List<InstallationDefinition>
+        var definitions = new List<InstallationDefinition>
         {
             new InstallationDefinition
             {
@@ -42,7 +43,9 @@ public class InstallationDefinitionService
                 Disabled = false,
                 SelectedByDefault = true,
                 ToolTip = "Configure MSMQ, DTC and install NServiceBus Performance Counters",
-                Status = nsbPreRequisitesRunner.Status()
+                Status = nsbPreRequisitesRunner.Status(),
+                FeedOK = true,
+                NoErrors = true,
             },
             new InstallationDefinition
             {
@@ -50,10 +53,11 @@ public class InstallationDefinitionService
                 Name = "ServiceControl",
                 Image = "/Images/SC.png",
                 Installer =  scRunner,
-                Disabled =  !scRunner.HasReleaseInfo() | (scRunner.LatestAvailableVersion() == scRunner.CurrentVersion()),
-                ToolTip =   !scRunner.HasReleaseInfo() ? "Could not retrieve latest release information" : null,
+                Disabled = scRunner.LatestAvailableVersion() == scRunner.CurrentVersion(),
                 SelectedByDefault = (scRunner.LatestAvailableVersion() != scRunner.CurrentVersion()),
-                Status = scRunner.Status()
+                Status = scRunner.Status(),
+                FeedOK = scRunner.HasReleaseInfo(),
+                NoErrors = true
             },
             new InstallationDefinition
             {
@@ -61,10 +65,11 @@ public class InstallationDefinitionService
                 Name = "ServicePulse",
                 Image = "/Images/SP.png",
                 Installer = spRunner,
-                Disabled =  !spRunner.HasReleaseInfo() | (spRunner.LatestAvailableVersion() == spRunner.CurrentVersion()), 
-                ToolTip =   !spRunner.HasReleaseInfo() ? "Could not retrieve latest release information" : null,
+                Disabled =  (spRunner.LatestAvailableVersion() == spRunner.CurrentVersion()), 
                 SelectedByDefault = (spRunner.LatestAvailableVersion() != spRunner.CurrentVersion()),
-                Status = spRunner.Status()
+                Status = spRunner.Status(),
+                FeedOK = spRunner.HasReleaseInfo(),
+                NoErrors = true
             },
             new InstallationDefinition
             {
@@ -72,10 +77,11 @@ public class InstallationDefinitionService
                 Name = "ServiceInsight",
                 Image = "/Images/SI.png",
                 Installer = siRunner,
-                Disabled =  !siRunner.HasReleaseInfo() |  (siRunner.LatestAvailableVersion() == siRunner.CurrentVersion()), 
-                ToolTip =   !siRunner.HasReleaseInfo() ? "Could not retrieve latest release information" : null,
+                Disabled =   (siRunner.LatestAvailableVersion() == siRunner.CurrentVersion()), 
                 SelectedByDefault = (siRunner.LatestAvailableVersion() != siRunner.CurrentVersion()),
-                Status = siRunner.Status()
+                Status = siRunner.Status(),
+                FeedOK = siRunner.HasReleaseInfo(),
+                NoErrors = true
             },
             new InstallationDefinition
             {
@@ -83,11 +89,12 @@ public class InstallationDefinitionService
                 Name = "ServiceMatrix for Visual Studio 2013",
                 Image = "/Images/SM2013.png",
                 Installer = sm2013Runner,
-                Disabled = !VisualStudioDetecter.VS2013Installed | sm2013Runner.Installed() | !sm2013Runner.HasReleaseInfo() ,
-                SelectedByDefault = (VisualStudioDetecter.VS2013Installed &&!sm2013Runner.Installed()) ,
+                Disabled = !VisualStudioDetecter.VS2013Installed | sm2013Runner.Installed(),
+                SelectedByDefault = (VisualStudioDetecter.VS2013Installed && !sm2013Runner.Installed()),
                 Status = sm2013Runner.Status(),
-                ToolTip =  !sm2013Runner.HasReleaseInfo() ? "Could not retrieve latest release information" 
-                            : (!VisualStudioDetecter.VS2013Installed) ? "Requires Visual Studio 2013 Professional or higher" : null
+                ToolTip =  (!VisualStudioDetecter.VS2013Installed) ? "Requires Visual Studio 2013 Professional or higher" : null,
+                FeedOK = sm2013Runner.HasReleaseInfo(),
+                NoErrors = VisualStudioDetecter.VS2013Installed  && !sm2013Runner.Installed()
             },   
             new InstallationDefinition
             {
@@ -95,12 +102,15 @@ public class InstallationDefinitionService
                 Name = "ServiceMatrix for Visual Studio 2012",
                 Image = "/Images/SM2012.png",
                 Installer = sm2012Runner,
-                Disabled = !VisualStudioDetecter.VS2012Installed | sm2012Runner.Installed() | !sm2013Runner.HasReleaseInfo(),
+                Disabled = !VisualStudioDetecter.VS2012Installed | sm2012Runner.Installed(),
                 SelectedByDefault = (VisualStudioDetecter.VS2012Installed & !sm2012Runner.Installed()),
                 Status = sm2012Runner.Status(),
-                ToolTip = !sm2012Runner.HasReleaseInfo() ? "Could not retrieve latest release information" :
-                        (!VisualStudioDetecter.VS2012Installed) ? "Requires Visual Studio 2012 Professional or higher" : null
+                ToolTip = (!VisualStudioDetecter.VS2012Installed) ? "Requires Visual Studio 2012 Professional or higher" : null,
+                FeedOK = sm2012Runner.HasReleaseInfo(),
+                NoErrors = VisualStudioDetecter.VS2012Installed  && !sm2012Runner.Installed()
             }   
         };
+
+        return definitions;
     }
 }

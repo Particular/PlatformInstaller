@@ -59,7 +59,8 @@ public static class InstallRunnerExtensions
         {
             return string.Format("Update to {0} in Visual Studio", latest);
         }
-        return string.Format("Install {0}", latest);
+        
+        return  (latest == null) ? "" : string.Format("Install {0}", latest);
     }
 }
 

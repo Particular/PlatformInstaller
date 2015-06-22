@@ -6,6 +6,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
+using Anotar.Serilog;
 using Caliburn.Micro;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -19,6 +20,8 @@ public class ReleaseManager
         this.eventAggregator = eventAggregator;
     }
 
+    public List<string> FailedFeeds = new List<string>();
+    
     public ICredentials Credentials;
 
     const string rootURL = @"http://platformupdate.particular.net/{0}.txt";
@@ -74,13 +77,24 @@ public class ReleaseManager
                     retries++;
                     Thread.Sleep(250);
                     if (retries > maxretries)
+                    {
                         break;
+                    }
+                    LogTo.Information("Retrying to retrieve data from {0}", uri);
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(data))
             {
                 return (Release[])JsonConvert.DeserializeObject(data, typeof(Release[]));
+            }
+            lock (FailedFeeds)
+            {
+                if (!FailedFeeds.Contains(uri))
+                {
+                    LogTo.Error("Failed to retrieve data from {0}", uri);
+                    FailedFeeds.Add(uri);
+                }
             }
             return new Release[] { };
         }
@@ -173,14 +187,15 @@ public class ReleaseManager
         {
             if (credRegKey == null)
             {
+                LogTo.Information("No stored proxy credentials");
                 return;
             }
             var username = (string)credRegKey.GetValue("username", null);
             var encryptedPassword = (byte[])credRegKey.GetValue("password", null);
-
             if (encryptedPassword != null)
             {
                 Credentials = new NetworkCredential(username, ProtectedData.Unprotect(encryptedPassword, null, DataProtectionScope.CurrentUser).GetString());
+                LogTo.Information("Using stored proxy credentials");
             }
         }
     }

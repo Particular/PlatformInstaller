@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Anotar.Serilog;
 using Autofac;
 using Caliburn.Micro;
 using Janitor;
@@ -18,8 +19,7 @@ public class ShellViewModel : Conductor<object>,
     IHandle<InstallFailedEvent>,
     IHandle<RebootRequiredEvent>,
     IHandle<ExitApplicationCommand>,
-    IHandle<NavigateHomeCommand>,
-    IHandle<ReportInstallFailedEvent>
+    IHandle<NavigateHomeCommand>
 {
     LicenseAgreement licenseAgreement;
     ILifetimeScope lifetimeScope;
@@ -32,7 +32,7 @@ public class ShellViewModel : Conductor<object>,
 
     bool installWasAttempted;
 
-    public ShellViewModel(IEventAggregator eventAggregator, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, RaygunClient raygunClient, Installer installer, ReleaseManager releaseManager, IWindowManager windowManager)
+    public ShellViewModel(IEventAggregator eventAggregator, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, RaygunClient raygunClient, Installer installer, ReleaseManager releaseManager)
     {
         // ReSharper disable once DoNotCallOverridableMethodsInConstructor
         DisplayName = "Platform Installer";
@@ -88,16 +88,28 @@ public class ShellViewModel : Conductor<object>,
         releaseManager.RetrieveSavedCredentials();
         if (!ReleaseManager.ProxyTest(releaseManager.Credentials))
         {
+            if (releaseManager.Credentials != null)
+            {
+                LogTo.Warning("Failed to connect to the internet using stored credentials");
+            }
+            else
+            {
+                LogTo.Warning("Failed to connect to the internet using anonymous credentials");
+            }
+
             if (ReleaseManager.ProxyTest(CredentialCache.DefaultCredentials))
             {
                 releaseManager.Credentials = CredentialCache.DefaultCredentials;
+                LogTo.Information("Successfully connect to the internet using default credentials");
             }
             else if (ReleaseManager.ProxyTest(CredentialCache.DefaultNetworkCredentials))
             {
                 releaseManager.Credentials = CredentialCache.DefaultNetworkCredentials;
+                LogTo.Information("Successfully connect to the internet using default network credentials");
             }
             else
             {
+                LogTo.Information("Prompting for network credentials");
                 var proxySettings = new ProxySettingsView(releaseManager)
                 {
                     Owner = ShellView.CurrentInstance
@@ -109,7 +121,6 @@ public class ShellViewModel : Conductor<object>,
                 }
             }
         }
-
         ActivateModel<SelectItemsViewModel>();
     }
 
@@ -167,7 +178,6 @@ public class ShellViewModel : Conductor<object>,
         var messageInfo = string.Format("{0} - {1}", message.Failure, message.FailureDetails);
         raygunClient.Send(new ProductInstallException(messageInfo));
     }
-
 
     public void Dispose()
     {

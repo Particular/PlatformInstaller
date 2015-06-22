@@ -8,11 +8,13 @@
     public bool SelectedByDefault;
     public string InstalledVersion;
     public string Status;
-
+    public bool FeedOK;
+    
     public InstallationDefinition()
     {
         ToolTip = Name;
     }
 
     public int SortOrder;
+    public bool NoErrors { get; set; }
 }

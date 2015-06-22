@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using Caliburn.Micro;
 using System.Reflection;
+using System.Windows.Input;
 
 public class SelectItemsViewModel : Screen
 {
@@ -12,7 +13,7 @@ public class SelectItemsViewModel : Screen
     {
         
     }
-    public SelectItemsViewModel(InstallationDefinitionService installationDefinitionDiscovery, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume, ILifetimeScope lifetimeScope, IWindowManager windowManager)
+    public SelectItemsViewModel(InstallationDefinitionService installationDefinitionDiscovery, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume, ILifetimeScope lifetimeScope, IWindowManager windowManager, ReleaseManager releaseManager)
     {
         // ReSharper disable once DoNotCallOverridableMethodsInConstructor
         DisplayName = "Selected Items";
@@ -22,10 +23,13 @@ public class SelectItemsViewModel : Screen
         this.pendingRestartAndResume = pendingRestartAndResume;
         this.windowManager = windowManager;
         this.lifetimeScope = lifetimeScope;
+        this.releaseManager = releaseManager;
     }
 
     IWindowManager windowManager;
     ILifetimeScope lifetimeScope;
+    ReleaseManager releaseManager;
+
 
     public bool IsInstallEnabled { get; set; }
 
@@ -48,8 +52,10 @@ public class SelectItemsViewModel : Screen
                   ToolTip = x.ToolTip,
                   Enabled = !x.Disabled,
                   Selected = x.SelectedByDefault,
-                  Status = x.Status,
+                  Status = x.FeedOK ? x.Status : "No Product Feed",
                   Name = x.Name,
+                  CheckBoxVisible = ShowCheckBox(x),
+                  FeedOK = x.FeedOK
               }).ToList();
 
         IsInstallEnabled = PackageDefinitions.Any(pd => pd.Selected);
@@ -80,12 +86,25 @@ public class SelectItemsViewModel : Screen
             {
                 eventAggregator.PublishOnUIThread(runInstallEvent);
             }
-
+        }
+        
+        if (releaseManager.FailedFeeds.Count > 0)
+        {
+            FeedErrors = true;
         }
     }
 
+    bool ShowCheckBox(InstallationDefinition definition)
+    {
+        var x = definition.FeedOK && definition.NoErrors && definition.SelectedByDefault;
+        return x;
+    }
+
+    public bool FeedErrors { get; set; }
+    
     public void Install()
     {
+        
         var selectedItems = PackageDefinitions.Where(p => p.Selected).Select(x => x.Name).ToList();
         var runInstallEvent = new RunInstallEvent
         {
@@ -94,6 +113,11 @@ public class SelectItemsViewModel : Screen
         eventAggregator.PublishOnUIThread(runInstallEvent);
     }
 
+    public void OpenLogs()
+    {
+        Logging.OpenLogDirectory();
+    }
+    
     public void Exit()
     {
         eventAggregator.Publish<ExitApplicationCommand>();
@@ -109,5 +133,7 @@ public class SelectItemsViewModel : Screen
         public bool Enabled { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
         public string ToolTip { get; set; }
+        public bool CheckBoxVisible { get; set; }
+        public bool FeedOK { get; set; }
     }
 }

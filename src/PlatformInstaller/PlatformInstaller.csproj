@@ -57,12 +57,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Caliburn.Micro, Version=2.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Caliburn.Micro.Core.2.0.1\lib\net45\Caliburn.Micro.dll</HintPath>
+    <Reference Include="Caliburn.Micro, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.Core.2.0.2\lib\net45\Caliburn.Micro.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Caliburn.Micro.Platform">
-      <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+    <Reference Include="Caliburn.Micro.Platform, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.2.0.2\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Janitor">
       <HintPath>..\packages\Janitor.Fody.1.1.0.0\Lib\portable-net4+sl5+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\Janitor.dll</HintPath>
@@ -73,9 +74,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
-    <Reference Include="Mindscape.Raygun4Net, Version=4.2.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Mindscape.Raygun4Net.4.2.1\lib\net40\Mindscape.Raygun4Net.dll</HintPath>
+    <Reference Include="Mindscape.Raygun4Net, Version=5.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mindscape.Raygun4Net.5.0.2\lib\net40\Mindscape.Raygun4Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mindscape.Raygun4Net4, Version=5.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mindscape.Raygun4Net.5.0.2\lib\net40\Mindscape.Raygun4Net4.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -102,13 +107,12 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Threading.Tasks" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
@@ -169,9 +173,6 @@
     <Compile Include="Events\ExitApplicationEvent.cs" />
     <Compile Include="Events\NavigateHomeCommand.cs" />
     <Compile Include="Events\RebootMachineCommand.cs" />
-    <Compile Include="Views\ProxySettingsView.xaml.cs">
-      <DependentUpon>ProxySettingsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ConfirmSendExceptionView.xaml.cs">
       <DependentUpon>ConfirmSendExceptionView.xaml</DependentUpon>
     </Compile>
@@ -181,6 +182,9 @@
     <Compile Include="Events\RequestExitApplicationEvent.cs" />
     <Compile Include="Views\AbortInstallationHandler.cs" />
     <Compile Include="Events\InstallStartedEvent.cs" />
+    <Compile Include="Views\ProxySettingsView.xaml.cs">
+      <DependentUpon>ProxySettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ResumeInstallViewModel.cs" />
     <Compile Include="Views\ResumeInstall.xaml.cs">
       <DependentUpon>ResumeInstall.xaml</DependentUpon>
@@ -240,11 +244,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ProxySettingsView.xaml">
+    <Page Include="Views\ConfirmSendExceptionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ConfirmSendExceptionView.xaml">
+    <Page Include="Views\ProxySettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -300,7 +304,6 @@
       <SubType>Designer</SubType>
     </Resource>
     <SplashScreen Include="Splash.png" />
-    <Resource Include="Images\RavenDB.png" />
     <Resource Include="Images\NSB.png" />
     <Resource Include="Images\particularHeader.png" />
     <Resource Include="Images\particularSmall.png" />

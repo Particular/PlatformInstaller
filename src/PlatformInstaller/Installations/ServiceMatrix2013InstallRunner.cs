@@ -20,7 +20,6 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
         this.processRunner = processRunner;
         this.releaseManager = releaseManager;
         this.eventAggregator = eventAggregator;
-           
     }
 
     public string InstallableVersion
@@ -60,8 +59,7 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
             logError(string.Format("Failed to download the {0} Installation from https://github.com/Particular/{0}/releases/latest", ProductName.ToLower()));
             return;
         }
-
-            
+    
         var vsixFile = files.First(p => p.Name.EndsWith("12.0.vsix", StringComparison.OrdinalIgnoreCase));
 
         var toolsPath = Environment.GetEnvironmentVariable("VS120COMNTOOLS");
@@ -93,7 +91,7 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
         if (procExitCode != 0)
         {
             logError(string.Format("Installation of {0} for VS2013 failed with exitcode: {1}", ProductName, procExitCode));
-            var log = LogFinder.FindVSIXLog(VisualStudioVersions.VS2012);
+            var log = LogFinder.FindVSIXLog(VisualStudioVersions.VS2013);
             if (log != null)
             {
                 logError(string.Format("The VSIX installation log can be found at {0}", log));

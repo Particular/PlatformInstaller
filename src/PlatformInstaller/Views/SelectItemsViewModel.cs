@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Linq;
 using Caliburn.Micro;
 using System.Reflection;
-using System.Windows.Input;
 
 public class SelectItemsViewModel : Screen
 {

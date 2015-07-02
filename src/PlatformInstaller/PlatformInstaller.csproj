@@ -85,6 +85,10 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="ParallelExtensionsExtras, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MSFT.ParallelExtensionsExtras.1.2.0\lib\ParallelExtensionsExtras.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="PropertyChanged">
@@ -126,6 +130,7 @@
     <Compile Include="Caliburn\ViewModelConventions.cs" />
     <Compile Include="Events\NestedInstallStartedEvent.cs" />
     <Compile Include="Events\NestedInstallCompleteEvent.cs" />
+    <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Installations\Prerequisites\DtcInstaller.cs" />
     <Compile Include="Installations\Prerequisites\MsmqInstaller.cs" />
     <Compile Include="Installations\Prerequisites\PerfCountersInstaller.cs" />

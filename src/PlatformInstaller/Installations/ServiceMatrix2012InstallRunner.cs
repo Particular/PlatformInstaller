@@ -92,7 +92,7 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
             var procExitCode = proc.Result == 1001 ? 0 : proc.Result; //1001 is already installed, treat this as success
             if (procExitCode != 0)
             {
-                logError(string.Format("Installation of {0} for VS2013 failed with exitcode: {1}", ProductName, procExitCode));
+                logError(string.Format("Installation of {0} for VS2012 failed with exitcode: {1}", ProductName, procExitCode));
                 var log = LogFinder.FindVSIXLog(VisualStudioVersions.VS2012);
                 if (log != null)
                 {

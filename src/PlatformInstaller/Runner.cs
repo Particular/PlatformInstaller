@@ -61,13 +61,20 @@ public static class Runner
         Splash.Show();
         Logging.Initialise();
         ExceptionHandler.Attach();
-        using (var container = ContainerFactory.BuildContainer())
+        try
         {
-            container.Resolve<PendingRestartAndResume>().RemovePendingRestart();
-            container.Resolve<AutoSubscriber>().Subscribe();
-            var appBootstrapper = container.Resolve<AppBootstrapper>();
-            appBootstrapper.Initialize();
-            container.Resolve<IWindowManager>().ShowDialog(container.Resolve<ShellViewModel>());
+            using (var container = ContainerFactory.BuildContainer())
+            {
+                container.Resolve<PendingRestartAndResume>().RemovePendingRestart();
+                container.Resolve<AutoSubscriber>().Subscribe();
+                var appBootstrapper = container.Resolve<AppBootstrapper>();
+                appBootstrapper.Initialize();
+                container.Resolve<IWindowManager>().ShowDialog(container.Resolve<ShellViewModel>());
+            }
+        }
+        catch (Exception exception)
+        {
+            ExceptionHandler.HandleException(exception, "Failed at startup");
         }
     }
 }

@@ -32,9 +32,10 @@ public class ReleaseManager
     {
         using (var client = new WebClient())
         {
+            client.UseDefaultCredentials = true;
+            client.Proxy.Credentials = credentials;
             try
             {
-                client.Proxy.Credentials = credentials;
                 client.DownloadString(rootURL);
             }
             catch (WebException ex)
@@ -47,6 +48,7 @@ public class ReleaseManager
                         return false;
                     }
                 }
+                throw;
             }
         }
         return true;

@@ -141,6 +141,7 @@
     <Compile Include="Events\DownloadStartedEvent.cs" />
     <Compile Include="Installations\ServiceMatrix\LogFinder.cs" />
     <Compile Include="Releases\StringExtensions.cs" />
+    <Compile Include="Versions\InstalledProduct.cs" />
     <Compile Include="Versions\RegistryFind.cs" />
     <Compile Include="Versions\StatusMessage.cs" />
     <Compile Include="Versions\VSIXFind.cs" />

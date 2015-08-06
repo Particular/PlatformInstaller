@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 public class ReleaseManager
 {
-    private const int BUFFER_SIZE = 0x1000;
+    const int BUFFER_SIZE = 0x1000;
 
     IEventAggregator eventAggregator;
 
@@ -171,7 +171,8 @@ public class ReleaseManager
                 return;
             }
             credRegKey.SetValue("username", credentials.UserName);
-            credRegKey.SetValue("password", ProtectedData.Protect(credentials.Password.GetBytes(), null, DataProtectionScope.CurrentUser));
+            var protect = ProtectedData.Protect(credentials.Password.GetBytes(), null, DataProtectionScope.CurrentUser);
+            credRegKey.SetValue("password", protect);
         }
     }
 
@@ -227,7 +228,7 @@ public class ReleaseManager
 
             if (saveStream == null)
             {
-                throw new Exception("Download failed " + response.StatusDescription);
+                throw new Exception("Download failed: " + response.StatusDescription);
             }
 
             using (saveStream)

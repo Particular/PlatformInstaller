@@ -114,6 +114,7 @@
     <Compile Include="ReadableBytesConverterTests.cs" />
     <Compile Include="ToFriendlyStringTests.cs" />
     <Compile Include="VersionFinderTests.cs" />
+    <Compile Include="Versions\RegistryFindTests.cs" />
     <Compile Include="Views\ProxySettingsViewTests.cs" />
     <Compile Include="Views\FailedInstallationViewTests.cs" />
     <Compile Include="FakePendingRestartAndResume.cs" />
@@ -127,5 +128,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

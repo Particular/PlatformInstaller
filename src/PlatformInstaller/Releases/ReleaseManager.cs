@@ -228,7 +228,7 @@ public class ReleaseManager
 
             if (saveStream == null)
             {
-                throw new Exception("Download failed " + response.StatusDescription);
+                throw new Exception("Download failed: " + response.StatusDescription);
             }
 
             using (saveStream)

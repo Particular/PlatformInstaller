@@ -237,6 +237,11 @@ public class ReleaseManager
             {
                 await Task.Factory.Iterate(CopyStreamIterator(response.GetResponseStream(), saveStream, currentLength, response.ContentLength, progress)).ConfigureAwait(false);
             }
+
+            if (fileInfo.Length != response.ContentLength)
+            {
+                throw new Exception("Download stream closed unexpectedly.");
+            }
         }
 
         fileInfo.MoveTo(filename);
@@ -257,7 +262,7 @@ public class ReleaseManager
         while (true)
         {
             // Read from the input asynchronously
-            var readTask = input.ReadAsync(buffers[filledBufferNum], 0, buffers[filledBufferNum].Length);
+            var readTask = input.ReadAsync(buffers[filledBufferNum], 0, buffers[filledBufferNum].Length).CatchIOException(0);
 
             // If we have no pending write operations, just yield until the read operation has
             // completed.  If we have both a pending read and a pending write, yield until both the read

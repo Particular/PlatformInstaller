@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -25,5 +26,10 @@ static class TaskExtensions
     public static Task<WebResponse> CatchWebException(this Task<WebResponse> task)
     {
         return task.Catch<WebResponse, WebException>(e => e.Response);
+    }
+
+    public static Task<T> CatchIOException<T>(this Task<T> task, T errorValue)
+    {
+        return task.Catch<T, IOException>(e => errorValue);
     }
 }

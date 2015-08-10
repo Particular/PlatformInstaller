@@ -36,7 +36,7 @@ public class ReleaseManager
             client.Proxy.Credentials = credentials;
             try
             {
-                client.DownloadString(rootURL);
+                client.DownloadString("http://platformupdate.particular.net/");
             }
             catch (WebException ex)
             {

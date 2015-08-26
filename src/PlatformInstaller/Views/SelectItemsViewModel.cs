@@ -1,4 +1,3 @@
-using System;
 using Autofac;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,9 +13,8 @@ public class SelectItemsViewModel : Screen
     }
     public SelectItemsViewModel(InstallationDefinitionService installationDefinitionDiscovery, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume, ILifetimeScope lifetimeScope, IWindowManager windowManager, ReleaseManager releaseManager)
     {
-        // ReSharper disable once DoNotCallOverridableMethodsInConstructor
         DisplayName = "Selected Items";
-        AppVersion = String.Format("Version: {0}", Assembly.GetExecutingAssembly().GetName().Version);
+        AppVersion = string.Format("Version: {0}", Assembly.GetExecutingAssembly().GetName().Version);
         this.installationDefinitionDiscovery = installationDefinitionDiscovery;
         this.eventAggregator = eventAggregator;
         this.pendingRestartAndResume = pendingRestartAndResume;

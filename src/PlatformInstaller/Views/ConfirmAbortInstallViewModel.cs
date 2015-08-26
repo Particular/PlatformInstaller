@@ -4,7 +4,6 @@ public class ConfirmAbortInstallViewModel : Screen
 {
     public ConfirmAbortInstallViewModel()
     {
-        // ReSharper disable once DoNotCallOverridableMethodsInConstructor
         DisplayName = "Confirm Abort";
     }
     public void ConfirmCancellation()

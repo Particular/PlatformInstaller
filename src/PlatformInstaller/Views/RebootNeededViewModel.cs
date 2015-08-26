@@ -8,7 +8,6 @@ public class RebootNeededViewModel : Screen
     }
     public RebootNeededViewModel(IEventAggregator eventAggregator)
     {
-        // ReSharper disable once DoNotCallOverridableMethodsInConstructor
         DisplayName = "Reboot Required";
         this.eventAggregator = eventAggregator;
     }
@@ -19,6 +18,7 @@ public class RebootNeededViewModel : Screen
     {
         eventAggregator.Publish<ExitApplicationCommand>();
     }
+
     public void Reboot()
     {
         eventAggregator.Publish<RebootMachineCommand>();

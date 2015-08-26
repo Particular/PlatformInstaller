@@ -44,7 +44,7 @@ namespace NuGet
         }
 
         public SemanticVersion(Version version)
-            : this(version, String.Empty)
+            : this(version, string.Empty)
         {
         }
 
@@ -60,8 +60,8 @@ namespace NuGet
                 throw new ArgumentNullException("version");
             }
             Version = NormalizeVersionValue(version);
-            SpecialVersion = specialVersion ?? String.Empty;
-            _originalString = String.IsNullOrEmpty(originalString) ? version.ToString() + (!String.IsNullOrEmpty(specialVersion) ? '-' + specialVersion : null) : originalString;
+            SpecialVersion = specialVersion ?? string.Empty;
+            _originalString = string.IsNullOrEmpty(originalString) ? version.ToString() + (!string.IsNullOrEmpty(specialVersion) ? '-' + specialVersion : null) : originalString;
         }
 
         internal SemanticVersion(SemanticVersion semVer)
@@ -91,7 +91,7 @@ namespace NuGet
 
         public string[] GetOriginalVersionComponents()
         {
-            if (!String.IsNullOrEmpty(_originalString))
+            if (!string.IsNullOrEmpty(_originalString))
             {
                 string original;
 
@@ -135,7 +135,7 @@ namespace NuGet
         /// </summary>
         public static SemanticVersion Parse(string version)
         {
-            if (String.IsNullOrEmpty(version))
+            if (string.IsNullOrEmpty(version))
             {
                 throw new ArgumentException("Argument_Cannot_Be_Null_Or_Empty", "version");
             }
@@ -167,7 +167,7 @@ namespace NuGet
         private static bool TryParseInternal(string version, Regex regex, out SemanticVersion semVer)
         {
             semVer = null;
-            if (String.IsNullOrEmpty(version))
+            if (string.IsNullOrEmpty(version))
             {
                 return false;
             }
@@ -204,7 +204,7 @@ namespace NuGet
 
         public int CompareTo(object obj)
         {
-            if (Object.ReferenceEquals(obj, null))
+            if (object.ReferenceEquals(obj, null))
             {
                 return 1;
             }
@@ -218,7 +218,7 @@ namespace NuGet
 
         public int CompareTo(SemanticVersion other)
         {
-            if (Object.ReferenceEquals(other, null))
+            if (object.ReferenceEquals(other, null))
             {
                 return 1;
             }
@@ -230,8 +230,8 @@ namespace NuGet
                 return result;
             }
 
-            bool empty = String.IsNullOrEmpty(SpecialVersion);
-            bool otherEmpty = String.IsNullOrEmpty(other.SpecialVersion);
+            bool empty = string.IsNullOrEmpty(SpecialVersion);
+            bool otherEmpty = string.IsNullOrEmpty(other.SpecialVersion);
             if (empty && otherEmpty)
             {
                 return 0;
@@ -249,9 +249,9 @@ namespace NuGet
 
         public static bool operator ==(SemanticVersion version1, SemanticVersion version2)
         {
-            if (Object.ReferenceEquals(version1, null))
+            if (object.ReferenceEquals(version1, null))
             {
-                return Object.ReferenceEquals(version2, null);
+                return object.ReferenceEquals(version2, null);
             }
             return version1.Equals(version2);
         }
@@ -296,7 +296,7 @@ namespace NuGet
 
         public bool Equals(SemanticVersion other)
         {
-            return !Object.ReferenceEquals(null, other) &&
+            return !object.ReferenceEquals(null, other) &&
                    Version.Equals(other.Version) &&
                    SpecialVersion.Equals(other.SpecialVersion, StringComparison.OrdinalIgnoreCase);
         }
@@ -304,7 +304,7 @@ namespace NuGet
         public override bool Equals(object obj)
         {
             SemanticVersion semVer = obj as SemanticVersion;
-            return !Object.ReferenceEquals(null, semVer) && Equals(semVer);
+            return !object.ReferenceEquals(null, semVer) && Equals(semVer);
         }
 
         public override int GetHashCode()

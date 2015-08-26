@@ -4,7 +4,6 @@ public class ResumeInstallViewModel : Screen
 {
     public ResumeInstallViewModel()
     {
-        // ReSharper disable once DoNotCallOverridableMethodsInConstructor
         DisplayName = "Resume Installation";
     }
 

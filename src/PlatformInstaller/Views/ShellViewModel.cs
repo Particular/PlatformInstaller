@@ -34,7 +34,6 @@ public class ShellViewModel : Conductor<object>,
 
     public ShellViewModel(IEventAggregator eventAggregator, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, RaygunClient raygunClient, Installer installer, CredentialStore credentialStore)
     {
-        // ReSharper disable once DoNotCallOverridableMethodsInConstructor
         DisplayName = "Platform Installer";
         this.raygunClient = raygunClient;
         this.installer = installer;

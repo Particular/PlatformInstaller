@@ -8,7 +8,6 @@ public class SuccessViewModel : Screen
     }
     public SuccessViewModel(IEventAggregator eventAggregator)
     {
-        // ReSharper disable once DoNotCallOverridableMethodsInConstructor
         DisplayName = "Success";
         this.eventAggregator = eventAggregator;
     }

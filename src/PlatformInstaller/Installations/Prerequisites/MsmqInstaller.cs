@@ -161,7 +161,7 @@ public class MsmqInstaller
     {
         var osVersionInfoEx = new OSVersionInfoEx
         {
-            OSVersionInfoSize = (UInt32) Marshal.SizeOf(typeof(OSVersionInfoEx))
+            OSVersionInfoSize = (uint) Marshal.SizeOf(typeof(OSVersionInfoEx))
         };
 
         GetVersionEx(osVersionInfoEx);
@@ -240,7 +240,7 @@ public class MsmqInstaller
     static extern IntPtr LoadLibraryW([In] [MarshalAs(UnmanagedType.LPWStr)] string lpLibFileName);
 
     [DllImport("Kernel32", CharSet = CharSet.Auto)]
-    static extern Boolean GetVersionEx([Out] [In] OSVersionInfo versionInformation);
+    static extern bool GetVersionEx([Out] [In] OSVersionInfo versionInformation);
 
 
     // ReSharper disable UnusedField.Compiler
@@ -249,9 +249,9 @@ public class MsmqInstaller
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
     class OSVersionInfoEx : OSVersionInfo
     {
-        public UInt16 ServicePackMajor;
-        public UInt16 ServicePackMinor;
-        public UInt16 SuiteMask;
+        public ushort ServicePackMajor;
+        public ushort ServicePackMinor;
+        public ushort SuiteMask;
         public byte ProductType;
         public byte Reserved;
     }
@@ -260,15 +260,15 @@ public class MsmqInstaller
     class OSVersionInfo
     {
         // ReSharper disable once NotAccessedField.Global
-        public UInt32 OSVersionInfoSize =
-            (UInt32) Marshal.SizeOf(typeof(OSVersionInfo));
+        public uint OSVersionInfoSize =
+            (uint) Marshal.SizeOf(typeof(OSVersionInfo));
 
-        public UInt32 MajorVersion = 0;
-        public UInt32 MinorVersion = 0;
-        public UInt32 BuildNumber = 0;
-        public UInt32 PlatformId = 0;
+        public uint MajorVersion = 0;
+        public uint MinorVersion = 0;
+        public uint BuildNumber = 0;
+        public uint PlatformId = 0;
         // Attribute used to indicate marshalling for String field
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)] public String CSDVersion = null;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)] public string CSDVersion = null;
     }
 
     // ReSharper restore UnusedField.Compiler

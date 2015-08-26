@@ -60,7 +60,9 @@ public class Installer : IHandle<CancelInstallCommand>, IHandle<NestedInstallCom
         foreach (var installationDefinition in installationDefinitions)
         {
             if (aborting)
+            {
                 break;
+            }
 
             PublishProgressEvent();
             var definition = installationDefinition;
@@ -123,7 +125,6 @@ public class Installer : IHandle<CancelInstallCommand>, IHandle<NestedInstallCom
         installProgress++;
         currentStatus = "";
         PublishProgressEvent();
-
     }
 
     public void Handle(NestedInstallProgressEvent message)

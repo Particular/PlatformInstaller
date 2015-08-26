@@ -16,5 +16,5 @@
     }
 
     public int SortOrder;
-    public bool NoErrors { get; set; }
+    public bool NoErrors;
 }

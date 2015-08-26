@@ -50,7 +50,9 @@ public class NServiceBusPrequisitiesInstallRunner : IInstallRunner
                                               Name = "NServiceBus Prerequisites - Microsoft Message Queue (MSMQ)"
                                           });
         if (!MsmqSetupStep(logOutput, logError))
+        {
             return;
+        }
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
 
         Thread.Sleep(1000);

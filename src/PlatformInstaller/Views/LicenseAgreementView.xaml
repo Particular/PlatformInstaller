@@ -22,6 +22,6 @@
             <Button x:Name="Copy" Content="Copy"/>
             <Button x:Name="Agree" Content="I Agree"/>
         </StackPanel>
-        <RichTextBox x:Name="licenseBrowser" IsReadOnly="True" VerticalScrollBarVisibility="Visible" ></RichTextBox>
+        <TextBox IsReadOnly="True" Text="{Binding License, Mode=OneTime}" VerticalScrollBarVisibility="Visible" />
     </DockPanel>
 </UserControl>

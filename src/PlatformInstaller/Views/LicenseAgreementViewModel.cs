@@ -1,5 +1,4 @@
 using System.Windows;
-using System.Windows.Controls;
 using Caliburn.Micro;
 using Resourcer;
 
@@ -11,6 +10,15 @@ public class LicenseAgreementViewModel : Screen
     {
         
     }
+
+    public string License
+    {
+        get
+        {
+            return Resource.AsString("PlatformInstaller.LicenseAgreement.md");
+        }
+    }
+
     public LicenseAgreementViewModel(IEventAggregator eventAggregator)
     {
         this.eventAggregator = eventAggregator;
@@ -27,25 +35,10 @@ public class LicenseAgreementViewModel : Screen
         eventAggregator.Publish<ExitApplicationCommand>();
     }
 
-    
-    protected override void OnActivate()
-    {
-        var richTextBox = GetRichTextBox();
-        using (var asStream = Resource.AsStream("PlatformInstaller.LicenseAgreement.rtf"))
-        {
-            richTextBox.Selection.Load(asStream, DataFormats.Rtf);
-        }
-    }
 
     public void Copy()
     {
-        var richTextBox = GetRichTextBox();
-        richTextBox.CopyToClipboard();
+        Clipboard.SetText(License);
     }
 
-    RichTextBox GetRichTextBox()
-    {
-        var view = (LicenseAgreementView) GetView();
-        return view.licenseBrowser;
-    }
 }

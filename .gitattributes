@@ -55,6 +55,7 @@
 *.fs text
 *.fsx text
 *.hs text
+*.md text
 
 *.psm1 text
 *.ps1 text

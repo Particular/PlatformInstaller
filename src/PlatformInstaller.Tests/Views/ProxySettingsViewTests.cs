@@ -26,8 +26,8 @@ public class ProxySettingsViewTests
 
     static ProxySettingsView CreateDialog()
     {
-        var releaseManager = new ReleaseManager(new FakeEventAggregator());
-        return new ProxySettingsView(releaseManager)
+        var credentialStore = new CredentialStore();
+        return new ProxySettingsView(credentialStore)
                             {
                                 Owner = ShellView.CurrentInstance
                             };

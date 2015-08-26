@@ -31,6 +31,8 @@ public static class ContainerFactory
             .SingleInstance();
         builder.RegisterType<ProcessRunner>()
             .SingleInstance();
+        builder.RegisterType<CredentialStore>()
+            .SingleInstance();
         builder.RegisterType<ReleaseManager>()
             .SingleInstance();
         builder.RegisterType<Installer>()

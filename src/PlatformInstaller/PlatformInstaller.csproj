@@ -143,6 +143,7 @@
     <Compile Include="Events\DownloadStartedEvent.cs" />
     <Compile Include="Installations\ServiceMatrix\LogFinder.cs" />
     <Compile Include="ProxyTester.cs" />
+    <Compile Include="Releases\CredentialStore.cs" />
     <Compile Include="SavedCredentials.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Versions\InstalledProduct.cs" />

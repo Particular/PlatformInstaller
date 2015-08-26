@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 using Anotar.Serilog;
@@ -15,16 +14,16 @@ public class ReleaseManager
     const int BUFFER_SIZE = 0x1000;
 
     IEventAggregator eventAggregator;
+    CredentialStore credentialStore;
 
-    public ReleaseManager(IEventAggregator eventAggregator)
+    public ReleaseManager(IEventAggregator eventAggregator, CredentialStore credentialStore)
     {
         this.eventAggregator = eventAggregator;
+        this.credentialStore = credentialStore;
     }
 
     public List<string> FailedFeeds = new List<string>();
-
-    public ICredentials Credentials;
-
+    
     const string rootURL = @"http://platformupdate.particular.net/{0}.txt";
 
 
@@ -38,7 +37,7 @@ public class ReleaseManager
     {
         using (var client = new WebClient())
         {
-            client.Proxy.Credentials = Credentials;
+            client.Proxy.Credentials = credentialStore.Credentials;
 
             string data = null;
             var retries = 0;
@@ -138,24 +137,6 @@ public class ReleaseManager
         }
     }
 
-    public static void SaveCredentials(NetworkCredential credentials)
-    {
-        SavedCredentials.SaveCedentials(credentials.UserName, credentials.SecurePassword);
-    }
-
-    public void RetrieveSavedCredentials()
-    {
-        SecureString password;
-        string username;
-        if (SavedCredentials.TryRetrieveSavedCredentials(out username, out password))
-        {
-            Credentials = new NetworkCredential(username, password);
-            LogTo.Information("Using stored proxy credentials");
-            return;
-        }
-
-        LogTo.Information("No stored proxy credentials");
-    }
 
     private async Task DownloadToFile(string address, string filename, Action<DownloadProgressInfo> progress)
     {
@@ -167,7 +148,7 @@ public class ReleaseManager
         var fileInfo = new FileInfo(filename + ".part");
 
         var request = WebRequest.CreateHttp(address);
-        request.Proxy.Credentials = Credentials;
+        request.Proxy.Credentials = credentialStore.Credentials;
         if (fileInfo.Exists)
         {
             request.AddRange(fileInfo.Length);

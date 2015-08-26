@@ -28,11 +28,11 @@ public class ShellViewModel : Conductor<object>,
     ILifetimeScope currentLifetimeScope;
     RaygunClient raygunClient;
     Installer installer;
-    ReleaseManager releaseManager;
+    CredentialStore credentialStore;
 
     bool installWasAttempted;
 
-    public ShellViewModel(IEventAggregator eventAggregator, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, RaygunClient raygunClient, Installer installer, ReleaseManager releaseManager)
+    public ShellViewModel(IEventAggregator eventAggregator, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, RaygunClient raygunClient, Installer installer, CredentialStore credentialStore)
     {
         // ReSharper disable once DoNotCallOverridableMethodsInConstructor
         DisplayName = "Platform Installer";
@@ -41,7 +41,7 @@ public class ShellViewModel : Conductor<object>,
         this.licenseAgreement = licenseAgreement;
         this.lifetimeScope = lifetimeScope;
         this.eventAggregator = eventAggregator;
-        this.releaseManager = releaseManager;
+        this.credentialStore = credentialStore;
         RunStartupSequence();
     }
 
@@ -84,10 +84,10 @@ public class ShellViewModel : Conductor<object>,
             return;
         }
 
-        releaseManager.RetrieveSavedCredentials();
-        if (!ProxyTester.ProxyTest(releaseManager.Credentials))
+        credentialStore.RetrieveSavedCredentials();
+        if (!ProxyTester.ProxyTest(credentialStore.Credentials))
         {
-            if (releaseManager.Credentials == null)
+            if (credentialStore.Credentials == null)
             {
                 LogTo.Warning("Failed to connect to the internet using anonymous credentials");
             }
@@ -98,18 +98,18 @@ public class ShellViewModel : Conductor<object>,
 
             if (ProxyTester.ProxyTest(CredentialCache.DefaultCredentials))
             {
-                releaseManager.Credentials = CredentialCache.DefaultCredentials;
+                credentialStore.Credentials = CredentialCache.DefaultCredentials;
                 LogTo.Information("Successfully connect to the internet using default credentials");
             }
             else if (ProxyTester.ProxyTest(CredentialCache.DefaultNetworkCredentials))
             {
-                releaseManager.Credentials = CredentialCache.DefaultNetworkCredentials;
+                credentialStore.Credentials = CredentialCache.DefaultNetworkCredentials;
                 LogTo.Information("Successfully connect to the internet using default network credentials");
             }
             else
             {
                 LogTo.Information("Prompting for network credentials");
-                var proxySettings = new ProxySettingsView(releaseManager)
+                var proxySettings = new ProxySettingsView(credentialStore)
                 {
                     Owner = ShellView.CurrentInstance
                 };

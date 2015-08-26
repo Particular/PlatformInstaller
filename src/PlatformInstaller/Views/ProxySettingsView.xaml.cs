@@ -4,11 +4,11 @@ using System.Windows.Input;
 
 public partial class ProxySettingsView
 {
-    ReleaseManager releaseManager;   
+    CredentialStore credentialStore;
 
-    public ProxySettingsView(ReleaseManager releaseManager)
+    public ProxySettingsView(CredentialStore credentialStore)
     {
-        this.releaseManager = releaseManager;
+        this.credentialStore = credentialStore;
         InitializeComponent();
     }
 
@@ -20,10 +20,10 @@ public partial class ProxySettingsView
         var credentials = new NetworkCredential(username.Text, password.Password);
         if (ProxyTester.ProxyTest(credentials))
         {
-            releaseManager.Credentials = credentials;
+            credentialStore.Credentials = credentials;
             if (saveCredentials.IsChecked.GetValueOrDefault(false))
             {
-                ReleaseManager.SaveCredentials(credentials);    
+                SavedCredentials.SaveCedentials(username.Text, password.SecurePassword);    
             }
             Close();
         }

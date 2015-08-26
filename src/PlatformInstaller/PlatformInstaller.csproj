@@ -179,7 +179,6 @@
     <Compile Include="Caliburn\AppBootstrapper.cs" />
     <Compile Include="AssemblyLocation.cs" />
     <Compile Include="ExceptionHandler.cs" />
-    <Compile Include="Extensions.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="Events\AgreedToLicenseEvent.cs" />
     <Compile Include="Events\ExitApplicationEvent.cs" />

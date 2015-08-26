@@ -129,6 +129,7 @@
     <Compile Include="AutoSubscriber.cs" />
     <Compile Include="Caliburn\CaliburnExtensions.cs" />
     <Compile Include="Caliburn\ViewModelConventions.cs" />
+    <Compile Include="Events\CancelInstallCommand.cs" />
     <Compile Include="Events\NestedInstallStartedEvent.cs" />
     <Compile Include="Events\NestedInstallCompleteEvent.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />

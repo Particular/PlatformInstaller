@@ -1,6 +1,6 @@
-    using System.Collections.Generic;
+using System.Collections.Generic;
 
-    public class RunInstallEvent
-    {
-        public List<string> SelectedItems;
-    }
+public class RunInstallEvent
+{
+    public List<string> SelectedItems;
+}

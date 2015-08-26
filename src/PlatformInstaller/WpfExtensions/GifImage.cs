@@ -22,7 +22,9 @@ class GifImage : Image
     {
         gifDecoder = new GifBitmapDecoder(new Uri(GifSource), BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
 // ReSharper disable once PossibleLossOfFraction
-        animation = new Int32Animation(0, gifDecoder.Frames.Count - 1, new Duration(new TimeSpan(0, 0, 0, gifDecoder.Frames.Count/10, (int) ((gifDecoder.Frames.Count/10.0 - gifDecoder.Frames.Count/10)*1000))))
+        var timeSpan = new TimeSpan(0, 0, 0, gifDecoder.Frames.Count/10, (int) ((gifDecoder.Frames.Count/10.0 - gifDecoder.Frames.Count/10)*1000));
+        var duration = new Duration(timeSpan);
+        animation = new Int32Animation(0, gifDecoder.Frames.Count - 1, duration)
             {
                 RepeatBehavior = RepeatBehavior.Forever
             };
@@ -38,13 +40,14 @@ class GifImage : Image
 
     static void VisibilityPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
+        var gifImage = (GifImage) sender;
         if ((Visibility) e.NewValue == Visibility.Visible)
         {
-            ((GifImage) sender).StartAnimation();
+            gifImage.StartAnimation();
         }
         else
         {
-            ((GifImage) sender).StopAnimation();
+            gifImage.StopAnimation();
         }
     }
 
@@ -103,7 +106,9 @@ class GifImage : Image
     void StartAnimation()
     {
         if (!isInitialized)
+        {
             Initialize();
+        }
 
         BeginAnimation(FrameIndexProperty, animation);
     }

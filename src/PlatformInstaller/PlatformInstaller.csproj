@@ -253,7 +253,6 @@
     <Compile Include="InstallationDefinitionService.cs" />
     <Compile Include="InstallationDefinition.cs" />
     <Compile Include="InstallFeedbackReporter.cs" />
-    <Compile Include="SemanticVersion.cs" />
     <Page Include="Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

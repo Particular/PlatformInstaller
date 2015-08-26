@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Win32;
-using NuGet;
 
 public class RegistryFind
 {
-    public static bool TryFindInstalledVersion(string productName, out SemanticVersion versionFound)
+    public static bool TryFindInstalledVersion(string productName, out Version versionFound)
     {
         foreach (var product in FindInstalledProducts())
         {
@@ -17,7 +16,7 @@ public class RegistryFind
             {
                 continue;
             }
-            SemanticVersion.TryParse(product.Version, out versionFound);
+            Version.TryParse(product.Version, out versionFound);
             return true;
         }
         versionFound = null;

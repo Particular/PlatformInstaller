@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using Caliburn.Micro;
-using NuGet;
 
 public class NServiceBusPrequisitiesInstallRunner : IInstallRunner
 {
@@ -34,12 +33,12 @@ public class NServiceBusPrequisitiesInstallRunner : IInstallRunner
 
     public int InstallationResult { get; private set; }
 
-    public SemanticVersion CurrentVersion()
+    public Version CurrentVersion()
     {
         throw new NotSupportedException();
     }
 
-    public SemanticVersion LatestAvailableVersion()
+    public Version LatestAvailableVersion()
     {
         throw new NotSupportedException();
     }

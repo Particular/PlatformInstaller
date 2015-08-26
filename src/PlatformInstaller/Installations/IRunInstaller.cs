@@ -1,10 +1,9 @@
 ﻿using System;
-using NuGet;
 
 public interface IInstallRunner
 {
-    SemanticVersion CurrentVersion();
-    SemanticVersion LatestAvailableVersion();
+    Version CurrentVersion();
+    Version LatestAvailableVersion();
     void Execute(Action<string> logOutput, Action<string> logError);
     bool Installed();
     int NestedActionCount { get; }

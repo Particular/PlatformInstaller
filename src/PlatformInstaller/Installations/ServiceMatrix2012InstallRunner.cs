@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using NuGet;
 
 public class ServiceMatrix2012InstallRunner : IInstallRunner
 {
@@ -14,8 +13,6 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
     ReleaseManager releaseManager;
     Release[] releases;
     IEventAggregator eventAggregator;
-        
-        
 
     public ServiceMatrix2012InstallRunner(ProcessRunner processRunner, ReleaseManager releaseManager, IEventAggregator eventAggregator)
     {
@@ -24,30 +21,35 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
         this.eventAggregator = eventAggregator;
     }
 
-    public string InstallableVersion {
-        get { return releases.First().Tag; } 
+    public string InstallableVersion
+    {
+        get { return releases.First().Tag; }
     }
 
-    public SemanticVersion CurrentVersion()
+    public Version CurrentVersion()
     {
-            SemanticVersion version;
-            VSIXFind.TryFindInstalledVersion(ProductName, VisualStudioVersions.VS2012, out version);
-            return version;
+        Version version;
+        VSIXFind.TryFindInstalledVersion(ProductName, VisualStudioVersions.VS2012, out version);
+        return version;
     }
 
-    public SemanticVersion LatestAvailableVersion()
+    public Version LatestAvailableVersion()
     {
-        SemanticVersion latest = null;
+        Version latest = null;
         if (releases.Any())
         {
-            SemanticVersion.TryParse(releases.First().Tag, out latest);
+            Version.TryParse(releases.First().Tag, out latest);
         }
         return latest;
     }
 
     public void Execute(Action<string> logOutput, Action<string> logError)
     {
-        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = string.Format("Run {0} for VS2012 Installation", ProductName)});
+        var progressEvent = new NestedInstallProgressEvent
+        {
+            Name = string.Format("Run {0} for VS2012 Installation", ProductName)
+        };
+        eventAggregator.PublishOnUIThread(progressEvent);
 
         var release = releases.First();
         FileInfo[] files;
@@ -57,7 +59,8 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
         }
         catch
         {
-            logError(string.Format("Failed to download the {0} Installation from https://github.com/Particular/{0}/releases/latest", ProductName.ToLower()));
+            var error = string.Format("Failed to download the {0} Installation from https://github.com/Particular/{0}/releases/latest", ProductName.ToLower());
+            logError(error);
             return;
         }
 

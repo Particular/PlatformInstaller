@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using NuGet;
 
 public class ServicePulseInstallRunner : IInstallRunner
 {
@@ -22,19 +21,19 @@ public class ServicePulseInstallRunner : IInstallRunner
         this.releaseManager = releaseManager;
     }
 
-    public SemanticVersion CurrentVersion()
+    public Version CurrentVersion()
     {
-        SemanticVersion version;
+        Version version;
         RegistryFind.TryFindInstalledVersion(ProductName, out version);
         return version;
     }
 
-    public SemanticVersion LatestAvailableVersion()
+    public Version LatestAvailableVersion()
     {
-        SemanticVersion latest = null;
+        Version latest = null;
         if (releases.Any())
         {
-            SemanticVersion.TryParse(releases.First().Tag, out latest);
+            Version.TryParse(releases.First().Tag, out latest);
         }
         return latest;
     }

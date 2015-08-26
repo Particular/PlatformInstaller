@@ -2,11 +2,10 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using NuGet;
 
 public class VSIXFind
 {
-    public static bool TryFindInstalledVersion(string product, string visualStudioVersion, out SemanticVersion versionFound)
+    public static bool TryFindInstalledVersion(string product, string visualStudioVersion, out Version versionFound)
     {
         versionFound = null;
         var rootDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Microsoft\VisualStudio");
@@ -38,7 +37,7 @@ public class VSIXFind
                 var version = doc.Descendants().FirstOrDefault(p => p.Name.LocalName == "Version");
                 if (version != null)
                 {
-                    if (SemanticVersion.TryParse(version.Value, out versionFound))
+                    if (Version.TryParse(version.Value, out versionFound))
                     {
                         return true;
                     }

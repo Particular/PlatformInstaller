@@ -78,7 +78,6 @@ public class ShellViewModel : Conductor<object>,
 
     void RunStartupSequence()
     {
-
         if (!licenseAgreement.HasAgreedToLicense())
         {
             ActivateModel<LicenseAgreementViewModel>();
@@ -86,23 +85,23 @@ public class ShellViewModel : Conductor<object>,
         }
 
         releaseManager.RetrieveSavedCredentials();
-        if (!ReleaseManager.ProxyTest(releaseManager.Credentials))
+        if (!ProxyTester.ProxyTest(releaseManager.Credentials))
         {
-            if (releaseManager.Credentials != null)
-            {
-                LogTo.Warning("Failed to connect to the internet using stored credentials");
-            }
-            else
+            if (releaseManager.Credentials == null)
             {
                 LogTo.Warning("Failed to connect to the internet using anonymous credentials");
             }
+            else
+            {
+                LogTo.Warning("Failed to connect to the internet using stored credentials");
+            }
 
-            if (ReleaseManager.ProxyTest(CredentialCache.DefaultCredentials))
+            if (ProxyTester.ProxyTest(CredentialCache.DefaultCredentials))
             {
                 releaseManager.Credentials = CredentialCache.DefaultCredentials;
                 LogTo.Information("Successfully connect to the internet using default credentials");
             }
-            else if (ReleaseManager.ProxyTest(CredentialCache.DefaultNetworkCredentials))
+            else if (ProxyTester.ProxyTest(CredentialCache.DefaultNetworkCredentials))
             {
                 releaseManager.Credentials = CredentialCache.DefaultNetworkCredentials;
                 LogTo.Information("Successfully connect to the internet using default network credentials");

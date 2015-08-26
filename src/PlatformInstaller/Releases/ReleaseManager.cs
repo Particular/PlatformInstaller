@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Security.Cryptography;
+using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 using Anotar.Serilog;
 using Caliburn.Micro;
-using Microsoft.Win32;
 using Newtonsoft.Json;
 
 public class ReleaseManager
@@ -28,31 +27,6 @@ public class ReleaseManager
 
     const string rootURL = @"http://platformupdate.particular.net/{0}.txt";
 
-    public static bool ProxyTest(ICredentials credentials)
-    {
-        using (var client = new WebClient())
-        {
-            client.UseDefaultCredentials = true;
-            client.Proxy.Credentials = credentials;
-            try
-            {
-                client.DownloadString("http://platformupdate.particular.net/");
-            }
-            catch (WebException ex)
-            {
-                if (ex.Status == WebExceptionStatus.ProtocolError)
-                {
-                    var response = ex.Response as HttpWebResponse;
-                    if (response != null && response.StatusCode == HttpStatusCode.ProxyAuthenticationRequired)
-                    {
-                        return false;
-                    }
-                }
-                throw;
-            }
-        }
-        return true;
-    }
 
     public Release[] GetReleasesForProduct(string product)
     {
@@ -166,35 +140,21 @@ public class ReleaseManager
 
     public static void SaveCredentials(NetworkCredential credentials)
     {
-        using (var credRegKey = Registry.CurrentUser.CreateSubKey(@"Software\Particular\PlatformInstaller\Credentials"))
-        {
-            if (credRegKey == null)
-            {
-                return;
-            }
-            credRegKey.SetValue("username", credentials.UserName);
-            var protect = ProtectedData.Protect(credentials.Password.GetBytes(), null, DataProtectionScope.CurrentUser);
-            credRegKey.SetValue("password", protect);
-        }
+        SavedCredentials.SaveCedentials(credentials.UserName, credentials.SecurePassword);
     }
 
     public void RetrieveSavedCredentials()
     {
-        using (var credRegKey = Registry.CurrentUser.CreateSubKey(@"Software\Particular\PlatformInstaller\Credentials"))
+        SecureString password;
+        string username;
+        if (SavedCredentials.TryRetrieveSavedCredentials(out username, out password))
         {
-            if (credRegKey == null)
-            {
-                LogTo.Information("No stored proxy credentials");
-                return;
-            }
-            var username = (string)credRegKey.GetValue("username", null);
-            var encryptedPassword = (byte[])credRegKey.GetValue("password", null);
-            if (encryptedPassword != null)
-            {
-                Credentials = new NetworkCredential(username, ProtectedData.Unprotect(encryptedPassword, null, DataProtectionScope.CurrentUser).GetString());
-                LogTo.Information("Using stored proxy credentials");
-            }
+            Credentials = new NetworkCredential(username, password);
+            LogTo.Information("Using stored proxy credentials");
+            return;
         }
+
+        LogTo.Information("No stored proxy credentials");
     }
 
     private async Task DownloadToFile(string address, string filename, Action<DownloadProgressInfo> progress)

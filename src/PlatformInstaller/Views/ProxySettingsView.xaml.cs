@@ -18,7 +18,7 @@ public partial class ProxySettingsView
     void OkClick(object sender, RoutedEventArgs e)
     {
         var credentials = new NetworkCredential(username.Text, password.Password);
-        if (ReleaseManager.ProxyTest(credentials))
+        if (ProxyTester.ProxyTest(credentials))
         {
             releaseManager.Credentials = credentials;
             if (saveCredentials.IsChecked.GetValueOrDefault(false))

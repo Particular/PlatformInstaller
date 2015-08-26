@@ -116,7 +116,10 @@
     <Compile Include="PendingRestartTests.cs" />
     <Compile Include="LicenseAgreementTests.cs" />
     <Compile Include="NewUserDetecterTests.cs" />
+    <Compile Include="ProxyTesterTest.cs" />
     <Compile Include="ReadableBytesConverterTests.cs" />
+    <Compile Include="SavedCredentialsTests.cs" />
+    <Compile Include="StringExtensionTests.cs" />
     <Compile Include="ToFriendlyStringTests.cs" />
     <Compile Include="VersionFinderTests.cs" />
     <Compile Include="Versions\RegistryFindTests.cs" />

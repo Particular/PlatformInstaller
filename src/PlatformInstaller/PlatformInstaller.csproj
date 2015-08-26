@@ -179,7 +179,6 @@
     <Compile Include="ContainerFactory.cs" />
     <Compile Include="Caliburn\AppBootstrapper.cs" />
     <Compile Include="AssemblyLocation.cs" />
-    <Compile Include="ExceptionExtensions.cs" />
     <Compile Include="ExceptionHandler.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Logging.cs" />

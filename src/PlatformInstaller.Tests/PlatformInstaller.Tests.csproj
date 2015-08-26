@@ -120,7 +120,6 @@
     <Compile Include="ReadableBytesConverterTests.cs" />
     <Compile Include="SavedCredentialsTests.cs" />
     <Compile Include="StringExtensionTests.cs" />
-    <Compile Include="ToFriendlyStringTests.cs" />
     <Compile Include="VersionFinderTests.cs" />
     <Compile Include="Versions\RegistryFindTests.cs" />
     <Compile Include="Views\ProxySettingsViewTests.cs" />

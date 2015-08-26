@@ -23,7 +23,7 @@ public partial class ExceptionView
         else
         {
             this.exception = exception;
-            exceptonText = ExceptionTextBox.Text = exception.ToFriendlyString();
+            exceptonText = ExceptionTextBox.Text = exception.ToString();
         }
     }
 

@@ -166,7 +166,7 @@ public class NServiceBusPrequisitiesInstallRunner : IInstallRunner
         {
             logError("MSMQ install has failed:");
             logError(string.Format("{0}", ex));
-            return true;
+            return false;
         }
         return true;
     }

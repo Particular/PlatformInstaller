@@ -164,7 +164,6 @@
     <Compile Include="Installations\ServiceMatrix2013InstallRunner.cs" />
     <Compile Include="Installations\ServiceMatrix2012InstallRunner.cs" />
     <Compile Include="Installations\ServicePulseInstallRunner.cs" />
-    <Compile Include="PackageType.cs" />
     <Compile Include="ReadableBytesConverter.cs" />
     <Compile Include="ProductInstallException.cs" />
     <Compile Include="Program.cs" />

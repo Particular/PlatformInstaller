@@ -42,7 +42,6 @@ public class SelectItemsViewModel : Screen
         base.OnInitialize(); 
         PackageDefinitions = installationDefinitionDiscovery
           .GetPackages()
-          .OrderBy(p => p.SortOrder)
           .Select(x => new PackageDefinitionBindable
               {
                   ImageUrl = ResourceResolver.GetPackUrl(x.Image),

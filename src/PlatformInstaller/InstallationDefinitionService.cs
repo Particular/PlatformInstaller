@@ -36,7 +36,6 @@ public class InstallationDefinitionService
         {
             new InstallationDefinition
             {
-                SortOrder = 10,
                 Name = "NServiceBus Pre-requisites",
                 Image = "/Images/NSB.png",
                 Installer = nsbPreRequisitesRunner,
@@ -49,7 +48,6 @@ public class InstallationDefinitionService
             },
             new InstallationDefinition
             {
-                SortOrder = 50,
                 Name = "ServiceControl",
                 Image = "/Images/SC.png",
                 Installer =  scRunner,
@@ -61,7 +59,6 @@ public class InstallationDefinitionService
             },
             new InstallationDefinition
             {
-                SortOrder = 40,
                 Name = "ServicePulse",
                 Image = "/Images/SP.png",
                 Installer = spRunner,
@@ -73,7 +70,6 @@ public class InstallationDefinitionService
             },
             new InstallationDefinition
             {
-                SortOrder = 30,
                 Name = "ServiceInsight",
                 Image = "/Images/SI.png",
                 Installer = siRunner,
@@ -85,7 +81,6 @@ public class InstallationDefinitionService
             },
             new InstallationDefinition
             {
-                SortOrder = 20,
                 Name = "ServiceMatrix for Visual Studio 2013",
                 Image = "/Images/SM2013.png",
                 Installer = sm2013Runner,
@@ -98,7 +93,6 @@ public class InstallationDefinitionService
             },   
             new InstallationDefinition
             {
-                SortOrder = 20,
                 Name = "ServiceMatrix for Visual Studio 2012",
                 Image = "/Images/SM2012.png",
                 Installer = sm2012Runner,

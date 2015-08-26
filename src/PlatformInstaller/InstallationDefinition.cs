@@ -15,6 +15,5 @@
         ToolTip = Name;
     }
 
-    public int SortOrder;
     public bool NoErrors;
 }

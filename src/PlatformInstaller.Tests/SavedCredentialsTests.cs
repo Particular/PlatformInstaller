@@ -22,6 +22,6 @@ public class SavedCredentialsTests
 
     static void DeleteCedentials()
     {
-        Registry.CurrentUser.DeleteSubKey(@"Software\Particular\PlatformInstaller\Credentials");
+        Registry.CurrentUser.DeleteSubKey(@"Software\Particular\PlatformInstaller\Credentials", false);
     }
 }

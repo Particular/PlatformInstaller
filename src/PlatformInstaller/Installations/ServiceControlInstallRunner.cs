@@ -37,7 +37,7 @@ public class ServiceControlInstallRunner : IInstallRunner
         return latest;
     }
 
-    public void Execute(Action<string> logOutput, Action<string> logError)
+    public async Task Execute(Action<string> logOutput, Action<string> logError)
     {
         eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = string.Format("Run {0} Installation", ProductName) });
 
@@ -45,7 +45,7 @@ public class ServiceControlInstallRunner : IInstallRunner
         FileInfo installer;
         try
         {
-            installer = releaseManager.DownloadRelease(release.Assets.First());
+            installer = await releaseManager.DownloadRelease(release.Assets.First()).ConfigureAwait(false);
         }
         catch
         {
@@ -58,14 +58,13 @@ public class ServiceControlInstallRunner : IInstallRunner
         var fullLogPath = Path.Combine(installer.Directory.FullName,log);
         File.Delete(fullLogPath);
 
-        var process = processRunner.RunProcess(installer.FullName,
+        var exitCode = await processRunner.RunProcess(installer.FullName,
             string.Format("/quiet PlatformInstaller=true /L*V {0}", log),
             installer.Directory.FullName,
             logOutput,
-            logError);
+            logError)
+            .ConfigureAwait(false);
 
-        Task.WaitAll(process);
-        var exitCode = process.Result;
         if (exitCode != 0)
         {
             logError(string.Format("Installation of {0} failed with exitcode: {1}", ProductName, exitCode));
@@ -76,7 +75,6 @@ public class ServiceControlInstallRunner : IInstallRunner
             logOutput("Installation Succeeded");
         }
         InstallationResult = exitCode;
-        Thread.Sleep(1000);
 
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
             

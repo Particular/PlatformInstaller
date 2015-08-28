@@ -43,7 +43,7 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
         return latest;
     }
 
-    public void Execute(Action<string> logOutput, Action<string> logError)
+    public async Task Execute(Action<string> logOutput, Action<string> logError)
     {
         var progressEvent = new NestedInstallProgressEvent
         {
@@ -55,7 +55,7 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
         FileInfo vsixFile;
         try
         {
-            vsixFile = releaseManager.DownloadRelease(release.Assets.Single(x => x.Name.Contains("11.0.vsix")));
+            vsixFile = await releaseManager.DownloadRelease(release.Assets.Single(x => x.Name.Contains("11.0.vsix"))).ConfigureAwait(false);
         }
         catch
         {
@@ -81,32 +81,30 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
             logError(string.Format("VSIX Installer not found - {0}", vsixInstallerInfo.FullName));
             return;
         }
-            var process = processRunner.RunProcess(vsixInstallerInfo.FullName,
+        var exitCode = await processRunner.RunProcess(vsixInstallerInfo.FullName,
             string.Format("{0}  /quiet", vsixFile.Name),
             // ReSharper disable once PossibleNullReferenceException
-            vsixFile.Directory.FullName, 
-            logOutput, 
-            logError);
-
-            Task.WaitAll(process);
-            var exitCode = process.Result == 1001 ? 0 : process.Result; //1001 is already installed, treat this as success
-            if (exitCode != 0)
+            vsixFile.Directory.FullName,
+            logOutput,
+            logError)
+            .ConfigureAwait(false);
+        exitCode = exitCode == 1001 ? 0 : exitCode; //1001 is already installed, treat this as success
+        if (exitCode != 0)
+        {
+            logError(string.Format("Installation of {0} for VS2012 failed with exitcode: {1}", ProductName, exitCode));
+            var log = LogFinder.FindVSIXLog(VisualStudioVersions.VS2012);
+            if (log != null)
             {
-                logError(string.Format("Installation of {0} for VS2012 failed with exitcode: {1}", ProductName, exitCode));
-                var log = LogFinder.FindVSIXLog(VisualStudioVersions.VS2012);
-                if (log != null)
-                {
-                    logError(string.Format("The VSIX installation log can be found at {0}", log));
-                }
+                logError(string.Format("The VSIX installation log can be found at {0}", log));
             }
-            else
-            {
-                logOutput("Installation Succeeded");
-            }
-            InstallationResult = process.Result;
-            Thread.Sleep(1000);
+        }
+        else
+        {
+            logOutput("Installation Succeeded");
+        }
+        InstallationResult = exitCode;
 
-            eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
+        eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
     }
 
     public int NestedActionCount

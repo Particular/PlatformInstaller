@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 
 public class NServiceBusPrerequisitesInstallRunner : IInstallRunner
@@ -43,7 +44,7 @@ public class NServiceBusPrerequisitesInstallRunner : IInstallRunner
         throw new NotSupportedException();
     }
 
-    public void Execute(Action<string> logOutput, Action<string> logError)
+    public Task Execute(Action<string> logOutput, Action<string> logError)
     {
         eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent
                                           {
@@ -51,33 +52,33 @@ public class NServiceBusPrerequisitesInstallRunner : IInstallRunner
                                           });
         if (!MsmqSetupStep(logOutput, logError))
         {
-            return;
+            return Task.FromResult(0);
         }
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
-
-        Thread.Sleep(1000);
 
         eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent
                                           {
                                               Name = "NServiceBus Prerequisites - Distributed Transaction Co-ordinator"
                                           });
         if (!DtcSetupStep(logOutput, logError))
-            return;
+        {
+            return Task.FromResult(0);
+        }
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
-
-        Thread.Sleep(1000);
 
         eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent
                                           {
                                               Name = "NServiceBus Prerequisites - Performance Counters"
                                           });
         if (!PerfCounterSetupStep(logOutput, logError))
-            return;
+        {
+            return Task.FromResult(0);
+        }
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
-
-        Thread.Sleep(1000);
+        
         InstallationResult = 0;
 
+        return Task.FromResult(0);
     }
 
     public bool Installed()

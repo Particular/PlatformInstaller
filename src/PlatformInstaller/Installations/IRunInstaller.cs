@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 public interface IInstallRunner
 {
     Version CurrentVersion();
     Version LatestAvailableVersion();
-    void Execute(Action<string> logOutput, Action<string> logError);
+    Task Execute(Action<string> logOutput, Action<string> logError);
     bool Installed();
     int NestedActionCount { get; }
     string Status();

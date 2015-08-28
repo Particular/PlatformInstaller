@@ -43,22 +43,25 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
         return latest;
     }
 
-    public void Execute(Action<string> logOutput, Action<string> logError)
+    public async Task Execute(Action<string> logOutput, Action<string> logError)
     {
-        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = string.Format("Run {0} for VS2013 Installation", ProductName)});
+        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent
+        {
+            Name = string.Format("Run {0} for VS2013 Installation", ProductName)
+        });
 
         var release = releases.First();
         FileInfo vsixFile;
         try
         {
-            vsixFile = releaseManager.DownloadRelease(release.Assets.Single(x => x.Name.Contains("12.0.vsix")));
+            vsixFile = await releaseManager.DownloadRelease(release.Assets.Single(x => x.Name.Contains("12.0.vsix")));
         }
         catch
         {
             logError(string.Format("Failed to download the {0} Installation from https://github.com/Particular/{0}/releases/latest", ProductName.ToLower()));
             return;
         }
-    
+
         var toolsPath = Environment.GetEnvironmentVariable("VS120COMNTOOLS");
         if (toolsPath == null)
         {
@@ -76,15 +79,15 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
             logError(string.Format("VSIX Installer not found - {0}", vsixInstallerInfo.FullName));
             return;
         }
-            var process = processRunner.RunProcess(vsixInstallerInfo.FullName,
+        var exitCode = await processRunner.RunProcess(vsixInstallerInfo.FullName,
             string.Format("{0}  /quiet", vsixFile.Name),
             // ReSharper disable once PossibleNullReferenceException
-            vsixFile.Directory.FullName, 
-            logOutput, 
-            logError);
-           
-        Task.WaitAll(process);
-        var exitCode = process.Result == 1001 ? 0 : process.Result; //1001 is already installed, treat this as success
+            vsixFile.Directory.FullName,
+            logOutput,
+            logError)
+            .ConfigureAwait(false);
+
+        exitCode = exitCode == 1001 ? 0 : exitCode; //1001 is already installed, treat this as success
         if (exitCode != 0)
         {
             logError(string.Format("Installation of {0} for VS2013 failed with exitcode: {1}", ProductName, exitCode));
@@ -96,10 +99,9 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
         }
         else
         {
-            logOutput(string.Format("Installation exitcode: {0}", process.Result));
+            logOutput(string.Format("Installation exitcode: {0}", exitCode));
         }
-        Thread.Sleep(1000);
-        InstallationResult = exitCode;  
+        InstallationResult = exitCode;
 
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
     }

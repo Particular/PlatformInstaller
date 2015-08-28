@@ -57,7 +57,7 @@ public class Installer : IHandle<CancelInstallCommand>, IHandle<NestedInstallCom
         pendingRestartAndResume.CleanupResume();
         installCount = installationDefinitions.Select(p => p.Installer.NestedActionCount).Sum();
 
-        foreach (var installationDefinition in installationDefinitions)
+        foreach (var definition in installationDefinitions)
         {
             if (aborting)
             {
@@ -65,22 +65,20 @@ public class Installer : IHandle<CancelInstallCommand>, IHandle<NestedInstallCom
             }
 
             PublishProgressEvent();
-            var definition = installationDefinition;
-            await  Task.Run(() => { definition.Installer.Execute(AddOutput, AddError); } );
+            await definition.Installer.Execute(AddOutput, AddError).ConfigureAwait(false);
             if (InstallFailed)
             {
                 eventAggregator.PublishOnUIThread(new InstallFailedEvent
                 {
-                    Reason = "Failed to install: " + installationDefinition.Name,
+                    Reason = "Failed to install: " + definition.Name,
                     Failures = errors
                 });
                 return;
             }
-            Thread.Sleep(1000);
             AddOutput(Environment.NewLine);
             eventAggregator.PublishOnUIThread(new CheckPointInstallEvent
             {
-                Item = installationDefinition.Name
+                Item = definition.Name
             });
         }
         if (!InstallFailed)

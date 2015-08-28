@@ -43,14 +43,14 @@ public class ServiceInsightInstallRunner : IInstallRunner
         return latest;
     }
 
-    public void Execute(Action<string> logOutput, Action<string> logError)
+    public async Task Execute(Action<string> logOutput, Action<string> logError)
     {
         eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = string.Format("Run {0} Installation", ProductName) });
         var release = releases.First();
         FileInfo installer;
         try
         {
-            installer = releaseManager.DownloadRelease(release.Assets.Single());
+            installer = await releaseManager.DownloadRelease(release.Assets.Single()).ConfigureAwait(false);
         }
         catch
         {
@@ -62,16 +62,14 @@ public class ServiceInsightInstallRunner : IInstallRunner
         var fullLogPath = Path.Combine(installer.Directory.FullName, log);
         File.Delete(fullLogPath);
 
-        var process = processRunner.RunProcess(installer.FullName,
+        var exitCode = await processRunner.RunProcess(installer.FullName,
             string.Format("/quiet /L*V {0}", log),
             // ReSharper disable once PossibleNullReferenceException
             installer.Directory.FullName,
             logOutput,
-            logError);
+            logError)
+            .ConfigureAwait(false);
 
-        Task.WaitAll(process);
-
-        var exitCode = process.Result;
         if (exitCode != 0)
         {
             logError(string.Format("Installation of {0} failed with exitcode: {1}", ProductName, exitCode));
@@ -82,7 +80,6 @@ public class ServiceInsightInstallRunner : IInstallRunner
             logOutput("Installation Succeeded");
         }
         InstallationResult = exitCode;
-        Thread.Sleep(1000);
 
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
     }

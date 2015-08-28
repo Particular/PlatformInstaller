@@ -77,7 +77,7 @@ public class ReleaseManager
         }
     }
 
-    public FileInfo DownloadRelease(Asset release)
+    public async Task<FileInfo> DownloadRelease(Asset release)
     {
         var tempFolder = new DirectoryInfo(Environment.ExpandEnvironmentVariables("%temp%"));
 
@@ -100,11 +100,10 @@ public class ReleaseManager
             {
                 var url = release.Download;
                 var fullName = localAsset.FullName;
-                var t = client.DownloadFileTaskAsync(url, fullName);
                 try
                 {
-                    Task.WaitAll(t);
-                    break;
+                 await client.DownloadFileTaskAsync(url, fullName).ConfigureAwait(false);
+                    return localAsset;
                 }
                 catch
                 {
@@ -119,7 +118,6 @@ public class ReleaseManager
                     throw new Exception("Download did not complete");
                 }
             }
-            return localAsset;
         }
     }
 

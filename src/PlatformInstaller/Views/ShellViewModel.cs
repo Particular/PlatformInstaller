@@ -126,7 +126,7 @@ public class ShellViewModel : Conductor<object>,
     {
         installWasAttempted = true;
         itemsToInstall = message.SelectedItems;
-        await ActivateInstallingViewModel();
+        await ActivateInstallingViewModel().ConfigureAwait(false);
     }
 
     Task ActivateInstallingViewModel()

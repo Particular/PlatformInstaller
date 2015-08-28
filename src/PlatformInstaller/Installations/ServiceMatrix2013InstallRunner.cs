@@ -78,18 +78,18 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
             logError(string.Format("VSIX Installer not found - {0}", vsixInstallerInfo.FullName));
             return;
         }
-            var proc = processRunner.RunProcess(vsixInstallerInfo.FullName,
+            var process = processRunner.RunProcess(vsixInstallerInfo.FullName,
             string.Format("{0}  /quiet", vsixFile.Name),
             // ReSharper disable once PossibleNullReferenceException
             vsixFile.Directory.FullName, 
             logOutput, 
             logError);
            
-        Task.WaitAll(proc);
-        var procExitCode = proc.Result == 1001 ? 0 : proc.Result; //1001 is already installed, treat this as success
-        if (procExitCode != 0)
+        Task.WaitAll(process);
+        var exitCode = process.Result == 1001 ? 0 : process.Result; //1001 is already installed, treat this as success
+        if (exitCode != 0)
         {
-            logError(string.Format("Installation of {0} for VS2013 failed with exitcode: {1}", ProductName, procExitCode));
+            logError(string.Format("Installation of {0} for VS2013 failed with exitcode: {1}", ProductName, exitCode));
             var log = LogFinder.FindVSIXLog(VisualStudioVersions.VS2013);
             if (log != null)
             {
@@ -98,10 +98,10 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
         }
         else
         {
-            logOutput(string.Format("Installation exitcode: {0}", proc.Result));
+            logOutput(string.Format("Installation exitcode: {0}", process.Result));
         }
         Thread.Sleep(1000);
-        InstallationResult = procExitCode;  
+        InstallationResult = exitCode;  
 
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
     }

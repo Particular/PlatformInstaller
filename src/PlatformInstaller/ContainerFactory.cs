@@ -44,7 +44,7 @@ public static class ContainerFactory
         builder.RegisterType<AutoSubscriber>();
         builder.RegisterType<PendingRestartAndResume>()
             .SingleInstance();
-        builder.RegisterType<NServiceBusPrequisitiesInstallRunner>()
+        builder.RegisterType<NServiceBusPrerequisitesInstallRunner>()
             .SingleInstance();
         builder.RegisterType<ServiceInsightInstallRunner>()
             .SingleInstance();

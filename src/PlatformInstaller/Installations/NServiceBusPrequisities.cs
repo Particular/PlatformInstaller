@@ -2,11 +2,11 @@
 using System.Threading;
 using Caliburn.Micro;
 
-public class NServiceBusPrequisitiesInstallRunner : IInstallRunner
+public class NServiceBusPrerequisitesInstallRunner : IInstallRunner
 {
     IEventAggregator eventAggregator;
 
-    public NServiceBusPrequisitiesInstallRunner(IEventAggregator eventAggregator)
+    public NServiceBusPrerequisitesInstallRunner(IEventAggregator eventAggregator)
     {
         this.eventAggregator = eventAggregator;
     }

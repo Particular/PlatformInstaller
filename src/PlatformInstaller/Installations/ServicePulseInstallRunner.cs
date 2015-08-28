@@ -70,25 +70,25 @@ public class ServicePulseInstallRunner : IInstallRunner
         var fullLogPath = Path.Combine(installer.Directory.FullName, log);
         File.Delete(fullLogPath);
 
-        var proc = processRunner.RunProcess(installer.FullName,
+        var process = processRunner.RunProcess(installer.FullName,
             string.Format("/quiet /L*V {0}", log),
             // ReSharper disable once PossibleNullReferenceException
             installer.Directory.FullName,
             logOutput,
             logError);
 
-        Task.WaitAll(proc);
-        var procExitCode = proc.Result;
-        if (procExitCode != 0)
+        Task.WaitAll(process);
+        var exitCode = process.Result;
+        if (exitCode != 0)
         {
-            logError(string.Format("Installation of {0} failed with exitcode: {1}", ProductName, procExitCode));
+            logError(string.Format("Installation of {0} failed with exitcode: {1}", ProductName, exitCode));
             logError(string.Format("The MSI installation log can be found at {0}", fullLogPath));
         }
         else
         {
             logOutput("Installation Succeeded");
         }
-        InstallationResult = procExitCode;
+        InstallationResult = exitCode;
         Thread.Sleep(1000);
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
     }

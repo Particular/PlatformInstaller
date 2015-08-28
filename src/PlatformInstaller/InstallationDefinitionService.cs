@@ -8,14 +8,14 @@ public class InstallationDefinitionService
     ServiceInsightInstallRunner siRunner;
     ServiceMatrix2012InstallRunner sm2012Runner;
     ServiceMatrix2013InstallRunner sm2013Runner;
-    NServiceBusPrequisitiesInstallRunner nsbPreRequisitesRunner;
+    NServiceBusPrerequisitesInstallRunner nsbPreRequisitesRunner;
 
     public InstallationDefinitionService(ServiceControlInstallRunner scRunner,
                          ServicePulseInstallRunner spRunner,
                          ServiceInsightInstallRunner siRunner,
                          ServiceMatrix2012InstallRunner sm2012Runner,
                          ServiceMatrix2013InstallRunner sm2013Runner,
-                         NServiceBusPrequisitiesInstallRunner nsbPreRequisitesRunner)
+                         NServiceBusPrerequisitesInstallRunner nsbPreRequisitesRunner)
     {
         this.scRunner = scRunner;
         this.siRunner = siRunner;

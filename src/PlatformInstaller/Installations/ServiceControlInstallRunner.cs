@@ -42,10 +42,10 @@ public class ServiceControlInstallRunner : IInstallRunner
         eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = string.Format("Run {0} Installation", ProductName) });
 
         var release = releases.First();
-        FileInfo[] files;
+        FileInfo installer;
         try
         {
-            files = releaseManager.DownloadRelease(release).ToArray();
+            installer = releaseManager.DownloadRelease(release.Assets.First());
         }
         catch
         {
@@ -54,8 +54,6 @@ public class ServiceControlInstallRunner : IInstallRunner
         }
 
             
-        var installer = files.First(p => p.Extension.Equals(".exe", StringComparison.OrdinalIgnoreCase));
-           
         var log = string.Format("particular.{0}.installer.log", ProductName.ToLower());
         var fullLogPath = Path.Combine(installer.Directory.FullName,log);
         File.Delete(fullLogPath);

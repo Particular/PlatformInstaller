@@ -52,10 +52,10 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
         eventAggregator.PublishOnUIThread(progressEvent);
 
         var release = releases.First();
-        FileInfo[] files;
+        FileInfo vsixFile;
         try
         {
-            files = releaseManager.DownloadRelease(release, "11.0.vsix").ToArray();
+            vsixFile = releaseManager.DownloadRelease(release.Assets.Single(x => x.Name.Contains("11.0.vsix")));
         }
         catch
         {
@@ -63,9 +63,6 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
             logError(error);
             return;
         }
-
-            
-        var vsixFile = files.First(p => p.Name.EndsWith("11.0.vsix", StringComparison.OrdinalIgnoreCase));
 
         var toolsPath = Environment.GetEnvironmentVariable("VS110COMNTOOLS");
         if (toolsPath == null)

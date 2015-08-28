@@ -53,18 +53,16 @@ public class ServicePulseInstallRunner : IInstallRunner
         eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = string.Format("Run {0} Installation", ProductName)});
             
         var release = releases.First();
-        FileInfo[] files;
+        FileInfo installer;
         try
         {
-            files = releaseManager.DownloadRelease(release).ToArray();
+            installer = releaseManager.DownloadRelease(release.Assets.Single());
         }
         catch
         {
             logError(string.Format("Failed to download the {0} Installation from https://github.com/Particular/{0}/releases/latest", ProductName.ToLower()));
             return;
         }
-
-        var installer = files.First(p => p.Extension.Equals(".exe", StringComparison.OrdinalIgnoreCase));
 
         var log = string.Format("particular.{0}.installer.log", ProductName.ToLower());
         var fullLogPath = Path.Combine(installer.Directory.FullName, log);

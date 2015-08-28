@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -77,7 +76,7 @@ public class ReleaseManager
         }
     }
 
-    public IEnumerable<FileInfo> DownloadRelease(Release release, string filter = null)
+    public FileInfo DownloadRelease(Asset release)
     {
         var tempFolder = new DirectoryInfo(Environment.ExpandEnvironmentVariables("%temp%"));
 
@@ -87,61 +86,62 @@ public class ReleaseManager
         {
             client.Proxy.Credentials = credentialStore.Credentials;
 
-            var assets = (filter == null) ? release.Assets : release.Assets.Where(p => p.Name.IndexOf(filter, StringComparison.OrdinalIgnoreCase) > -1).ToArray();
-            foreach (var asset in assets)
+            var localAsset = new FileInfo(Path.Combine(assetFolder.FullName, release.Name));
+            if (!localAsset.Exists || localAsset.Length != release.Size)
             {
-                var localAsset = new FileInfo(Path.Combine(assetFolder.FullName, asset.Name));
-                if (!localAsset.Exists || localAsset.Length != asset.Size)
+                eventAggregator.PublishOnUIThread(new DownloadStartedEvent
                 {
-                    eventAggregator.PublishOnUIThread(new DownloadStartedEvent
+                    Url = release.Name,
+                    FileName = localAsset.FullName
+                });
+
+                client.DownloadProgressChanged += (sender, args) =>
+                {
+                    eventAggregator.PublishOnUIThread(new DownloadProgressEvent
                     {
-                        Url = asset.Name,
-                        FileName = localAsset.FullName
+                        BytesReceived = args.BytesReceived,
+                        ProgressPercentage = args.ProgressPercentage,
+                        TotalBytes = args.TotalBytesToReceive
                     });
+                };
+                client.DownloadFileCompleted += (sender, args) =>
+                {
+                    eventAggregator.PublishOnUIThread(new DownloadCompleteEvent());
+                };
 
-                    client.DownloadProgressChanged += (sender, args) =>
+                var retries = 0;
+                const int maxretries = 5;
+                while (true)
+                {
+                    var url = release.Download;
+                    var fileName = localAsset.FullName;
+                    var t = client.DownloadFileTaskAsync(url, fileName);
+                    try
                     {
-                        eventAggregator.PublishOnUIThread(new DownloadProgressEvent
+                        Task.WaitAll(t);
+                        break;
+                    }
+                    catch
+                    {
+                        retries++;
+                        eventAggregator.PublishOnUIThread(new InstallerOutputEvent
                         {
-                            BytesReceived = args.BytesReceived,
-                            ProgressPercentage = args.ProgressPercentage,
-                            TotalBytes = args.TotalBytesToReceive
+                            Text = "Download failed. Retrying..."
                         });
-                    };
-                    client.DownloadFileCompleted += (sender, args) =>
-                    {
-                        eventAggregator.PublishOnUIThread(new DownloadCompleteEvent());
-                    };
-
-                    var retries = 0;
-                    const int maxretries = 5;
-                    while (true)
-                    {
-                        var t = client.DownloadFileTaskAsync(asset.Download, localAsset.FullName);
-                        try
+                        Thread.Sleep(500);
+                        if (retries > maxretries)
                         {
-                            Task.WaitAll(t);
-                            break;
-                        }
-                        catch
-                        {
-                            retries++;
-                            eventAggregator.PublishOnUIThread(new InstallerOutputEvent { Text = "Download failed. Retrying..." });
-                            Thread.Sleep(500);
-                            if (retries > maxretries)
+                            eventAggregator.PublishOnUIThread(new InstallerOutputEvent
                             {
-                                eventAggregator.PublishOnUIThread(new InstallerOutputEvent
-                                {
-                                    IsError = true,
-                                    Text = "Download did not complete. Installation Aborted"
-                                });
-                                throw new Exception("Download did not complete");
-                            }
+                                IsError = true,
+                                Text = "Download did not complete. Installation Aborted"
+                            });
+                            throw new Exception("Download did not complete");
                         }
                     }
                 }
-                yield return localAsset;
             }
+            return localAsset;
         }
     }
 

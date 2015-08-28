@@ -10,7 +10,7 @@ public class SavedCredentialsTests
     {
         string username;
         SecureString password;
-        DeleteCedentials();
+        DeleteCredentials();
         Assert.IsFalse(SavedCredentials.TryRetrieveSavedCredentials(out username, out password));
         Assert.IsNull(username);
         Assert.IsNull(password);
@@ -20,7 +20,7 @@ public class SavedCredentialsTests
         Assert.AreEqual("password", password.ToOriginalString());
     }
 
-    static void DeleteCedentials()
+    static void DeleteCredentials()
     {
         Registry.CurrentUser.DeleteSubKey(@"Software\Particular\PlatformInstaller\Credentials", false);
     }

@@ -70,7 +70,7 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
         var toolsPath = Environment.GetEnvironmentVariable("VS110COMNTOOLS");
         if (toolsPath == null)
         {
-            logError("Visual Studio 2012 environment varible VS110COMNTOOLS is missing");
+            logError("Visual Studio 2012 environment variable VS110COMNTOOLS is missing");
             return;
         }
         logOutput(string.Format("VS2012 Tools Path: {0}", toolsPath));
@@ -84,18 +84,18 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
             logError(string.Format("VSIX Installer not found - {0}", vsixInstallerInfo.FullName));
             return;
         }
-            var proc = processRunner.RunProcess(vsixInstallerInfo.FullName,
+            var process = processRunner.RunProcess(vsixInstallerInfo.FullName,
             string.Format("{0}  /quiet", vsixFile.Name),
             // ReSharper disable once PossibleNullReferenceException
             vsixFile.Directory.FullName, 
             logOutput, 
             logError);
 
-            Task.WaitAll(proc);
-            var procExitCode = proc.Result == 1001 ? 0 : proc.Result; //1001 is already installed, treat this as success
-            if (procExitCode != 0)
+            Task.WaitAll(process);
+            var exitCode = process.Result == 1001 ? 0 : process.Result; //1001 is already installed, treat this as success
+            if (exitCode != 0)
             {
-                logError(string.Format("Installation of {0} for VS2012 failed with exitcode: {1}", ProductName, procExitCode));
+                logError(string.Format("Installation of {0} for VS2012 failed with exitcode: {1}", ProductName, exitCode));
                 var log = LogFinder.FindVSIXLog(VisualStudioVersions.VS2012);
                 if (log != null)
                 {
@@ -106,7 +106,7 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
             {
                 logOutput("Installation Succeeded");
             }
-            InstallationResult = proc.Result;
+            InstallationResult = process.Result;
             Thread.Sleep(1000);
 
             eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());

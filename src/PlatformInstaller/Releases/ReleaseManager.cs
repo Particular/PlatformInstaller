@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Threading;
@@ -81,68 +82,85 @@ public class ReleaseManager
         var tempFolder = new DirectoryInfo(Environment.ExpandEnvironmentVariables("%temp%"));
 
         var assetFolder = Directory.CreateDirectory(Path.Combine(tempFolder.FullName, @"Particular\PlatformInstaller"));
-
+        var localAsset = new FileInfo(Path.Combine(assetFolder.FullName, release.Name));
+        if (localAsset.Exists && localAsset.Length == release.Size)
+        {
+            return localAsset;
+        }
+        PublishStart(release, localAsset);
         using (var client = new WebClient())
         {
             client.Proxy.Credentials = credentialStore.Credentials;
+            client.DownloadProgressChanged += OnClientOnDownloadProgressChanged;
+            client.DownloadFileCompleted += OnClientOnDownloadFileCompleted;
 
-            var localAsset = new FileInfo(Path.Combine(assetFolder.FullName, release.Name));
-            if (!localAsset.Exists || localAsset.Length != release.Size)
+            var retries = 0;
+            const int maxretries = 5;
+            while (true)
             {
-                eventAggregator.PublishOnUIThread(new DownloadStartedEvent
+                var url = release.Download;
+                var fullName = localAsset.FullName;
+                var t = client.DownloadFileTaskAsync(url, fullName);
+                try
                 {
-                    Url = release.Name,
-                    FileName = localAsset.FullName
-                });
-
-                client.DownloadProgressChanged += (sender, args) =>
+                    Task.WaitAll(t);
+                    break;
+                }
+                catch
                 {
-                    eventAggregator.PublishOnUIThread(new DownloadProgressEvent
+                    retries++;
+                    PublishFailed();
+                    Thread.Sleep(500);
+                    if (retries <= maxretries)
                     {
-                        BytesReceived = args.BytesReceived,
-                        ProgressPercentage = args.ProgressPercentage,
-                        TotalBytes = args.TotalBytesToReceive
-                    });
-                };
-                client.DownloadFileCompleted += (sender, args) =>
-                {
-                    eventAggregator.PublishOnUIThread(new DownloadCompleteEvent());
-                };
-
-                var retries = 0;
-                const int maxretries = 5;
-                while (true)
-                {
-                    var url = release.Download;
-                    var fileName = localAsset.FullName;
-                    var t = client.DownloadFileTaskAsync(url, fileName);
-                    try
-                    {
-                        Task.WaitAll(t);
-                        break;
+                        continue;
                     }
-                    catch
-                    {
-                        retries++;
-                        eventAggregator.PublishOnUIThread(new InstallerOutputEvent
-                        {
-                            Text = "Download failed. Retrying..."
-                        });
-                        Thread.Sleep(500);
-                        if (retries > maxretries)
-                        {
-                            eventAggregator.PublishOnUIThread(new InstallerOutputEvent
-                            {
-                                IsError = true,
-                                Text = "Download did not complete. Installation Aborted"
-                            });
-                            throw new Exception("Download did not complete");
-                        }
-                    }
+                    PublishAborted();
+                    throw new Exception("Download did not complete");
                 }
             }
             return localAsset;
         }
     }
 
+    void PublishStart(Asset release, FileInfo localAsset)
+    {
+        eventAggregator.PublishOnUIThread(new DownloadStartedEvent
+        {
+            Url = release.Name,
+            FileName = localAsset.FullName
+        });
+    }
+
+    void PublishFailed()
+    {
+        eventAggregator.PublishOnUIThread(new InstallerOutputEvent
+        {
+            Text = "Download failed. Retrying..."
+        });
+    }
+
+    void PublishAborted()
+    {
+        eventAggregator.PublishOnUIThread(new InstallerOutputEvent
+        {
+            IsError = true,
+            Text = "Download did not complete. Installation Aborted"
+        });
+    }
+
+    void OnClientOnDownloadFileCompleted(object sender, AsyncCompletedEventArgs args)
+    {
+        eventAggregator.PublishOnUIThread(new DownloadCompleteEvent());
+    }
+
+    void OnClientOnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs args)
+    {
+        eventAggregator.PublishOnUIThread(new DownloadProgressEvent
+        {
+            BytesReceived = args.BytesReceived,
+            ProgressPercentage = args.ProgressPercentage,
+            TotalBytes = args.TotalBytesToReceive
+        });
+    }
 }

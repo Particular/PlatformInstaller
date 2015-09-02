@@ -23,6 +23,9 @@ public class NServiceBusPrerequisitesInstallRunner : IInstallRunner
         get { return string.Empty; }
     }
 
+    public bool HasErrors { get { return false; } }
+    public bool FeedOK { get { return true; } }
+
     public void GetReleaseInfo()
     {
         throw new NotSupportedException("This should not be called for Prerequisites");

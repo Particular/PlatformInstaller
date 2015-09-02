@@ -19,6 +19,7 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
         this.releaseManager = releaseManager;
         this.eventAggregator = eventAggregator;
     }
+    public bool FeedOK { get { return HasReleaseInfo(); } }
 
     public string InstallableVersion
     {
@@ -158,6 +159,7 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
             return VisualStudioDetecter.VS2013Installed && !Installed();
         }
     }
+    public bool HasErrors { get { return !NoErrors; } }
     public string ToolTip
     {
         get

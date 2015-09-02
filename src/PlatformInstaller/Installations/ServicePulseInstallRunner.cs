@@ -20,6 +20,7 @@ public class ServicePulseInstallRunner : IInstallRunner
         this.releaseManager = releaseManager;
     }
 
+    public bool FeedOK { get { return HasReleaseInfo(); } }
     public Version CurrentVersion()
     {
         Version version;
@@ -130,4 +131,5 @@ public class ServicePulseInstallRunner : IInstallRunner
     }
 
     public int InstallationResult { get; private set; }
+    public bool HasErrors { get { return false; } }
 }

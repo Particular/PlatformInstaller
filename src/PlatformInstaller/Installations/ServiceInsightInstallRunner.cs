@@ -25,6 +25,8 @@ public class ServiceInsightInstallRunner : IInstallRunner
         get { return releases.First().Tag; }
     }
 
+    public bool FeedOK { get { return HasReleaseInfo(); } }
+    public bool HasErrors { get { return false; } }
     public Version CurrentVersion()
     {
         Version version;

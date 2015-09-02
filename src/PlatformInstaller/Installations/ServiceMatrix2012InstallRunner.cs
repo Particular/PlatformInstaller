@@ -25,6 +25,7 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
         get { return releases.First().Tag; }
     }
 
+    public bool FeedOK { get { return HasReleaseInfo(); } }
     public Version CurrentVersion()
     {
         Version version;
@@ -164,4 +165,5 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
     {
         get { return VisualStudioDetecter.VS2012Installed && !Installed(); }
     }
+    public bool HasErrors { get { return !NoErrors; } }
 }

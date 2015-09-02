@@ -115,6 +115,7 @@ public class ServiceControlInstallRunner : IInstallRunner
     {
         return (releases != null) && (releases.Length > 0);
     }
+    public bool FeedOK { get { return HasReleaseInfo(); } }
 
     public string ToolTip
     {
@@ -124,4 +125,5 @@ public class ServiceControlInstallRunner : IInstallRunner
         }
     }
     public int InstallationResult { get; private set; }
+    public bool HasErrors { get { return false; } }
 }

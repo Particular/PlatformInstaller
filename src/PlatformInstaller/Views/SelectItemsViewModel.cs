@@ -48,10 +48,10 @@ public class SelectItemsViewModel : Screen
                   ToolTip = x.Installer.ToolTip,
                   Enabled = x.Installer.Enabled,
                   Selected = x.Installer.SelectedByDefault,
-                  Status = x.FeedOK ? x.Installer.Status : "No Product Feed",
+                  Status = x.Installer.FeedOK ? x.Installer.Status : "No Product Feed",
                   Name = x.Installer.Name,
                   CheckBoxVisible = ShowCheckBox(x),
-                  FeedOK = x.FeedOK
+                  FeedOK = x.Installer.FeedOK
               }).ToList();
 
         IsInstallEnabled = PackageDefinitions.Any(pd => pd.Selected);
@@ -97,8 +97,8 @@ public class SelectItemsViewModel : Screen
 
     bool ShowCheckBox(InstallationDefinition definition)
     {
-        return definition.FeedOK && 
-            definition.NoErrors && 
+        return definition.Installer.FeedOK && 
+            !definition.Installer.HasErrors && 
             definition.Installer.SelectedByDefault;
     }
 

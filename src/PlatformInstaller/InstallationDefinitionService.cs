@@ -37,39 +37,27 @@ public class InstallationDefinitionService
             new InstallationDefinition
             {
                 Installer = nsbPreRequisitesRunner,
-                FeedOK = true,
-                NoErrors = true,
             },
             new InstallationDefinition
             {
                 Installer =  scRunner,
-                FeedOK = scRunner.HasReleaseInfo(),
-                NoErrors = true
             },
             new InstallationDefinition
             {
                 Installer = spRunner,
-                FeedOK = spRunner.HasReleaseInfo(),
-                NoErrors = true
             },
             new InstallationDefinition
             {
                 Installer = siRunner,
-               FeedOK = siRunner.HasReleaseInfo(),
-                NoErrors = true
             },
             new InstallationDefinition
             {
                 Installer = sm2013Runner,
-                FeedOK = sm2013Runner.HasReleaseInfo(),
-                NoErrors = sm2013Runner.NoErrors
-            },   
+            },  
             new InstallationDefinition
             {
                 Installer = sm2012Runner,
-               FeedOK = sm2012Runner.HasReleaseInfo(),
-                NoErrors = sm2012Runner.NoErrors
-            }   
+            }  
         };
 
         return definitions;

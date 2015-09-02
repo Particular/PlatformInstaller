@@ -18,9 +18,9 @@ public class ServicePulseInstallRunner : IInstallRunner
         this.eventAggregator = eventAggregator;
         this.processRunner = processRunner;
         this.releaseManager = releaseManager;
+        releases = releaseManager.GetReleasesForProduct(ProductName);
     }
 
-    public bool FeedOK { get { return HasReleaseInfo(); } }
     public Version CurrentVersion()
     {
         Version version;
@@ -102,16 +102,15 @@ public class ServicePulseInstallRunner : IInstallRunner
             logOutput,
             logError).ConfigureAwait(false);
 
-        if (exitCode != 0)
+        if (exitCode == 0)
+        {
+            logOutput("Installation Succeeded");
+        }
+        else
         {
             logError(string.Format("Installation of {0} failed with exitcode: {1}", ProductName, exitCode));
             logError(string.Format("The MSI installation log can be found at {0}", fullLogPath));
         }
-        else
-        {
-            logOutput("Installation Succeeded");
-        }
-        InstallationResult = exitCode;
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
     }
         
@@ -119,17 +118,5 @@ public class ServicePulseInstallRunner : IInstallRunner
     {
         return CurrentVersion() != null;
     }
-
-    public void GetReleaseInfo()
-    {
-        releases = releaseManager.GetReleasesForProduct(ProductName);
-    }
-
-    public bool HasReleaseInfo()
-    {
-        return (releases != null) && (releases.Length > 0);
-    }
-
-    public int InstallationResult { get; private set; }
-    public bool HasErrors { get { return false; } }
+    
 }

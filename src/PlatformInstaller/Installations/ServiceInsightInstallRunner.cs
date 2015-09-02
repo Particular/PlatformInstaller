@@ -18,15 +18,10 @@ public class ServiceInsightInstallRunner : IInstallRunner
         this.eventAggregator = eventAggregator;
         this.processRunner = processRunner;
         this.releaseManager = releaseManager;
+        releases = releaseManager.GetReleasesForProduct(ProductName);
     }
 
-    public string InstallableVersion
-    {
-        get { return releases.First().Tag; }
-    }
 
-    public bool FeedOK { get { return HasReleaseInfo(); } }
-    public bool HasErrors { get { return false; } }
     public Version CurrentVersion()
     {
         Version version;
@@ -107,8 +102,7 @@ public class ServiceInsightInstallRunner : IInstallRunner
         {
             logOutput("Installation Succeeded");
         }
-        InstallationResult = exitCode;
-
+        
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
     }
 
@@ -129,15 +123,4 @@ public class ServiceInsightInstallRunner : IInstallRunner
         get { return this.ExeInstallerStatus(); }
     }
 
-    public void GetReleaseInfo()
-    {
-        releases = releaseManager.GetReleasesForProduct(ProductName);
-    }
-
-    public bool HasReleaseInfo()
-    {
-        return (releases != null) && (releases.Length > 0);
-    }
-
-    public int InstallationResult { get; private set; }
 }

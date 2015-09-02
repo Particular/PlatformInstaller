@@ -18,13 +18,9 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
         this.processRunner = processRunner;
         this.releaseManager = releaseManager;
         this.eventAggregator = eventAggregator;
+        releases = releaseManager.GetReleasesForProduct(ProductName);
     }
-    public bool FeedOK { get { return HasReleaseInfo(); } }
 
-    public string InstallableVersion
-    {
-        get { return releases.First().Tag; }
-    }
         
     public Version CurrentVersion()
     { 
@@ -101,8 +97,7 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
         {
             logOutput(string.Format("Installation exitcode: {0}", exitCode));
         }
-        InstallationResult = exitCode;
-
+        
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
     }
 
@@ -123,26 +118,6 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
         return CurrentVersion() != null;
     }
 
-    public void GetReleaseInfo()
-    {
-        releases = releaseManager.GetReleasesForProduct(ProductName);
-    }
-
-    public bool HasReleaseInfo()
-    {
-        return (releases != null) && (releases.Length > 0);
-    }
-
-
-
-
-    public bool NoErrors
-    {
-        get
-        {
-            return VisualStudioDetecter.VS2013Installed && !Installed();
-        }
-    }
     public bool Enabled
     {
         get
@@ -159,7 +134,6 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
             return VisualStudioDetecter.VS2013Installed && !Installed();
         }
     }
-    public bool HasErrors { get { return !NoErrors; } }
     public string ToolTip
     {
         get
@@ -172,5 +146,4 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
         }
     }
 
-    public int InstallationResult { get; private set; }
 }

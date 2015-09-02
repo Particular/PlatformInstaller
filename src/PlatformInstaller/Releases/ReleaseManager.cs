@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,8 +11,6 @@ using Newtonsoft.Json;
 
 public class ReleaseManager
 {
-    const int BUFFER_SIZE = 0x1000;
-
     IEventAggregator eventAggregator;
     CredentialStore credentialStore;
 
@@ -21,20 +19,12 @@ public class ReleaseManager
         this.eventAggregator = eventAggregator;
         this.credentialStore = credentialStore;
     }
-
-    public List<string> FailedFeeds = new List<string>();
-    
+   
     const string rootURL = @"http://platformupdate.particular.net/{0}.txt";
-
 
     public Release[] GetReleasesForProduct(string product)
     {
-        var uri = string.Format(rootURL, product).ToLower();
-        return DownloadReleases(uri);
-    }
-
-    private Release[] DownloadReleases(string uri)
-    {
+        var uri = string.Format(rootURL, product.ToLower());
         using (var client = new WebClient())
         {
             client.Proxy.Credentials = credentialStore.Credentials;
@@ -63,17 +53,13 @@ public class ReleaseManager
 
             if (!string.IsNullOrWhiteSpace(data))
             {
-                return (Release[])JsonConvert.DeserializeObject(data, typeof(Release[]));
-            }
-            lock (FailedFeeds)
-            {
-                if (!FailedFeeds.Contains(uri))
+                var releases = (Release[])JsonConvert.DeserializeObject(data, typeof(Release[]));
+                if (releases.Any())
                 {
-                    LogTo.Error("Failed to retrieve data from {0}", uri);
-                    FailedFeeds.Add(uri);
+                    return releases;
                 }
             }
-            return new Release[] { };
+            throw new Exception("Could not load releases from " + uri);
         }
     }
 

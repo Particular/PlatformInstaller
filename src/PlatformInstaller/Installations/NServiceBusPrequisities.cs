@@ -23,20 +23,6 @@ public class NServiceBusPrerequisitesInstallRunner : IInstallRunner
         get { return string.Empty; }
     }
 
-    public bool HasErrors { get { return false; } }
-    public bool FeedOK { get { return true; } }
-
-    public void GetReleaseInfo()
-    {
-        throw new NotSupportedException("This should not be called for Prerequisites");
-    }
-
-    public bool HasReleaseInfo()
-    {
-        throw new NotSupportedException("This should not be called for Prerequisites");
-    }
-
-    public int InstallationResult { get; private set; }
 
     public string ToolTip
     {
@@ -91,8 +77,6 @@ public class NServiceBusPrerequisitesInstallRunner : IInstallRunner
         }
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
         
-        InstallationResult = 0;
-
         return Task.FromResult(0);
     }
 

@@ -17,6 +17,7 @@ public class ServiceControlInstallRunner : IInstallRunner
         this.processRunner = processRunner;
         this.releaseManager = releaseManager;
         this.eventAggregator = eventAggregator;
+        releases = releaseManager.GetReleasesForProduct(ProductName);
     }
 
     public Version CurrentVersion()
@@ -83,8 +84,7 @@ public class ServiceControlInstallRunner : IInstallRunner
         {
             logOutput("Installation Succeeded");
         }
-        InstallationResult = exitCode;
-
+        
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
             
     }
@@ -106,17 +106,6 @@ public class ServiceControlInstallRunner : IInstallRunner
         get { return this.ExeInstallerStatus(); }
     }
 
-    public void GetReleaseInfo()
-    {
-        releases = releaseManager.GetReleasesForProduct(ProductName);
-    }
-
-    public bool HasReleaseInfo()
-    {
-        return (releases != null) && (releases.Length > 0);
-    }
-    public bool FeedOK { get { return HasReleaseInfo(); } }
-
     public string ToolTip
     {
         get
@@ -124,6 +113,4 @@ public class ServiceControlInstallRunner : IInstallRunner
             return "ServiceControl is the monitoring brain in the Particular Service Platform";
         }
     }
-    public int InstallationResult { get; private set; }
-    public bool HasErrors { get { return false; } }
 }

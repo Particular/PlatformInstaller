@@ -27,10 +27,6 @@ public class InstallationDefinitionService
 
     public virtual List<InstallationDefinition> GetPackages()
     {
-        foreach (var runner in new IInstallRunner[] { scRunner, siRunner, spRunner, sm2012Runner, sm2013Runner})
-        {
-            runner.GetReleaseInfo();
-        }
 
         var definitions = new List<InstallationDefinition>
         {

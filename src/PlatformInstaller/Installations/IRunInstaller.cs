@@ -11,13 +11,6 @@ public interface IInstallRunner
     string Name { get; }
     string Status { get; }
     bool Enabled { get; }
-    bool HasErrors { get; }
-    void GetReleaseInfo();
-    bool HasReleaseInfo();
-    int InstallationResult { get;  }
     string ToolTip { get; }
     bool SelectedByDefault { get; }
-    bool FeedOK { get; }
-    
-    
 }

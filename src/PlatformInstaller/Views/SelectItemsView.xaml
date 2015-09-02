@@ -79,9 +79,6 @@
                 <Label x:Name="StatusLabel" Grid.Column="1" Visibility="Hidden" VerticalAlignment="Center" HorizontalAlignment="Right" VerticalContentAlignment="Center"  Content="{Binding Status}" />
             </Grid>
             <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding Path=FeedOK}" Value="False">
-                <Setter Property="Foreground" TargetName="StatusLabel" Value="Red" />
-            </DataTrigger>
             <DataTrigger Binding="{Binding Path=CheckBoxVisible}" Value="False">
                 <Setter Property="Visibility" TargetName="StatusLabel" Value="Visible" />
             </DataTrigger>
@@ -101,11 +98,6 @@
         <TextBlock Grid.Row="0" FontSize="18" FontWeight="Bold">Configure your development machine for the Particular Service Platform</TextBlock>
         <TextBlock Grid.Row="1" Foreground="Gray" TextWrapping="Wrap">Individual installers will be downloaded from the Internet as required.</TextBlock>
         <ItemsControl  Grid.Row="2" Focusable="False" ItemTemplate="{StaticResource ProductItemTemplate}" ItemsSource="{Binding PackageDefinitions}" Margin="0 10"/>
-        <TextBlock Grid.Row="3" 
-                   Visibility="{Binding Path=FeedErrors, Converter={StaticResource BoolToVis}}"
-                   HorizontalAlignment="Center" 
-                   Foreground="Red" FontWeight="SemiBold" TextWrapping="Wrap">Platform installer has not been able to retrieve package information from the Internet. Please consult the logs for further details.
-        </TextBlock>
         <Grid Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

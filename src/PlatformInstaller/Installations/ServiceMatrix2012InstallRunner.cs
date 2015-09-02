@@ -18,14 +18,10 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
         this.processRunner = processRunner;
         this.releaseManager = releaseManager;
         this.eventAggregator = eventAggregator;
+        releases = releaseManager.GetReleasesForProduct(ProductName);
     }
 
-    public string InstallableVersion
-    {
-        get { return releases.First().Tag; }
-    }
 
-    public bool FeedOK { get { return HasReleaseInfo(); } }
     public Version CurrentVersion()
     {
         Version version;
@@ -102,8 +98,7 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
         {
             logOutput("Installation Succeeded");
         }
-        InstallationResult = exitCode;
-
+        
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
     }
 
@@ -139,18 +134,6 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
         return CurrentVersion() != null;
     }
 
-    public void GetReleaseInfo()
-    {
-        releases = releaseManager.GetReleasesForProduct(ProductName);
-    }
-
-    public bool HasReleaseInfo()
-    {
-        return (releases != null) && (releases.Length > 0);
-    }
-
-    public int InstallationResult { get; private set; }
-
     public bool SelectedByDefault
     {
         get { return (VisualStudioDetecter.VS2012Installed & !Installed()); }
@@ -161,9 +144,4 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
         get { return !(!VisualStudioDetecter.VS2012Installed | Installed()); }
     }
 
-    public bool NoErrors
-    {
-        get { return VisualStudioDetecter.VS2012Installed && !Installed(); }
-    }
-    public bool HasErrors { get { return !NoErrors; } }
 }

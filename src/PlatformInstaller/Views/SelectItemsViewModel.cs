@@ -20,13 +20,10 @@ public class SelectItemsViewModel : Screen
         this.pendingRestartAndResume = pendingRestartAndResume;
         this.windowManager = windowManager;
         this.lifetimeScope = lifetimeScope;
-        this.releaseManager = releaseManager;
     }
 
     IWindowManager windowManager;
     ILifetimeScope lifetimeScope;
-    ReleaseManager releaseManager;
-
 
     public bool IsInstallEnabled { get; set; }
 
@@ -36,6 +33,13 @@ public class SelectItemsViewModel : Screen
     IEventAggregator eventAggregator;
     public List<PackageDefinitionBindable> PackageDefinitions { get; set; }
     public PendingRestartAndResume pendingRestartAndResume { get; set; }
+
+
+    bool ShowCheckBox(InstallationDefinition definition)
+    {
+        return 
+            definition.Installer.SelectedByDefault;
+    }
 
     protected override void OnInitialize()
     {
@@ -48,10 +52,9 @@ public class SelectItemsViewModel : Screen
                   ToolTip = x.Installer.ToolTip,
                   Enabled = x.Installer.Enabled,
                   Selected = x.Installer.SelectedByDefault,
-                  Status = x.Installer.FeedOK ? x.Installer.Status : "No Product Feed",
+                  Status = x.Installer.Status,
                   Name = x.Installer.Name,
                   CheckBoxVisible = ShowCheckBox(x),
-                  FeedOK = x.Installer.FeedOK
               }).ToList();
 
         IsInstallEnabled = PackageDefinitions.Any(pd => pd.Selected);
@@ -84,10 +87,6 @@ public class SelectItemsViewModel : Screen
             }
         }
         
-        if (releaseManager.FailedFeeds.Count > 0)
-        {
-            FeedErrors = true;
-        }
     }
 
     static string GetImage(InstallationDefinition x)
@@ -95,14 +94,6 @@ public class SelectItemsViewModel : Screen
         return ResourceResolver.GetPackUrl("/Images/"+ x.Installer.Name+".png");
     }
 
-    bool ShowCheckBox(InstallationDefinition definition)
-    {
-        return definition.Installer.FeedOK && 
-            !definition.Installer.HasErrors && 
-            definition.Installer.SelectedByDefault;
-    }
-
-    public bool FeedErrors { get; set; }
     
     public void Install()
     {
@@ -135,6 +126,5 @@ public class SelectItemsViewModel : Screen
         public event PropertyChangedEventHandler PropertyChanged;
         public string ToolTip { get; set; }
         public bool CheckBoxVisible { get; set; }
-        public bool FeedOK { get; set; }
     }
 }

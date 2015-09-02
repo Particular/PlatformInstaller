@@ -16,6 +16,8 @@ public class NServiceBusPrerequisitesInstallRunner : IInstallRunner
         get { return 3; }
     }
 
+    public string Name { get { return "NServiceBus Pre-requisites"; }}
+
     public string Status()
     {
         return string.Empty;
@@ -32,6 +34,9 @@ public class NServiceBusPrerequisitesInstallRunner : IInstallRunner
     }
 
     public int InstallationResult { get; private set; }
+    public string ToolTip { get { return "Configure MSMQ, DTC and install NServiceBus Performance Counters"; } }
+    public bool SelectedByDefault { get { return true; } }
+    public bool Disabled { get { return false; } }
 
     public Version CurrentVersion()
     {

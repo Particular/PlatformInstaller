@@ -111,11 +111,24 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
         get { return 1; }
     }
 
+    public string Name { get { return "ServiceMatrix for Visual Studio 2012"; } }
+
     public string Status()
     {
         return this.VsixInstallerStatus(VisualStudioVersions.VS2012);
     }
 
+    public string ToolTip
+    {
+        get
+        {
+            if (VisualStudioDetecter.VS2012Installed)
+            {
+                return null;
+            }
+            return "Requires Visual Studio 2012 Professional or higher";
+        }
+    }
     public bool Installed()
     {
         return CurrentVersion() != null;
@@ -132,4 +145,7 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
     }
 
     public int InstallationResult { get; private set; }
+    public bool SelectedByDefault { get { return (VisualStudioDetecter.VS2012Installed & !Installed()); }}
+    public bool Disabled { get { return !VisualStudioDetecter.VS2012Installed | Installed(); }}
+    public bool NoErrors { get { return VisualStudioDetecter.VS2012Installed && !Installed(); }}
 }

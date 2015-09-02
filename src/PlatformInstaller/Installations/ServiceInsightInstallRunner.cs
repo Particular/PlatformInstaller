@@ -42,6 +42,25 @@ public class ServiceInsightInstallRunner : IInstallRunner
         return latest;
     }
 
+
+    public bool Disabled
+    {
+        get
+        {
+            return LatestAvailableVersion() == CurrentVersion();
+        }
+    }
+
+
+    public bool SelectedByDefault
+    {
+        get
+        {
+            return LatestAvailableVersion() != CurrentVersion();
+        }
+    }
+
+
     public async Task Execute(Action<string> logOutput, Action<string> logError)
     {
         eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = string.Format("Run {0} Installation", ProductName) });
@@ -92,6 +111,8 @@ public class ServiceInsightInstallRunner : IInstallRunner
     {
         get { return 1; }
     }
+
+    public string Name { get { return "ServiceInsight"; }}
 
     public string Status()
     {

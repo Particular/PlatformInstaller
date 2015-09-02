@@ -37,10 +37,29 @@ public class ServicePulseInstallRunner : IInstallRunner
         return latest;
     }
 
+    public bool Disabled
+    {
+        get
+        {
+            return LatestAvailableVersion() == CurrentVersion();
+        }
+    }
+
+
+    public bool SelectedByDefault
+    {
+        get
+        {
+            return LatestAvailableVersion() != CurrentVersion();
+        }
+    }
+
     public int NestedActionCount
     {
         get { return 1; }
     }
+
+    public string Name { get { return "ServicePulse"; } }
 
     public string Status()
     {

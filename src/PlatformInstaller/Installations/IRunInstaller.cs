@@ -8,9 +8,10 @@ public interface IInstallRunner
     Task Execute(Action<string> logOutput, Action<string> logError);
     bool Installed();
     int NestedActionCount { get; }
+    string Name { get; }
     string Status();
     void GetReleaseInfo();
     bool HasReleaseInfo();
     int InstallationResult { get;  }
-
+    bool SelectedByDefault { get; }
 }

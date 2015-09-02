@@ -5,7 +5,6 @@
     public string Image;
     public IInstallRunner Installer;
     public bool Disabled;
-    public bool SelectedByDefault;
     public string InstalledVersion;
     public string Status;
     public bool FeedOK;

@@ -47,7 +47,7 @@ public class SelectItemsViewModel : Screen
                   ImageUrl = ResourceResolver.GetPackUrl(x.Image),
                   ToolTip = x.ToolTip,
                   Enabled = !x.Disabled,
-                  Selected = x.SelectedByDefault,
+                  Selected = x.Installer.SelectedByDefault,
                   Status = x.FeedOK ? x.Status : "No Product Feed",
                   Name = x.Name,
                   CheckBoxVisible = ShowCheckBox(x),
@@ -92,8 +92,7 @@ public class SelectItemsViewModel : Screen
 
     bool ShowCheckBox(InstallationDefinition definition)
     {
-        var x = definition.FeedOK && definition.NoErrors && definition.SelectedByDefault;
-        return x;
+        return definition.FeedOK && definition.NoErrors && definition.Installer.SelectedByDefault;
     }
 
     public bool FeedErrors { get; set; }

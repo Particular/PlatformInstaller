@@ -36,23 +36,21 @@ public class InstallationDefinitionService
         {
             new InstallationDefinition
             {
-                Name = "NServiceBus Pre-requisites",
+                Name = nsbPreRequisitesRunner.Name,
                 Image = "/Images/NSB.png",
                 Installer = nsbPreRequisitesRunner,
-                Disabled = false,
-                SelectedByDefault = true,
-                ToolTip = "Configure MSMQ, DTC and install NServiceBus Performance Counters",
+                Disabled = nsbPreRequisitesRunner.Disabled ,
+                ToolTip = nsbPreRequisitesRunner.ToolTip,
                 Status = nsbPreRequisitesRunner.Status(),
                 FeedOK = true,
                 NoErrors = true,
             },
             new InstallationDefinition
             {
-                Name = "ServiceControl",
+                Name = scRunner.Name,
                 Image = "/Images/SC.png",
                 Installer =  scRunner,
-                Disabled = scRunner.LatestAvailableVersion() == scRunner.CurrentVersion(),
-                SelectedByDefault = (scRunner.LatestAvailableVersion() != scRunner.CurrentVersion()),
+                Disabled = scRunner.Disabled,
                 Status = scRunner.Status(),
                 FeedOK = scRunner.HasReleaseInfo(),
                 NoErrors = true
@@ -62,46 +60,42 @@ public class InstallationDefinitionService
                 Name = "ServicePulse",
                 Image = "/Images/SP.png",
                 Installer = spRunner,
-                Disabled =  (spRunner.LatestAvailableVersion() == spRunner.CurrentVersion()), 
-                SelectedByDefault = (spRunner.LatestAvailableVersion() != spRunner.CurrentVersion()),
+                Disabled =  spRunner.Disabled, 
                 Status = spRunner.Status(),
                 FeedOK = spRunner.HasReleaseInfo(),
                 NoErrors = true
             },
             new InstallationDefinition
             {
-                Name = "ServiceInsight",
+                Name = siRunner.Name,
                 Image = "/Images/SI.png",
                 Installer = siRunner,
-                Disabled =   (siRunner.LatestAvailableVersion() == siRunner.CurrentVersion()), 
-                SelectedByDefault = (siRunner.LatestAvailableVersion() != siRunner.CurrentVersion()),
+                Disabled = siRunner.Disabled, 
                 Status = siRunner.Status(),
                 FeedOK = siRunner.HasReleaseInfo(),
                 NoErrors = true
             },
             new InstallationDefinition
             {
-                Name = "ServiceMatrix for Visual Studio 2013",
+                Name = sm2013Runner.Name,
                 Image = "/Images/SM2013.png",
                 Installer = sm2013Runner,
-                Disabled = !VisualStudioDetecter.VS2013Installed | sm2013Runner.Installed(),
-                SelectedByDefault = (VisualStudioDetecter.VS2013Installed && !sm2013Runner.Installed()),
+                Disabled =  sm2013Runner.Disabled,
                 Status = sm2013Runner.Status(),
-                ToolTip =  (!VisualStudioDetecter.VS2013Installed) ? "Requires Visual Studio 2013 Professional or higher" : null,
+                ToolTip =  sm2013Runner.ToolTip,
                 FeedOK = sm2013Runner.HasReleaseInfo(),
-                NoErrors = VisualStudioDetecter.VS2013Installed  && !sm2013Runner.Installed()
+                NoErrors = sm2013Runner.NoErrors
             },   
             new InstallationDefinition
             {
-                Name = "ServiceMatrix for Visual Studio 2012",
+                Name = sm2012Runner.Name,
                 Image = "/Images/SM2012.png",
                 Installer = sm2012Runner,
-                Disabled = !VisualStudioDetecter.VS2012Installed | sm2012Runner.Installed(),
-                SelectedByDefault = (VisualStudioDetecter.VS2012Installed & !sm2012Runner.Installed()),
+                Disabled = sm2012Runner.Disabled,
                 Status = sm2012Runner.Status(),
-                ToolTip = (!VisualStudioDetecter.VS2012Installed) ? "Requires Visual Studio 2012 Professional or higher" : null,
+                ToolTip = sm2012Runner.ToolTip,
                 FeedOK = sm2012Runner.HasReleaseInfo(),
-                NoErrors = VisualStudioDetecter.VS2012Installed  && !sm2012Runner.Installed()
+                NoErrors = sm2012Runner.NoErrors
             }   
         };
 

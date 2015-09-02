@@ -110,6 +110,8 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
         get { return 1; }
     }
 
+    public string Name { get { return "ServiceMatrix for Visual Studio 2013"; }}
+
     public string Status()
     {
         return this.VsixInstallerStatus(VisualStudioVersions.VS2013);
@@ -128,6 +130,44 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
     public bool HasReleaseInfo()
     {
         return (releases != null) && (releases.Length > 0);
+    }
+
+
+
+
+    public bool NoErrors
+    {
+        get
+        {
+            return VisualStudioDetecter.VS2013Installed && !Installed();
+        }
+    }
+    public bool Disabled
+    {
+        get
+        {
+            return !VisualStudioDetecter.VS2013Installed | Installed();
+        }
+    }
+
+
+    public bool SelectedByDefault
+    {
+        get
+        {
+            return VisualStudioDetecter.VS2013Installed && !Installed();
+        }
+    }
+    public string ToolTip
+    {
+        get
+        {
+            if (VisualStudioDetecter.VS2013Installed)
+            {
+                return null;
+            }
+            return "Requires Visual Studio 2013 Professional or higher";
+        }
     }
 
     public int InstallationResult { get; private set; }

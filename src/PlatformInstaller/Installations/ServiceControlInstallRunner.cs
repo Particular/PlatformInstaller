@@ -36,6 +36,16 @@ public class ServiceControlInstallRunner : IInstallRunner
         return latest;
     }
 
+    public bool SelectedByDefault
+    {
+        get { return LatestAvailableVersion() != CurrentVersion(); }
+    }
+
+    public bool Disabled
+    {
+        get { return LatestAvailableVersion() == CurrentVersion(); }
+    }
+
     public async Task Execute(Action<string> logOutput, Action<string> logError)
     {
         eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = string.Format("Run {0} Installation", ProductName) });
@@ -88,6 +98,8 @@ public class ServiceControlInstallRunner : IInstallRunner
     {
         get { return 1; }
     }
+
+    public string Name { get { return "ServiceControl"; } }
 
     public string Status()
     {

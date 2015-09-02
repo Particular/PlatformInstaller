@@ -44,7 +44,7 @@ public class SelectItemsViewModel : Screen
           .GetPackages()
           .Select(x => new PackageDefinitionBindable
               {
-                  ImageUrl = ResourceResolver.GetPackUrl(x.Image),
+                  ImageUrl = ResourceResolver.GetPackUrl("/Images/"+ x.Installer.Name+".png"),
                   ToolTip = x.ToolTip,
                   Enabled = !x.Disabled,
                   Selected = x.Installer.SelectedByDefault,

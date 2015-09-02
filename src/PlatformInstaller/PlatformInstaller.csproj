@@ -313,17 +313,17 @@
       <SubType>Designer</SubType>
     </Resource>
     <SplashScreen Include="Splash.png" />
-    <Resource Include="Images\NSB.png" />
+    <Resource Include="Images\NServiceBus Pre-requisites.png" />
     <Resource Include="Images\particularHeader.png" />
     <Resource Include="Images\particularSmall.png" />
-    <Resource Include="Images\SC.png" />
-    <Resource Include="Images\SI.png" />
-    <Resource Include="Images\SP.png" />
+    <Resource Include="Images\ServiceControl.png" />
+    <Resource Include="Images\ServiceInsight.png" />
+    <Resource Include="Images\ServicePulse.png" />
     <Resource Include="Images\Spinner.gif" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\SM2012.png" />
-    <Resource Include="Images\SM2013.png" />
+    <Resource Include="Images\ServiceMatrix for Visual Studio 2012.png" />
+    <Resource Include="Images\ServiceMatrix for Visual Studio 2013.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)..\BuildSupport\GitVersionTask\Build\GitVersionTask.targets" />

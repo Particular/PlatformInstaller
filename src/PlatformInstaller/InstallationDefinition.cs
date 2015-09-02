@@ -2,7 +2,6 @@
 {
     public string Name;
     public string ToolTip;
-    public string Image;
     public IInstallRunner Installer;
     public bool Disabled;
     public string InstalledVersion;

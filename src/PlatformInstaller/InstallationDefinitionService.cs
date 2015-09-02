@@ -37,7 +37,6 @@ public class InstallationDefinitionService
             new InstallationDefinition
             {
                 Name = nsbPreRequisitesRunner.Name,
-                Image = "/Images/NSB.png",
                 Installer = nsbPreRequisitesRunner,
                 Disabled = nsbPreRequisitesRunner.Disabled ,
                 ToolTip = nsbPreRequisitesRunner.ToolTip,
@@ -48,7 +47,6 @@ public class InstallationDefinitionService
             new InstallationDefinition
             {
                 Name = scRunner.Name,
-                Image = "/Images/SC.png",
                 Installer =  scRunner,
                 Disabled = scRunner.Disabled,
                 Status = scRunner.Status(),
@@ -58,7 +56,6 @@ public class InstallationDefinitionService
             new InstallationDefinition
             {
                 Name = "ServicePulse",
-                Image = "/Images/SP.png",
                 Installer = spRunner,
                 Disabled =  spRunner.Disabled, 
                 Status = spRunner.Status(),
@@ -68,7 +65,6 @@ public class InstallationDefinitionService
             new InstallationDefinition
             {
                 Name = siRunner.Name,
-                Image = "/Images/SI.png",
                 Installer = siRunner,
                 Disabled = siRunner.Disabled, 
                 Status = siRunner.Status(),
@@ -78,7 +74,6 @@ public class InstallationDefinitionService
             new InstallationDefinition
             {
                 Name = sm2013Runner.Name,
-                Image = "/Images/SM2013.png",
                 Installer = sm2013Runner,
                 Disabled =  sm2013Runner.Disabled,
                 Status = sm2013Runner.Status(),
@@ -89,7 +84,6 @@ public class InstallationDefinitionService
             new InstallationDefinition
             {
                 Name = sm2012Runner.Name,
-                Image = "/Images/SM2012.png",
                 Installer = sm2012Runner,
                 Disabled = sm2012Runner.Disabled,
                 Status = sm2012Runner.Status(),

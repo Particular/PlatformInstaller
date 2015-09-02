@@ -59,7 +59,7 @@ public class NServiceBusPrerequisitesInstallRunner : IInstallRunner
 
         eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent
                                           {
-                                              Name = "NServiceBus Prerequisites - Distributed Transaction Co-ordinator"
+                                              Name = "NServiceBus Prerequisites - Distributed Transaction Coordinator"
                                           });
         if (!DtcSetupStep(logOutput, logError))
         {

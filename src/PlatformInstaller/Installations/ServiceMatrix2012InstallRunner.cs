@@ -6,7 +6,6 @@ using Caliburn.Micro;
 
 public class ServiceMatrix2012InstallRunner : IInstallRunner
 {
-    const string ProductName = "ServiceMatrix";
 
     ProcessRunner processRunner;
     ReleaseManager releaseManager;
@@ -18,14 +17,14 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
         this.processRunner = processRunner;
         this.releaseManager = releaseManager;
         this.eventAggregator = eventAggregator;
-        releases = releaseManager.GetReleasesForProduct(ProductName);
+        releases = releaseManager.GetReleasesForProduct("ServiceMatrix");
     }
 
 
     public Version CurrentVersion()
     {
         Version version;
-        VSIXFind.TryFindInstalledVersion(ProductName, VisualStudioVersions.VS2012, out version);
+        VSIXFind.TryFindInstalledVersion("ServiceMatrix", VisualStudioVersions.VS2012, out version);
         return version;
     }
 
@@ -43,7 +42,7 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
     {
         var progressEvent = new NestedInstallProgressEvent
         {
-            Name = string.Format("Run {0} for VS2012 Installation", ProductName)
+            Name = "Run ServiceMatrix for VS2012 Installation"
         };
         eventAggregator.PublishOnUIThread(progressEvent);
 
@@ -55,7 +54,7 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
         }
         catch
         {
-            var error = string.Format("Failed to download the {0} Installation from https://github.com/Particular/{0}/releases/latest", ProductName.ToLower());
+            var error = "Failed to download the ServiceMatrix Installation from https://github.com/Particular/ServiceMatrix/releases/latest";
             logError(error);
             return;
         }
@@ -87,7 +86,7 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
         exitCode = exitCode == 1001 ? 0 : exitCode; //1001 is already installed, treat this as success
         if (exitCode != 0)
         {
-            logError(string.Format("Installation of {0} for VS2012 failed with exitcode: {1}", ProductName, exitCode));
+            logError("Installation of ServiceMatrix for VS2012 failed with exitcode: "+exitCode);
             var log = LogFinder.FindVSIXLog(VisualStudioVersions.VS2012);
             if (log != null)
             {

@@ -6,8 +6,6 @@ using Caliburn.Micro;
 
 public class ServiceInsightInstallRunner : IInstallRunner
 {
-    const string ProductName = "ServiceInsight";
-
     ProcessRunner processRunner;
     ReleaseManager releaseManager;
     Release[] releases;
@@ -18,14 +16,14 @@ public class ServiceInsightInstallRunner : IInstallRunner
         this.eventAggregator = eventAggregator;
         this.processRunner = processRunner;
         this.releaseManager = releaseManager;
-        releases = releaseManager.GetReleasesForProduct(ProductName);
+        releases = releaseManager.GetReleasesForProduct("ServiceInsight");
     }
 
 
     public Version CurrentVersion()
     {
         Version version;
-        RegistryFind.TryFindInstalledVersion(ProductName, out version);
+        RegistryFind.TryFindInstalledVersion("ServiceInsight", out version);
         return version;
     }
 
@@ -68,7 +66,7 @@ public class ServiceInsightInstallRunner : IInstallRunner
 
     public async Task Execute(Action<string> logOutput, Action<string> logError)
     {
-        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = string.Format("Run {0} Installation", ProductName) });
+        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = "Run ServiceInsight Installation" });
         var release = releases.First();
         FileInfo installer;
         try
@@ -77,11 +75,11 @@ public class ServiceInsightInstallRunner : IInstallRunner
         }
         catch
         {
-            logError(string.Format("Failed to download the {0} Installation from https://github.com/Particular/{0}/releases/latest", ProductName.ToLower()));
+            logError("Failed to download the ServiceInsight Installation from https://github.com/Particular/ServiceInsight/releases/latest");
             return;
         }
 
-        var log = string.Format("particular.{0}.installer.log", ProductName.ToLower());
+        var log = "particular.serviceinsight.installer.log";
         var fullLogPath = Path.Combine(installer.Directory.FullName, log);
         File.Delete(fullLogPath);
 
@@ -95,14 +93,14 @@ public class ServiceInsightInstallRunner : IInstallRunner
 
         if (exitCode != 0)
         {
-            logError(string.Format("Installation of {0} failed with exitcode: {1}", ProductName, exitCode));
-            logError(string.Format("The MSI installation log can be found at {0}", fullLogPath));
+            logError("Installation of ServiceInsight failed with exitcode: " + exitCode);
+            logError("The MSI installation log can be found at {0}" + fullLogPath);
         }
         else
         {
             logOutput("Installation Succeeded");
         }
-        
+
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
     }
 

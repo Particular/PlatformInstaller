@@ -6,7 +6,6 @@ using Caliburn.Micro;
 
 public class ServicePulseInstallRunner : IInstallRunner
 {
-    const string ProductName = "ServicePulse";
 
     ProcessRunner processRunner;
     ReleaseManager releaseManager;
@@ -18,13 +17,13 @@ public class ServicePulseInstallRunner : IInstallRunner
         this.eventAggregator = eventAggregator;
         this.processRunner = processRunner;
         this.releaseManager = releaseManager;
-        releases = releaseManager.GetReleasesForProduct(ProductName);
+        releases = releaseManager.GetReleasesForProduct("ServicePulse");
     }
 
     public Version CurrentVersion()
     {
         Version version;
-        RegistryFind.TryFindInstalledVersion(ProductName, out version);
+        RegistryFind.TryFindInstalledVersion("ServicePulse", out version);
         return version;
     }
 
@@ -77,7 +76,7 @@ public class ServicePulseInstallRunner : IInstallRunner
 
     public async Task Execute(Action<string> logOutput, Action<string> logError)
     {
-        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = string.Format("Run {0} Installation", ProductName)});
+        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = "Run ServicePulse Installation" });
             
         var release = releases.First();
         FileInfo installer;
@@ -87,11 +86,11 @@ public class ServicePulseInstallRunner : IInstallRunner
         }
         catch
         {
-            logError(string.Format("Failed to download the {0} Installation from https://github.com/Particular/{0}/releases/latest", ProductName.ToLower()));
+            logError("Failed to download the ServicePulse Installation from https://github.com/Particular/ServicePulse/releases/latest");
             return;
         }
 
-        var log = string.Format("particular.{0}.installer.log", ProductName.ToLower());
+        var log = "particular.servicepulse.installer.log";
         var fullLogPath = Path.Combine(installer.Directory.FullName, log);
         File.Delete(fullLogPath);
 
@@ -108,8 +107,8 @@ public class ServicePulseInstallRunner : IInstallRunner
         }
         else
         {
-            logError(string.Format("Installation of {0} failed with exitcode: {1}", ProductName, exitCode));
-            logError(string.Format("The MSI installation log can be found at {0}", fullLogPath));
+            logError("Installation of ServicePulse failed with exitcode: " + exitCode);
+            logError("The MSI installation log can be found at "+ fullLogPath);
         }
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
     }

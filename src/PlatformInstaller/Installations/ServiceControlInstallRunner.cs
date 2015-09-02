@@ -6,7 +6,6 @@ using Caliburn.Micro;
 
 public class ServiceControlInstallRunner : IInstallRunner
 {
-    const string ProductName = "ServiceControl";
     ProcessRunner processRunner;
     ReleaseManager releaseManager;
     Release[] releases;
@@ -17,13 +16,13 @@ public class ServiceControlInstallRunner : IInstallRunner
         this.processRunner = processRunner;
         this.releaseManager = releaseManager;
         this.eventAggregator = eventAggregator;
-        releases = releaseManager.GetReleasesForProduct(ProductName);
+        releases = releaseManager.GetReleasesForProduct("ServiceControl");
     }
 
     public Version CurrentVersion()
     {   
         Version version;
-        RegistryFind.TryFindInstalledVersion(ProductName, out version);
+        RegistryFind.TryFindInstalledVersion("ServiceControl", out version);
         return version;
     }
 
@@ -49,7 +48,7 @@ public class ServiceControlInstallRunner : IInstallRunner
 
     public async Task Execute(Action<string> logOutput, Action<string> logError)
     {
-        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = string.Format("Run {0} Installation", ProductName) });
+        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = "Run ServiceControl Installation" });
 
         var release = releases.First();
         FileInfo installer;
@@ -59,12 +58,12 @@ public class ServiceControlInstallRunner : IInstallRunner
         }
         catch
         {
-            logError(string.Format("Failed to download the {0} Installation from https://github.com/Particular/{0}/releases/latest", ProductName.ToLower()));
+            logError("Failed to download the ServiceControl Installation from https://github.com/Particular/ServiceControl/releases/latest");
             return;
         }
 
             
-        var log = string.Format("particular.{0}.installer.log", ProductName.ToLower());
+        var log = "particular.servicecontrol.installer.log";
         var fullLogPath = Path.Combine(installer.Directory.FullName,log);
         File.Delete(fullLogPath);
 
@@ -77,8 +76,8 @@ public class ServiceControlInstallRunner : IInstallRunner
 
         if (exitCode != 0)
         {
-            logError(string.Format("Installation of {0} failed with exitcode: {1}", ProductName, exitCode));
-            logError(string.Format("The MSI installation log can be found at {0}", fullLogPath));
+            logError("Installation of ServiceControl failed with exitcode: "+ exitCode);
+            logError("The MSI installation log can be found at "+ fullLogPath);
         }
         else
         {

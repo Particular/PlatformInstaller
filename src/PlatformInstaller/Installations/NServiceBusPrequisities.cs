@@ -44,7 +44,7 @@ public class NServiceBusPrerequisitesInstallRunner : IInstallRunner
     }
 
     public bool SelectedByDefault { get { return true; } }
-    public bool Disabled { get { return false; } }
+    public bool Enabled { get { return true; } }
 
     public Version CurrentVersion()
     {

@@ -142,11 +142,11 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
             return VisualStudioDetecter.VS2013Installed && !Installed();
         }
     }
-    public bool Disabled
+    public bool Enabled
     {
         get
         {
-            return !VisualStudioDetecter.VS2013Installed | Installed();
+            return !(!VisualStudioDetecter.VS2013Installed | Installed());
         }
     }
 

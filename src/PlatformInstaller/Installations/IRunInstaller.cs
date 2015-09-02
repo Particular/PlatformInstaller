@@ -9,7 +9,8 @@ public interface IInstallRunner
     bool Installed();
     int NestedActionCount { get; }
     string Name { get; }
-    string Status{ get; }
+    string Status { get; }
+    bool Enabled { get; }
     void GetReleaseInfo();
     bool HasReleaseInfo();
     int InstallationResult { get;  }

@@ -37,11 +37,11 @@ public class ServicePulseInstallRunner : IInstallRunner
         return latest;
     }
 
-    public bool Disabled
+    public bool Enabled
     {
         get
         {
-            return LatestAvailableVersion() == CurrentVersion();
+            return LatestAvailableVersion() != CurrentVersion();
         }
     }
 

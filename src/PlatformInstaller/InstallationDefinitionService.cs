@@ -37,43 +37,37 @@ public class InstallationDefinitionService
             new InstallationDefinition
             {
                 Installer = nsbPreRequisitesRunner,
-                Disabled = nsbPreRequisitesRunner.Disabled ,
                 FeedOK = true,
                 NoErrors = true,
             },
             new InstallationDefinition
             {
                 Installer =  scRunner,
-                Disabled = scRunner.Disabled,
                 FeedOK = scRunner.HasReleaseInfo(),
                 NoErrors = true
             },
             new InstallationDefinition
             {
                 Installer = spRunner,
-                Disabled =  spRunner.Disabled, 
                 FeedOK = spRunner.HasReleaseInfo(),
                 NoErrors = true
             },
             new InstallationDefinition
             {
                 Installer = siRunner,
-                Disabled = siRunner.Disabled, 
-                FeedOK = siRunner.HasReleaseInfo(),
+               FeedOK = siRunner.HasReleaseInfo(),
                 NoErrors = true
             },
             new InstallationDefinition
             {
                 Installer = sm2013Runner,
-                Disabled =  sm2013Runner.Disabled,
                 FeedOK = sm2013Runner.HasReleaseInfo(),
                 NoErrors = sm2013Runner.NoErrors
             },   
             new InstallationDefinition
             {
                 Installer = sm2012Runner,
-                Disabled = sm2012Runner.Disabled,
-                FeedOK = sm2012Runner.HasReleaseInfo(),
+               FeedOK = sm2012Runner.HasReleaseInfo(),
                 NoErrors = sm2012Runner.NoErrors
             }   
         };

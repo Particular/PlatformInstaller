@@ -46,7 +46,7 @@ public class SelectItemsViewModel : Screen
               {
                   ImageUrl = GetImage(x),
                   ToolTip = x.Installer.ToolTip,
-                  Enabled = !x.Disabled,
+                  Enabled = x.Installer.Enabled,
                   Selected = x.Installer.SelectedByDefault,
                   Status = x.FeedOK ? x.Installer.Status : "No Product Feed",
                   Name = x.Installer.Name,

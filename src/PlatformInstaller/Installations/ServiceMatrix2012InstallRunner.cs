@@ -155,9 +155,9 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
         get { return (VisualStudioDetecter.VS2012Installed & !Installed()); }
     }
 
-    public bool Disabled
+    public bool Enabled
     {
-        get { return !VisualStudioDetecter.VS2012Installed | Installed(); }
+        get { return !(!VisualStudioDetecter.VS2012Installed | Installed()); }
     }
 
     public bool NoErrors

@@ -41,9 +41,9 @@ public class ServiceControlInstallRunner : IInstallRunner
         get { return LatestAvailableVersion() != CurrentVersion(); }
     }
 
-    public bool Disabled
+    public bool Enabled
     {
-        get { return LatestAvailableVersion() == CurrentVersion(); }
+        get { return !(LatestAvailableVersion() == CurrentVersion()); }
     }
 
     public async Task Execute(Action<string> logOutput, Action<string> logError)

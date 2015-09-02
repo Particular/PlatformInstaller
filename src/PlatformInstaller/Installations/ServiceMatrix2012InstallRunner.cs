@@ -116,9 +116,9 @@ public class ServiceMatrix2012InstallRunner : IInstallRunner
         get { return "ServiceMatrix for Visual Studio 2012"; }
     }
 
-    public string Status()
+    public string Status
     {
-        return this.VsixInstallerStatus(VisualStudioVersions.VS2012);
+        get { return this.VsixInstallerStatus(VisualStudioVersions.VS2012); }
     }
 
     public string ToolTip

@@ -18,9 +18,9 @@ public class NServiceBusPrerequisitesInstallRunner : IInstallRunner
 
     public string Name { get { return "NServiceBus Pre-requisites"; }}
 
-    public string Status()
+    public string Status
     {
-        return string.Empty;
+        get { return string.Empty; }
     }
 
     public void GetReleaseInfo()

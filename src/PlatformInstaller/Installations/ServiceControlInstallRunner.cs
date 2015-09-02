@@ -101,11 +101,11 @@ public class ServiceControlInstallRunner : IInstallRunner
 
     public string Name { get { return "ServiceControl"; } }
 
-    public string Status()
+    public string Status
     {
-        return this.ExeInstallerStatus();
+        get { return this.ExeInstallerStatus(); }
     }
-        
+
     public void GetReleaseInfo()
     {
         releases = releaseManager.GetReleasesForProduct(ProductName);

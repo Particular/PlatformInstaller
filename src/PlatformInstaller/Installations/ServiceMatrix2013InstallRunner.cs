@@ -112,9 +112,9 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
 
     public string Name { get { return "ServiceMatrix for Visual Studio 2013"; }}
 
-    public string Status()
+    public string Status
     {
-        return this.VsixInstallerStatus(VisualStudioVersions.VS2013);
+        get { return this.VsixInstallerStatus(VisualStudioVersions.VS2013); }
     }
 
     public bool Installed()

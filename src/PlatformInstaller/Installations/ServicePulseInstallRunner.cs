@@ -69,9 +69,9 @@ public class ServicePulseInstallRunner : IInstallRunner
 
     public string Name { get { return "ServicePulse"; } }
 
-    public string Status()
+    public string Status
     {
-        return this.ExeInstallerStatus();
+        get { return this.ExeInstallerStatus(); }
     }
 
     public async Task Execute(Action<string> logOutput, Action<string> logError)

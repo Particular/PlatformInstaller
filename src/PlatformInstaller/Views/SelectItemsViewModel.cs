@@ -48,7 +48,7 @@ public class SelectItemsViewModel : Screen
                   ToolTip = x.Installer.ToolTip,
                   Enabled = !x.Disabled,
                   Selected = x.Installer.SelectedByDefault,
-                  Status = x.FeedOK ? x.Status : "No Product Feed",
+                  Status = x.FeedOK ? x.Installer.Status : "No Product Feed",
                   Name = x.Installer.Name,
                   CheckBoxVisible = ShowCheckBox(x),
                   FeedOK = x.FeedOK

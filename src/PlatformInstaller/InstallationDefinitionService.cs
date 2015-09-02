@@ -38,7 +38,6 @@ public class InstallationDefinitionService
             {
                 Installer = nsbPreRequisitesRunner,
                 Disabled = nsbPreRequisitesRunner.Disabled ,
-                Status = nsbPreRequisitesRunner.Status(),
                 FeedOK = true,
                 NoErrors = true,
             },
@@ -46,7 +45,6 @@ public class InstallationDefinitionService
             {
                 Installer =  scRunner,
                 Disabled = scRunner.Disabled,
-                Status = scRunner.Status(),
                 FeedOK = scRunner.HasReleaseInfo(),
                 NoErrors = true
             },
@@ -54,7 +52,6 @@ public class InstallationDefinitionService
             {
                 Installer = spRunner,
                 Disabled =  spRunner.Disabled, 
-                Status = spRunner.Status(),
                 FeedOK = spRunner.HasReleaseInfo(),
                 NoErrors = true
             },
@@ -62,7 +59,6 @@ public class InstallationDefinitionService
             {
                 Installer = siRunner,
                 Disabled = siRunner.Disabled, 
-                Status = siRunner.Status(),
                 FeedOK = siRunner.HasReleaseInfo(),
                 NoErrors = true
             },
@@ -70,7 +66,6 @@ public class InstallationDefinitionService
             {
                 Installer = sm2013Runner,
                 Disabled =  sm2013Runner.Disabled,
-                Status = sm2013Runner.Status(),
                 FeedOK = sm2013Runner.HasReleaseInfo(),
                 NoErrors = sm2013Runner.NoErrors
             },   
@@ -78,7 +73,6 @@ public class InstallationDefinitionService
             {
                 Installer = sm2012Runner,
                 Disabled = sm2012Runner.Disabled,
-                Status = sm2012Runner.Status(),
                 FeedOK = sm2012Runner.HasReleaseInfo(),
                 NoErrors = sm2012Runner.NoErrors
             }   

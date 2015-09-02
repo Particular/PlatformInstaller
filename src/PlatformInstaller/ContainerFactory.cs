@@ -44,20 +44,26 @@ public static class ContainerFactory
         builder.RegisterType<AutoSubscriber>();
         builder.RegisterType<PendingRestartAndResume>()
             .SingleInstance();
-        builder.RegisterType<NServiceBusPrerequisitesInstallRunner>()
-            .SingleInstance();
-        builder.RegisterType<ServiceInsightInstallRunner>()
-            .SingleInstance();
-        builder.RegisterType<ServiceControlInstallRunner>()
-            .SingleInstance();
-        builder.RegisterType<ServicePulseInstallRunner>()
-            .SingleInstance();
+
         builder.RegisterType<ServiceMatrix2012InstallRunner>()
-            .SingleInstance();
+            .SingleInstance()
+            .AsImplementedInterfaces();
         builder.RegisterType<ServiceMatrix2013InstallRunner>()
-            .SingleInstance();
-        builder.RegisterType<InstallationDefinitionService>()
-            .SingleInstance();
+            .SingleInstance()
+            .AsImplementedInterfaces();
+        builder.RegisterType<ServicePulseInstallRunner>()
+            .SingleInstance()
+            .AsImplementedInterfaces();
+        builder.RegisterType<ServiceControlInstallRunner>()
+            .SingleInstance()
+            .AsImplementedInterfaces();
+        builder.RegisterType<ServiceInsightInstallRunner>()
+            .SingleInstance()
+            .AsImplementedInterfaces();
+        builder.RegisterType<NServiceBusPrerequisitesInstallRunner>()
+            .SingleInstance()
+            .AsImplementedInterfaces();
+
         builder.RegisterInstance(new RaygunClient(Program.RaygunApiKey))
             .SingleInstance();
         

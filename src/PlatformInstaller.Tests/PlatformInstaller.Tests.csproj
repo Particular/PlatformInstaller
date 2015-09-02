@@ -110,7 +110,6 @@
     <Compile Include="ApprovalTestConfig.cs" />
     <Compile Include="AutofacExtensionsTests.cs" />
     <Compile Include="FakeEventAggregator.cs" />
-    <Compile Include="FakePackageDefinitionService.cs" />
     <Compile Include="AssemblyLocationTests.cs" />
     <Compile Include="LoggingTests.cs" />
     <Compile Include="PendingRestartTests.cs" />

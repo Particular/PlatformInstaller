@@ -25,7 +25,8 @@ public class SelectItemsViewTests
 
     static SelectItemsViewModel GetModel()
     {
-        return new SelectItemsViewModel(new FakeInstallationDefinitionService(), new FakeEventAggregator(), new FakePendingRestartAndResume(), null, null, null  )
+        //todo: create a fake runner
+        return new SelectItemsViewModel(new List<IInstallRunner>(), new FakeEventAggregator(), new FakePendingRestartAndResume(), null, null, null  )
             {
                 PackageDefinitions = GetPackages()
             };

@@ -7,14 +7,13 @@ using Caliburn.Micro;
 
 public class Installer : IHandle<CancelInstallCommand>, IHandle<NestedInstallCompleteEvent>, IHandle<NestedInstallProgressEvent>
 {
-    public Installer(InstallationDefinitionService installationDefinitionDiscovery, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume)
+    public Installer(IEnumerable<IInstallRunner> installRunners, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume)
     {
-        installationDefinitionService = installationDefinitionDiscovery;
+        this.installRunners = installRunners.ToList();
         this.eventAggregator = eventAggregator;
         this.pendingRestartAndResume = pendingRestartAndResume;
     }
 
-    InstallationDefinitionService installationDefinitionService;
     PendingRestartAndResume pendingRestartAndResume;
     IEventAggregator eventAggregator;
     
@@ -29,7 +28,8 @@ public class Installer : IHandle<CancelInstallCommand>, IHandle<NestedInstallCom
     }
 
     bool aborting;
-    
+    List<IInstallRunner> installRunners;
+
     public void Handle(CancelInstallCommand message)
     {
         aborting = true;
@@ -40,21 +40,21 @@ public class Installer : IHandle<CancelInstallCommand>, IHandle<NestedInstallCom
     {
         eventAggregator.PublishOnUIThread(new InstallStartedEvent());
         installProgress = 0;
-        var installationDefinitions = installationDefinitionService.GetPackages()
-            .Where(p => itemsToInstall.Contains(p.Installer.Name))
+        var installationDefinitions = installRunners
+            .Where(p => itemsToInstall.Contains(p.Name))
             .ToList();
 
         if (pendingRestartAndResume.ResumedFromRestart)
         {
             var checkpoint = pendingRestartAndResume.Checkpoint();
-            if (installationDefinitions.Any(p => p.Installer.Name.Equals(checkpoint)))
+            if (installationDefinitions.Any(p => p.Name.Equals(checkpoint)))
             {
                 // Fast Forward to the step after the last successful step
-                installationDefinitions = installationDefinitions.SkipWhile(p => !p.Installer.Name.Equals(checkpoint)).Skip(1).ToList();
+                installationDefinitions = installationDefinitions.SkipWhile(p => !p.Name.Equals(checkpoint)).Skip(1).ToList();
             }
         }
         pendingRestartAndResume.CleanupResume();
-        installCount = installationDefinitions.Select(p => p.Installer.NestedActionCount).Sum();
+        installCount = installationDefinitions.Select(p => p.NestedActionCount).Sum();
 
         foreach (var definition in installationDefinitions)
         {
@@ -64,12 +64,12 @@ public class Installer : IHandle<CancelInstallCommand>, IHandle<NestedInstallCom
             }
 
             PublishProgressEvent();
-            await definition.Installer.Execute(AddOutput, AddError).ConfigureAwait(false);
+            await definition.Execute(AddOutput, AddError).ConfigureAwait(false);
             if (InstallFailed)
             {
                 eventAggregator.PublishOnUIThread(new InstallFailedEvent
                 {
-                    Reason = "Failed to install: " + definition.Installer.Name,
+                    Reason = "Failed to install: " + definition.Name,
                     Failures = errors
                 });
                 return;
@@ -77,7 +77,7 @@ public class Installer : IHandle<CancelInstallCommand>, IHandle<NestedInstallCom
             AddOutput(Environment.NewLine);
             eventAggregator.PublishOnUIThread(new CheckPointInstallEvent
             {
-                Item = definition.Installer.Name
+                Item = definition.Name
             });
         }
         if (!InstallFailed)

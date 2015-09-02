@@ -11,11 +11,11 @@ public class SelectItemsViewModel : Screen
     {
         
     }
-    public SelectItemsViewModel(InstallationDefinitionService installationDefinitionDiscovery, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume, ILifetimeScope lifetimeScope, IWindowManager windowManager, ReleaseManager releaseManager)
+    public SelectItemsViewModel(IEnumerable<IInstallRunner> installRunners, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume, ILifetimeScope lifetimeScope, IWindowManager windowManager, ReleaseManager releaseManager)
     {
         DisplayName = "Selected Items";
         AppVersion = string.Format("Version: {0}", Assembly.GetExecutingAssembly().GetName().Version);
-        this.installationDefinitionDiscovery = installationDefinitionDiscovery;
+        this.installRunners = installRunners.ToList();
         this.eventAggregator = eventAggregator;
         this.pendingRestartAndResume = pendingRestartAndResume;
         this.windowManager = windowManager;
@@ -29,32 +29,27 @@ public class SelectItemsViewModel : Screen
 
     public string AppVersion { get; set; }
 
-    InstallationDefinitionService installationDefinitionDiscovery;
+    List<IInstallRunner> installRunners;
     IEventAggregator eventAggregator;
     public List<PackageDefinitionBindable> PackageDefinitions { get; set; }
     public PendingRestartAndResume pendingRestartAndResume { get; set; }
 
 
-    bool ShowCheckBox(InstallationDefinition definition)
-    {
-        return 
-            definition.Installer.SelectedByDefault;
-    }
+   
 
     protected override void OnInitialize()
     {
         base.OnInitialize(); 
-        PackageDefinitions = installationDefinitionDiscovery
-          .GetPackages()
+        PackageDefinitions = installRunners
           .Select(x => new PackageDefinitionBindable
               {
-                  ImageUrl = GetImage(x),
-                  ToolTip = x.Installer.ToolTip,
-                  Enabled = x.Installer.Enabled,
-                  Selected = x.Installer.SelectedByDefault,
-                  Status = x.Installer.Status,
-                  Name = x.Installer.Name,
-                  CheckBoxVisible = ShowCheckBox(x),
+                  ImageUrl = GetImage(x.Name),
+                  ToolTip = x.ToolTip,
+                  Enabled = x.Enabled,
+                  Selected = x.SelectedByDefault,
+                  Status = x.Status,
+                  Name = x.Name,
+                  CheckBoxVisible = x.SelectedByDefault,
               }).ToList();
 
         IsInstallEnabled = PackageDefinitions.Any(pd => pd.Selected);
@@ -89,9 +84,9 @@ public class SelectItemsViewModel : Screen
         
     }
 
-    static string GetImage(InstallationDefinition x)
+    static string GetImage(string name)
     {
-        return ResourceResolver.GetPackUrl("/Images/"+ x.Installer.Name+".png");
+        return ResourceResolver.GetPackUrl("/Images/" + name + ".png");
     }
 
     

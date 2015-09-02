@@ -246,8 +246,6 @@
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WpfExtensions\MultiInstanceBinder.cs" />
-    <Compile Include="InstallationDefinitionService.cs" />
-    <Compile Include="InstallationDefinition.cs" />
     <Compile Include="InstallFeedbackReporter.cs" />
     <Page Include="Styles.xaml">
       <SubType>Designer</SubType>

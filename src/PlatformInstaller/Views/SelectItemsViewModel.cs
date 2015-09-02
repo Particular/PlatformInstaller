@@ -44,12 +44,12 @@ public class SelectItemsViewModel : Screen
           .GetPackages()
           .Select(x => new PackageDefinitionBindable
               {
-                  ImageUrl = ResourceResolver.GetPackUrl("/Images/"+ x.Installer.Name+".png"),
-                  ToolTip = x.ToolTip,
+                  ImageUrl = GetImage(x),
+                  ToolTip = x.Installer.ToolTip,
                   Enabled = !x.Disabled,
                   Selected = x.Installer.SelectedByDefault,
                   Status = x.FeedOK ? x.Status : "No Product Feed",
-                  Name = x.Name,
+                  Name = x.Installer.Name,
                   CheckBoxVisible = ShowCheckBox(x),
                   FeedOK = x.FeedOK
               }).ToList();
@@ -90,16 +90,22 @@ public class SelectItemsViewModel : Screen
         }
     }
 
+    static string GetImage(InstallationDefinition x)
+    {
+        return ResourceResolver.GetPackUrl("/Images/"+ x.Installer.Name+".png");
+    }
+
     bool ShowCheckBox(InstallationDefinition definition)
     {
-        return definition.FeedOK && definition.NoErrors && definition.Installer.SelectedByDefault;
+        return definition.FeedOK && 
+            definition.NoErrors && 
+            definition.Installer.SelectedByDefault;
     }
 
     public bool FeedErrors { get; set; }
     
     public void Install()
     {
-        
         var selectedItems = PackageDefinitions.Where(p => p.Selected).Select(x => x.Name).ToList();
         var runInstallEvent = new RunInstallEvent
         {

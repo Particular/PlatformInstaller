@@ -52,6 +52,14 @@ public class ServiceInsightInstallRunner : IInstallRunner
     }
 
 
+    public string ToolTip
+    {
+        get
+        {
+            return "ServiceInsight is a desktop application with features tailored to developers needs";
+        }
+    }
+
     public bool SelectedByDefault
     {
         get

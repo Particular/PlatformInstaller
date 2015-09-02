@@ -13,5 +13,6 @@ public interface IInstallRunner
     void GetReleaseInfo();
     bool HasReleaseInfo();
     int InstallationResult { get;  }
+    string ToolTip { get; }
     bool SelectedByDefault { get; }
 }

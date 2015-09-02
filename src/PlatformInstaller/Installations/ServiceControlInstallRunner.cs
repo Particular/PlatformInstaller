@@ -116,5 +116,12 @@ public class ServiceControlInstallRunner : IInstallRunner
         return (releases != null) && (releases.Length > 0);
     }
 
+    public string ToolTip
+    {
+        get
+        {
+            return "ServiceControl is the monitoring brain in the Particular Service Platform";
+        }
+    }
     public int InstallationResult { get; private set; }
 }

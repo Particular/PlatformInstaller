@@ -46,6 +46,14 @@ public class ServicePulseInstallRunner : IInstallRunner
     }
 
 
+    public string ToolTip
+    {
+        get
+        {
+            return "ServicePulse is a web application aimed mainly at administrators";
+        }
+    }
+
     public bool SelectedByDefault
     {
         get

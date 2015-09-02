@@ -36,17 +36,14 @@ public class InstallationDefinitionService
         {
             new InstallationDefinition
             {
-                Name = nsbPreRequisitesRunner.Name,
                 Installer = nsbPreRequisitesRunner,
                 Disabled = nsbPreRequisitesRunner.Disabled ,
-                ToolTip = nsbPreRequisitesRunner.ToolTip,
                 Status = nsbPreRequisitesRunner.Status(),
                 FeedOK = true,
                 NoErrors = true,
             },
             new InstallationDefinition
             {
-                Name = scRunner.Name,
                 Installer =  scRunner,
                 Disabled = scRunner.Disabled,
                 Status = scRunner.Status(),
@@ -55,7 +52,6 @@ public class InstallationDefinitionService
             },
             new InstallationDefinition
             {
-                Name = "ServicePulse",
                 Installer = spRunner,
                 Disabled =  spRunner.Disabled, 
                 Status = spRunner.Status(),
@@ -64,7 +60,6 @@ public class InstallationDefinitionService
             },
             new InstallationDefinition
             {
-                Name = siRunner.Name,
                 Installer = siRunner,
                 Disabled = siRunner.Disabled, 
                 Status = siRunner.Status(),
@@ -73,21 +68,17 @@ public class InstallationDefinitionService
             },
             new InstallationDefinition
             {
-                Name = sm2013Runner.Name,
                 Installer = sm2013Runner,
                 Disabled =  sm2013Runner.Disabled,
                 Status = sm2013Runner.Status(),
-                ToolTip =  sm2013Runner.ToolTip,
                 FeedOK = sm2013Runner.HasReleaseInfo(),
                 NoErrors = sm2013Runner.NoErrors
             },   
             new InstallationDefinition
             {
-                Name = sm2012Runner.Name,
                 Installer = sm2012Runner,
                 Disabled = sm2012Runner.Disabled,
                 Status = sm2012Runner.Status(),
-                ToolTip = sm2012Runner.ToolTip,
                 FeedOK = sm2012Runner.HasReleaseInfo(),
                 NoErrors = sm2012Runner.NoErrors
             }   

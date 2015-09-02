@@ -34,7 +34,15 @@ public class NServiceBusPrerequisitesInstallRunner : IInstallRunner
     }
 
     public int InstallationResult { get; private set; }
-    public string ToolTip { get { return "Configure MSMQ, DTC and install NServiceBus Performance Counters"; } }
+
+    public string ToolTip
+    {
+        get
+        {
+            return "Configure MSMQ, DTC and install NServiceBus Performance Counters";
+        }
+    }
+
     public bool SelectedByDefault { get { return true; } }
     public bool Disabled { get { return false; } }
 

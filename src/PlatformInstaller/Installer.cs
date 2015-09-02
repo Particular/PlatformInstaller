@@ -41,16 +41,16 @@ public class Installer : IHandle<CancelInstallCommand>, IHandle<NestedInstallCom
         eventAggregator.PublishOnUIThread(new InstallStartedEvent());
         installProgress = 0;
         var installationDefinitions = installationDefinitionService.GetPackages()
-            .Where(p => itemsToInstall.Contains(p.Name))
+            .Where(p => itemsToInstall.Contains(p.Installer.Name))
             .ToList();
 
         if (pendingRestartAndResume.ResumedFromRestart)
         {
             var checkpoint = pendingRestartAndResume.Checkpoint();
-            if (installationDefinitions.Any(p => p.Name.Equals(checkpoint)))
+            if (installationDefinitions.Any(p => p.Installer.Name.Equals(checkpoint)))
             {
                 // Fast Forward to the step after the last successful step
-                installationDefinitions = installationDefinitions.SkipWhile(p => !p.Name.Equals(checkpoint)).Skip(1).ToList();
+                installationDefinitions = installationDefinitions.SkipWhile(p => !p.Installer.Name.Equals(checkpoint)).Skip(1).ToList();
             }
         }
         pendingRestartAndResume.CleanupResume();
@@ -69,7 +69,7 @@ public class Installer : IHandle<CancelInstallCommand>, IHandle<NestedInstallCom
             {
                 eventAggregator.PublishOnUIThread(new InstallFailedEvent
                 {
-                    Reason = "Failed to install: " + definition.Name,
+                    Reason = "Failed to install: " + definition.Installer.Name,
                     Failures = errors
                 });
                 return;
@@ -77,7 +77,7 @@ public class Installer : IHandle<CancelInstallCommand>, IHandle<NestedInstallCom
             AddOutput(Environment.NewLine);
             eventAggregator.PublishOnUIThread(new CheckPointInstallEvent
             {
-                Item = definition.Name
+                Item = definition.Installer.Name
             });
         }
         if (!InstallFailed)

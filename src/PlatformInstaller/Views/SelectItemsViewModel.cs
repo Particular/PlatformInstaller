@@ -11,11 +11,11 @@ public class SelectItemsViewModel : Screen
     {
         
     }
-    public SelectItemsViewModel(IEnumerable<IInstallRunner> installRunners, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume, ILifetimeScope lifetimeScope, IWindowManager windowManager, ReleaseManager releaseManager)
+    public SelectItemsViewModel(IEnumerable<IInstaller> installers, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume, ILifetimeScope lifetimeScope, IWindowManager windowManager)
     {
         DisplayName = "Selected Items";
         AppVersion = string.Format("Version: {0}", Assembly.GetExecutingAssembly().GetName().Version);
-        this.installRunners = installRunners.ToList();
+        this.installers = installers.ToList();
         this.eventAggregator = eventAggregator;
         this.pendingRestartAndResume = pendingRestartAndResume;
         this.windowManager = windowManager;
@@ -24,23 +24,19 @@ public class SelectItemsViewModel : Screen
 
     IWindowManager windowManager;
     ILifetimeScope lifetimeScope;
+    List<IInstaller> installers;
+    IEventAggregator eventAggregator;
 
     public bool IsInstallEnabled { get; set; }
-
-    public string AppVersion { get; set; }
-
-    List<IInstallRunner> installRunners;
-    IEventAggregator eventAggregator;
     public List<PackageDefinitionBindable> PackageDefinitions { get; set; }
     public PendingRestartAndResume pendingRestartAndResume { get; set; }
+    public string AppVersion { get; set; }
 
-
-   
-
+    
     protected override void OnInitialize()
     {
-        base.OnInitialize(); 
-        PackageDefinitions = installRunners
+        base.OnInitialize();
+        PackageDefinitions = installers
           .Select(x => new PackageDefinitionBindable
               {
                   ImageUrl = GetImage(x.Name),
@@ -59,29 +55,30 @@ public class SelectItemsViewModel : Screen
             IsInstallEnabled = PackageDefinitions.Any(p => p.Selected);
         }, "Selected");
 
-        if (pendingRestartAndResume.ResumedFromRestart)
+        if (!pendingRestartAndResume.ResumedFromRestart)
         {
-            using (var beginLifetimeScope = lifetimeScope.BeginLifetimeScope())
+            return;
+        }
+        using (var beginLifetimeScope = lifetimeScope.BeginLifetimeScope())
+        {
+            var resumeInstallModel = beginLifetimeScope.Resolve<ResumeInstallViewModel>();
+            windowManager.ShowDialog(resumeInstallModel);
+            if (resumeInstallModel.AbortInstallation)
             {
-                var resumeInstallModel = beginLifetimeScope.Resolve<ResumeInstallViewModel>();
-                windowManager.ShowDialog(resumeInstallModel);
-                if (resumeInstallModel.AbortInstallation)
-                {
-                    pendingRestartAndResume.CleanupResume();
-                    pendingRestartAndResume.RemovePendingRestart();
-                    return;
-                }
-            }
-            var runInstallEvent = new RunInstallEvent
-            {
-                SelectedItems = pendingRestartAndResume.Installs()
-            };
-            if (runInstallEvent.SelectedItems.Count > 0)
-            {
-                eventAggregator.PublishOnUIThread(runInstallEvent);
+                pendingRestartAndResume.CleanupResume();
+                pendingRestartAndResume.RemovePendingRestart();
+                return;
             }
         }
-        
+        var pendingInstalls = pendingRestartAndResume.Installs();
+        if (pendingInstalls.Count > 0)
+        {
+            var runInstallEvent = new RunInstallEvent
+            {
+                SelectedItems = pendingInstalls
+            };
+            eventAggregator.PublishOnUIThread(runInstallEvent);
+        }
     }
 
     static string GetImage(string name)

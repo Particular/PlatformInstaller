@@ -156,7 +156,7 @@ public class MsmqInstaller
         RunExe("sysocmgr", "/i:sysoc.inf /x /q /w /u:%temp%\\" + Path.GetFileName(p));
     }
 
-    // Based on http://msdn.microsoft.com/en-us/library/windows/desktop/ms724833(v=vs.85).aspx
+    // Based on http://msdn.microsoft.com/en-us/library/windows/desktop/ms724833.aspx
     static OperatingSystemEnum GetOperatingSystem()
     {
         var osVersionInfoEx = new OSVersionInfoEx

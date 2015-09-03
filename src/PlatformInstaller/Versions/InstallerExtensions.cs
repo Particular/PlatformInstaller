@@ -1,8 +1,8 @@
 ﻿using System;
 
-public static class InstallRunnerExtensions
+public static class InstallerExtensions
 {
-    public static string ExeInstallerStatus(this IInstallRunner runner)
+    public static string ExeInstallerStatus(this IInstaller runner)
     {
         try
         {
@@ -31,7 +31,7 @@ public static class InstallRunnerExtensions
         }
     }
 
-    public static string VsixInstallerStatus(this IInstallRunner runner, string version)
+    public static string VsixInstallerStatus(this IInstaller runner, string version)
     {
         var latest = runner.LatestAvailableVersion();
         var current = runner.CurrentVersion();

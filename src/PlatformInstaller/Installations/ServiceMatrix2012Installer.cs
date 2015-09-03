@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 
-public class ServiceMatrix2013InstallRunner : IInstallRunner
+public class ServiceMatrix2012Installer : IInstaller
 {
 
     ProcessRunner processRunner;
@@ -12,7 +12,7 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
     Release[] releases;
     IEventAggregator eventAggregator;
 
-    public ServiceMatrix2013InstallRunner(ProcessRunner processRunner, ReleaseManager releaseManager, IEventAggregator eventAggregator)
+    public ServiceMatrix2012Installer(ProcessRunner processRunner, ReleaseManager releaseManager, IEventAggregator eventAggregator)
     {
         this.processRunner = processRunner;
         this.releaseManager = releaseManager;
@@ -20,11 +20,11 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
         releases = releaseManager.GetReleasesForProduct("ServiceMatrix");
     }
 
-        
+
     public Version CurrentVersion()
-    { 
+    {
         Version version;
-        VSIXFind.TryFindInstalledVersion("ServiceMatrix", VisualStudioVersions.VS2013, out version);
+        VSIXFind.TryFindInstalledVersion("ServiceMatrix", VisualStudioVersions.VS2012, out version);
         return version;
     }
 
@@ -40,30 +40,32 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
 
     public async Task Execute(Action<string> logOutput, Action<string> logError)
     {
-        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent
+        var progressEvent = new NestedInstallProgressEvent
         {
-            Name = "Run ServiceMatrix for VS2013 Installation"
-        });
+            Name = "Run ServiceMatrix for VS2012 Installation"
+        };
+        eventAggregator.PublishOnUIThread(progressEvent);
 
         var release = releases.First();
         FileInfo vsixFile;
         try
         {
-            vsixFile = await releaseManager.DownloadRelease(release.Assets.Single(x => x.Name.Contains("12.0.vsix")));
+            vsixFile = await releaseManager.DownloadRelease(release.Assets.Single(x => x.Name.Contains("11.0.vsix"))).ConfigureAwait(false);
         }
         catch
         {
-            logError("Failed to download the ServiceMatrix Installation from https://github.com/Particular/ServiceMatrix/releases/latest");
+            var error = "Failed to download the ServiceMatrix Installation from https://github.com/Particular/ServiceMatrix/releases/latest";
+            logError(error);
             return;
         }
 
-        var toolsPath = Environment.GetEnvironmentVariable("VS120COMNTOOLS");
+        var toolsPath = Environment.GetEnvironmentVariable("VS110COMNTOOLS");
         if (toolsPath == null)
         {
-            logError("Visual Studio 2013 environment variable VS120COMNTOOLS is missing");
+            logError("Visual Studio 2012 environment variable VS110COMNTOOLS is missing");
             return;
         }
-        logOutput(string.Format("VS2013 Tools Path: {0}", toolsPath));
+        logOutput(string.Format("VS2012 Tools Path: {0}", toolsPath));
 
         var toolsInfo = new DirectoryInfo(toolsPath);
 
@@ -81,22 +83,21 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
             logOutput,
             logError)
             .ConfigureAwait(false);
-
         exitCode = exitCode == 1001 ? 0 : exitCode; //1001 is already installed, treat this as success
-        if (exitCode != 0)
+        if (exitCode == 0)
         {
-            logError("Installation of ServiceMatrix for VS2013 failed with exitcode: " + exitCode);
-            var log = LogFinder.FindVSIXLog(VisualStudioVersions.VS2013);
+            logOutput("Installation Succeeded");
+        }
+        else
+        {
+            logError("Installation of ServiceMatrix for VS2012 failed with exitcode: " + exitCode);
+            var log = LogFinder.FindVSIXLog(VisualStudioVersions.VS2012);
             if (log != null)
             {
                 logError(string.Format("The VSIX installation log can be found at {0}", log));
             }
         }
-        else
-        {
-            logOutput(string.Format("Installation exitcode: {0}", exitCode));
-        }
-        
+
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
     }
 
@@ -105,11 +106,26 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
         get { return 1; }
     }
 
-    public string Name { get { return "ServiceMatrix for Visual Studio 2013"; }}
+    public string Name
+    {
+        get { return "ServiceMatrix for Visual Studio 2012"; }
+    }
 
     public string Status
     {
-        get { return this.VsixInstallerStatus(VisualStudioVersions.VS2013); }
+        get { return this.VsixInstallerStatus(VisualStudioVersions.VS2012); }
+    }
+
+    public string ToolTip
+    {
+        get
+        {
+            if (VisualStudioDetecter.VS2012Installed)
+            {
+                return null;
+            }
+            return "Requires Visual Studio 2012 Professional or higher";
+        }
     }
 
     public bool Installed()
@@ -117,32 +133,14 @@ public class ServiceMatrix2013InstallRunner : IInstallRunner
         return CurrentVersion() != null;
     }
 
-    public bool Enabled
-    {
-        get
-        {
-            return !(!VisualStudioDetecter.VS2013Installed | Installed());
-        }
-    }
-
-
     public bool SelectedByDefault
     {
-        get
-        {
-            return VisualStudioDetecter.VS2013Installed && !Installed();
-        }
+        get { return (VisualStudioDetecter.VS2012Installed & !Installed()); }
     }
-    public string ToolTip
+
+    public bool Enabled
     {
-        get
-        {
-            if (VisualStudioDetecter.VS2013Installed)
-            {
-                return null;
-            }
-            return "Requires Visual Studio 2013 Professional or higher";
-        }
+        get { return !(!VisualStudioDetecter.VS2012Installed | Installed()); }
     }
 
 }

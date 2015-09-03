@@ -10,7 +10,7 @@ public class DtcInstaller
     public DtcInstaller(Action<string> output)
     {
         this.output = output;
-        output("Checking Distributed Transaction Co-Ordinater Configuration");
+        output("Checking Distributed Transaction Coordinator Configuration");
     }
 
     public void ReconfigureAndRestartDtcIfNecessary()
@@ -65,11 +65,8 @@ public class DtcInstaller
 
                     if (doChanges)
                     {
-                        if (!dtcKey.TrySetValue(val, 1, RegistryValueKind.DWord))
-                        {
-                            throw new Exception(string.Format("Failed to set value '{0}' to '{1}' in '{2}'", val, 1, keyName));
-                        }
-                        output(string.Format("Set value '{0}' to '{1}' in '{2}'", val, 1, keyName));
+                        output(string.Format("Setting value '{0}' to '{1}' in '{2}'", val, 1, keyName));
+                        dtcKey.SetValue(val, 1, RegistryValueKind.DWord);
                     }
                     requireRestart = true;
                 }
@@ -78,6 +75,6 @@ public class DtcInstaller
         }
     }
 
-    static readonly ServiceController Controller = new ServiceController { ServiceName = "MSDTC", MachineName = "." };
-    static readonly List<string> RegValues = new List<string>(new[] { "NetworkDtcAccess", "NetworkDtcAccessOutbound", "NetworkDtcAccessTransactions", "XaTransactions" });
+    static ServiceController Controller = new ServiceController { ServiceName = "MSDTC", MachineName = "." };
+    static List<string> RegValues = new List<string>(new[] { "NetworkDtcAccess", "NetworkDtcAccessOutbound", "NetworkDtcAccessTransactions", "XaTransactions" });
 }

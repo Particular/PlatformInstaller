@@ -4,26 +4,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 
-public class ServicePulseInstallRunner : IInstallRunner
+public class ServiceInsightInstaller : IInstaller
 {
-
     ProcessRunner processRunner;
     ReleaseManager releaseManager;
     Release[] releases;
     IEventAggregator eventAggregator;
 
-    public ServicePulseInstallRunner(ProcessRunner processRunner, ReleaseManager releaseManager, IEventAggregator eventAggregator)
+    public ServiceInsightInstaller(ProcessRunner processRunner, ReleaseManager releaseManager, IEventAggregator eventAggregator)
     {
         this.eventAggregator = eventAggregator;
         this.processRunner = processRunner;
         this.releaseManager = releaseManager;
-        releases = releaseManager.GetReleasesForProduct("ServicePulse");
+        releases = releaseManager.GetReleasesForProduct("ServiceInsight");
     }
+
 
     public Version CurrentVersion()
     {
         Version version;
-        RegistryFind.TryFindInstalledVersion("ServicePulse", out version);
+        RegistryFind.TryFindInstalledVersion("ServiceInsight", out version);
         return version;
     }
 
@@ -37,11 +37,12 @@ public class ServicePulseInstallRunner : IInstallRunner
         return latest;
     }
 
+
     public bool Enabled
     {
         get
         {
-            return LatestAvailableVersion() != CurrentVersion();
+            return !(LatestAvailableVersion() == CurrentVersion());
         }
     }
 
@@ -50,7 +51,7 @@ public class ServicePulseInstallRunner : IInstallRunner
     {
         get
         {
-            return "ServicePulse is a web application aimed mainly at administrators";
+            return "ServiceInsight is a desktop application with features tailored to developers needs";
         }
     }
 
@@ -62,22 +63,10 @@ public class ServicePulseInstallRunner : IInstallRunner
         }
     }
 
-    public int NestedActionCount
-    {
-        get { return 1; }
-    }
-
-    public string Name { get { return "ServicePulse"; } }
-
-    public string Status
-    {
-        get { return this.ExeInstallerStatus(); }
-    }
 
     public async Task Execute(Action<string> logOutput, Action<string> logError)
     {
-        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = "Run ServicePulse Installation" });
-            
+        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = "Run ServiceInsight Installation" });
         var release = releases.First();
         FileInfo installer;
         try
@@ -86,11 +75,11 @@ public class ServicePulseInstallRunner : IInstallRunner
         }
         catch
         {
-            logError("Failed to download the ServicePulse Installation from https://github.com/Particular/ServicePulse/releases/latest");
+            logError("Failed to download the ServiceInsight Installation from https://github.com/Particular/ServiceInsight/releases/latest");
             return;
         }
 
-        var log = "particular.servicepulse.installer.log";
+        var log = "particular.serviceinsight.installer.log";
         var fullLogPath = Path.Combine(installer.Directory.FullName, log);
         File.Delete(fullLogPath);
 
@@ -99,7 +88,8 @@ public class ServicePulseInstallRunner : IInstallRunner
             // ReSharper disable once PossibleNullReferenceException
             installer.Directory.FullName,
             logOutput,
-            logError).ConfigureAwait(false);
+            logError)
+            .ConfigureAwait(false);
 
         if (exitCode == 0)
         {
@@ -107,15 +97,28 @@ public class ServicePulseInstallRunner : IInstallRunner
         }
         else
         {
-            logError("Installation of ServicePulse failed with exitcode: " + exitCode);
-            logError("The MSI installation log can be found at "+ fullLogPath);
+            logError("Installation of ServiceInsight failed with exitcode: " + exitCode);
+            logError("The MSI installation log can be found at {0}" + fullLogPath);
         }
+
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
     }
-        
+
     public bool Installed()
     {
         return CurrentVersion() != null;
     }
-    
+
+    public int NestedActionCount
+    {
+        get { return 1; }
+    }
+
+    public string Name { get { return "ServiceInsight"; }}
+
+    public string Status
+    {
+        get { return this.ExeInstallerStatus(); }
+    }
+
 }

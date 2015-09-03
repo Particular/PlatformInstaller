@@ -137,7 +137,6 @@
     <Compile Include="Installations\Prerequisites\MsmqInstaller.cs" />
     <Compile Include="Installations\Prerequisites\PerfCountersInstaller.cs" />
     <Compile Include="Installations\Prerequisites\ProcessUtil.cs" />
-    <Compile Include="Installations\Prerequisites\RegistryExtensions.cs" />
     <Compile Include="Events\DownloadCompleteEvent.cs" />
     <Compile Include="Events\DownloadProgressEvent.cs" />
     <Compile Include="Events\DownloadStartedEvent.cs" />
@@ -148,7 +147,7 @@
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Versions\InstalledProduct.cs" />
     <Compile Include="Versions\RegistryFind.cs" />
-    <Compile Include="Versions\StatusMessage.cs" />
+    <Compile Include="Versions\InstallerExtensions.cs" />
     <Compile Include="Versions\VSIXFind.cs" />
     <Compile Include="Releases\Asset.cs" />
     <Compile Include="Releases\ReleaseManager.cs" />
@@ -158,12 +157,12 @@
     <Compile Include="Events\InstallCancelledEvent.cs" />
     <Compile Include="Events\ReportInstallFailedEvent.cs" />
     <Compile Include="Installations\IRunInstaller.cs" />
-    <Compile Include="Installations\NServiceBusPrequisities.cs" />
-    <Compile Include="Installations\ServiceControlInstallRunner.cs" />
-    <Compile Include="Installations\ServiceInsightInstallRunner.cs" />
-    <Compile Include="Installations\ServiceMatrix2013InstallRunner.cs" />
-    <Compile Include="Installations\ServiceMatrix2012InstallRunner.cs" />
-    <Compile Include="Installations\ServicePulseInstallRunner.cs" />
+    <Compile Include="Installations\NServiceBusPrerequisitesInstaller.cs" />
+    <Compile Include="Installations\ServiceControlInstaller.cs" />
+    <Compile Include="Installations\ServiceInsightInstaller.cs" />
+    <Compile Include="Installations\ServiceMatrix2013Installer.cs" />
+    <Compile Include="Installations\ServiceMatrix2012Installer.cs" />
+    <Compile Include="Installations\ServicePulseInstaller.cs" />
     <Compile Include="ReadableBytesConverter.cs" />
     <Compile Include="ProductInstallException.cs" />
     <Compile Include="Program.cs" />

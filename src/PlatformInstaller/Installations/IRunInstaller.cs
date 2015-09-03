@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-public interface IInstallRunner
+public interface IInstaller
 {
     Version CurrentVersion();
     Version LatestAvailableVersion();

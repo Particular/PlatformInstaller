@@ -45,22 +45,22 @@ public static class ContainerFactory
         builder.RegisterType<PendingRestartAndResume>()
             .SingleInstance();
 
-        builder.RegisterType<ServiceMatrix2012InstallRunner>()
+        builder.RegisterType<ServiceMatrix2012Installer>()
             .SingleInstance()
             .AsImplementedInterfaces();
-        builder.RegisterType<ServiceMatrix2013InstallRunner>()
+        builder.RegisterType<ServiceMatrix2013Installer>()
             .SingleInstance()
             .AsImplementedInterfaces();
-        builder.RegisterType<ServicePulseInstallRunner>()
+        builder.RegisterType<ServicePulseInstaller>()
             .SingleInstance()
             .AsImplementedInterfaces();
-        builder.RegisterType<ServiceControlInstallRunner>()
+        builder.RegisterType<ServiceControlInstaller>()
             .SingleInstance()
             .AsImplementedInterfaces();
-        builder.RegisterType<ServiceInsightInstallRunner>()
+        builder.RegisterType<ServiceInsightInstaller>()
             .SingleInstance()
             .AsImplementedInterfaces();
-        builder.RegisterType<NServiceBusPrerequisitesInstallRunner>()
+        builder.RegisterType<NServiceBusPrerequisitesInstaller>()
             .SingleInstance()
             .AsImplementedInterfaces();
 

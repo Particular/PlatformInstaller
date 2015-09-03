@@ -118,6 +118,7 @@
     <Compile Include="ProxyTesterTest.cs" />
     <Compile Include="ReadableBytesConverterTests.cs" />
     <Compile Include="SavedCredentialsTests.cs" />
+    <Compile Include="ServiceControlInstallerTests.cs" />
     <Compile Include="StringExtensionTests.cs" />
     <Compile Include="VersionFinderTests.cs" />
     <Compile Include="Versions\RegistryFindTests.cs" />

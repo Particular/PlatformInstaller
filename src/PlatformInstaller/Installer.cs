@@ -7,9 +7,9 @@ using Caliburn.Micro;
 
 public class Installer : IHandle<CancelInstallCommand>, IHandle<NestedInstallCompleteEvent>, IHandle<NestedInstallProgressEvent>
 {
-    public Installer(IEnumerable<IInstallRunner> installRunners, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume)
+    public Installer(IEnumerable<IInstaller> installers, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume)
     {
-        this.installRunners = installRunners.ToList();
+        this.installers = installers.ToList();
         this.eventAggregator = eventAggregator;
         this.pendingRestartAndResume = pendingRestartAndResume;
     }
@@ -21,14 +21,14 @@ public class Installer : IHandle<CancelInstallCommand>, IHandle<NestedInstallCom
     int installProgress;
     int installCount;
     string currentStatus;
+    bool aborting;
+    List<IInstaller> installers;
 
     bool InstallFailed
     {
         get { return errors.Any(); }
     }
 
-    bool aborting;
-    List<IInstallRunner> installRunners;
 
     public void Handle(CancelInstallCommand message)
     {
@@ -40,7 +40,7 @@ public class Installer : IHandle<CancelInstallCommand>, IHandle<NestedInstallCom
     {
         eventAggregator.PublishOnUIThread(new InstallStartedEvent());
         installProgress = 0;
-        var installationDefinitions = installRunners
+        var installationDefinitions = installers
             .Where(p => itemsToInstall.Contains(p.Name))
             .ToList();
 

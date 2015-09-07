@@ -104,10 +104,15 @@ public class ServiceMatrix2012Installer : IInstaller
 
     public IEnumerable<AfterInstallAction> GetAfterInstallActions()
     {
-        yield return new AfterInstallAction
+        yield break;
+    }
+
+    public IEnumerable<DocumentationLink> GetDocumentationLinks()
+    {
+        yield return new DocumentationLink
         {
-            Text = "ServiceMatrix documentation",
-            Action = () => Link.OpenUri("http://docs.particular.net/servicematrix/")
+            Text = "ServiceMatrix for VS2012 documentation",
+            Url = "http://docs.particular.net/servicematrix/"
         };
     }
 

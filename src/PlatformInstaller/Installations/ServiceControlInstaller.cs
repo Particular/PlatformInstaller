@@ -21,6 +21,15 @@ public class ServiceControlInstaller : IInstaller
         releases = releaseManager.GetReleasesForProduct("ServiceControl");
     }
 
+    public IEnumerable<DocumentationLink> GetDocumentationLinks()
+    {
+        yield return new DocumentationLink
+        {
+            Text = "ServiceControl documentation",
+            Url = "http://docs.particular.net/servicecontrol/"
+        };
+    }
+
     public Version CurrentVersion()
     {   
         Version version;
@@ -116,12 +125,8 @@ public class ServiceControlInstaller : IInstaller
     {
         yield return new AfterInstallAction
         {
-            Text = "ServiceControl documentation",
-            Action = () => Link.OpenUri("http://docs.particular.net/servicecontrol/")
-        };
-        yield return new AfterInstallAction
-        {
-            Text = "ServiceControl Management",
+            Text = "Start ServiceControl Management",
+            Description = "The ServiceControl Management utility has been installed. Instances of ServiceControl can now be manipulated using this utility.",
             Action = () =>
             {
                 var value = GetManagementPath();

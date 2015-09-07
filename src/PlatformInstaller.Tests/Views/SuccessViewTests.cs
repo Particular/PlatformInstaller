@@ -24,25 +24,41 @@ public class SuccessViewTests
 
     static SuccessViewModel GetModel()
     {
-        return new SuccessViewModel(null,null,null)
-            {
-                Items = GetItems()
-            };
+        return new SuccessViewModel(null, null, null)
+        {
+            ActionItems = GetItems(),
+            LinkItems = GetLinks()
+        };
     }
 
-    static List<SuccessViewModel.Item> GetItems()
+    static List<SuccessViewModel.LinkItem> GetLinks()
     {
-        return new List<SuccessViewModel.Item>
+        return new List<SuccessViewModel.LinkItem>
         {
-            new SuccessViewModel.Item
+            new SuccessViewModel.LinkItem
             {
-                Command = new SimpleCommand(() => {}),
-                Text = "Item1",
+                Uri = "the url",
+                Text = "Hello"
+            }
+        };
+
+    }
+
+    static List<SuccessViewModel.ActionItem> GetItems()
+    {
+        return new List<SuccessViewModel.ActionItem>
+        {
+            new SuccessViewModel.ActionItem
+            {
+                Command = new SimpleCommand(() => { }),
+                Text = "The Title1",
+                Description = "The Description1"
             },
-            new SuccessViewModel.Item
+            new SuccessViewModel.ActionItem
             {
-                Command = new SimpleCommand(() => {}),
-                Text = "Item2",
+                Command = new SimpleCommand(() => { }),
+                Text = "The Title2",
+                Description = "The Description2"
             },
         };
     }

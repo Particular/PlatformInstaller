@@ -21,6 +21,15 @@ public class ServiceInsightInstaller : IInstaller
     }
 
 
+    public IEnumerable<DocumentationLink> GetDocumentationLinks()
+    {
+        yield return new DocumentationLink
+        {
+            Text = "ServiceInsight documentation",
+            Url = "http://docs.particular.net/serviceinsight/"
+        };
+    }
+
     public Version CurrentVersion()
     {
         Version version;
@@ -112,11 +121,7 @@ public class ServiceInsightInstaller : IInstaller
 
     public IEnumerable<AfterInstallAction> GetAfterInstallActions()
     {
-        yield return new AfterInstallAction
-        {
-            Text = "ServiceInsight documentation",
-            Action = () => Link.OpenUri("http://docs.particular.net/serviceinsight/")
-        };
+        yield break;
     }
 
     public int NestedActionCount

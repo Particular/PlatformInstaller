@@ -12,17 +12,23 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
         this.eventAggregator = eventAggregator;
     }
 
+
     public IEnumerable<AfterInstallAction> GetAfterInstallActions()
     {
-        yield return new AfterInstallAction
+        yield break;
+    }
+
+    public IEnumerable<DocumentationLink> GetDocumentationLinks()
+    {
+        yield return new DocumentationLink
         {
             Text = "NServiceBus documentation",
-            Action = () => Link.OpenUri("http://docs.particular.net/nservicebus/")
+            Url = "http://docs.particular.net/nservicebus/"
         };
-        yield return new AfterInstallAction
+        yield return new DocumentationLink
         {
-            Text = "NServiceBus samples",
-            Action = () => Link.OpenUri("http://docs.particular.net/samples/")
+            Text = "NServiceBus Samples",
+            Url = "http://docs.particular.net/samples/"
         };
     }
 

@@ -20,22 +20,41 @@ public class SuccessViewModel : Screen
     protected override void OnInitialize()
     {
         base.OnInitialize();
-        Items = GetItems().ToList();
+        ActionItems = GetActionItems().ToList();
+        LinkItems = GetLinkItems().ToList();
     }
 
-    IEnumerable<Item> GetItems()
+    public List<LinkItem> LinkItems { get; set; }
+
+    IEnumerable<IInstaller> GetInstalled()
     {
-        return from name in installedItemNames
-            let installer = installers.Single(x => x.Name == name)
+        return installedItemNames.Select(name => installers.Single(x => x.Name == name));
+    }
+
+    IEnumerable<ActionItem> GetActionItems()
+    {
+        return from installer in GetInstalled()
             from action in installer.GetAfterInstallActions()
-            select new Item
+            select new ActionItem
             {
                 Command = new SimpleCommand(action.Action),
-                Text = action.Text
+                Text = action.Text,
+                Description = action.Description,
             };
     }
 
-    public List<Item> Items { get; set; }
+    IEnumerable<LinkItem> GetLinkItems()
+    {
+        return from installer in GetInstalled()
+            from action in installer.GetDocumentationLinks()
+               select new LinkItem
+            {
+                Text = action.Text,
+                Uri = action.Url,
+            };
+    }
+
+    public List<ActionItem> ActionItems { get; set; }
     IEventAggregator eventAggregator;
     IEnumerable<IInstaller> installers;
     List<string> installedItemNames;
@@ -50,10 +69,16 @@ public class SuccessViewModel : Screen
         eventAggregator.Publish<NavigateHomeCommand>();
     }
 
-    public class Item 
+    public class ActionItem
     {
         public string Text { get; set; }
         public ICommand Command { get; set; }
+        public string Description { get; set; }
+    }
+    public class LinkItem
+    {
+        public string Text { get; set; }
+        public string Uri { get; set; }
     }
 
 }

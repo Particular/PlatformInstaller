@@ -11,42 +11,52 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <DataTemplate x:Key="ItemTemplate" > 
-                <Button Command="{Binding Command}" >
-                    <Button.Template>
-                        <ControlTemplate 
-                            TargetType="Button">
-                                <Label Padding="0"
-                                    Cursor ="Hand"
-                                    Foreground="Blue"
-                                    Content="{Binding Text}" />
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
+            <DataTemplate x:Key="ActionItemTemplate" >
+                <StackPanel Margin="10,0,0,0" >
+                    <TextBlock TextWrapping="WrapWithOverflow" 
+                        Text="{Binding Description}" />
+                    <Button HorizontalAlignment="Right"
+                        Command="{Binding Command}" 
+                        Content="{Binding Text}" />
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="LinkTemplate" >
+                <TextBlock Margin="10,0,0,0" >
+                    <global:Link NavigateUri="{Binding Uri}">
+                        <TextBlock Text="{Binding Path=Text}"/>
+                    </global:Link>
+                </TextBlock>
             </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock FontSize="18" FontWeight="Bold">Installation Complete</TextBlock>
-        <ItemsControl 
-            Grid.Row="1" 
-            Focusable="False" 
-            ItemTemplate="{StaticResource ItemTemplate}" 
-            ItemsSource="{Binding Items}" 
-            Margin="0 10"/>
-        <StackPanel Grid.Row="2" 
+        <StackPanel>
+            <TextBlock FontSize="18" FontWeight="Bold">Installation Complete</TextBlock>
+            <TextBlock FontSize="12" Margin="0 10 0 0" FontWeight="Bold">Further Actions:</TextBlock>
+            <ItemsControl 
+                Focusable="False" 
+                ItemTemplate="{StaticResource ActionItemTemplate}" 
+                ItemsSource="{Binding ActionItems}" 
+                Margin="0 10"/>
+            <TextBlock FontSize="12" Margin="0 10 0 0" FontWeight="Bold">Relevant Links:</TextBlock>
+            <ItemsControl 
+                Focusable="False" 
+                ItemTemplate="{StaticResource LinkTemplate}" 
+                ItemsSource="{Binding LinkItems}" 
+                Margin="0 10"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" 
                     Orientation="Horizontal" 
                     FlowDirection="RightToLeft">
             <Button x:Name="Exit" Content="Exit"/>
             <Button x:Name="Home" Content="Back to Main"/>
         </StackPanel>
-        <TextBlock Grid.Row="3" Foreground="Gray">Thank you for installing the Particular Service Platform.</TextBlock>
+        <TextBlock Grid.Row="2" Foreground="Gray">Thank you for installing the Particular Service Platform.</TextBlock>
 
     </Grid>
 </UserControl>

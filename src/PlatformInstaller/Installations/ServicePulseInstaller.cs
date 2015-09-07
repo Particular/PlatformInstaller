@@ -65,10 +65,15 @@ public class ServicePulseInstaller : IInstaller
 
     public IEnumerable<AfterInstallAction> GetAfterInstallActions()
     {
-        yield return new AfterInstallAction
+        yield break;
+    }
+
+    public IEnumerable<DocumentationLink> GetDocumentationLinks()
+    {
+        yield return new DocumentationLink
         {
-            Text = "ServicePulse documentation",
-            Action = () => Link.OpenUri("http://docs.particular.net/servicepulse/")
+            Text = "ServiceInsight documentation",
+            Url = "http://docs.particular.net/serviceinsight/"
         };
     }
 

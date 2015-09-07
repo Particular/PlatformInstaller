@@ -20,8 +20,7 @@ public class ServiceMatrix2013Installer : IInstaller
         this.eventAggregator = eventAggregator;
         releases = releaseManager.GetReleasesForProduct("ServiceMatrix");
     }
-
-        
+    
     public Version CurrentVersion()
     { 
         Version version;
@@ -103,10 +102,15 @@ public class ServiceMatrix2013Installer : IInstaller
 
     public IEnumerable<AfterInstallAction> GetAfterInstallActions()
     {
-        yield return new AfterInstallAction
+        yield break;
+    }
+
+    public IEnumerable<DocumentationLink> GetDocumentationLinks()
+    {
+        yield return new DocumentationLink
         {
-            Text = "ServiceMatrix documentation",
-            Action = () => Link.OpenUri("http://docs.particular.net/servicematrix/")
+            Text = "ServiceMatrix for VS2013 documentation",
+            Url = "http://docs.particular.net/servicematrix/"
         };
     }
 

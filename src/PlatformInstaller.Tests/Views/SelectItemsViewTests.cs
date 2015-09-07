@@ -13,7 +13,6 @@ public class SelectItemsViewTests
         ViewTester.ShowView(model);
     }
 
-
     [Test]
     [RequiresSTA]
     [Explicit]
@@ -39,30 +38,18 @@ public class SelectItemsViewTests
             new SelectItemsViewModel.PackageDefinitionBindable
             {
                 Name = "NServiceBusPreReqs",
-                ImageUrl = ResourceResolver.GetPackUrl("/Images/NSB.png"),
+                ImageUrl = ResourceResolver.GetPackUrl("/Images/NServiceBus Pre-requisites.png"),
                 ToolTip = "NServiceBus",
                 Enabled = true,
+                Status = "The Status"
             },
             new SelectItemsViewModel.PackageDefinitionBindable
             {
                 Name = "ServiceControl",
-                ImageUrl = ResourceResolver.GetPackUrl("/Images/SC.png"),
+                ImageUrl = ResourceResolver.GetPackUrl("/Images/ServiceControl.png"),
                 ToolTip = "ServiceControl",
                 Enabled = true,
-            },
-            new SelectItemsViewModel.PackageDefinitionBindable
-            {
-                Name = "ServicePulse",
-                ImageUrl = ResourceResolver.GetPackUrl("/Images/SP.png"),
-                ToolTip = "ServicePulse",
-                Enabled = true,
-            },
-            new SelectItemsViewModel.PackageDefinitionBindable
-            {
-                Name = "ServiceInsight",
-                ImageUrl = ResourceResolver.GetPackUrl("/Images/SI.png"),
-                ToolTip = "ServiceInsight",
-                Enabled = true,
+                Status = "The Status"
             },
         };
     }

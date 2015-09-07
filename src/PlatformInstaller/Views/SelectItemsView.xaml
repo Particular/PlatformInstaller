@@ -53,15 +53,29 @@
     
         <TextBlock Grid.Row="0" FontSize="18" FontWeight="Bold">Configure your development machine for the Particular Service Platform</TextBlock>
         <TextBlock Grid.Row="1" Foreground="Gray" TextWrapping="Wrap">Individual installers will be downloaded from the Internet as required.</TextBlock>
-        <ItemsControl  Grid.Row="2" Focusable="False" ItemTemplate="{StaticResource ProductItemTemplate}" ItemsSource="{Binding PackageDefinitions}" Margin="0 10"/>
+        <ItemsControl 
+            Grid.Row="2" 
+            Focusable="False" 
+            ItemTemplate="{StaticResource ProductItemTemplate}" 
+            ItemsSource="{Binding PackageDefinitions}" 
+            Margin="0 10"/>
         <Grid Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Foreground="Gray" Text="{Binding AppVersion}" VerticalAlignment="Center" Margin ="10,0,10,0"/>
-            <Button Grid.Column="1" x:Name="Install" IsEnabled="{Binding IsInstallEnabled}" Content="Install" />
+            <TextBlock
+                Grid.Column="0" 
+                Foreground="Gray" 
+                Text="{Binding AppVersion}"
+                VerticalAlignment="Center" 
+                Margin ="10,0,10,0"/>
+            <Button 
+                Grid.Column="1" 
+                x:Name="Install"
+                IsEnabled="{Binding IsInstallEnabled}" 
+                Content="Install" />
             <Button Grid.Column="2" x:Name="Exit" Content="Exit" />
         </Grid>
      </Grid>

@@ -13,19 +13,32 @@
                 <ResourceDictionary Source="../styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <DataTemplate x:Key="ProductItemTemplate">
-                <DockPanel Margin="0,10,0,0">
-                    <Image Source="{Binding ImageUrl}" 
-                           Stretch="None"/>
-                    <CheckBox VerticalAlignment="Center" 
-                              DockPanel.Dock="Right"
-                              IsEnabled="{Binding Enabled}" 
-                              IsChecked="{Binding Selected}" 
-                              Visibility="{Binding CheckBoxVisible}" />
-                    <Label Content="{Binding Status}" 
-                           HorizontalContentAlignment="Right"
-                           DockPanel.Dock="Right" 
-                           VerticalAlignment="Center" />
-                </DockPanel>
+                <CheckBox 
+                    IsEnabled="{Binding Enabled}" 
+                    IsChecked="{Binding Selected}" >
+                    <CheckBox.Template>
+                        <ControlTemplate 
+                            TargetType="CheckBox">
+                            <DockPanel 
+                                Margin="0,10,0,0">
+                            <Image 
+                                Source="{Binding ImageUrl}" 
+                                Stretch="None"/>
+                            <CheckBox 
+                                VerticalAlignment="Center" 
+                                DockPanel.Dock="Right"
+                                IsEnabled="{Binding Enabled}" 
+                                IsChecked="{Binding Selected}" 
+                                Visibility="{Binding CheckBoxVisible}" />
+                            <Label 
+                                Content="{Binding Status}" 
+                                HorizontalContentAlignment="Right"
+                                DockPanel.Dock="Right" 
+                                VerticalAlignment="Center" />
+                        </DockPanel>
+                        </ControlTemplate>
+                    </CheckBox.Template>
+                </CheckBox>
             </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>

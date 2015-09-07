@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 
@@ -9,6 +10,20 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
     public NServiceBusPrerequisitesInstaller(IEventAggregator eventAggregator)
     {
         this.eventAggregator = eventAggregator;
+    }
+
+    public IEnumerable<AfterInstallAction> GetAfterInstallActions()
+    {
+        yield return new AfterInstallAction
+        {
+            Text = "Open NServiceBus documentation",
+            Action = () => Link.OpenUri("http://docs.particular.net/nservicebus/")
+        };
+        yield return new AfterInstallAction
+        {
+            Text = "Open NServiceBus samples",
+            Action = () => Link.OpenUri("http://docs.particular.net/samples/")
+        };
     }
 
     public int NestedActionCount

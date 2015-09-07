@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -81,16 +82,8 @@ public class ServiceControlInstaller : IInstaller
         if (exitCode == 0)
         {
             logOutput("Installation Succeeded");
-
-            var value = GetManagementPath();
-            exitCode = await processRunner.RunProcess(value, "",
-                Path.GetDirectoryName(value),
-                logOutput,
-                logError)
-                .ConfigureAwait(false);
         }
-
-        if (exitCode != 0)
+        else
         {
             logError("Installation of ServiceControl failed with exitcode: " + exitCode);
             logError("The MSI installation log can be found at " + fullLogPath);
@@ -117,6 +110,24 @@ public class ServiceControlInstaller : IInstaller
     public bool Installed()
     {
         return CurrentVersion() != null;
+    }
+
+    public IEnumerable<AfterInstallAction> GetAfterInstallActions()
+    {
+        yield return new AfterInstallAction
+        {
+            Text = "Open ServiceControl documentation",
+            Action = () => Link.OpenUri("http://docs.particular.net/servicecontrol/")
+        };
+        yield return new AfterInstallAction
+        {
+            Text = "Open ServiceControl Management",
+            Action = () =>
+            {
+                var value = GetManagementPath();
+                processRunner.RunProcess(value, "", Path.GetDirectoryName(value), s => { }, s => { });
+            }
+        };
     }
 
     public int NestedActionCount

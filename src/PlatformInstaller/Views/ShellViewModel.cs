@@ -137,7 +137,7 @@ public class ShellViewModel : Conductor<object>,
 
     public void Handle(InstallSucceededEvent message)
     {
-        ActivateModel<SuccessViewModel>();
+        ActivateModel<SuccessViewModel>(new NamedParameter("installedItemNames", itemsToInstall));
     }
 
     public void Handle(RebootRequiredEvent message)

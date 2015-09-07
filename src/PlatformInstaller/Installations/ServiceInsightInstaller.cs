@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -107,6 +108,15 @@ public class ServiceInsightInstaller : IInstaller
     public bool Installed()
     {
         return CurrentVersion() != null;
+    }
+
+    public IEnumerable<AfterInstallAction> GetAfterInstallActions()
+    {
+        yield return new AfterInstallAction
+        {
+            Text = "Open ServiceInsight documentation",
+            Action = () => Link.OpenUri("http://docs.particular.net/serviceinsight/")
+        };
     }
 
     public int NestedActionCount

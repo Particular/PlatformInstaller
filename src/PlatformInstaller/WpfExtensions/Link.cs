@@ -12,4 +12,11 @@ public class Link : Hyperlink
             }
         };
     }
+
+    public static void OpenUri(string uri)
+    {
+        using (Process.Start(uri))
+        {
+        }
+    }
 }

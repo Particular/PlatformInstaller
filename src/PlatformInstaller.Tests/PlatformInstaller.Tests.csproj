@@ -127,6 +127,7 @@
     <Compile Include="FakePendingRestartAndResume.cs" />
     <Compile Include="Views\LicenseAgreementViewTests.cs" />
     <Compile Include="Views\RebootNeededViewTests.cs" />
+    <Compile Include="Views\SuccessViewTests.cs" />
     <Compile Include="Views\SelectItemsViewTests.cs" />
     <Compile Include="Views\ViewTester.cs" />
     <Compile Include="VisualStudioDetecterTests.cs" />

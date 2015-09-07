@@ -5,7 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 
-public class Installer : IHandle<CancelInstallCommand>, IHandle<NestedInstallCompleteEvent>, IHandle<NestedInstallProgressEvent>
+public class Installer : 
+    IHandle<CancelInstallCommand>, 
+    IHandle<NestedInstallCompleteEvent>, 
+    IHandle<NestedInstallProgressEvent>
 {
     public Installer(IEnumerable<IInstaller> installers, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume)
     {

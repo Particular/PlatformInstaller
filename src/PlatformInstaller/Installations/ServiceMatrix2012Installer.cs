@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -99,6 +100,15 @@ public class ServiceMatrix2012Installer : IInstaller
         }
 
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
+    }
+
+    public IEnumerable<AfterInstallAction> GetAfterInstallActions()
+    {
+        yield return new AfterInstallAction
+        {
+            Text = "Open ServiceMatrix documentation",
+            Action = () => Link.OpenUri("http://docs.particular.net/servicematrix/")
+        };
     }
 
     public int NestedActionCount

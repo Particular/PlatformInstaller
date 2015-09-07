@@ -29,7 +29,7 @@ public class SelectItemsViewModel : Screen
     IEventAggregator eventAggregator;
 
     public bool IsInstallEnabled { get; set; }
-    public List<PackageDefinitionBindable> PackageDefinitions { get; set; }
+    public List<Item> Items { get; set; }
     public PendingRestartAndResume pendingRestartAndResume { get; set; }
     public string AppVersion { get; set; }
 
@@ -37,8 +37,8 @@ public class SelectItemsViewModel : Screen
     protected override void OnInitialize()
     {
         base.OnInitialize();
-        PackageDefinitions = installers
-          .Select(x => new PackageDefinitionBindable
+        Items = installers
+          .Select(x => new Item
               {
                   ImageUrl = GetImage(x.Name),
                   ToolTip = x.ToolTip,
@@ -49,11 +49,11 @@ public class SelectItemsViewModel : Screen
                   CheckBoxVisible = x.SelectedByDefault ? Visibility.Visible : Visibility.Collapsed,
               }).ToList();
 
-        IsInstallEnabled = PackageDefinitions.Any(pd => pd.Selected);
+        IsInstallEnabled = Items.Any(pd => pd.Selected);
 
-        PackageDefinitions.BindActionToPropChanged(() =>
+        Items.BindActionToPropChanged(() =>
         {
-            IsInstallEnabled = PackageDefinitions.Any(p => p.Selected);
+            IsInstallEnabled = Items.Any(p => p.Selected);
         }, "Selected");
 
         if (!pendingRestartAndResume.ResumedFromRestart)
@@ -86,11 +86,10 @@ public class SelectItemsViewModel : Screen
     {
         return ResourceResolver.GetPackUrl("/Images/" + name + ".png");
     }
-
     
     public void Install()
     {
-        var selectedItems = PackageDefinitions.Where(p => p.Selected).Select(x => x.Name).ToList();
+        var selectedItems = Items.Where(p => p.Selected).Select(x => x.Name).ToList();
         var runInstallEvent = new RunInstallEvent
         {
             SelectedItems = selectedItems
@@ -108,7 +107,7 @@ public class SelectItemsViewModel : Screen
         eventAggregator.Publish<ExitApplicationCommand>();
     }
 
-    public class PackageDefinitionBindable : INotifyPropertyChanged
+    public class Item : INotifyPropertyChanged
     {
         public string Name { get; set; }
         public string ImageUrl { get; set; }

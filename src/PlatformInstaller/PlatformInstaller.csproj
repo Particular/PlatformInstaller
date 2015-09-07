@@ -133,6 +133,7 @@
     <Compile Include="Events\NestedInstallStartedEvent.cs" />
     <Compile Include="Events\NestedInstallCompleteEvent.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
+    <Compile Include="Installations\AfterInstallAction.cs" />
     <Compile Include="Installations\Prerequisites\DtcInstaller.cs" />
     <Compile Include="Installations\Prerequisites\MsmqInstaller.cs" />
     <Compile Include="Installations\Prerequisites\PerfCountersInstaller.cs" />
@@ -212,6 +213,7 @@
     </Compile>
     <Compile Include="Views\RebootNeededViewModel.cs" />
     <Compile Include="RebootMachine.cs" />
+    <Compile Include="WpfExtensions\SimpleCommand.cs" />
     <Compile Include="VisualStudioVersions.cs" />
     <Compile Include="WpfExtensions\ResourceResolver.cs" />
     <Compile Include="Views\InstallingViewModel.cs" />

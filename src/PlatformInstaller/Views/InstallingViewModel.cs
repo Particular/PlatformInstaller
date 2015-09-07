@@ -2,9 +2,12 @@
 using System.Collections.ObjectModel;
 using Caliburn.Micro;
 
-public class InstallingViewModel : Screen, IHandle<InstallerOutputEvent>, 
-    IHandle<InstallProgressEvent>, IHandle<DownloadProgressEvent>, 
-    IHandle<DownloadStartedEvent>, IHandle<DownloadCompleteEvent>
+public class InstallingViewModel : Screen,
+    IHandle<InstallerOutputEvent>, 
+    IHandle<InstallProgressEvent>,
+    IHandle<DownloadProgressEvent>, 
+    IHandle<DownloadStartedEvent>, 
+    IHandle<DownloadCompleteEvent>
 {
     public InstallingViewModel()
     {
@@ -33,7 +36,6 @@ public class InstallingViewModel : Screen, IHandle<InstallerOutputEvent>,
         eventAggregator.Publish<NavigateHomeCommand>();
     }
 
-
     public void Handle(InstallerOutputEvent message)
     {
         if (message.IsError)
@@ -48,7 +50,6 @@ public class InstallingViewModel : Screen, IHandle<InstallerOutputEvent>,
         CurrentStatus = message.CurrentStatus;
         InstallProgress = message.InstallProgress;
         InstallCount = message.InstallCount;
-
     }
 
     public void Handle(DownloadProgressEvent message)

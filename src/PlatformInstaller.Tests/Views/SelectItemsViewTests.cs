@@ -27,15 +27,15 @@ public class SelectItemsViewTests
         //todo: create a fake runner
         return new SelectItemsViewModel(new List<IInstaller>(), new FakeEventAggregator(), new FakePendingRestartAndResume(), null, null)
             {
-                PackageDefinitions = GetPackages()
+                Items = GetItems()
             };
     }
 
-    static List<SelectItemsViewModel.PackageDefinitionBindable> GetPackages()
+    static List<SelectItemsViewModel.Item> GetItems()
     {
-        return new List<SelectItemsViewModel.PackageDefinitionBindable>
+        return new List<SelectItemsViewModel.Item>
         {
-            new SelectItemsViewModel.PackageDefinitionBindable
+            new SelectItemsViewModel.Item
             {
                 Name = "NServiceBusPreReqs",
                 ImageUrl = ResourceResolver.GetPackUrl("/Images/NServiceBus Pre-requisites.png"),
@@ -43,7 +43,7 @@ public class SelectItemsViewTests
                 Enabled = true,
                 Status = "The Status"
             },
-            new SelectItemsViewModel.PackageDefinitionBindable
+            new SelectItemsViewModel.Item
             {
                 Name = "ServiceControl",
                 ImageUrl = ResourceResolver.GetPackUrl("/Images/ServiceControl.png"),

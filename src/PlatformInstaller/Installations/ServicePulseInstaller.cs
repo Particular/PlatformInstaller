@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -60,6 +61,15 @@ public class ServicePulseInstaller : IInstaller
         {
             return LatestAvailableVersion() != CurrentVersion();
         }
+    }
+
+    public IEnumerable<AfterInstallAction> GetAfterInstallActions()
+    {
+        yield return new AfterInstallAction
+        {
+            Text = "Open ServicePulse documentation",
+            Action = () => Link.OpenUri("http://docs.particular.net/servicepulse/")
+        };
     }
 
     public int NestedActionCount

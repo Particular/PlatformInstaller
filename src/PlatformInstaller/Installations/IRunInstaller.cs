@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 public interface IInstaller
@@ -7,6 +8,7 @@ public interface IInstaller
     Version LatestAvailableVersion();
     Task Execute(Action<string> logOutput, Action<string> logError);
     bool Installed();
+    IEnumerable<AfterInstallAction> GetAfterInstallActions();
     int NestedActionCount { get; }
     string Name { get; }
     string Status { get; }

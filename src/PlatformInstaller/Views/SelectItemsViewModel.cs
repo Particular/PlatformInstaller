@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using Caliburn.Micro;
 using System.Reflection;
+using System.Windows;
 
 public class SelectItemsViewModel : Screen
 {
@@ -45,7 +46,7 @@ public class SelectItemsViewModel : Screen
                   Selected = x.SelectedByDefault,
                   Status = x.Status,
                   Name = x.Name,
-                  CheckBoxVisible = x.SelectedByDefault,
+                  CheckBoxVisible = x.SelectedByDefault ? Visibility.Visible : Visibility.Collapsed,
               }).ToList();
 
         IsInstallEnabled = PackageDefinitions.Any(pd => pd.Selected);
@@ -117,6 +118,6 @@ public class SelectItemsViewModel : Screen
         public bool Enabled { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
         public string ToolTip { get; set; }
-        public bool CheckBoxVisible { get; set; }
+        public Visibility CheckBoxVisible { get; set; }
     }
 }

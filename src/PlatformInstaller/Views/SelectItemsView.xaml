@@ -12,78 +12,21 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <BooleanToVisibilityConverter x:Key="BoolToVis" />
-        <Style x:Key="ProductCheckbox" TargetType="{x:Type CheckBox}">
-            <Setter Property="SnapsToDevicePixels" Value="true"/>
-            <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type CheckBox}">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <Label HorizontalAlignment="Right" Margin="0 -5 0 0" VerticalAlignment="Center" Content="{Binding Status}"/>
-                            <BulletDecorator Background="Transparent">
-                                <BulletDecorator.Bullet>
-                                    <Border x:Name="Border" 
-                                   Width="18" 
-                                   Height="18" 
-                                   CornerRadius="0" 
-                                   BorderThickness="2"
-                                   BorderBrush="#2EA3C4">
-                                        <Path 
-                                        Width="11" Height="11" 
-                                        x:Name="CheckMark"
-                                        SnapsToDevicePixels="False" 
-                                        Stroke="#2EA3C4"
-                                        StrokeThickness="2"
-                                        Data="M 0 5 L 5 11 M 3 11 L 11 0" />
-                                    </Border>
-                                </BulletDecorator.Bullet>
-                                <ContentPresenter Margin="4,0,0,0"
-                                  VerticalAlignment="Center"
-                                  HorizontalAlignment="Left"
-                                  RecognizesAccessKey="True"/>
-                            </BulletDecorator>
-                        </StackPanel>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked" Value="false">
-                                <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed"/>
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="{x:Null}">
-                                <Setter TargetName="CheckMark" Property="Data" Value="M 0 7 L 7 0" />
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter TargetName="Border" Property="Background" Value="#BAE3EF" />
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="true">
-                                <Setter TargetName="Border" Property="Background" Value="#7ABFD3" />
-                                <Setter TargetName="Border" Property="BorderBrush" Value="#6ABFC3" />
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter TargetName="CheckMark" Property="Stroke" Value="#CCCCCC" />
-                                <Setter TargetName="Border" Property="BorderBrush" Value="#CCCCCC" />
-                                <Setter Property="Foreground" Value="#888888"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <DataTemplate x:Key="ProductItemTemplate">
-            <Grid Margin="0 10" ToolTip="{Binding ToolTip}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="6*"/>
-                    <ColumnDefinition Width="4*"/>
-                </Grid.ColumnDefinitions>
-                <Image Source="{Binding ImageUrl}" Grid.Column="0" Stretch="None" HorizontalAlignment="Left"/>
-                <CheckBox Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="{Binding Enabled}" IsChecked="{Binding Selected}" Foreground="Blue" Style="{StaticResource ProductCheckbox}" Visibility="{Binding Path=CheckBoxVisible, Converter={StaticResource BoolToVis}}" />
-                <Label x:Name="StatusLabel" Grid.Column="1" Visibility="Hidden" VerticalAlignment="Center" HorizontalAlignment="Right" VerticalContentAlignment="Center"  Content="{Binding Status}" />
-            </Grid>
-            <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding Path=CheckBoxVisible}" Value="False">
-                <Setter Property="Visibility" TargetName="StatusLabel" Value="Visible" />
-            </DataTrigger>
-            </DataTemplate.Triggers>
-        </DataTemplate>
+            <DataTemplate x:Key="ProductItemTemplate">
+                <DockPanel Margin="0,10,0,0">
+                    <Image Source="{Binding ImageUrl}" 
+                           Stretch="None"/>
+                    <CheckBox VerticalAlignment="Center" 
+                              DockPanel.Dock="Right"
+                              IsEnabled="{Binding Enabled}" 
+                              IsChecked="{Binding Selected}" 
+                              Visibility="{Binding CheckBoxVisible}" />
+                    <Label Content="{Binding Status}" 
+                           HorizontalContentAlignment="Right"
+                           DockPanel.Dock="Right" 
+                           VerticalAlignment="Center" />
+                </DockPanel>
+            </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>

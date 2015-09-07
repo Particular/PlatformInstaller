@@ -236,7 +236,6 @@
     <Compile Include="Events\RunInstallEvent.cs" />
     <Compile Include="VisualStudioDetecter.cs" />
     <Compile Include="WpfExtensions\GifImage.cs" />
-    <Compile Include="WpfExtensions\InvertedBooleanToVisibilityConverter.cs" />
     <Compile Include="WpfExtensions\Link.cs" />
     <Compile Include="Views\LicenseAgreementViewModel.cs" />
     <Compile Include="Views\SelectItemsViewModel.cs" />

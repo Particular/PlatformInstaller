@@ -20,4 +20,7 @@
         <Setter Property="TextWrapping" Value="Wrap"/>
         <Setter Property="IsReadOnly" Value="True"/>
     </Style>
+    <Style TargetType="{x:Type CheckBox}">
+        <Setter Property="Foreground" Value="Blue"/>
+    </Style>
 </ResourceDictionary>

@@ -73,7 +73,7 @@ public class ServiceControlInstaller : IInstaller
         File.Delete(fullLogPath);
 
         var exitCode = await processRunner.RunProcess(installer.FullName,
-            string.Format("/quiet PlatformInstaller=true /L*V {0}", log),
+            string.Format("/quiet /L*V {0}", log),
             installer.Directory.FullName,
             logOutput,
             logError)

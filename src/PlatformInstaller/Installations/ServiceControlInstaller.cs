@@ -116,12 +116,12 @@ public class ServiceControlInstaller : IInstaller
     {
         yield return new AfterInstallAction
         {
-            Text = "Open ServiceControl documentation",
+            Text = "ServiceControl documentation",
             Action = () => Link.OpenUri("http://docs.particular.net/servicecontrol/")
         };
         yield return new AfterInstallAction
         {
-            Text = "Open ServiceControl Management",
+            Text = "ServiceControl Management",
             Action = () =>
             {
                 var value = GetManagementPath();

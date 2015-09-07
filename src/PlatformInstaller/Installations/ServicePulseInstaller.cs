@@ -67,7 +67,7 @@ public class ServicePulseInstaller : IInstaller
     {
         yield return new AfterInstallAction
         {
-            Text = "Open ServicePulse documentation",
+            Text = "ServicePulse documentation",
             Action = () => Link.OpenUri("http://docs.particular.net/servicepulse/")
         };
     }

@@ -16,12 +16,12 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
     {
         yield return new AfterInstallAction
         {
-            Text = "Open NServiceBus documentation",
+            Text = "NServiceBus documentation",
             Action = () => Link.OpenUri("http://docs.particular.net/nservicebus/")
         };
         yield return new AfterInstallAction
         {
-            Text = "Open NServiceBus samples",
+            Text = "NServiceBus samples",
             Action = () => Link.OpenUri("http://docs.particular.net/samples/")
         };
     }

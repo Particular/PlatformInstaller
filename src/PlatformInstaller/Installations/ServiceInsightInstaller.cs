@@ -114,7 +114,7 @@ public class ServiceInsightInstaller : IInstaller
     {
         yield return new AfterInstallAction
         {
-            Text = "Open ServiceInsight documentation",
+            Text = "ServiceInsight documentation",
             Action = () => Link.OpenUri("http://docs.particular.net/serviceinsight/")
         };
     }

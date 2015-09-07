@@ -106,7 +106,7 @@ public class ServiceMatrix2012Installer : IInstaller
     {
         yield return new AfterInstallAction
         {
-            Text = "Open ServiceMatrix documentation",
+            Text = "ServiceMatrix documentation",
             Action = () => Link.OpenUri("http://docs.particular.net/servicematrix/")
         };
     }

@@ -130,7 +130,6 @@
     <Compile Include="Views\SuccessViewTests.cs" />
     <Compile Include="Views\SelectItemsViewTests.cs" />
     <Compile Include="Views\ViewTester.cs" />
-    <Compile Include="VisualStudioDetecterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

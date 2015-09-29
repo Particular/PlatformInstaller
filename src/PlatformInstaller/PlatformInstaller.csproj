@@ -141,7 +141,6 @@
     <Compile Include="Events\DownloadCompleteEvent.cs" />
     <Compile Include="Events\DownloadProgressEvent.cs" />
     <Compile Include="Events\DownloadStartedEvent.cs" />
-    <Compile Include="Installations\ServiceMatrix\LogFinder.cs" />
     <Compile Include="ProxyTester.cs" />
     <Compile Include="Releases\CredentialStore.cs" />
     <Compile Include="SavedCredentials.cs" />
@@ -149,7 +148,6 @@
     <Compile Include="Versions\InstalledProduct.cs" />
     <Compile Include="Versions\RegistryFind.cs" />
     <Compile Include="Versions\InstallerExtensions.cs" />
-    <Compile Include="Versions\VSIXFind.cs" />
     <Compile Include="Releases\Asset.cs" />
     <Compile Include="Releases\ReleaseManager.cs" />
     <Compile Include="Releases\Release.cs" />
@@ -161,8 +159,6 @@
     <Compile Include="Installations\NServiceBusPrerequisitesInstaller.cs" />
     <Compile Include="Installations\ServiceControlInstaller.cs" />
     <Compile Include="Installations\ServiceInsightInstaller.cs" />
-    <Compile Include="Installations\ServiceMatrix2013Installer.cs" />
-    <Compile Include="Installations\ServiceMatrix2012Installer.cs" />
     <Compile Include="Installations\ServicePulseInstaller.cs" />
     <Compile Include="ReadableBytesConverter.cs" />
     <Compile Include="ProductInstallException.cs" />
@@ -214,7 +210,6 @@
     <Compile Include="Views\RebootNeededViewModel.cs" />
     <Compile Include="RebootMachine.cs" />
     <Compile Include="WpfExtensions\SimpleCommand.cs" />
-    <Compile Include="VisualStudioVersions.cs" />
     <Compile Include="WpfExtensions\ResourceResolver.cs" />
     <Compile Include="Views\InstallingViewModel.cs" />
     <Compile Include="Events\InstallSucceededEvent.cs" />
@@ -236,7 +231,6 @@
       <DependentUpon>SelectItemsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\RunInstallEvent.cs" />
-    <Compile Include="VisualStudioDetecter.cs" />
     <Compile Include="WpfExtensions\GifImage.cs" />
     <Compile Include="WpfExtensions\Link.cs" />
     <Compile Include="Views\LicenseAgreementViewModel.cs" />

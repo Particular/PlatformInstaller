@@ -44,13 +44,6 @@ public static class ContainerFactory
         builder.RegisterType<AutoSubscriber>();
         builder.RegisterType<PendingRestartAndResume>()
             .SingleInstance();
-
-        builder.RegisterType<ServiceMatrix2012Installer>()
-            .SingleInstance()
-            .AsImplementedInterfaces();
-        builder.RegisterType<ServiceMatrix2013Installer>()
-            .SingleInstance()
-            .AsImplementedInterfaces();
         builder.RegisterType<ServicePulseInstaller>()
             .SingleInstance()
             .AsImplementedInterfaces();

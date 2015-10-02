@@ -55,12 +55,13 @@ public class InstallingViewModel : Screen,
     public void Handle(DownloadProgressEvent message)
     {
         NestedActionPercentComplete = message.ProgressPercentage;
-        NestedActionDescription = string.Format("{0} of {1}",  ((int)message.BytesReceived).ToBytesString(), ((int)message.TotalBytes).ToBytesString());
+        NestedActionDescription = $"{((int) message.BytesReceived).ToBytesString()} of {((int) message.TotalBytes).ToBytesString()}";
     }
 
     public void Handle(DownloadStartedEvent message)
     {
-       OutputText.Add(new InstallerOutputEvent{ Text = string.Format("Downloading {0} to {1}", message.Url, message.FileName)});
+       OutputText.Add(new InstallerOutputEvent{ Text = $"Downloading {message.Url} to {message.FileName}"
+       });
        HasNestedAction = true;
        NestedActionPercentComplete = 0;
     }

@@ -54,7 +54,7 @@ public class DtcInstaller
             {
                 if (dtcKey == null)
                 {
-                    throw new Exception(string.Format(@"Registry key noy found: HKEY_LOCAL_MACHINE\{0}", keyName));
+                    throw new Exception($@"Registry key noy found: HKEY_LOCAL_MACHINE\{keyName}");
                 }
                 foreach (var val in RegValues)
                 {
@@ -65,7 +65,7 @@ public class DtcInstaller
 
                     if (doChanges)
                     {
-                        output(string.Format("Setting value '{0}' to '{1}' in '{2}'", val, 1, keyName));
+                        output($"Setting value '{val}' to '{1}' in '{keyName}'");
                         dtcKey.SetValue(val, 1, RegistryValueKind.DWord);
                     }
                     requireRestart = true;

@@ -43,7 +43,7 @@ public class ProcessUtil
 
     static void ThrowUnableToChangeStatus(string serviceName, ServiceControllerStatus status, Exception exception)
     {
-        var message = string.Format("Unable to change {0} status to {1}", serviceName, Enum.GetName(typeof(ServiceControllerStatus), status));
+        var message = $"Unable to change {serviceName} status to {Enum.GetName(typeof(ServiceControllerStatus), status)}";
 
         if (exception == null)
         {

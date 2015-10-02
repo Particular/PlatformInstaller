@@ -15,7 +15,7 @@ public class SelectItemsViewModel : Screen
     public SelectItemsViewModel(IEnumerable<IInstaller> installers, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume, ILifetimeScope lifetimeScope, IWindowManager windowManager)
     {
         DisplayName = "Selected Items";
-        AppVersion = string.Format("Version: {0}", Assembly.GetExecutingAssembly().GetName().Version);
+        AppVersion = $"Version: {Assembly.GetExecutingAssembly().GetName().Version}";
         this.installers = installers.ToList();
         this.eventAggregator = eventAggregator;
         this.pendingRestartAndResume = pendingRestartAndResume;

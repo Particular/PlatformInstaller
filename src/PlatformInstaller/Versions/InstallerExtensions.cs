@@ -12,14 +12,14 @@
 
         if (current == null)
         {
-            return string.Format("Install {0}", latest);
+            return $"Install {latest}";
         }
 
         if (current != latest)
         {
-            return string.Format("Upgrade {0} to {1}", current, latest);
+            return $"Upgrade {current} to {latest}";
         }
-        return string.Format("Latest is installed - {0}", current);
+        return $"Latest is installed - {current}";
     }
 }
 

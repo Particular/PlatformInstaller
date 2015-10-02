@@ -28,7 +28,7 @@ public class PendingRestartAndResume :
 
     public void AddPendingRestart()
     {
-        var pathValue = string.Format("\"{0}\"", AssemblyLocation.ExeFilePath);
+        var pathValue = $"\"{AssemblyLocation.ExeFilePath}\"";
         using (var runKey = Registry.LocalMachine.OpenSubKey(runKeyPath, true))
         {
             runKey.SetValue("PlatformInstaller", pathValue, RegistryValueKind.String);

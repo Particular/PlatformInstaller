@@ -38,30 +38,11 @@ public class ServicePulseInstaller : IInstaller
         return latest;
     }
 
-    public bool Enabled
-    {
-        get
-        {
-            return LatestAvailableVersion() != CurrentVersion();
-        }
-    }
+    public bool Enabled => LatestAvailableVersion() != CurrentVersion();
 
+    public string ToolTip => "ServicePulse is a web application aimed mainly at administrators";
 
-    public string ToolTip
-    {
-        get
-        {
-            return "ServicePulse is a web application aimed mainly at administrators";
-        }
-    }
-
-    public bool SelectedByDefault
-    {
-        get
-        {
-            return LatestAvailableVersion() != CurrentVersion();
-        }
-    }
+    public bool SelectedByDefault => LatestAvailableVersion() != CurrentVersion();
 
     public IEnumerable<AfterInstallAction> GetAfterInstallActions()
     {
@@ -77,17 +58,11 @@ public class ServicePulseInstaller : IInstaller
         };
     }
 
-    public int NestedActionCount
-    {
-        get { return 1; }
-    }
+    public int NestedActionCount => 1;
 
-    public string Name { get { return "ServicePulse"; } }
+    public string Name => "ServicePulse";
 
-    public string Status
-    {
-        get { return this.ExeInstallerStatus(); }
-    }
+    public string Status => this.ExeInstallerStatus();
 
     public async Task Execute(Action<string> logOutput, Action<string> logError)
     {
@@ -110,7 +85,7 @@ public class ServicePulseInstaller : IInstaller
         File.Delete(fullLogPath);
 
         var exitCode = await processRunner.RunProcess(installer.FullName,
-            string.Format("/quiet /L*V {0}", log),
+            $"/quiet /L*V {log}",
             // ReSharper disable once PossibleNullReferenceException
             installer.Directory.FullName,
             logOutput,

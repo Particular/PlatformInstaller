@@ -94,7 +94,7 @@ public class MsmqInstaller
 
     void RunExe(string filename, string args)
     {
-        output(string.Format("Running {0} {1}", filename, args));
+        output($"Running {filename} {args}");
         var startInfo = new ProcessStartInfo(filename, args)
         {
             CreateNoWindow = true,

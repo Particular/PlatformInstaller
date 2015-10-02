@@ -27,11 +27,7 @@ public class Installer :
     bool aborting;
     List<IInstaller> installers;
 
-    bool InstallFailed
-    {
-        get { return errors.Any(); }
-    }
-
+    bool InstallFailed => errors.Any();
 
     public void Handle(CancelInstallCommand message)
     {

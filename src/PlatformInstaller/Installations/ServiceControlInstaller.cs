@@ -47,15 +47,9 @@ public class ServiceControlInstaller : IInstaller
         return latest;
     }
 
-    public bool SelectedByDefault
-    {
-        get { return LatestAvailableVersion() != CurrentVersion(); }
-    }
+    public bool SelectedByDefault => LatestAvailableVersion() != CurrentVersion();
 
-    public bool Enabled
-    {
-        get { return !(LatestAvailableVersion() == CurrentVersion()); }
-    }
+    public bool Enabled => !(LatestAvailableVersion() == CurrentVersion());
 
     public async Task Execute(Action<string> logOutput, Action<string> logError)
     {
@@ -82,7 +76,7 @@ public class ServiceControlInstaller : IInstaller
         File.Delete(fullLogPath);
 
         var exitCode = await processRunner.RunProcess(installer.FullName,
-            string.Format("/quiet /L*V {0}", log),
+            $"/quiet /L*V {log}",
             installer.Directory.FullName,
             logOutput,
             logError)
@@ -135,23 +129,11 @@ public class ServiceControlInstaller : IInstaller
         };
     }
 
-    public int NestedActionCount
-    {
-        get { return 1; }
-    }
+    public int NestedActionCount => 1;
 
-    public string Name { get { return "ServiceControl"; } }
+    public string Name => "ServiceControl";
 
-    public string Status
-    {
-        get { return this.ExeInstallerStatus(); }
-    }
+    public string Status => this.ExeInstallerStatus();
 
-    public string ToolTip
-    {
-        get
-        {
-            return "ServiceControl is the monitoring brain in the Particular Service Platform";
-        }
-    }
+    public string ToolTip => "ServiceControl is the monitoring brain in the Particular Service Platform";
 }

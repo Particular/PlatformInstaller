@@ -7,10 +7,10 @@ public class ProcessRunner
 {
     public Task<int> RunProcess(string fileName, string arguments, string workingDirectory, Action<string> outputAction, Action<string> errorAction)
     {
-        LogTo.Information(string.Format("Executing process: {0} {1}", fileName, arguments));
+        LogTo.Information($"Executing process: {fileName} {arguments}");
 
-        outputAction(string.Format("Executing process: {0} {1}", fileName, arguments));
-        outputAction(string.Format("Working directory: {0}", workingDirectory));
+        outputAction($"Executing process: {fileName} {arguments}");
+        outputAction($"Working directory: {workingDirectory}");
         var tcs = new TaskCompletionSource<int>();
 
         var process = new Process

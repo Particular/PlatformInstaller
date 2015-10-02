@@ -51,10 +51,7 @@ public class ShellViewModel : Conductor<object>,
         {
             eventAggregator.Unsubscribe(activeScreen);
         }
-        if (currentLifetimeScope != null)
-        {
-            currentLifetimeScope.Dispose();
-        }
+        currentLifetimeScope?.Dispose();
         currentLifetimeScope = lifetimeScope.BeginLifetimeScope();
         var model = currentLifetimeScope.Resolve<T>(parameters);
         if (model.IsHandler())
@@ -173,15 +170,12 @@ public class ShellViewModel : Conductor<object>,
 
     public void Handle(ReportInstallFailedEvent message)
     {
-        var messageInfo = string.Format("{0} - {1}", message.Failure, message.FailureDetails);
+        var messageInfo = $"{message.Failure} - {message.FailureDetails}";
         raygunClient.Send(new ProductInstallException(messageInfo));
     }
 
     public void Dispose()
     {
-        if (currentLifetimeScope != null)
-        {
-            currentLifetimeScope.Dispose();
-        }
+        currentLifetimeScope?.Dispose();
     }
 }

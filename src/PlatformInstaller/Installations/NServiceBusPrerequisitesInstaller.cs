@@ -32,29 +32,16 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
         };
     }
 
-    public int NestedActionCount
-    {
-        get { return 3; }
-    }
+    public int NestedActionCount => 3;
 
-    public string Name { get { return "NServiceBus Pre-requisites"; }}
+    public string Name => "NServiceBus Pre-requisites";
 
-    public string Status
-    {
-        get { return string.Empty; }
-    }
+    public string Status => string.Empty;
 
+    public string ToolTip => "Configure MSMQ, DTC and install NServiceBus Performance Counters";
 
-    public string ToolTip
-    {
-        get
-        {
-            return "Configure MSMQ, DTC and install NServiceBus Performance Counters";
-        }
-    }
-
-    public bool SelectedByDefault { get { return true; } }
-    public bool Enabled { get { return true; } }
+    public bool SelectedByDefault => true;
+    public bool Enabled => true;
 
     public Version CurrentVersion()
     {
@@ -129,7 +116,7 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
         catch (Exception ex)
         {
             logError("NServiceBus Performance Counters install failed:");
-            logError(string.Format("{0}", ex));
+            logError($"{ex}");
             return false;
         }
         return true;
@@ -148,7 +135,7 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
         catch (Exception ex)
         {
             logError("DTC install has failed:");
-            logError(string.Format("{0}", ex));
+            logError($"{ex}");
             return false;
         }
         return true;
@@ -169,7 +156,7 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
                 else
                 {
                     logError("MSMQ is already installed but has unsupported options enabled.");
-                    logError(string.Format("To use NServiceBus please disable any of the following MSMQ components:\r\n {0} \r\n", string.Join(",\r\n", msmq.UnsupportedComponents())));
+                    logError($"To use NServiceBus please disable any of the following MSMQ components:\r\n {string.Join(",\r\n", msmq.UnsupportedComponents())} \r\n");
                     return false;
                 }
             }
@@ -188,7 +175,7 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
         catch (Exception ex)
         {
             logError("MSMQ install has failed:");
-            logError(string.Format("{0}", ex));
+            logError($"{ex}");
             return false;
         }
         return true;

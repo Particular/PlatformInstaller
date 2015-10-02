@@ -47,32 +47,11 @@ public class ServiceInsightInstaller : IInstaller
         return latest;
     }
 
+    public bool Enabled => !(LatestAvailableVersion() == CurrentVersion());
 
-    public bool Enabled
-    {
-        get
-        {
-            return !(LatestAvailableVersion() == CurrentVersion());
-        }
-    }
+    public string ToolTip => "ServiceInsight is a desktop application with features tailored to developers needs";
 
-
-    public string ToolTip
-    {
-        get
-        {
-            return "ServiceInsight is a desktop application with features tailored to developers needs";
-        }
-    }
-
-    public bool SelectedByDefault
-    {
-        get
-        {
-            return LatestAvailableVersion() != CurrentVersion();
-        }
-    }
-
+    public bool SelectedByDefault => LatestAvailableVersion() != CurrentVersion();
 
     public async Task Execute(Action<string> logOutput, Action<string> logError)
     {
@@ -94,7 +73,7 @@ public class ServiceInsightInstaller : IInstaller
         File.Delete(fullLogPath);
 
         var exitCode = await processRunner.RunProcess(installer.FullName,
-            string.Format("/quiet /L*V {0}", log),
+            $"/quiet /L*V {log}",
             // ReSharper disable once PossibleNullReferenceException
             installer.Directory.FullName,
             logOutput,
@@ -124,16 +103,9 @@ public class ServiceInsightInstaller : IInstaller
         yield break;
     }
 
-    public int NestedActionCount
-    {
-        get { return 1; }
-    }
+    public int NestedActionCount => 1;
 
-    public string Name { get { return "ServiceInsight"; }}
+    public string Name => "ServiceInsight";
 
-    public string Status
-    {
-        get { return this.ExeInstallerStatus(); }
-    }
-
+    public string Status => this.ExeInstallerStatus();
 }

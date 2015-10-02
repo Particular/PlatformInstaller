@@ -20,21 +20,13 @@ public static class Logging
             .Filter.ByIncludingOnly(x => !IsEmptyTextMessage(x))
             .CreateLogger();
         var loggingContext = Log.ForContext("SourceContext", "Logging");
-        loggingContext.Information(string.Format("Starting PlatformInstaller v{0}", VersionFinder.GetVersion()));
-        loggingContext.Information(string.Format("Logging to {0}", LogDirectory));
+        loggingContext.Information($"Starting PlatformInstaller v{VersionFinder.GetVersion()}");
+        loggingContext.Information($"Logging to {LogDirectory}");
     }
 
     public static bool IsEmptyTextMessage(LogEvent logEvent)
     {
-        if (logEvent.MessageTemplate == null)
-        {
-            return false;
-        }
-        if (logEvent.MessageTemplate.Text == null)
-        {
-            return false;
-        }
-        return logEvent.MessageTemplate.Text.Trim().Length == 0;
+        return logEvent.MessageTemplate?.Text?.Trim().Length == 0;
     }
 
     public static void OpenLogDirectory()

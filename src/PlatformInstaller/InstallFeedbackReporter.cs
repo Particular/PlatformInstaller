@@ -67,7 +67,7 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<I
     {
         using (var regRoot = Registry.CurrentUser.OpenSubKey(@"Software\ParticularSoftware\PlatformInstaller\"))
         {
-            return regRoot != null && regRoot.GetValue("InstallationFeedbackReported") != null;
+            return regRoot?.GetValue("InstallationFeedbackReported") != null;
         }
     }
 

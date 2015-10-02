@@ -23,16 +23,13 @@ public static class SavedCredentials
     {
         using (var credRegKey = Registry.CurrentUser.CreateSubKey(@"Software\Particular\PlatformInstaller\Credentials"))
         {
-            if (credRegKey != null)
+            var encryptedPassword = (byte[]) credRegKey?.GetValue("password", null);
+            if (encryptedPassword != null)
             {
-                var encryptedPassword = (byte[]) credRegKey.GetValue("password", null);
-                if (encryptedPassword != null)
-                {
-                    username = (string) credRegKey.GetValue("username", null);
-                    var unprotected = ProtectedData.Unprotect(encryptedPassword, null, DataProtectionScope.CurrentUser);
-                    password = unprotected.GetString().ToSecureString();
-                    return true;
-                }
+                username = (string) credRegKey.GetValue("username", null);
+                var unprotected = ProtectedData.Unprotect(encryptedPassword, null, DataProtectionScope.CurrentUser);
+                password = unprotected.GetString().ToSecureString();
+                return true;
             }
         }
 

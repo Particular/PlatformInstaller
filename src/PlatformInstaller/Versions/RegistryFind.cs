@@ -39,12 +39,7 @@ public class RegistryFind
                 {
                     using (var subKey = key.OpenSubKey(subKeyName))
                     {
-                        if (subKey == null)
-                        {
-                            continue;
-                        }
-
-                        var installDate = (string) subKey.GetValue("InstallDate", null, RegistryValueOptions.None);
+                        var installDate = (string) subKey?.GetValue("InstallDate", null, RegistryValueOptions.None);
                         if (installDate == null)
                         {
                             // there are duplicates under entries in Software\Microsoft\Windows\CurrentVersion\Uninstall

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using Caliburn.Micro;
 
@@ -21,8 +22,11 @@ public class SuccessViewModel : Screen
     {
         base.OnInitialize();
         ActionItems = GetActionItems().ToList();
+        FurtherActionsVisible = ActionItems.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         LinkItems = GetLinkItems().ToList();
     }
+
+    public Visibility FurtherActionsVisible { get; set; }
 
     public List<LinkItem> LinkItems { get; set; }
 
@@ -55,6 +59,7 @@ public class SuccessViewModel : Screen
     }
 
     public List<ActionItem> ActionItems { get; set; }
+
     IEventAggregator eventAggregator;
     IEnumerable<IInstaller> installers;
     List<string> installedItemNames;

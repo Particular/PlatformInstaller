@@ -37,9 +37,10 @@
         </Grid.RowDefinitions>
         <StackPanel>
             <TextBlock FontSize="18" FontWeight="Bold">Installation Complete</TextBlock>
-            <TextBlock FontSize="12" Margin="0 10 0 0" FontWeight="Bold">Further Actions:</TextBlock>
+            <TextBlock FontSize="12" Margin="0 10 0 0" FontWeight="Bold" Visibility="{Binding FurtherActionsVisible}">Further Actions:</TextBlock>
             <ItemsControl 
                 Focusable="False" 
+                Visibility= "{Binding FurtherActionsVisible}"
                 ItemTemplate="{StaticResource ActionItemTemplate}" 
                 ItemsSource="{Binding ActionItems}" 
                 Margin="0 10"/>

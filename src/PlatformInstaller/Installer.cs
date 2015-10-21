@@ -37,6 +37,8 @@ public class Installer :
 
     public async Task Install(List<string> itemsToInstall)
     {
+
+        errors.Clear(); 
         eventAggregator.PublishOnUIThread(new InstallStartedEvent());
         installProgress = 0;
         var installationDefinitions = installers

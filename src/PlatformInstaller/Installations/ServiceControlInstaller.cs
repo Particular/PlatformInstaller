@@ -13,12 +13,20 @@ public class ServiceControlInstaller : IInstaller
     Release[] releases;
     IEventAggregator eventAggregator;
 
+    bool legacyInstallMode; //For old vs new SC installer, we can pull this out sometime after SC 1.7
+
     public ServiceControlInstaller(ProcessRunner processRunner, ReleaseManager releaseManager, IEventAggregator eventAggregator)
     {
         this.processRunner = processRunner;
         this.releaseManager = releaseManager;
         this.eventAggregator = eventAggregator;
         releases = releaseManager.GetReleasesForProduct("ServiceControl");
+        legacyInstallMode = DetermineInstallMode();
+    }
+
+    bool DetermineInstallMode()
+    {
+        return LatestAvailableVersion() < new Version("1.7");
     }
 
     public IEnumerable<DocumentationLink> GetDocumentationLinks()
@@ -46,7 +54,7 @@ public class ServiceControlInstaller : IInstaller
         }
         return latest;
     }
-
+    
     public bool SelectedByDefault => LatestAvailableVersion() != CurrentVersion();
 
     public bool Enabled => !(LatestAvailableVersion() == CurrentVersion());
@@ -75,8 +83,15 @@ public class ServiceControlInstaller : IInstaller
         var fullLogPath = Path.Combine(installer.Directory.FullName, log);
         File.Delete(fullLogPath);
 
+
+       
+        
+        var optionalParameters = (legacyInstallMode)
+            ? "PlatformInstaller=true"
+            : "";
+        
         var exitCode = await processRunner.RunProcess(installer.FullName,
-            $"/quiet /L*V {log}",
+            $"/quiet /L*V {log} {optionalParameters}",
             installer.Directory.FullName,
             logOutput,
             logError)
@@ -117,16 +132,19 @@ public class ServiceControlInstaller : IInstaller
 
     public IEnumerable<AfterInstallAction> GetAfterInstallActions()
     {
-        yield return new AfterInstallAction
+        if (!legacyInstallMode)
         {
-            Text = "Start ServiceControl Management",
-            Description = "The ServiceControl Management utility has been installed. Instances of ServiceControl can now be manipulated using this utility.",
-            Action = () =>
+            yield return new AfterInstallAction
             {
-                var value = GetManagementPath();
-                processRunner.RunProcess(value, "", Path.GetDirectoryName(value), s => { }, s => { });
-            }
-        };
+                Text = "Start ServiceControl Management",
+                Description = "The ServiceControl Management utility has been installed. Instances of ServiceControl can now be manipulated using this utility.",
+                Action = () =>
+                {
+                    var value = GetManagementPath();
+                    processRunner.RunProcess(value, "", Path.GetDirectoryName(value), s => { }, s => { });
+                }
+            };
+        }
     }
 
     public int NestedActionCount => 1;

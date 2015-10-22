@@ -5,6 +5,7 @@ using System.Linq;
 using Caliburn.Micro;
 using System.Reflection;
 using System.Windows;
+using Anotar.Serilog;
 
 public class SelectItemsViewModel : Screen
 {
@@ -40,6 +41,7 @@ public class SelectItemsViewModel : Screen
         Items = installers
           .Select(x => new Item
               {
+                  EventAggregator = eventAggregator,
                   ImageUrl = GetImage(x.Name),
                   ToolTip = x.ToolTip,
                   Enabled = x.Enabled,
@@ -47,7 +49,9 @@ public class SelectItemsViewModel : Screen
                   Status = x.Status,
                   Name = x.Name,
                   CheckBoxVisible = x.SelectedByDefault ? Visibility.Visible : Visibility.Collapsed,
-              }).ToList();
+                  UninstallVisible =  x.Enabled ? Visibility.Hidden : Visibility.Visible,
+                  UninstallText = "Uninstall " + x.Name 
+          }).ToList();
 
         IsInstallEnabled = Items.Any(pd => pd.Selected);
 
@@ -97,6 +101,13 @@ public class SelectItemsViewModel : Screen
         eventAggregator.PublishOnUIThread(runInstallEvent);
     }
 
+    public void Uninstall(string product)
+    {
+        LogTo.Debug($"Uninstall {product}");
+
+    }
+
+
     public void OpenLogs()
     {
         Logging.OpenLogDirectory();
@@ -109,6 +120,8 @@ public class SelectItemsViewModel : Screen
 
     public class Item : INotifyPropertyChanged
     {
+        public IEventAggregator EventAggregator { get; set; }
+
         public string Name { get; set; }
         public string ImageUrl { get; set; }
         public string Status { get; set; }
@@ -118,5 +131,18 @@ public class SelectItemsViewModel : Screen
         public event PropertyChangedEventHandler PropertyChanged;
         public string ToolTip { get; set; }
         public Visibility CheckBoxVisible { get; set; }
+
+        public string UninstallText { get; set; }
+
+        public Visibility UninstallVisible { get; set; }
+
+        public void Uninstall()
+        {
+            var uninstallCommand = new UninstallProductCommand
+            {
+                Product = Name
+            };
+            EventAggregator.PublishOnBackgroundThread(uninstallCommand);
+        }
     }
 }

@@ -51,7 +51,8 @@ public class RegistryFind
                         {
                             ProductName = (string) subKey.GetValue("DisplayName", string.Empty, RegistryValueOptions.None),
                             Version = (string) subKey.GetValue("DisplayVersion", string.Empty, RegistryValueOptions.None),
-                            Publisher = (string) subKey.GetValue("Publisher", string.Empty, RegistryValueOptions.None)
+                            Publisher = (string) subKey.GetValue("Publisher", string.Empty, RegistryValueOptions.None),
+                            UninstallString = (string) subKey.GetValue("UninstallString", string.Empty, RegistryValueOptions.None)
                         };
                     }
                 }
@@ -67,4 +68,21 @@ public class RegistryFind
         }
         yield return RegistryView.Registry32;
     }
+
+    public static string TryFindUninstallString(string productName)
+    {
+        foreach (var product in FindInstalledProducts())
+        {
+            if (!product.Publisher.StartsWith("Particular Software"))
+            {
+                continue;
+            }
+            if (!product.ProductName.Contains(productName))
+            {
+                continue;
+            }
+            return product.UninstallString;
+        }
+        return string.Empty;
+    }   
 }

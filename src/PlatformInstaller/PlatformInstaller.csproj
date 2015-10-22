@@ -132,6 +132,7 @@
     <Compile Include="Events\CancelInstallCommand.cs" />
     <Compile Include="Events\NestedInstallStartedEvent.cs" />
     <Compile Include="Events\NestedInstallCompleteEvent.cs" />
+    <Compile Include="Events\UninstallProductCommand.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Installations\AfterInstallAction.cs" />
     <Compile Include="Installations\Prerequisites\DtcInstaller.cs" />
@@ -316,6 +317,9 @@
   <ItemGroup>
     <Resource Include="Images\ServiceMatrix for Visual Studio 2012.png" />
     <Resource Include="Images\ServiceMatrix for Visual Studio 2013.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\uninstall.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)..\BuildSupport\GitVersionTask\Build\GitVersionTask.targets" />

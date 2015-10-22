@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Windows;
 using Anotar.Serilog;
 using Autofac;
 using Caliburn.Micro;
@@ -19,6 +21,7 @@ public class ShellViewModel : Conductor<object>,
     IHandle<InstallFailedEvent>,
     IHandle<RebootRequiredEvent>,
     IHandle<ExitApplicationCommand>,
+    IHandle<UninstallProductCommand>,
     IHandle<NavigateHomeCommand>
 {
     LicenseAgreement licenseAgreement;
@@ -177,5 +180,39 @@ public class ShellViewModel : Conductor<object>,
     public void Dispose()
     {
         currentLifetimeScope?.Dispose();
+    }
+
+    public void Handle(UninstallProductCommand message)
+    {
+        var uninstallString = RegistryFind.TryFindUninstallString(message.Product);
+
+        if (string.IsNullOrWhiteSpace(uninstallString))
+        {
+            MessageBox.Show($"Could not find the uninstall command for {message.Product}", "Uninstall was not attempted", MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
+        }
+
+        var exeEnds = uninstallString.IndexOf(".exe", StringComparison.OrdinalIgnoreCase) + 4;
+
+        if (exeEnds < 5)
+        {
+            MessageBox.Show($"Could not parse the uninstall command for {message.Product}", "Uninstall was not attempted", MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
+        }
+        
+        var exe = uninstallString.Substring(0, exeEnds);
+        var arguments = uninstallString.Remove(0, exeEnds);
+        try
+        {
+            var psi = new ProcessStartInfo(exe, arguments);
+            psi.UseShellExecute = true;
+            Process.Start(psi).WaitForExit();
+        }
+        catch
+        {
+            MessageBox.Show($"Failed to run uninstall command for {message.Product}.  Please use Add/Remove programs in Control Panel", "Uninstall was unsuccessful", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        ActivateModel<SelectItemsViewModel>();
     }
 }

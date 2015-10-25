@@ -49,7 +49,7 @@ public class SelectItemsViewModel : Screen
                   Status = x.Status,
                   Name = x.Name,
                   CheckBoxVisible = x.SelectedByDefault ? Visibility.Visible : Visibility.Collapsed,
-                  UninstallVisible =  x.Enabled ? Visibility.Hidden : Visibility.Visible,
+                  UninstallVisible =  (x.Installed()) ? Visibility.Visible : Visibility.Hidden,
                   UninstallText = "Uninstall " + x.Name 
           }).ToList();
 
@@ -104,7 +104,6 @@ public class SelectItemsViewModel : Screen
     public void Uninstall(string product)
     {
         LogTo.Debug($"Uninstall {product}");
-
     }
 
 

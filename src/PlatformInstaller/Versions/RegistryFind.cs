@@ -39,7 +39,7 @@ public class RegistryFind
                 {
                     using (var subKey = key.OpenSubKey(subKeyName))
                     {
-                        var installDate = (string) subKey?.GetValue("InstallDate", null, RegistryValueOptions.None);
+                        var installDate = subKey?.GetValue("InstallDate", null, RegistryValueOptions.None);
                         if (installDate == null)
                         {
                             // there are duplicates under entries in Software\Microsoft\Windows\CurrentVersion\Uninstall
@@ -49,16 +49,19 @@ public class RegistryFind
                         }
                         yield return new InstalledProduct
                         {
-                            ProductName = (string) subKey.GetValue("DisplayName", string.Empty, RegistryValueOptions.None),
-                            Version = (string) subKey.GetValue("DisplayVersion", string.Empty, RegistryValueOptions.None),
-                            Publisher = (string) subKey.GetValue("Publisher", string.Empty, RegistryValueOptions.None),
-                            UninstallString = (string) subKey.GetValue("UninstallString", string.Empty, RegistryValueOptions.None)
+                            ProductName = $"{subKey.GetValue("DisplayName", string.Empty, RegistryValueOptions.None)}",
+                            Version = $"{subKey.GetValue("DisplayVersion", string.Empty, RegistryValueOptions.None)}",
+                            Publisher = $"{subKey.GetValue("Publisher", string.Empty, RegistryValueOptions.None)}",
+                            UninstallString = $"{subKey.GetValue("UninstallString", string.Empty, RegistryValueOptions.None)}"
                         };
                     }
                 }
             }
         }
     }
+
+    
+
 
     static IEnumerable<RegistryView> GetViewsToProcess()
     {

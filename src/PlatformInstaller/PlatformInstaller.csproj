@@ -315,10 +315,6 @@
     <Resource Include="Images\Spinner.gif" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\ServiceMatrix for Visual Studio 2012.png" />
-    <Resource Include="Images\ServiceMatrix for Visual Studio 2013.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\uninstall.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

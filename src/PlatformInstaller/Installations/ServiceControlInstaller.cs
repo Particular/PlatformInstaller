@@ -137,7 +137,8 @@ public class ServiceControlInstaller : IInstaller
             yield return new AfterInstallAction
             {
                 Text = "Start ServiceControl Management",
-                Description = "The ServiceControl Management utility has been installed. Instances of ServiceControl can now be manipulated using this utility.",
+                Description = "Launch this utility to complete the installation or upgrade of the ServiceControl services.",
+
                 Action = () =>
                 {
                     var value = GetManagementPath();

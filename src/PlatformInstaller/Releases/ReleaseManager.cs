@@ -86,9 +86,10 @@ public class ReleaseManager
             {
                 var url = release.Download;
                 var fullName = localAsset.FullName;
+                LogTo.Information("Attempting to download '{0}' to '{1}'", url, fullName);
                 try
                 {
-                 await client.DownloadFileTaskAsync(url, fullName).ConfigureAwait(false);
+                    await client.DownloadFileTaskAsync(url, fullName).ConfigureAwait(false);
                     return localAsset;
                 }
                 catch

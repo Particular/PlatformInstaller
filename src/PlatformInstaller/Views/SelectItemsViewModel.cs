@@ -49,7 +49,7 @@ public class SelectItemsViewModel : Screen
                   Status = x.Status,
                   Name = x.Name,
                   CheckBoxVisible = x.SelectedByDefault ? Visibility.Visible : Visibility.Collapsed,
-                  UninstallVisible =  (x.Installed()) ? Visibility.Visible : Visibility.Hidden,
+                  UninstallVisible =  x.Installed() ? Visibility.Visible : Visibility.Hidden,
                   UninstallText = "Uninstall " + x.Name 
           }).ToList();
 

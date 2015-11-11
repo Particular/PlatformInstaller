@@ -11,7 +11,7 @@ public static class ContainerFactory
         builder.Register<IWindowManager>(c => new WindowManager()).InstancePerLifetimeScope();
 
         builder.RegisterAssemblyTypes(ThisAssembly())
-            .Where(type => (ViewModelConventions.IsInstanceViewOrModel(type)))
+            .Where(ViewModelConventions.IsInstanceViewOrModel)
             .AsSelf()
             .InstancePerDependency();
 

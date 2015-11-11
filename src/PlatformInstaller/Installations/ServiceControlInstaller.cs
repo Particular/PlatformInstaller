@@ -83,10 +83,7 @@ public class ServiceControlInstaller : IInstaller
         var fullLogPath = Path.Combine(installer.Directory.FullName, log);
         File.Delete(fullLogPath);
 
-
-       
-        
-        var optionalParameters = (legacyInstallMode)
+        var optionalParameters = legacyInstallMode
             ? "PlatformInstaller=true"
             : "";
         

@@ -89,7 +89,7 @@ public class MsmqInstaller
     public bool IsInstalled()
     {
         var dll = LoadLibraryW("Mqrt.dll");
-        return (dll != IntPtr.Zero);
+        return dll != IntPtr.Zero;
     }
 
     void RunExe(string filename, string args)

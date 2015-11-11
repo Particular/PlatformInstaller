@@ -85,7 +85,7 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<I
         {
             if (regRoot != null)
             {
-                return (string) (regRoot.GetValue("NuGetUser", "false"));
+                return (string) regRoot.GetValue("NuGetUser", "false");
             }
         }
         return "false";

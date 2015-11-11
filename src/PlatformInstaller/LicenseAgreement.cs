@@ -11,7 +11,7 @@ public class LicenseAgreement
             {
                 return false;
             }
-            return ((string) value) == "True";
+            return (string) value == "True";
         }
     }
 

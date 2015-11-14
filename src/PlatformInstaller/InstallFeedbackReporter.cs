@@ -36,7 +36,9 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<I
     {
         // Show the feedback page on first run if they close without installing stuff
         if (HasFeebackBeenReportedForThisMachine())
+        {
             return;
+        }
         RunUrlAndRecordFeedback(cancelledUrl);
     }
 

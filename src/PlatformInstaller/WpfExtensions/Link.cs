@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Windows;
 using System.Windows.Documents;
 
 public class Link : Hyperlink
@@ -7,16 +8,23 @@ public class Link : Hyperlink
     {
         RequestNavigate += (sender, e) =>
         {
-            using (Process.Start(NavigateUri.AbsoluteUri))
-            {
-            }
+            OpenUri(NavigateUri.AbsoluteUri);
         };
     }
 
-    public static void OpenUri(string uri)
+    static void OpenUri(string uri)
     {
-        using (Process.Start(uri))
+        try
         {
+            using (Process.Start(uri))
+            {
+            }
+        }
+        catch 
+        {
+            Clipboard.SetText(uri);
+            var message = $"The url {uri} failed to open and has been copied to your clipboard.";
+            MessageBox.Show(message, "Failed to open browser", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

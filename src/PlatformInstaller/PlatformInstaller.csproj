@@ -46,6 +46,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="UrlLauncher.cs" />
     <EmbeddedResource Include="LicenseAgreement.md" />
     <None Include="packages.config">
       <SubType>Designer</SubType>

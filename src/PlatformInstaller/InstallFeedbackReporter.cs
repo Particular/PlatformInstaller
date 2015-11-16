@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
 using Anotar.Serilog;
 using Caliburn.Micro;
 using Microsoft.Win32;
@@ -23,13 +22,18 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<I
             return;
         }
         LogTo.Information("Install successfull, new user: " + isNewUserAtStartup);
-        RunUrlAndRecordFeedback(@"http://particular.net/thank-you-for-installing-the-particular-service-platform?new_user={0}&installed={1}&nuget={2}", isNewUserAtStartup.ToString().ToLower(), string.Join(";", message.InstalledItems),  NugetFlag());
+        var isNew = isNewUserAtStartup.ToString().ToLower();
+        var installed = string.Join(";", message.InstalledItems);
+        var url = $@"http://particular.net/thank-you-for-installing-the-particular-service-platform?new_user={isNew}&installed={installed}&nuget={NugetFlag()}";
+        RecordInstallationFeeback();
+        UrlLauncher.Open(url);
     }
 
     public void Handle(InstallCancelledEvent message)
     {
         // Show the feedback page on every cancelled install
-        RunUrlAndRecordFeedback(cancelledUrl);
+        RecordInstallationFeeback();
+        UrlLauncher.Open(cancelledUrl);
     }
 
     public void Handle(NoInstallAttemptedEvent message)
@@ -39,21 +43,8 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<I
         {
             return;
         }
-        RunUrlAndRecordFeedback(cancelledUrl);
-    }
-
-    void RunUrlAndRecordFeedback(string url, params object[] args)
-    {
-        try
-        {
-            Process.Start(string.Format(url, args));
-        }
-        // ReSharper disable once EmptyGeneralCatchClause
-        catch
-        {
-            // Ignore - See Issue https://github.com/Particular/PlatformInstaller/issues/169
-        }
         RecordInstallationFeeback();
+        UrlLauncher.Open(cancelledUrl);
     }
 
     void RecordInstallationFeeback()

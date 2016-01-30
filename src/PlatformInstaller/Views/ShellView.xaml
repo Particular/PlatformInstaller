@@ -19,7 +19,7 @@
                     <Hyperlink Click="OpenLogDirectory">Log</Hyperlink> 
                 </TextBlock>
                 <TextBlock Margin="10,0,0,0" >
-                    <global:Link NavigateUri="http://docs.particular.net/Platform/Installer/">Help</global:Link>
+                    <global:Link NavigateUri="http://docs.particular.net/platform/installer/">Help</global:Link>
                 </TextBlock>
             </WrapPanel>
             <Image DockPanel.Dock="Top" Source="pack://application:,,,/PlatformInstaller;component/Images/particularSmall.png" HorizontalAlignment="Left" Margin="20 0 20 0" Stretch="None" />

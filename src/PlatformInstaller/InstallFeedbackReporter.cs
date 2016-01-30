@@ -22,7 +22,7 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<I
             return;
         }
         LogTo.Information("Install successfull, new user: " + isNewUserAtStartup);
-        var isNew = isNewUserAtStartup.ToString().ToLower();
+        var isNew = isNewUserAtStartup.ToString().ToLowerInvariant();
         var installed = string.Join(";", message.InstalledItems);
         var url = $@"http://particular.net/thank-you-for-installing-the-particular-service-platform?new_user={isNew}&installed={installed}&nuget={NugetFlag()}";
         RecordInstallationFeeback();

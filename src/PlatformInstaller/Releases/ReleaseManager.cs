@@ -24,7 +24,7 @@ public class ReleaseManager
 
     public Release[] GetReleasesForProduct(string product)
     {
-        var uri = string.Format(rootURL, product.ToLower());
+        var uri = string.Format(rootURL, product.ToLowerInvariant());
         using (var client = new WebClient())
         {
             client.Proxy.Credentials = credentialStore.Credentials;

@@ -118,7 +118,6 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -148,6 +147,7 @@
     <Compile Include="Releases\CredentialStore.cs" />
     <Compile Include="SavedCredentials.cs" />
     <Compile Include="StringExtensions.cs" />
+    <Compile Include="V6Update\DotnetVersionChecker.cs" />
     <Compile Include="Versions\InstalledProduct.cs" />
     <Compile Include="Versions\RegistryFind.cs" />
     <Compile Include="Versions\InstallerExtensions.cs" />

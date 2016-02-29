@@ -25,7 +25,6 @@ public static class Runner
             FileName = AssemblyLocation.ExeFileName,
             Verb = "runas"
         };
-
         try
         {
             using (Process.Start(processStartInfo)){}

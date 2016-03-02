@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -22,7 +23,11 @@ public class ShellViewModel : Conductor<object>,
     IHandle<RebootRequiredEvent>,
     IHandle<ExitApplicationCommand>,
     IHandle<UninstallProductCommand>,
-    IHandle<NavigateHomeCommand>
+    IHandle<NavigateHomeCommand>,
+    IHandle<StartDotNet452InstallCommand>,
+    IHandle<DotNetDownloadCompleteEvent>,
+    IHandle<DotNetInstallFailedEvent>,
+    IHandle<DotNetInstallCompleteEvent>
 {
     LicenseAgreement licenseAgreement;
     ILifetimeScope lifetimeScope;
@@ -32,12 +37,14 @@ public class ShellViewModel : Conductor<object>,
     RaygunClient raygunClient;
     Installer installer;
     CredentialStore credentialStore;
+    RuntimeUpgradeManager runtimeUpgradeManager;
 
     bool installWasAttempted;
 
-    public ShellViewModel(IEventAggregator eventAggregator, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, RaygunClient raygunClient, Installer installer, CredentialStore credentialStore)
+    public ShellViewModel(IEventAggregator eventAggregator, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, RaygunClient raygunClient, Installer installer, CredentialStore credentialStore, RuntimeUpgradeManager runtimeUpgradeManager)
     {
         DisplayName = "Platform Installer";
+        this.runtimeUpgradeManager = runtimeUpgradeManager;
         this.raygunClient = raygunClient;
         this.installer = installer;
         this.licenseAgreement = licenseAgreement;
@@ -77,6 +84,7 @@ public class ShellViewModel : Conductor<object>,
 
     void RunStartupSequence()
     {
+
         if (!licenseAgreement.HasAgreedToLicense())
         {
             ActivateModel<LicenseAgreementViewModel>();
@@ -119,6 +127,12 @@ public class ShellViewModel : Conductor<object>,
                 }
             }
         }
+
+        if (!runtimeUpgradeManager.Is452orLaterInstalled())
+        {
+            ActivateModel<DotNetPreReqViewModel>();
+            return;
+        }
         ActivateModel<SelectItemsViewModel>();
     }
 
@@ -150,6 +164,12 @@ public class ShellViewModel : Conductor<object>,
         ActivateModel<SelectItemsViewModel>();
     }
 
+    public async void Handle(StartDotNet452InstallCommand message)
+    {
+        ActivateModel<DotNetDownloadViewModel>();
+        await runtimeUpgradeManager.Download452WebInstaller();
+    }
+    
     public void Handle(ExitApplicationCommand message)
     {
         if (!installWasAttempted)
@@ -199,7 +219,6 @@ public class ShellViewModel : Conductor<object>,
             MessageBox.Show($"Could not parse the uninstall command for {message.Product}", "Uninstall was not attempted", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
-        
         var exe = uninstallString.Substring(0, exeEnds);
         var arguments = uninstallString.Remove(0, exeEnds);
         try
@@ -212,7 +231,22 @@ public class ShellViewModel : Conductor<object>,
         {
             MessageBox.Show($"Failed to run uninstall command for {message.Product}.  Please use Add/Remove programs in Control Panel", "Uninstall was unsuccessful", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+        ActivateModel<SelectItemsViewModel>();
+    }
 
+    public void Handle(DotNetDownloadCompleteEvent message)
+    {
+        ActivateModel<DotNetInstallViewModel>();
+        runtimeUpgradeManager.InstallDotNet452();
+    }
+
+    public void Handle(DotNetInstallFailedEvent message)
+    {
+       ActivateModel<RebootNeededViewModel>();
+    }
+
+    public void Handle(DotNetInstallCompleteEvent message)
+    {
         ActivateModel<SelectItemsViewModel>();
     }
 }

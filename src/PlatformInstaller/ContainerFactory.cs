@@ -56,10 +56,10 @@ public static class ContainerFactory
         builder.RegisterType<NServiceBusPrerequisitesInstaller>()
             .SingleInstance()
             .AsImplementedInterfaces();
-
         builder.RegisterInstance(new RaygunClient(Program.RaygunApiKey))
             .SingleInstance();
-        
+        builder.RegisterType<RuntimeUpgradeManager>()
+            .SingleInstance();
         return builder.Build();
     }
 

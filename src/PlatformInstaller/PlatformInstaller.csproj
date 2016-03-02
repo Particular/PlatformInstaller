@@ -46,11 +46,33 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AsyncErrorHandler.cs" />
+    <Compile Include="DotNetUpgrade\Events\DotNetInstallComplete.cs" />
+    <Compile Include="DotNetUpgrade\Events\DotNetDownloadAbortedEvent.cs" />
+    <Compile Include="DotNetUpgrade\Events\DotNetDownloadCompleteEvent.cs" />
+    <Compile Include="DotNetUpgrade\Events\DotNetDownloadFailedOutputEvent.cs" />
+    <Compile Include="DotNetUpgrade\Events\DotNetDownloadProgressEvent.cs" />
+    <Compile Include="DotNetUpgrade\Events\DotNetDownloadStartedEvent.cs" />
+    <Compile Include="DotNetUpgrade\Events\DotNetInstallFailed.cs" />
+    <Compile Include="DotNetUpgrade\RuntimeUpgradeManager.cs" />
+    <Compile Include="DotNetUpgrade\Events\StartDotNet452InstallCommand.cs" />
     <Compile Include="UrlLauncher.cs" />
     <EmbeddedResource Include="LicenseAgreement.md" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <Page Include="DotNetUpgrade\Views\DotNetInstalllView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DotNetUpgrade\Views\DotNetDownloadView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DotNetUpgrade\Views\DotNetPreReqView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Reference Include="Anotar.Serilog, Version=0.0.0.0, Culture=neutral, PublicKeyToken=9d5b24f0733c26f7, processorArchitecture=MSIL">
       <HintPath>..\packages\Anotar.Serilog.Fody.2.19.2\lib\Anotar.Serilog.dll</HintPath>
       <Private>False</Private>
@@ -126,7 +148,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
-    <Compile Include="AsyncErrorHandler.cs" />
     <Compile Include="AutoSubscriber.cs" />
     <Compile Include="Caliburn\CaliburnExtensions.cs" />
     <Compile Include="Caliburn\ViewModelConventions.cs" />
@@ -134,7 +155,6 @@
     <Compile Include="Events\NestedInstallStartedEvent.cs" />
     <Compile Include="Events\NestedInstallCompleteEvent.cs" />
     <Compile Include="Events\UninstallProductCommand.cs" />
-    <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Installations\AfterInstallAction.cs" />
     <Compile Include="Installations\Prerequisites\DtcInstaller.cs" />
     <Compile Include="Installations\Prerequisites\MsmqInstaller.cs" />
@@ -147,7 +167,6 @@
     <Compile Include="Releases\CredentialStore.cs" />
     <Compile Include="SavedCredentials.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Compile Include="V6Update\DotnetVersionChecker.cs" />
     <Compile Include="Versions\InstalledProduct.cs" />
     <Compile Include="Versions\RegistryFind.cs" />
     <Compile Include="Versions\InstallerExtensions.cs" />
@@ -192,6 +211,14 @@
     <Compile Include="Events\RequestExitApplicationEvent.cs" />
     <Compile Include="Views\AbortInstallationHandler.cs" />
     <Compile Include="Events\InstallStartedEvent.cs" />
+    <Compile Include="DotNetUpgrade\Views\DotNetInstalllView.xaml.cs">
+      <DependentUpon>DotNetInstalllView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DotNetUpgrade\Views\DotNetDownloadView.xaml.cs">
+      <DependentUpon>DotNetDownloadView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DotNetUpgrade\Views\DotNetInstallViewModel.cs" />
+    <Compile Include="DotNetUpgrade\Views\DotNetDownloadViewModel.cs" />
     <Compile Include="Views\ProxySettingsView.xaml.cs">
       <DependentUpon>ProxySettingsView.xaml</DependentUpon>
     </Compile>
@@ -212,6 +239,10 @@
     </Compile>
     <Compile Include="Views\RebootNeededViewModel.cs" />
     <Compile Include="RebootMachine.cs" />
+    <Compile Include="DotNetUpgrade\Views\DotNetPreReqView.xaml.cs">
+      <DependentUpon>DotNetPreReqView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DotNetUpgrade\Views\DotNetPreReqViewModel.cs" />
     <Compile Include="WpfExtensions\SimpleCommand.cs" />
     <Compile Include="WpfExtensions\ResourceResolver.cs" />
     <Compile Include="Views\InstallingViewModel.cs" />
@@ -318,6 +349,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\uninstall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)..\BuildSupport\GitVersionTask\Build\GitVersionTask.targets" />

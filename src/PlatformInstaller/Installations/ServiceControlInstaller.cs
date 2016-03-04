@@ -13,22 +13,14 @@ public class ServiceControlInstaller : IInstaller
     Release[] releases;
     IEventAggregator eventAggregator;
 
-    bool legacyInstallMode; //For old vs new SC installer, we can pull this out sometime after SC 1.7
-
     public ServiceControlInstaller(ProcessRunner processRunner, ReleaseManager releaseManager, IEventAggregator eventAggregator)
     {
         this.processRunner = processRunner;
         this.releaseManager = releaseManager;
         this.eventAggregator = eventAggregator;
         releases = releaseManager.GetReleasesForProduct("ServiceControl");
-        legacyInstallMode = DetermineInstallMode();
     }
-
-    bool DetermineInstallMode()
-    {
-        return LatestAvailableVersion() < new Version("1.7");
-    }
-
+    
     public IEnumerable<DocumentationLink> GetDocumentationLinks()
     {
         yield return new DocumentationLink
@@ -82,13 +74,9 @@ public class ServiceControlInstaller : IInstaller
         var log = "particular.servicecontrol.installer.log";
         var fullLogPath = Path.Combine(installer.Directory.FullName, log);
         File.Delete(fullLogPath);
-
-        var optionalParameters = legacyInstallMode
-            ? "PlatformInstaller=true"
-            : "";
         
         var exitCode = await processRunner.RunProcess(installer.FullName,
-            $"/quiet /L*V {log} {optionalParameters}",
+            $"/quiet /L*V {log}",
             installer.Directory.FullName,
             logOutput,
             logError)
@@ -129,20 +117,18 @@ public class ServiceControlInstaller : IInstaller
 
     public IEnumerable<AfterInstallAction> GetAfterInstallActions()
     {
-        if (!legacyInstallMode)
+        yield return new AfterInstallAction
         {
-            yield return new AfterInstallAction
-            {
-                Text = "Start ServiceControl Management",
-                Description = "Launch this utility to complete the installation or upgrade of the ServiceControl services.",
+            Text = "Start ServiceControl Management",
+            Description = "Launch this utility to complete the installation or upgrade of the ServiceControl services.",
 
-                Action = () =>
-                {
-                    var value = GetManagementPath();
-                    processRunner.RunProcess(value, "", Path.GetDirectoryName(value), s => { }, s => { });
-                }
-            };
-        }
+            Action = () =>
+            {
+                var value = GetManagementPath();
+                processRunner.RunProcess(value, "", Path.GetDirectoryName(value), s => { }, s => { });
+            }
+        };
+        
     }
 
     public int NestedActionCount => 1;

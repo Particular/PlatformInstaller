@@ -17,7 +17,6 @@ public class RuntimeUpgradeManager
 
     // This download link came from .NET Framework Deployment Guide for Developers -  see https://msdn.microsoft.com/en-us/library/ee942965%28v=vs.110%29.aspx#redist
     const string dotNet452WebInstallerURL = @"http://go.microsoft.com/fwlink/?LinkId=397707";
-
     FileInfo installer;
 
     public RuntimeUpgradeManager(IEventAggregator eventAggregator, CredentialStore credentialStore, ProcessRunner processRunner)
@@ -46,7 +45,6 @@ public class RuntimeUpgradeManager
 
     public async Task<FileInfo> Download452WebInstaller()
     {
-     
         eventAggregator.PublishOnUIThread(new DotNetDownloadStartedEvent());
         using (var client = new WebClient())
         {
@@ -75,7 +73,6 @@ public class RuntimeUpgradeManager
                         continue;
                     }
                     PublishAborted();
-                    throw new Exception("Download did not complete");
                 }
             }
         }
@@ -86,22 +83,24 @@ public class RuntimeUpgradeManager
 
         var exitCode = await processRunner.RunProcess(installer.FullName,
             "/passive",
+            // ReSharper disable once PossibleNullReferenceException
             installer.Directory.FullName,
             s => { },
-            s => { })
-            .ConfigureAwait(false);
-
+            s => { }).ConfigureAwait(false);
+        
         if (exitCode == 0)
         {
             eventAggregator.PublishOnUIThread(new DotNetInstallCompleteEvent());
         }
-        eventAggregator.PublishOnUIThread(new DotNetInstallFailedEvent { ExitCode =  exitCode});
+        else
+        {
+            eventAggregator.PublishOnUIThread(new DotNetInstallFailedEvent { ExitCode = exitCode });
+        }
     }
-
-
+    
     void PublishFailed()
     {
-        eventAggregator.PublishOnUIThread(new DotNetDownloadFailedOutputEvent
+        eventAggregator.PublishOnUIThread(new DotNetDownloadFailedEvent
         {
             Text = "Download failed. Retrying..."
         });
@@ -130,6 +129,4 @@ public class RuntimeUpgradeManager
             TotalBytes = args.TotalBytesToReceive
         });
     }
-
-    
 }

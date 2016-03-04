@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
 
 public partial class ShellView
 {
@@ -10,6 +11,29 @@ public partial class ShellView
         InitializeComponent();
         
     }
+
+    public void HideMe()
+    {
+        var fromVisual = (HwndSource) PresentationSource.FromVisual(this);
+        if (fromVisual == null)
+        {
+            return;
+        }
+        var hwnd = fromVisual.Handle;
+        UnsafeNativeMethods.ShowWindow(hwnd, ShowWindowCommands.Minimize);
+    }
+
+    public void ShowMe()
+    {
+        var fromVisual = (HwndSource) PresentationSource.FromVisual(this);
+        if (fromVisual == null)
+        {
+            return;
+        }
+        var hwnd = fromVisual.Handle;
+        UnsafeNativeMethods.ShowWindow(hwnd, WindowState == WindowState.Normal ? ShowWindowCommands.Maximize : ShowWindowCommands.Normal);
+    }
+    
     protected override void OnMouseDown(MouseButtonEventArgs e)
     {
         base.OnMouseDown(e);

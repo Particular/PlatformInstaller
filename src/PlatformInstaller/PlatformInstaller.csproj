@@ -50,18 +50,32 @@
     <Compile Include="DotNetUpgrade\Events\DotNetInstallComplete.cs" />
     <Compile Include="DotNetUpgrade\Events\DotNetDownloadAbortedEvent.cs" />
     <Compile Include="DotNetUpgrade\Events\DotNetDownloadCompleteEvent.cs" />
-    <Compile Include="DotNetUpgrade\Events\DotNetDownloadFailedOutputEvent.cs" />
+    <Compile Include="DotNetUpgrade\Events\DotNetDownloadFailedEvent.cs" />
     <Compile Include="DotNetUpgrade\Events\DotNetDownloadProgressEvent.cs" />
     <Compile Include="DotNetUpgrade\Events\DotNetDownloadStartedEvent.cs" />
     <Compile Include="DotNetUpgrade\Events\DotNetInstallFailed.cs" />
     <Compile Include="DotNetUpgrade\RuntimeUpgradeManager.cs" />
-    <Compile Include="DotNetUpgrade\Events\StartDotNet452InstallCommand.cs" />
+    <Compile Include="DotNetUpgrade\Events\DotNetStartInstallWizardCommand.cs" />
+    <Compile Include="DotNetUpgrade\Views\DotNetInstallCompleteView.xaml.cs">
+      <DependentUpon>DotNetInstallCompleteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DotNetUpgrade\Views\DotNetInstallFailedView.xaml.cs">
+      <DependentUpon>DotNetInstallFailedView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NativeMethods\NativeConstants.cs" />
+    <Compile Include="NativeMethods\ShowWindowCommands.cs" />
+    <Compile Include="NativeMethods\Structures.cs" />
+    <Compile Include="NativeMethods\UnsafeNativeMethods.cs" />
     <Compile Include="UrlLauncher.cs" />
     <EmbeddedResource Include="LicenseAgreement.md" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <Page Include="DotNetUpgrade\Views\DotNetInstalllView.xaml">
+    <Page Include="DotNetUpgrade\Views\DotNetInstallCompleteView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DotNetUpgrade\Views\DotNetInstallFailedView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -211,14 +225,12 @@
     <Compile Include="Events\RequestExitApplicationEvent.cs" />
     <Compile Include="Views\AbortInstallationHandler.cs" />
     <Compile Include="Events\InstallStartedEvent.cs" />
-    <Compile Include="DotNetUpgrade\Views\DotNetInstalllView.xaml.cs">
-      <DependentUpon>DotNetInstalllView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="DotNetUpgrade\Views\DotNetDownloadView.xaml.cs">
       <DependentUpon>DotNetDownloadView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DotNetUpgrade\Views\DotNetInstallViewModel.cs" />
     <Compile Include="DotNetUpgrade\Views\DotNetDownloadViewModel.cs" />
+    <Compile Include="DotNetUpgrade\Views\DotNetInstallCompleteViewModel.cs" />
+    <Compile Include="DotNetUpgrade\Views\DotNetInstallFailedViewModel.cs" />
     <Compile Include="Views\ProxySettingsView.xaml.cs">
       <DependentUpon>ProxySettingsView.xaml</DependentUpon>
     </Compile>

@@ -21,7 +21,7 @@ public  class DotNetPreReqViewModel : Screen
 
     public void Install()
     {
-        eventAggregator.Publish<StartDotNet452InstallCommand>();
+        eventAggregator.Publish<DotNetStartInstallWizardCommand>();
     }
 }
 

@@ -23,7 +23,7 @@ public class ShellViewModel : Conductor<object>,
     IHandle<ExitApplicationCommand>,
     IHandle<UninstallProductCommand>,
     IHandle<NavigateHomeCommand>,
-    IHandle<StartDotNet452InstallCommand>,
+    IHandle<DotNetStartInstallWizardCommand>,
     IHandle<DotNetDownloadCompleteEvent>,
     IHandle<DotNetInstallFailedEvent>,
     IHandle<DotNetInstallCompleteEvent>
@@ -83,7 +83,6 @@ public class ShellViewModel : Conductor<object>,
 
     void RunStartupSequence()
     {
-
         if (!licenseAgreement.HasAgreedToLicense())
         {
             ActivateModel<LicenseAgreementViewModel>();
@@ -163,10 +162,10 @@ public class ShellViewModel : Conductor<object>,
         ActivateModel<SelectItemsViewModel>();
     }
 
-    public async void Handle(StartDotNet452InstallCommand message)
+    public async void Handle(DotNetStartInstallWizardCommand message)
     {
         ActivateModel<DotNetDownloadViewModel>();
-        await runtimeUpgradeManager.Download452WebInstaller();
+        await runtimeUpgradeManager.Download452WebInstaller().ConfigureAwait(false);
     }
     
     public void Handle(ExitApplicationCommand message)
@@ -235,17 +234,19 @@ public class ShellViewModel : Conductor<object>,
 
     public void Handle(DotNetDownloadCompleteEvent message)
     {
-        ActivateModel<DotNetInstallViewModel>();
+        ShellView.CurrentInstance.HideMe();
         runtimeUpgradeManager.InstallDotNet452();
     }
 
     public void Handle(DotNetInstallFailedEvent message)
     {
-       ActivateModel<RebootNeededViewModel>();
+        ShellView.CurrentInstance.ShowMe();
+        ActivateModel<DotNetInstallFailedViewModel>();
     }
 
     public void Handle(DotNetInstallCompleteEvent message)
     {
-        ActivateModel<SelectItemsViewModel>();
+        ShellView.CurrentInstance.ShowMe();
+        ActivateModel<DotNetInstallCompleteViewModel>();
     }
 }

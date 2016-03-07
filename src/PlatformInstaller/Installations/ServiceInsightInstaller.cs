@@ -11,12 +11,17 @@ public class ServiceInsightInstaller : IInstaller
     ReleaseManager releaseManager;
     Release[] releases;
     IEventAggregator eventAggregator;
+    
 
     public ServiceInsightInstaller(ProcessRunner processRunner, ReleaseManager releaseManager, IEventAggregator eventAggregator)
     {
         this.eventAggregator = eventAggregator;
         this.processRunner = processRunner;
         this.releaseManager = releaseManager;
+    }
+
+    public void Init()
+    {
         releases = releaseManager.GetReleasesForProduct("ServiceInsight");
     }
 

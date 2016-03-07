@@ -12,6 +12,10 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
         this.eventAggregator = eventAggregator;
     }
 
+    public void Init()
+    {
+         // No init necessary
+    }
 
     public IEnumerable<AfterInstallAction> GetAfterInstallActions()
     {

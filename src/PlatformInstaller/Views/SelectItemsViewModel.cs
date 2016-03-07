@@ -38,6 +38,10 @@ public class SelectItemsViewModel : Screen
     protected override void OnInitialize()
     {
         base.OnInitialize();
+        foreach (var installer in  installers)
+        {
+            installer.Init();
+        }
         Items = installers
           .Select(x => new Item
               {

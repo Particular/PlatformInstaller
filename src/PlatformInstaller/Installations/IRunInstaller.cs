@@ -6,6 +6,7 @@ public interface IInstaller
 {
     Version CurrentVersion();
     Version LatestAvailableVersion();
+    void Init();
     Task Execute(Action<string> logOutput, Action<string> logError);
     bool Installed();
     IEnumerable<AfterInstallAction> GetAfterInstallActions();

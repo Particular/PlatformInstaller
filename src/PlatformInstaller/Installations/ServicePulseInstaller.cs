@@ -18,6 +18,10 @@ public class ServicePulseInstaller : IInstaller
         this.eventAggregator = eventAggregator;
         this.processRunner = processRunner;
         this.releaseManager = releaseManager;
+    }
+
+    public void Init()
+    {
         releases = releaseManager.GetReleasesForProduct("ServicePulse");
     }
 

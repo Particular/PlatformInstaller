@@ -18,9 +18,14 @@ public class ServiceControlInstaller : IInstaller
         this.processRunner = processRunner;
         this.releaseManager = releaseManager;
         this.eventAggregator = eventAggregator;
+    }
+
+    public void Init()
+    {
         releases = releaseManager.GetReleasesForProduct("ServiceControl");
     }
-    
+
+
     public IEnumerable<DocumentationLink> GetDocumentationLinks()
     {
         yield return new DocumentationLink
@@ -46,7 +51,9 @@ public class ServiceControlInstaller : IInstaller
         }
         return latest;
     }
-    
+
+   
+
     public bool SelectedByDefault => LatestAvailableVersion() != CurrentVersion();
 
     public bool Enabled => !(LatestAvailableVersion() == CurrentVersion());

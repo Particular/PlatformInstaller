@@ -30,7 +30,7 @@ public class RuntimeUpgradeManager
         installer = new FileInfo(Path.Combine(assetFolder.FullName, dotNet452WebInstallerExe));
     }
     
-    public bool Is452orLaterInstalled()
+    public bool Is452InstallRequired()
     {
         using (var basekey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32))
         using (var ndpKey = basekey.OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\"))

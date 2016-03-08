@@ -103,7 +103,7 @@ public class ShellViewModel : Conductor<object>,
             }
         }
 
-        if (runtimeUpgradeManager.Is452orLaterInstalled())
+        if (runtimeUpgradeManager.Is452InstallRequired())
         {
             ActivateModel<DotNetPreReqViewModel>();
             return;

@@ -16,7 +16,7 @@ public class RuntimeUpgradeManager
     const string dotNet452WebInstallerExe = "NDP452-KB2901954-Web.exe";
 
     // This download link came from .NET Framework Deployment Guide for Developers -  see https://msdn.microsoft.com/en-us/library/ee942965%28v=vs.110%29.aspx#redist
-    const string dotNet452WebInstallerURL = @"http://go.microsoft.com/fwlink/?LinkId=397707";
+    const string dotNet452WebInstallerURL = "http://go.microsoft.com/fwlink/?LinkId=397707";
     FileInfo installer;
 
     public RuntimeUpgradeManager(IEventAggregator eventAggregator, CredentialStore credentialStore, ProcessRunner processRunner)
@@ -38,7 +38,7 @@ public class RuntimeUpgradeManager
             if (ndpKey?.GetValueKind("Release") == RegistryValueKind.DWord)
             {
                 var release = (int) ndpKey.GetValue("Release");
-                return release >= 379893;
+                return release < 379893;
             }
         }
         return false;

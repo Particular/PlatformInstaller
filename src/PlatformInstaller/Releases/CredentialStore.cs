@@ -6,10 +6,9 @@ public class CredentialStore
 {
     public ICredentials Credentials;
 
-
     public static void SaveCredentials(NetworkCredential credentials)
     {
-        SavedCredentials.SaveCedentials(credentials.UserName, credentials.SecurePassword);
+        SavedCredentials.SaveCredentials(credentials.UserName, credentials.SecurePassword);
     }
 
     public void RetrieveSavedCredentials()

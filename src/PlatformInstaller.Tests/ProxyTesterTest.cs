@@ -8,7 +8,8 @@ public class ProxyTesterTest
     [Explicit]
     public void ProxyTest()
     {
-        Assert.IsTrue(ProxyTester.ProxyTest(CredentialCache.DefaultCredentials));
-        Assert.IsTrue(ProxyTester.ProxyTest(CredentialCache.DefaultNetworkCredentials));
+        var proxyTester = new ProxyTester(new CredentialStore());
+        Assert.IsTrue(proxyTester.TestCredentials(CredentialCache.DefaultCredentials));
+        Assert.IsTrue(proxyTester.TestCredentials(CredentialCache.DefaultNetworkCredentials));
     }
 }

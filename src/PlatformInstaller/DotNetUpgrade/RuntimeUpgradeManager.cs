@@ -32,7 +32,8 @@ public class RuntimeUpgradeManager
     
     public bool Is452orLaterInstalled()
     {
-        using (var ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\"))
+        using (var basekey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32))
+        using (var ndpKey = basekey.OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\"))
         {
             if (ndpKey?.GetValueKind("Release") == RegistryValueKind.DWord)
             {

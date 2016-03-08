@@ -27,7 +27,8 @@ public class ProxySettingsViewTests
     static ProxySettingsView CreateDialog()
     {
         var credentialStore = new CredentialStore();
-        return new ProxySettingsView(credentialStore)
+        var proxyTester = new ProxyTester(credentialStore);
+        return new ProxySettingsView(proxyTester, credentialStore)
                             {
                                 Owner = ShellView.CurrentInstance
                             };

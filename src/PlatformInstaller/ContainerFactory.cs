@@ -33,6 +33,8 @@ public static class ContainerFactory
             .SingleInstance();
         builder.RegisterType<CredentialStore>()
             .SingleInstance();
+        builder.RegisterType<ProxyTester>()
+            .SingleInstance();
         builder.RegisterType<ReleaseManager>()
             .SingleInstance();
         builder.RegisterType<Installer>()

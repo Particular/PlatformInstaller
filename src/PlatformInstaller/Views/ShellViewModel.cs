@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
-using Anotar.Serilog;
 using Autofac;
 using Caliburn.Micro;
 using Janitor;
@@ -35,12 +33,14 @@ public class ShellViewModel : Conductor<object>,
     ILifetimeScope currentLifetimeScope;
     RaygunClient raygunClient;
     Installer installer;
-    CredentialStore credentialStore;
     RuntimeUpgradeManager runtimeUpgradeManager;
+    ProxyTester proxyTester;
+    CredentialStore credentialStore;
+
 
     bool installWasAttempted;
 
-    public ShellViewModel(IEventAggregator eventAggregator, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, RaygunClient raygunClient, Installer installer, CredentialStore credentialStore, RuntimeUpgradeManager runtimeUpgradeManager)
+    public ShellViewModel(IEventAggregator eventAggregator, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, RaygunClient raygunClient, Installer installer, ProxyTester proxyTester, RuntimeUpgradeManager runtimeUpgradeManager, CredentialStore credentialStore)
     {
         DisplayName = "Platform Installer";
         this.runtimeUpgradeManager = runtimeUpgradeManager;
@@ -49,6 +49,7 @@ public class ShellViewModel : Conductor<object>,
         this.licenseAgreement = licenseAgreement;
         this.lifetimeScope = lifetimeScope;
         this.eventAggregator = eventAggregator;
+        this.proxyTester = proxyTester;
         this.credentialStore = credentialStore;
         RunStartupSequence();
     }
@@ -89,44 +90,20 @@ public class ShellViewModel : Conductor<object>,
             return;
         }
 
-        credentialStore.RetrieveSavedCredentials();
-        if (!ProxyTester.ProxyTest(credentialStore.Credentials))
-        {
-            if (credentialStore.Credentials == null)
+        if (proxyTester.AreCredentialsRequired())
+        { 
+            var proxySettings = new ProxySettingsView(proxyTester, credentialStore)
             {
-                LogTo.Warning("Failed to connect to the internet using anonymous credentials");
-            }
-            else
+                Owner = ShellView.CurrentInstance
+            };
+            proxySettings.ShowDialog();
+            if (proxySettings.Cancelled)
             {
-                LogTo.Warning("Failed to connect to the internet using stored credentials");
-            }
-
-            if (ProxyTester.ProxyTest(CredentialCache.DefaultCredentials))
-            {
-                credentialStore.Credentials = CredentialCache.DefaultCredentials;
-                LogTo.Information("Successfully connect to the internet using default credentials");
-            }
-            else if (ProxyTester.ProxyTest(CredentialCache.DefaultNetworkCredentials))
-            {
-                credentialStore.Credentials = CredentialCache.DefaultNetworkCredentials;
-                LogTo.Information("Successfully connect to the internet using default network credentials");
-            }
-            else
-            {
-                LogTo.Information("Prompting for network credentials");
-                var proxySettings = new ProxySettingsView(credentialStore)
-                {
-                    Owner = ShellView.CurrentInstance
-                };
-                proxySettings.ShowDialog();
-                if (proxySettings.Cancelled)
-                {
-                    Environment.Exit(0);
-                }
+                Environment.Exit(0);
             }
         }
 
-        if (!runtimeUpgradeManager.Is452orLaterInstalled())
+        if (runtimeUpgradeManager.Is452orLaterInstalled())
         {
             ActivateModel<DotNetPreReqViewModel>();
             return;

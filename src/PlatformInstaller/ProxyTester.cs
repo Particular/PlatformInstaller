@@ -1,8 +1,47 @@
 using System.Net;
+using Anotar.Serilog;
 
 public class ProxyTester
 {
-    public static bool ProxyTest(ICredentials credentials)
+    CredentialStore credentialStore;
+
+    public ProxyTester(CredentialStore credentialStore)
+    {
+        this.credentialStore =  credentialStore;
+    }
+
+    public bool AreCredentialsRequired()
+    {
+        credentialStore.RetrieveSavedCredentials();
+
+        if (TestCredentials(credentialStore.Credentials))
+        {
+            return false;
+        }
+
+         var message = credentialStore.Credentials == null ? "Failed to connect to the internet using anonymous credentials" : "Failed to connect to the internet using stored credentials";
+        LogTo.Warning(message);
+
+
+        //LogTo.Warning(credentialStore.Credentials == null ? "Failed to connect to the internet using anonymous credentials" : "Failed to connect to the internet using stored credentials");
+
+        if (TestCredentials(CredentialCache.DefaultCredentials))
+        { 
+            credentialStore.Credentials = CredentialCache.DefaultCredentials;
+            LogTo.Information("Successfully connect to the internet using default credentials");
+            return false;
+        }
+
+        if (TestCredentials(CredentialCache.DefaultNetworkCredentials))
+        {
+            credentialStore.Credentials = CredentialCache.DefaultNetworkCredentials;
+            LogTo.Information("Successfully connect to the internet using default network credentials");
+            return false;
+        }
+        return true;
+    }
+
+    public bool TestCredentials(ICredentials credentials)
     {
         using (var client = new WebClient())
         {

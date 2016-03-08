@@ -18,6 +18,6 @@
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
             <Button x:Name="Exit" Content="Exit"/>
         </StackPanel>
-        <TextBlock Foreground="Gray">Please install .NET Framework 4.5.2 manually. The installation can be found on the Microsoft Web Site <global:Link NavigateUri="https://www.microsoft.com/en-us/download/details.aspx?id=42642">here</global:Link></TextBlock>
+        <TextBlock Foreground="Gray">Please install .NET Framework 4.5.2 manually. The installation can be found on the <global:Link NavigateUri="https://www.microsoft.com/en-us/download/details.aspx?id=42642">Microsoft Download Site</global:Link>.</TextBlock>
     </DockPanel>
 </UserControl>

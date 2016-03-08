@@ -100,10 +100,7 @@ public class RuntimeUpgradeManager
     
     void PublishFailed()
     {
-        eventAggregator.PublishOnUIThread(new DotNetDownloadFailedEvent
-        {
-            Text = "Download failed. Retrying..."
-        });
+        eventAggregator.PublishOnUIThread(new DotNetDownloadFailedEvent());
     }
 
     void PublishAborted()

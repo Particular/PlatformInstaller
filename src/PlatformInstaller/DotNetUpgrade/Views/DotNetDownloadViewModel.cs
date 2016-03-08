@@ -3,15 +3,13 @@
 public  class DotNetDownloadViewModel : Screen, 
     IHandle<DotNetDownloadProgressEvent>,
     IHandle<DotNetDownloadStartedEvent>,
+    IHandle<DotNetDownloadFailedEvent>,
     IHandle<DotNetDownloadCompleteEvent>
 {
-    
 
     public DotNetDownloadViewModel()
     {
-
     }
-
 
     public DotNetDownloadViewModel(IEventAggregator eventAggregator)
     {
@@ -20,6 +18,7 @@ public  class DotNetDownloadViewModel : Screen,
     }
 
     public int PercentComplete { get; set; }
+    public string Description;
 
     IEventAggregator eventAggregator;
 
@@ -31,8 +30,9 @@ public  class DotNetDownloadViewModel : Screen,
     public void Handle(DotNetDownloadProgressEvent message)
     {
         PercentComplete = message.ProgressPercentage;
+        Description = $"{((int)message.BytesReceived).ToBytesString()} of {((int)message.TotalBytes).ToBytesString()}";
     }
-
+    
     public void Handle(DotNetDownloadStartedEvent message)
     {
         PercentComplete = 0;
@@ -41,6 +41,12 @@ public  class DotNetDownloadViewModel : Screen,
     public void Handle(DotNetDownloadCompleteEvent message)
     {
         PercentComplete = 100;
+    }
+
+    public void Handle(DotNetDownloadFailedEvent message)
+    {
+        PercentComplete = 0;
+        Description = "Download failed. Retrying...";
     }
 }
 

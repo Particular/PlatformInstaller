@@ -18,7 +18,7 @@ public  class DotNetDownloadViewModel : Screen,
     }
 
     public int PercentComplete { get; set; }
-    public string Description;
+    public string Description { get; set; }
 
     IEventAggregator eventAggregator;
 

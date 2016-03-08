@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
+// ReSharper disable MemberCanBePrivate.Global
 
 [StructLayout(LayoutKind.Sequential)]
-internal struct MARGINS
+struct MARGINS
 {
     public int leftWidth;
     public int rightWidth;
@@ -12,7 +13,7 @@ internal struct MARGINS
 }
 
 [StructLayout(LayoutKind.Sequential)]
-internal struct MINMAXINFO
+struct MINMAXINFO
 {
     public POINT ptReserved;
     public POINT ptMaxSize;
@@ -22,7 +23,7 @@ internal struct MINMAXINFO
 }
 
 [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-internal class MONITORINFO
+class MONITORINFO
 {
     public int cbSize = Marshal.SizeOf(typeof(MONITORINFO));
 
@@ -36,7 +37,7 @@ internal class MONITORINFO
 }
 
 [StructLayout(LayoutKind.Sequential)]
-internal struct POINT
+struct POINT
 {
     public int x;
     public int y;
@@ -49,7 +50,7 @@ internal struct POINT
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 0)]
-internal struct RECT
+struct RECT
 {
     public int left;
     public int top;

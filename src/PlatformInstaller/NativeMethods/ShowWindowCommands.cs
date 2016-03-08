@@ -1,4 +1,4 @@
-﻿internal enum ShowWindowCommands : int
+﻿enum ShowWindowCommands : int
 {
     /// <summary>
     /// Hides the window and activates another window.

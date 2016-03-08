@@ -1,4 +1,4 @@
-﻿internal static class NativeConstants
+﻿static class NativeConstants
 {
     public const int WM_GETMINMAXINFO = 0x24;
     public const int WM_NCCALCSIZE = 0x83;

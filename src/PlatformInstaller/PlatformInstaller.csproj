@@ -47,7 +47,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AsyncErrorHandler.cs" />
-    <Compile Include="DotNetUpgrade\Events\DotNetDownloadAbortedEvent.cs" />
     <Compile Include="DotNetUpgrade\Events\DotNetInstallComplete.cs" />
     <Compile Include="DotNetUpgrade\Events\DotNetDownloadCompleteEvent.cs" />
     <Compile Include="DotNetUpgrade\Events\DotNetDownloadFailedEvent.cs" />

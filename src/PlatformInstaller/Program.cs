@@ -2,7 +2,7 @@
 
 class Program
 {
-    internal const string RaygunApiKey = "FOsaSSOiJ59Np6IQKHx4Kg==";
+    public const string RaygunApiKey = "FOsaSSOiJ59Np6IQKHx4Kg==";
 
     [STAThread]
     public static void Main()

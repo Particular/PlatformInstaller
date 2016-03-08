@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.IO;
 using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 using Anotar.Serilog;
 using Caliburn.Micro;
@@ -68,7 +67,7 @@ public class RuntimeUpgradeManager
                 {
                     retries++;
                     PublishFailed();
-                    Thread.Sleep(500);
+                    await Task.Delay(500).ConfigureAwait(false);
                     if (retries <= maxretries)
                     {
                         continue;

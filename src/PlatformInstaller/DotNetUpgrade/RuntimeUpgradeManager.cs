@@ -72,7 +72,7 @@ public class RuntimeUpgradeManager
                         PublishFailed();
                         continue;
                     }
-                    eventAggregator.PublishOnUIThread(new DotNetInstallFailedEvent { ExitCode = 0 });
+                    eventAggregator.PublishOnUIThread(new DotNetInstallFailedEvent());
                 }
             }
         }
@@ -94,7 +94,7 @@ public class RuntimeUpgradeManager
         }
         else
         {
-            eventAggregator.PublishOnUIThread(new DotNetInstallFailedEvent { ExitCode = exitCode });
+            eventAggregator.PublishOnUIThread(new DotNetInstallFailedEvent());
         }
     }
     

@@ -94,7 +94,7 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
 
     public bool Installed()
     {
-        return true;
+        return false;
     }
 
     bool PerfCounterSetupStep(Action<string> logOutput, Action<string> logError)

@@ -135,9 +135,9 @@ public class SelectItemsViewModel : Screen
         public string ToolTip { get; set; }
         public Visibility CheckBoxVisible { get; set; }
 
-        public string UninstallText { get; set; }
+        public string UninstallText;
 
-        public Visibility UninstallVisible { get; set; }
+        public Visibility UninstallVisible;
 
         public void Uninstall()
         {

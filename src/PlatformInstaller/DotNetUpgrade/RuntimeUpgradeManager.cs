@@ -109,11 +109,7 @@ public class RuntimeUpgradeManager
 
     void PublishAborted()
     {
-        eventAggregator.PublishOnUIThread(new DotNetDownloadAbortedEvent
-        {
-            IsError = true,
-            Text = "Download did not complete. Installation Aborted"
-        });
+        eventAggregator.PublishOnUIThread(new DotNetDownloadAbortedEvent());
     }
 
     void OnClientOnDownloadFileCompleted(object sender, AsyncCompletedEventArgs args)

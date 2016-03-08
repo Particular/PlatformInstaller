@@ -66,13 +66,13 @@ public class RuntimeUpgradeManager
                 catch
                 {
                     retries++;
-                    PublishFailed();
                     await Task.Delay(500).ConfigureAwait(false);
                     if (retries <= maxretries)
                     {
+                        PublishFailed();
                         continue;
                     }
-                    PublishAborted();
+                    eventAggregator.PublishOnUIThread(new DotNetInstallFailedEvent { ExitCode = 0 });
                 }
             }
         }
@@ -102,12 +102,7 @@ public class RuntimeUpgradeManager
     {
         eventAggregator.PublishOnUIThread(new DotNetDownloadFailedEvent());
     }
-
-    void PublishAborted()
-    {
-        eventAggregator.PublishOnUIThread(new DotNetDownloadAbortedEvent());
-    }
-
+    
     void OnClientOnDownloadFileCompleted(object sender, AsyncCompletedEventArgs args)
     {
         eventAggregator.PublishOnUIThread(new DotNetDownloadCompleteEvent());

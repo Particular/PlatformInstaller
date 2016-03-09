@@ -72,9 +72,10 @@ public class RuntimeUpgradeManager
                         PublishFailed();
                         continue;
                     }
-                    eventAggregator.PublishOnUIThread(new DotNetInstallFailedEvent());
+                    break;
                 }
             }
+            return null;
         }
     }
 

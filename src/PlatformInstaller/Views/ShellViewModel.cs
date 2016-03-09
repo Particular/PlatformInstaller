@@ -142,7 +142,11 @@ public class ShellViewModel : Conductor<object>,
     public async void Handle(DotNetStartInstallWizardCommand message)
     {
         ActivateModel<DotNetDownloadViewModel>();
-        await runtimeUpgradeManager.Download452WebInstaller().ConfigureAwait(false);
+        var dotNetIntall = await runtimeUpgradeManager.Download452WebInstaller().ConfigureAwait(false);
+        if (dotNetIntall == null)
+        {
+            eventAggregator.PublishOnUIThread(new DotNetInstallFailedEvent());
+        }
     }
     
     public void Handle(ExitApplicationCommand message)

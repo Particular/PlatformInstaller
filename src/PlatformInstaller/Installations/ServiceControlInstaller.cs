@@ -66,18 +66,13 @@ public class ServiceControlInstaller : IInstaller
         });
 
         var release = releases.First();
-        FileInfo installer;
-        try
+        var installer = await releaseManager.DownloadRelease(release.Assets.First()).ConfigureAwait(false);
+        if (installer == null)
         {
-            installer = await releaseManager.DownloadRelease(release.Assets.First()).ConfigureAwait(false);
-        }
-        catch
-        {
-            logError("Failed to download the ServiceControl Installation from https://github.com/Particular/ServiceControl/releases/latest");
+            logError("Failed to download the ServiceControl Installation from https://github.com/Particular/ServiceControl/releases/latest. Please manually download and run the install.");
             return;
         }
-
-
+        
         var log = "particular.servicecontrol.installer.log";
         var fullLogPath = Path.Combine(installer.Directory.FullName, log);
         File.Delete(fullLogPath);

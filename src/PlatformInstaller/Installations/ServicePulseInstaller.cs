@@ -73,14 +73,11 @@ public class ServicePulseInstaller : IInstaller
         eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = "Run ServicePulse Installation" });
             
         var release = releases.First();
-        FileInfo installer;
-        try
+
+        var installer = await releaseManager.DownloadRelease(release.Assets.Single()).ConfigureAwait(false);
+        if (installer == null)
         {
-            installer = await releaseManager.DownloadRelease(release.Assets.Single()).ConfigureAwait(false);
-        }
-        catch
-        {
-            logError("Failed to download the ServicePulse Installation from https://github.com/Particular/ServicePulse/releases/latest");
+            logError("Failed to download the ServicePulse Installation from https://github.com/Particular/ServicePulse/releases/latest. Please manually download and run the install");
             return;
         }
 

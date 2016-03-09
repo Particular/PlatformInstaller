@@ -14,7 +14,7 @@ public class SavedCredentialsTests
         Assert.IsFalse(SavedCredentials.TryRetrieveSavedCredentials(out username, out password));
         Assert.IsNull(username);
         Assert.IsNull(password);
-        SavedCredentials.SaveCedentials("username", "password".ToSecureString());
+        SavedCredentials.SaveCredentials("username", "password".ToSecureString());
         Assert.IsTrue(SavedCredentials.TryRetrieveSavedCredentials(out username, out password));
         Assert.AreEqual("username", username);
         Assert.AreEqual("password", password.ToOriginalString());

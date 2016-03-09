@@ -4,8 +4,7 @@ using Microsoft.Win32;
 
 public static class SavedCredentials
 {
-
-    public static void SaveCedentials(string userName, SecureString password)
+    public static void SaveCredentials(string userName, SecureString password)
     {
         using (var credRegKey = Registry.CurrentUser.CreateSubKey(@"Software\Particular\PlatformInstaller\Credentials"))
         {

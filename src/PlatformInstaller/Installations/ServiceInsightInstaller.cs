@@ -11,12 +11,16 @@ public class ServiceInsightInstaller : IInstaller
     ReleaseManager releaseManager;
     Release[] releases;
     IEventAggregator eventAggregator;
-
+    
     public ServiceInsightInstaller(ProcessRunner processRunner, ReleaseManager releaseManager, IEventAggregator eventAggregator)
     {
         this.eventAggregator = eventAggregator;
         this.processRunner = processRunner;
         this.releaseManager = releaseManager;
+    }
+
+    public void Init()
+    {
         releases = releaseManager.GetReleasesForProduct("ServiceInsight");
     }
 
@@ -57,17 +61,13 @@ public class ServiceInsightInstaller : IInstaller
     {
         eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = "Run ServiceInsight Installation" });
         var release = releases.First();
-        FileInfo installer;
-        try
+        var installer = await releaseManager.DownloadRelease(release.Assets.Single()).ConfigureAwait(false);
+        if (installer == null)
         {
-            installer = await releaseManager.DownloadRelease(release.Assets.Single()).ConfigureAwait(false);
-        }
-        catch
-        {
-            logError("Failed to download the ServiceInsight Installation from https://github.com/Particular/ServiceInsight/releases/latest");
+            logError("Failed to download the ServiceInsight Installation from https://github.com/Particular/ServiceInsight/releases/latest. Please manually download and run the install");
             return;
         }
-
+        
         var log = "particular.serviceinsight.installer.log";
         var fullLogPath = Path.Combine(installer.Directory.FullName, log);
         File.Delete(fullLogPath);

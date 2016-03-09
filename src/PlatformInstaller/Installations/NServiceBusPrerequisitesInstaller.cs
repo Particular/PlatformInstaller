@@ -12,6 +12,10 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
         this.eventAggregator = eventAggregator;
     }
 
+    public void Init()
+    {
+         // No init necessary
+    }
 
     public IEnumerable<AfterInstallAction> GetAfterInstallActions()
     {
@@ -90,7 +94,7 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
 
     public bool Installed()
     {
-        return true;
+        return false;
     }
 
     bool PerfCounterSetupStep(Action<string> logOutput, Action<string> logError)

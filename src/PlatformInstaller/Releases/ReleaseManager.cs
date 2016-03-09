@@ -96,16 +96,17 @@ public class ReleaseManager
                 {
                     retries++;
                     PublishFailed();
-                    Thread.Sleep(500);
+                    await Task.Delay(500).ConfigureAwait(false);
                     if (retries <= maxretries)
                     {
                         continue;
                     }
                     PublishAborted();
-                    throw new Exception("Download did not complete");
+                    break;
                 }
             }
         }
+        return null;
     }
 
     void PublishStart(Asset release, FileInfo localAsset)

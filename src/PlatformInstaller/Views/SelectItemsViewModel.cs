@@ -1,6 +1,7 @@
 using Autofac;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Caliburn.Micro;
 using System.Reflection;
@@ -38,6 +39,10 @@ public class SelectItemsViewModel : Screen
     protected override void OnInitialize()
     {
         base.OnInitialize();
+        foreach (var installer in  installers)
+        {
+            installer.Init();
+        }
         Items = installers
           .Select(x => new Item
               {
@@ -117,23 +122,24 @@ public class SelectItemsViewModel : Screen
         eventAggregator.Publish<ExitApplicationCommand>();
     }
 
+
+    // Suppressing NotAccessedField.Global 
+    // Fields are used via Caliburn.Micro 
+    [SuppressMessage("ReSharper", "NotAccessedField.Global")]
     public class Item : INotifyPropertyChanged
     {
-        public IEventAggregator EventAggregator { get; set; }
-
-        public string Name { get; set; }
-        public string ImageUrl { get; set; }
-        public string Status { get; set; }
-        public string InstalledVersion { get; set; }
-        public bool Selected { get; set; }
-        public bool Enabled { get; set; }
+        public IEventAggregator EventAggregator;
+        public string Name;
+        public string ImageUrl;
+        public string Status;
+        public string InstalledVersion;
+        public bool Selected;
+        public bool Enabled;
         public event PropertyChangedEventHandler PropertyChanged;
-        public string ToolTip { get; set; }
-        public Visibility CheckBoxVisible { get; set; }
-
-        public string UninstallText { get; set; }
-
-        public Visibility UninstallVisible { get; set; }
+        public string ToolTip;
+        public Visibility CheckBoxVisible;
+        public string UninstallText;
+        public Visibility UninstallVisible;
 
         public void Uninstall()
         {

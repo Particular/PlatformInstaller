@@ -5,25 +5,26 @@ using System.Windows.Input;
 public partial class ProxySettingsView
 {
     CredentialStore credentialStore;
+    ProxyTester proxyTester;
 
-    public ProxySettingsView(CredentialStore credentialStore)
+    public ProxySettingsView(ProxyTester proxyTester, CredentialStore credentialStore)
     {
         this.credentialStore = credentialStore;
+        this.proxyTester = proxyTester;
         InitializeComponent();
     }
-
     
     public bool Cancelled { get; set; }
 
     void OkClick(object sender, RoutedEventArgs e)
     {
         var credentials = new NetworkCredential(username.Text, password.Password);
-        if (ProxyTester.ProxyTest(credentials))
+        if (proxyTester.TestCredentials(credentials))
         {
             credentialStore.Credentials = credentials;
             if (saveCredentials.IsChecked.GetValueOrDefault(false))
             {
-                SavedCredentials.SaveCedentials(username.Text, password.SecurePassword);    
+                SavedCredentials.SaveCredentials(username.Text, password.SecurePassword);    
             }
             Close();
         }

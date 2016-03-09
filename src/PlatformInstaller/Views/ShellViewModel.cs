@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
-using Anotar.Serilog;
 using Autofac;
 using Caliburn.Micro;
 using Janitor;
@@ -22,7 +20,11 @@ public class ShellViewModel : Conductor<object>,
     IHandle<RebootRequiredEvent>,
     IHandle<ExitApplicationCommand>,
     IHandle<UninstallProductCommand>,
-    IHandle<NavigateHomeCommand>
+    IHandle<NavigateHomeCommand>,
+    IHandle<DotNetStartInstallWizardCommand>,
+    IHandle<DotNetDownloadCompleteEvent>,
+    IHandle<DotNetInstallFailedEvent>,
+    IHandle<DotNetInstallCompleteEvent>
 {
     LicenseAgreement licenseAgreement;
     ILifetimeScope lifetimeScope;
@@ -31,18 +33,23 @@ public class ShellViewModel : Conductor<object>,
     ILifetimeScope currentLifetimeScope;
     RaygunClient raygunClient;
     Installer installer;
+    RuntimeUpgradeManager runtimeUpgradeManager;
+    ProxyTester proxyTester;
     CredentialStore credentialStore;
+
 
     bool installWasAttempted;
 
-    public ShellViewModel(IEventAggregator eventAggregator, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, RaygunClient raygunClient, Installer installer, CredentialStore credentialStore)
+    public ShellViewModel(IEventAggregator eventAggregator, LicenseAgreement licenseAgreement, ILifetimeScope lifetimeScope, RaygunClient raygunClient, Installer installer, ProxyTester proxyTester, RuntimeUpgradeManager runtimeUpgradeManager, CredentialStore credentialStore)
     {
         DisplayName = "Platform Installer";
+        this.runtimeUpgradeManager = runtimeUpgradeManager;
         this.raygunClient = raygunClient;
         this.installer = installer;
         this.licenseAgreement = licenseAgreement;
         this.lifetimeScope = lifetimeScope;
         this.eventAggregator = eventAggregator;
+        this.proxyTester = proxyTester;
         this.credentialStore = credentialStore;
         RunStartupSequence();
     }
@@ -83,41 +90,23 @@ public class ShellViewModel : Conductor<object>,
             return;
         }
 
-        credentialStore.RetrieveSavedCredentials();
-        if (!ProxyTester.ProxyTest(credentialStore.Credentials))
-        {
-            if (credentialStore.Credentials == null)
+        if (proxyTester.AreCredentialsRequired())
+        { 
+            var proxySettings = new ProxySettingsView(proxyTester, credentialStore)
             {
-                LogTo.Warning("Failed to connect to the internet using anonymous credentials");
-            }
-            else
+                Owner = ShellView.CurrentInstance
+            };
+            proxySettings.ShowDialog();
+            if (proxySettings.Cancelled)
             {
-                LogTo.Warning("Failed to connect to the internet using stored credentials");
+                Environment.Exit(0);
             }
+        }
 
-            if (ProxyTester.ProxyTest(CredentialCache.DefaultCredentials))
-            {
-                credentialStore.Credentials = CredentialCache.DefaultCredentials;
-                LogTo.Information("Successfully connect to the internet using default credentials");
-            }
-            else if (ProxyTester.ProxyTest(CredentialCache.DefaultNetworkCredentials))
-            {
-                credentialStore.Credentials = CredentialCache.DefaultNetworkCredentials;
-                LogTo.Information("Successfully connect to the internet using default network credentials");
-            }
-            else
-            {
-                LogTo.Information("Prompting for network credentials");
-                var proxySettings = new ProxySettingsView(credentialStore)
-                {
-                    Owner = ShellView.CurrentInstance
-                };
-                proxySettings.ShowDialog();
-                if (proxySettings.Cancelled)
-                {
-                    Environment.Exit(0);
-                }
-            }
+        if (runtimeUpgradeManager.Is452InstallRequired())
+        {
+            ActivateModel<DotNetPreReqViewModel>();
+            return;
         }
         ActivateModel<SelectItemsViewModel>();
     }
@@ -150,6 +139,16 @@ public class ShellViewModel : Conductor<object>,
         ActivateModel<SelectItemsViewModel>();
     }
 
+    public async void Handle(DotNetStartInstallWizardCommand message)
+    {
+        ActivateModel<DotNetDownloadViewModel>();
+        var dotNetIntall = await runtimeUpgradeManager.Download452WebInstaller().ConfigureAwait(false);
+        if (dotNetIntall == null)
+        {
+            eventAggregator.PublishOnUIThread(new DotNetInstallFailedEvent());
+        }
+    }
+    
     public void Handle(ExitApplicationCommand message)
     {
         if (!installWasAttempted)
@@ -199,7 +198,6 @@ public class ShellViewModel : Conductor<object>,
             MessageBox.Show($"Could not parse the uninstall command for {message.Product}", "Uninstall was not attempted", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
-        
         var exe = uninstallString.Substring(0, exeEnds);
         var arguments = uninstallString.Remove(0, exeEnds);
         try
@@ -212,7 +210,24 @@ public class ShellViewModel : Conductor<object>,
         {
             MessageBox.Show($"Failed to run uninstall command for {message.Product}.  Please use Add/Remove programs in Control Panel", "Uninstall was unsuccessful", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-
         ActivateModel<SelectItemsViewModel>();
+    }
+
+    public void Handle(DotNetDownloadCompleteEvent message)
+    {
+        ShellView.CurrentInstance.HideMe();
+        runtimeUpgradeManager.InstallDotNet452();
+    }
+
+    public void Handle(DotNetInstallFailedEvent message)
+    {
+        ShellView.CurrentInstance.ShowMe();
+        ActivateModel<DotNetInstallFailedViewModel>();
+    }
+
+    public void Handle(DotNetInstallCompleteEvent message)
+    {
+        ShellView.CurrentInstance.ShowMe();
+        ActivateModel<DotNetInstallCompleteViewModel>();
     }
 }

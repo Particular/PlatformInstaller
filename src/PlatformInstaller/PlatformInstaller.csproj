@@ -46,46 +46,85 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AsyncErrorHandler.cs" />
+    <Compile Include="DotNetUpgrade\Events\DotNetInstallComplete.cs" />
+    <Compile Include="DotNetUpgrade\Events\DotNetDownloadCompleteEvent.cs" />
+    <Compile Include="DotNetUpgrade\Events\DotNetDownloadFailedEvent.cs" />
+    <Compile Include="DotNetUpgrade\Events\DotNetDownloadProgressEvent.cs" />
+    <Compile Include="DotNetUpgrade\Events\DotNetDownloadStartedEvent.cs" />
+    <Compile Include="DotNetUpgrade\Events\DotNetInstallFailed.cs" />
+    <Compile Include="DotNetUpgrade\RuntimeUpgradeManager.cs" />
+    <Compile Include="DotNetUpgrade\Events\DotNetStartInstallWizardCommand.cs" />
+    <Compile Include="DotNetUpgrade\Views\DotNetInstallCompleteView.xaml.cs">
+      <DependentUpon>DotNetInstallCompleteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DotNetUpgrade\Views\DotNetInstallFailedView.xaml.cs">
+      <DependentUpon>DotNetInstallFailedView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NativeMethods\NativeConstants.cs" />
+    <Compile Include="NativeMethods\ShowWindowCommands.cs" />
+    <Compile Include="NativeMethods\Structures.cs" />
+    <Compile Include="NativeMethods\UnsafeNativeMethods.cs" />
     <Compile Include="UrlLauncher.cs" />
     <EmbeddedResource Include="LicenseAgreement.md" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <Page Include="DotNetUpgrade\Views\DotNetInstallCompleteView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DotNetUpgrade\Views\DotNetInstallFailedView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DotNetUpgrade\Views\DotNetDownloadView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DotNetUpgrade\Views\DotNetPreReqView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Reference Include="Anotar.Serilog, Version=0.0.0.0, Culture=neutral, PublicKeyToken=9d5b24f0733c26f7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Anotar.Serilog.Fody.2.19.2\lib\Anotar.Serilog.dll</HintPath>
+      <HintPath>..\packages\Anotar.Serilog.Fody.3.0.0\Lib\Anotar.Serilog.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Caliburn.Micro, Version=2.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.Core.2.0.1\lib\net45\Caliburn.Micro.dll</HintPath>
+    <Reference Include="Caliburn.Micro, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.Core.3.0.0\lib\net45\Caliburn.Micro.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Caliburn.Micro.Platform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+    <Reference Include="Caliburn.Micro.Platform, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.0.0\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Janitor, Version=1.1.3.0, Culture=neutral, PublicKeyToken=d34c7d3bba3746e6, processorArchitecture=MSIL">
-      <HintPath>..\packages\Janitor.Fody.1.1.3.0\Lib\portable-net4+sl5+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\Janitor.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="Caliburn.Micro.Platform.Core, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.0.0\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Janitor">
+      <HintPath>..\packages\Janitor.Fody.1.1.6.0\Lib\dotnet\Janitor.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
-    <Reference Include="Mindscape.Raygun4Net, Version=5.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mindscape.Raygun4Net.5.1.1\lib\net40\Mindscape.Raygun4Net.dll</HintPath>
+    <Reference Include="Mindscape.Raygun4Net, Version=5.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mindscape.Raygun4Net.5.3.0\lib\net40\Mindscape.Raygun4Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Mindscape.Raygun4Net4, Version=5.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mindscape.Raygun4Net.5.1.1\lib\net40\Mindscape.Raygun4Net4.dll</HintPath>
+    <Reference Include="Mindscape.Raygun4Net4, Version=5.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mindscape.Raygun4Net.5.3.0\lib\net40\Mindscape.Raygun4Net4.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ParallelExtensionsExtras, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -94,13 +133,13 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="PropertyChanged, Version=1.50.3.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
-      <HintPath>..\packages\PropertyChanged.Fody.1.50.3\Lib\portable-net4+sl4+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\PropertyChanged.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="PropertyChanged">
+      <HintPath>..\packages\PropertyChanged.Fody.1.50.4\Lib\dotnet\PropertyChanged.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Resourcer, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Resourcer.Fody.1.4.0\lib\portable-net45+netcore45+wpa81+wp8\Resourcer.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="Resourcer">
+      <HintPath>..\packages\Resourcer.Fody.1.4.1\Lib\portable-net45+netcore45+wpa81+wp8\Resourcer.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Serilog, Version=1.5.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.1.5.14\lib\net45\Serilog.dll</HintPath>
@@ -118,16 +157,14 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\Caliburn.Micro.3.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
-    <Compile Include="AsyncErrorHandler.cs" />
     <Compile Include="AutoSubscriber.cs" />
     <Compile Include="Caliburn\CaliburnExtensions.cs" />
     <Compile Include="Caliburn\ViewModelConventions.cs" />
@@ -135,7 +172,6 @@
     <Compile Include="Events\NestedInstallStartedEvent.cs" />
     <Compile Include="Events\NestedInstallCompleteEvent.cs" />
     <Compile Include="Events\UninstallProductCommand.cs" />
-    <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Installations\AfterInstallAction.cs" />
     <Compile Include="Installations\Prerequisites\DtcInstaller.cs" />
     <Compile Include="Installations\Prerequisites\MsmqInstaller.cs" />
@@ -192,6 +228,12 @@
     <Compile Include="Events\RequestExitApplicationEvent.cs" />
     <Compile Include="Views\AbortInstallationHandler.cs" />
     <Compile Include="Events\InstallStartedEvent.cs" />
+    <Compile Include="DotNetUpgrade\Views\DotNetDownloadView.xaml.cs">
+      <DependentUpon>DotNetDownloadView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DotNetUpgrade\Views\DotNetDownloadViewModel.cs" />
+    <Compile Include="DotNetUpgrade\Views\DotNetInstallCompleteViewModel.cs" />
+    <Compile Include="DotNetUpgrade\Views\DotNetInstallFailedViewModel.cs" />
     <Compile Include="Views\ProxySettingsView.xaml.cs">
       <DependentUpon>ProxySettingsView.xaml</DependentUpon>
     </Compile>
@@ -212,6 +254,10 @@
     </Compile>
     <Compile Include="Views\RebootNeededViewModel.cs" />
     <Compile Include="RebootMachine.cs" />
+    <Compile Include="DotNetUpgrade\Views\DotNetPreReqView.xaml.cs">
+      <DependentUpon>DotNetPreReqView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DotNetUpgrade\Views\DotNetPreReqViewModel.cs" />
     <Compile Include="WpfExtensions\SimpleCommand.cs" />
     <Compile Include="WpfExtensions\ResourceResolver.cs" />
     <Compile Include="Views\InstallingViewModel.cs" />
@@ -319,17 +365,14 @@
   <ItemGroup>
     <Resource Include="Images\uninstall.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)..\BuildSupport\GitVersionTask\Build\GitVersionTask.targets" />
-  <Import Project="..\packages\Fody.1.29.3\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\packages\Fody.1.29.3\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Fody.1.29.3\build\portable-net+sl+win+wpa+wp\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.29.3\build\portable-net+sl+win+wpa+wp\Fody.targets'))" />
-    <Error Condition="!Exists('..\packages\AsyncErrorHandler.Fody.1.0.10.0\build\dotnet\AsyncErrorHandler.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AsyncErrorHandler.Fody.1.0.10.0\build\dotnet\AsyncErrorHandler.Fody.targets'))" />
-    <Error Condition="!Exists('..\packages\Resourcer.Fody.1.4.0\build\dotnet\Resourcer.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Resourcer.Fody.1.4.0\build\dotnet\Resourcer.Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Fody.1.29.4\build\dotnet\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.29.4\build\dotnet\Fody.targets'))" />
   </Target>
-  <Import Project="..\packages\AsyncErrorHandler.Fody.1.0.10.0\build\dotnet\AsyncErrorHandler.Fody.targets" Condition="Exists('..\packages\AsyncErrorHandler.Fody.1.0.10.0\build\dotnet\AsyncErrorHandler.Fody.targets')" />
-  <Import Project="..\packages\Resourcer.Fody.1.4.0\build\dotnet\Resourcer.Fody.targets" Condition="Exists('..\packages\Resourcer.Fody.1.4.0\build\dotnet\Resourcer.Fody.targets')" />
+  <Import Project="..\packages\Fody.1.29.4\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.1.29.4\build\dotnet\Fody.targets')" />
 </Project>

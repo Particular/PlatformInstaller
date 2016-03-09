@@ -33,6 +33,8 @@ public static class ContainerFactory
             .SingleInstance();
         builder.RegisterType<CredentialStore>()
             .SingleInstance();
+        builder.RegisterType<ProxyTester>()
+            .SingleInstance();
         builder.RegisterType<ReleaseManager>()
             .SingleInstance();
         builder.RegisterType<Installer>()
@@ -56,10 +58,10 @@ public static class ContainerFactory
         builder.RegisterType<NServiceBusPrerequisitesInstaller>()
             .SingleInstance()
             .AsImplementedInterfaces();
-
         builder.RegisterInstance(new RaygunClient(Program.RaygunApiKey))
             .SingleInstance();
-        
+        builder.RegisterType<RuntimeUpgradeManager>()
+            .SingleInstance();
         return builder.Build();
     }
 

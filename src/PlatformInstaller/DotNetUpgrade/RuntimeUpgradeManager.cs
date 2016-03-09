@@ -18,6 +18,7 @@ public class RuntimeUpgradeManager
     const string dotNet452WebInstallerURL = "http://go.microsoft.com/fwlink/?LinkId=397707";
     FileInfo installer;
 
+
     public RuntimeUpgradeManager(IEventAggregator eventAggregator, CredentialStore credentialStore, ProcessRunner processRunner)
     {
         this.eventAggregator = eventAggregator;

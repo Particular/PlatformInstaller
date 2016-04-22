@@ -41,8 +41,6 @@ public class MsmqInstaller
             case OperatingSystemEnum.Windows10:
                 RunExe(dismPath, @"/Online /NoRestart /English /Enable-Feature /all /FeatureName:MSMQ-Server");
                 break;
-
-            
             default:
                 throw new Exception("Unsupported Operating System");
         }

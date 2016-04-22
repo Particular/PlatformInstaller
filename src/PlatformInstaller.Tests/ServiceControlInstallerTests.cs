@@ -9,6 +9,6 @@ public class ServiceControlInstallerTests
     public void GetManagementPath()
     {
         var managementPath = ServiceControlInstaller.GetManagementPath();
-        Debug.WriteLine(managementPath);
+        Trace.WriteLine(managementPath);
     }
 }

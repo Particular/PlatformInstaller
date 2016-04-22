@@ -9,7 +9,7 @@ public partial class ShellView
     {
         CurrentInstance = this;
         InitializeComponent();
-        
+
     }
 
     public void HideMe()
@@ -33,7 +33,7 @@ public partial class ShellView
         var hwnd = fromVisual.Handle;
         UnsafeNativeMethods.ShowWindow(hwnd, WindowState == WindowState.Normal ? ShowWindowCommands.Maximize : ShowWindowCommands.Normal);
     }
-    
+
     protected override void OnMouseDown(MouseButtonEventArgs e)
     {
         base.OnMouseDown(e);

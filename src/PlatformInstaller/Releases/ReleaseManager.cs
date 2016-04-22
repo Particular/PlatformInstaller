@@ -19,8 +19,8 @@ public class ReleaseManager
         this.eventAggregator = eventAggregator;
         this.credentialStore = credentialStore;
     }
-   
-    const string rootURL = @"http://platformupdate.particular.net/{0}.txt";
+
+    const string rootURL = "http://platformupdate.particular.net/{0}.txt";
 
     public Release[] GetReleasesForProduct(string product)
     {

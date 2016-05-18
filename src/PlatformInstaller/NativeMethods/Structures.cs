@@ -98,7 +98,7 @@ struct RECT
         {
             return false;
         }
-        return (this == (RECT) obj);
+        return this == (RECT) obj;
     }
 
     /// <summary>Return the HashCode for this struct (not guaranteed to be unique)</summary>
@@ -110,7 +110,7 @@ struct RECT
     /// <summary> Determine if 2 RECT are equal (deep compare)</summary>
     public static bool operator ==(RECT rect1, RECT rect2)
     {
-        return (rect1.left == rect2.left && rect1.top == rect2.top && rect1.right == rect2.right && rect1.bottom == rect2.bottom);
+        return rect1.left == rect2.left && rect1.top == rect2.top && rect1.right == rect2.right && rect1.bottom == rect2.bottom;
     }
 
     /// <summary> Determine if 2 RECT are different(deep compare)</summary>

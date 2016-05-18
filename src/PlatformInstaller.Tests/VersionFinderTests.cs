@@ -6,6 +6,6 @@ public class VersionFinderTests
     [Test]
     public void VerifyCanGetVersion()
     {
-        Assert.IsNotNullOrEmpty(VersionFinder.GetVersion());        
+        Assert.IsFalse(string.IsNullOrEmpty(VersionFinder.GetVersion()));
     }
 }

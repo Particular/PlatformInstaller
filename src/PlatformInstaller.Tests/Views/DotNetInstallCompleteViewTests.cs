@@ -1,11 +1,12 @@
-﻿using NUnit.Framework;
+﻿using System.Threading;
+using NUnit.Framework;
 
 [TestFixture]
 public class DotNetInstallCompleteViewTests
 {
     [Test]
     [Explicit]
-    [RequiresSTA]
+    [Apartment(ApartmentState.STA)]
     public void Show()
     {
         var model = GetModel();
@@ -14,7 +15,7 @@ public class DotNetInstallCompleteViewTests
 
 
     [Test]
-    [RequiresSTA]
+    [Apartment(ApartmentState.STA)]
     [Explicit]
     public void Screenshot()
     {

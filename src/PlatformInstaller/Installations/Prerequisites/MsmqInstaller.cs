@@ -34,12 +34,12 @@ public class MsmqInstaller
                 break;
 
             case OperatingSystemEnum.Windows7:
-                RunExe(dismPath, @"/Online /NoRestart /English /Enable-Feature /FeatureName:MSMQ-Container /FeatureName:MSMQ-Server");
+                RunExe(dismPath, "/Online /NoRestart /English /Enable-Feature /FeatureName:MSMQ-Container /FeatureName:MSMQ-Server");
                 break;
             case OperatingSystemEnum.Windows8:
             case OperatingSystemEnum.Server2012:
             case OperatingSystemEnum.Windows10:
-                RunExe(dismPath, @"/Online /NoRestart /English /Enable-Feature /all /FeatureName:MSMQ-Server");
+                RunExe(dismPath, "/Online /NoRestart /English /Enable-Feature /all /FeatureName:MSMQ-Server");
                 break;
             default:
                 throw new Exception("Unsupported Operating System");

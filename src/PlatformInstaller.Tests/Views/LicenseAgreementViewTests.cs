@@ -1,3 +1,4 @@
+using System.Threading;
 using NUnit.Framework;
 
 [TestFixture]
@@ -5,7 +6,7 @@ public class LicenseAgreementViewTests
 {
     [Test]
     [Explicit]
-    [RequiresSTA]
+    [Apartment(ApartmentState.STA)]
     public void Show()
     {
         var model = GetModel();
@@ -14,7 +15,7 @@ public class LicenseAgreementViewTests
 
 
     [Test]
-    [RequiresSTA]
+    [Apartment(ApartmentState.STA)]
     [Explicit]
     public void ScreenShot()
     {

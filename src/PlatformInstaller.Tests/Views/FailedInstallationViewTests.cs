@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using NUnit.Framework;
 
 [TestFixture]
@@ -6,7 +7,7 @@ public class FailedInstallationViewTests
 {
     [Test]
     [Explicit]
-    [RequiresSTA]
+    [Apartment(ApartmentState.STA)]
     public void Show()
     {
         var model = GetModel();
@@ -15,7 +16,7 @@ public class FailedInstallationViewTests
 
 
     [Test]
-    [RequiresSTA]
+    [Apartment(ApartmentState.STA)]
     [Explicit]
     public void Screenshot()
     {

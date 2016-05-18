@@ -36,7 +36,7 @@ public class ServiceControlInstaller : IInstaller
     }
 
     public Version CurrentVersion()
-    {   
+    {
         Version version;
         RegistryFind.TryFindInstalledVersion("ServiceControl", out version);
         return version;
@@ -52,7 +52,7 @@ public class ServiceControlInstaller : IInstaller
         return latest;
     }
 
-   
+
 
     public bool SelectedByDefault => LatestAvailableVersion() != CurrentVersion();
 
@@ -72,11 +72,11 @@ public class ServiceControlInstaller : IInstaller
             logError("Failed to download the ServiceControl Installation from https://github.com/Particular/ServiceControl/releases/latest. Please manually download and run the install.");
             return;
         }
-        
+
         var log = "particular.servicecontrol.installer.log";
         var fullLogPath = Path.Combine(installer.Directory.FullName, log);
         File.Delete(fullLogPath);
-        
+
         var exitCode = await processRunner.RunProcess(installer.FullName,
             $"/quiet /L*V {log}",
             installer.Directory.FullName,
@@ -130,7 +130,7 @@ public class ServiceControlInstaller : IInstaller
                 processRunner.RunProcess(value, "", Path.GetDirectoryName(value), s => { }, s => { });
             }
         };
-        
+
     }
 
     public int NestedActionCount => 1;

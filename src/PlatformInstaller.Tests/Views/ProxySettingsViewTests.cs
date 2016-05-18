@@ -1,4 +1,5 @@
-﻿using ApprovalUtilities.Wpf;
+﻿using System.Threading;
+using ApprovalUtilities.Wpf;
 using NUnit.Framework;
 
 [TestFixture]
@@ -6,15 +7,15 @@ public class ProxySettingsViewTests
 {
     [Test]
     [Explicit]
-    [RequiresSTA]
+    [Apartment(ApartmentState.STA)]
     public void Show()
     {
         var proxySettings = CreateDialog();
         proxySettings.ShowDialog();
     }
-    
+
     [Test]
-    [RequiresSTA]
+    [Apartment(ApartmentState.STA)]
     [Explicit]
     public void ScreenShot()
     {

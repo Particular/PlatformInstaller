@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
@@ -24,7 +25,9 @@ public class ShellViewModel : Conductor<object>,
     IHandle<DotNetStartInstallWizardCommand>,
     IHandle<DotNetDownloadCompleteEvent>,
     IHandle<DotNetInstallFailedEvent>,
-    IHandle<DotNetInstallCompleteEvent>
+    IHandle<DotNetInstallCompleteEvent>,
+    IHandle<FailureEvent>,
+    IHandle<ReportInstallFailedEvent>
 {
     LicenseAgreement licenseAgreement;
     ILifetimeScope lifetimeScope;
@@ -90,17 +93,23 @@ public class ShellViewModel : Conductor<object>,
             return;
         }
 
-        if (proxyTester.AreCredentialsRequired())
-        { 
-            var proxySettings = new ProxySettingsView(proxyTester, credentialStore)
+        try
+        {
+            if (proxyTester.AreCredentialsRequired())
             {
-                Owner = ShellView.CurrentInstance
-            };
-            proxySettings.ShowDialog();
-            if (proxySettings.Cancelled)
-            {
-                Environment.Exit(0);
+                var proxySettings = new ProxySettingsView(proxyTester, credentialStore)
+                {
+                    Owner = ShellView.CurrentInstance
+                };
+                proxySettings.ShowDialog();
+                if (proxySettings.Cancelled)
+                {
+                    Environment.Exit(0);
+                }
             }
+        }
+        catch(WebException) 
+        {
         }
 
         if (runtimeUpgradeManager.Is452InstallRequired())
@@ -109,6 +118,7 @@ public class ShellViewModel : Conductor<object>,
             return;
         }
         ActivateModel<SelectItemsViewModel>();
+
     }
 
     public async void Handle(RunInstallEvent message)
@@ -204,7 +214,7 @@ public class ShellViewModel : Conductor<object>,
         {
             var psi = new ProcessStartInfo(exe, arguments);
             psi.UseShellExecute = true;
-            Process.Start(psi).WaitForExit();
+            Process.Start(psi)?.WaitForExit();
         }
         catch
         {
@@ -229,5 +239,12 @@ public class ShellViewModel : Conductor<object>,
     {
         ShellView.CurrentInstance.ShowMe();
         ActivateModel<DotNetInstallCompleteViewModel>();
+    }
+
+    public void Handle(FailureEvent message)
+    {
+        ActivateModel<FailureViewModel>( 
+            new NamedParameter("FailureDescription", message.FailureDescription), 
+            new NamedParameter("FailureText", message.FailureText));
     }
 }

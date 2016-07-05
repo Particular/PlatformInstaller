@@ -14,24 +14,24 @@ public class ReleaseManager
     IEventAggregator eventAggregator;
     CredentialStore credentialStore;
 
+    public const string BaseUrl = "http://platformupdate.particular.net";
+
     public ReleaseManager(IEventAggregator eventAggregator, CredentialStore credentialStore)
     {
         this.eventAggregator = eventAggregator;
         this.credentialStore = credentialStore;
     }
-
-    const string rootURL = "http://platformupdate.particular.net/{0}.txt";
-
+    
     public Release[] GetReleasesForProduct(string product)
     {
-        var uri = string.Format(rootURL, product.ToLowerInvariant());
+        var uri = $"{BaseUrl}/{product.ToLowerInvariant()}.txt";
         using (var client = new WebClient())
         {
             client.Proxy.Credentials = credentialStore.Credentials;
 
             string data = null;
             var retries = 0;
-            const int maxretries = 5;
+            const int maxretries = 1;
             while (true)
             {
                 try
@@ -47,7 +47,7 @@ public class ReleaseManager
                     {
                         break;
                     }
-                    LogTo.Information("Retrying to retrieve data from {0}", uri);
+                    LogTo.Information($"Retrying to retrieve data from {uri}");
                 }
             }
 
@@ -59,7 +59,7 @@ public class ReleaseManager
                     return releases;
                 }
             }
-            throw new Exception("Could not load releases from " + uri);
+            throw new Exception($"Could not load releases from {uri}");
         }
     }
 
@@ -86,7 +86,7 @@ public class ReleaseManager
             {
                 var url = release.Download;
                 var fullName = localAsset.FullName;
-                LogTo.Information("Attempting to download '{0}' to '{1}'", url, fullName);
+                LogTo.Information($"Attempting to download '{url}' to '{fullName}'");
                 try
                 {
                     await client.DownloadFileTaskAsync(url, fullName).ConfigureAwait(false);

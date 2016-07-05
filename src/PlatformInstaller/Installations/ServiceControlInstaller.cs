@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Microsoft.Win32;
@@ -12,6 +13,9 @@ public class ServiceControlInstaller : IInstaller
     ReleaseManager releaseManager;
     Release[] releases;
     IEventAggregator eventAggregator;
+
+    const string RegPath = @"SOFTWARE\ParticularSoftware\ServiceControl";
+    const string ManagementRegValue = "ManagementApp";
 
     public ServiceControlInstaller(ProcessRunner processRunner, ReleaseManager releaseManager, IEventAggregator eventAggregator)
     {
@@ -24,8 +28,7 @@ public class ServiceControlInstaller : IInstaller
     {
         releases = releaseManager.GetReleasesForProduct("ServiceControl");
     }
-
-
+    
     public IEnumerable<DocumentationLink> GetDocumentationLinks()
     {
         yield return new DocumentationLink
@@ -34,7 +37,7 @@ public class ServiceControlInstaller : IInstaller
             Url = "http://docs.particular.net/servicecontrol/"
         };
     }
-
+    
     public Version CurrentVersion()
     {
         Version version;
@@ -51,9 +54,7 @@ public class ServiceControlInstaller : IInstaller
         }
         return latest;
     }
-
-
-
+    
     public bool SelectedByDefault => LatestAvailableVersion() != CurrentVersion();
 
     public bool Enabled => !(LatestAvailableVersion() == CurrentVersion());
@@ -99,19 +100,25 @@ public class ServiceControlInstaller : IInstaller
 
     public static string GetManagementPath()
     {
-        var name = @"SOFTWARE\ParticularSoftware\ServiceControl";
         if (Environment.Is64BitOperatingSystem)
         {
-            var key64 = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64).OpenSubKey(name);
-            if (key64 != null)
+            var path = ReadRegString(RegistryHive.LocalMachine, RegistryView.Registry64, RegPath, ManagementRegValue);
+            if (path != null)
             {
-                return (string) key64.GetValue("ManagementApp");
+                return path;
             }
         }
-        var key32 = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(name);
-        return (string) key32.GetValue("ManagementApp");
+        return ReadRegString(RegistryHive.LocalMachine, RegistryView.Registry32, RegPath, ManagementRegValue);
     }
 
+    static string ReadRegString(RegistryHive hive, RegistryView view, string subkey, string valueName)
+    {
+        using (var key = RegistryKey.OpenBaseKey(hive, view).OpenSubKey(subkey))
+        {
+            return (string)key?.GetValue(valueName);
+        }
+    }
+    
     public bool Installed()
     {
         return CurrentVersion() != null;
@@ -127,10 +134,16 @@ public class ServiceControlInstaller : IInstaller
             Action = () =>
             {
                 var value = GetManagementPath();
-                processRunner.RunProcess(value, "", Path.GetDirectoryName(value), s => { }, s => { });
+                if (!File.Exists(value))
+                {
+                    processRunner.RunProcess(value, "", Path.GetDirectoryName(value), s => { }, s => { });
+                }
+                else
+                {
+                    eventAggregator.PublishOnUIThread(new FailureEvent{ FailureDescription = "ServiceControl Management Utility not found", FailureText = DetermineDetailsOfManagementUtilityNotFound()});
+                }
             }
         };
-
     }
 
     public int NestedActionCount => 1;
@@ -140,4 +153,23 @@ public class ServiceControlInstaller : IInstaller
     public string Status => this.ExeInstallerStatus();
 
     public string ToolTip => "ServiceControl is the monitoring brain in the Particular Service Platform";
+    
+    string DetermineDetailsOfManagementUtilityNotFound()
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("ServiceControl Management Utility was not found!");
+        sb.AppendLine("Dump of settings related to failure:");
+        sb.AppendLine($"ServiceControl Installed : {Installed()} ");
+        sb.AppendLine($"ServiceControl Version : {CurrentVersion()} ");
+        if (Environment.Is64BitOperatingSystem)
+        {
+            sb.AppendLine($"64 Bit Management Path : {ReadRegString(RegistryHive.LocalMachine, RegistryView.Registry64, RegPath, ManagementRegValue)}");
+        }
+        sb.AppendLine($"32 Bit Management Path : {ReadRegString(RegistryHive.LocalMachine, RegistryView.Registry32, RegPath, ManagementRegValue)}");
+        return sb.ToString();
+    }
 }
+
+    
+
+   

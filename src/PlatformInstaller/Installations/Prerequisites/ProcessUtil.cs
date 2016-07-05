@@ -26,12 +26,8 @@ public class ProcessUtil
 
         var timeout = TimeSpan.FromSeconds(10);
         controller.WaitForStatus(status, timeout);
-        if (controller.Status == status)
-        {
-            // WriteVerbose((controller.ServiceName + " status changed successfully."));
-        }
-        else
-        {
+        if (controller.Status != status)
+        { 
             ThrowUnableToChangeStatus(controller.ServiceName, status);
         }
     }

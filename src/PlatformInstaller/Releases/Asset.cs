@@ -1,3 +1,4 @@
+// ReSharper disable UnassignedField.Global
 public class Asset
 {
     public string Name;

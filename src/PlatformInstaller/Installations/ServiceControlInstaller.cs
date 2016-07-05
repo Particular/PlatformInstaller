@@ -134,7 +134,7 @@ public class ServiceControlInstaller : IInstaller
             Action = () =>
             {
                 var value = GetManagementPath();
-                if (!File.Exists(value))
+                if (File.Exists(value))
                 {
                     processRunner.RunProcess(value, "", Path.GetDirectoryName(value), s => { }, s => { });
                 }

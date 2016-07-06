@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Anotar.Serilog;
 using Caliburn.Micro;
 
 public class Installer : 
@@ -106,6 +107,7 @@ public class Installer :
             {
                 Text = output
             });
+        LogTo.Information(output);
     }
 
     void AddError(string error)
@@ -116,6 +118,7 @@ public class Installer :
                 Text = error
             });
         errors.Add(error);
+        LogTo.Error(error);
     }
 
     public void Handle(NestedInstallCompleteEvent message)

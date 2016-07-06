@@ -47,17 +47,9 @@ public class ProxyTester
             {
                 client.DownloadString("http://platformupdate.particular.net/");
             }
-            catch (WebException ex)
+            catch (WebException ex) when (ex.Status == WebExceptionStatus.ProtocolError &  ((HttpWebResponse) ex.Response)?.StatusCode == HttpStatusCode.ProxyAuthenticationRequired)
             {
-                if (ex.Status == WebExceptionStatus.ProtocolError)
-                {
-                    var response = ex.Response as HttpWebResponse;
-                    if (response != null && response.StatusCode == HttpStatusCode.ProxyAuthenticationRequired)
-                    {
-                        return false;
-                    }
-                }
-                throw;
+                return false;
             }
         }
         return true;

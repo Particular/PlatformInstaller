@@ -61,6 +61,7 @@
     <Compile Include="DotNetUpgrade\Views\DotNetInstallFailedView.xaml.cs">
       <DependentUpon>DotNetInstallFailedView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events\FailureEvent.cs" />
     <Compile Include="NativeMethods\NativeConstants.cs" />
     <Compile Include="NativeMethods\ShowWindowCommands.cs" />
     <Compile Include="NativeMethods\Structures.cs" />
@@ -83,6 +84,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="DotNetUpgrade\Views\DotNetPreReqView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FailureView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -234,6 +239,7 @@
     <Compile Include="DotNetUpgrade\Views\DotNetDownloadViewModel.cs" />
     <Compile Include="DotNetUpgrade\Views\DotNetInstallCompleteViewModel.cs" />
     <Compile Include="DotNetUpgrade\Views\DotNetInstallFailedViewModel.cs" />
+    <Compile Include="Views\FailureViewModel.cs" />
     <Compile Include="Views\ProxySettingsView.xaml.cs">
       <DependentUpon>ProxySettingsView.xaml</DependentUpon>
     </Compile>
@@ -258,6 +264,9 @@
       <DependentUpon>DotNetPreReqView.xaml</DependentUpon>
     </Compile>
     <Compile Include="DotNetUpgrade\Views\DotNetPreReqViewModel.cs" />
+    <Compile Include="Views\FailureView.xaml.cs">
+      <DependentUpon>FailureView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WpfExtensions\SimpleCommand.cs" />
     <Compile Include="WpfExtensions\ResourceResolver.cs" />
     <Compile Include="Views\InstallingViewModel.cs" />

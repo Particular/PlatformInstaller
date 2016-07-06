@@ -1,3 +1,4 @@
+using System;
 using Autofac;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,29 +35,44 @@ public class SelectItemsViewModel : Screen
     public List<Item> Items { get; set; }
     public PendingRestartAndResume pendingRestartAndResume { get; set; }
     public string AppVersion { get; set; }
-
     
     protected override void OnInitialize()
     {
         base.OnInitialize();
+       
         foreach (var installer in  installers)
         {
-            installer.Init();
+            try
+            {
+                installer.Init();
+            }
+            catch(Exception ex)
+            {
+                eventAggregator.PublishOnUIThread(
+                    new FailureEvent
+                    {
+                        FailureDescription = $"Failed to get release information for {installer.Name}",
+                        FailureText = ex.Message
+                    });
+                return;
+            }
         }
+
         Items = installers
-          .Select(x => new Item
-              {
-                  EventAggregator = eventAggregator,
-                  ImageUrl = GetImage(x.Name),
-                  ToolTip = x.ToolTip,
-                  Enabled = x.Enabled,
-                  Selected = x.SelectedByDefault,
-                  Status = x.Status,
-                  Name = x.Name,
-                  CheckBoxVisible = x.SelectedByDefault ? Visibility.Visible : Visibility.Collapsed,
-                  UninstallVisible =  x.Installed() ? Visibility.Visible : Visibility.Hidden,
-                  UninstallText = "Uninstall " + x.Name 
-          }).ToList();
+            .Select(x => new Item
+            {
+                EventAggregator = eventAggregator,
+                ImageUrl = GetImage(x.Name),
+                ToolTip = x.ToolTip,
+                Enabled = x.Enabled,
+                Selected = x.SelectedByDefault,
+                Status = x.Status,
+                Name = x.Name,
+                CheckBoxVisible = x.SelectedByDefault ? Visibility.Visible : Visibility.Collapsed,
+                UninstallVisible = x.Installed() ? Visibility.Visible : Visibility.Hidden,
+                UninstallText = "Uninstall " + x.Name
+            }).ToList();
+
 
         IsInstallEnabled = Items.Any(pd => pd.Selected);
 
@@ -121,8 +137,7 @@ public class SelectItemsViewModel : Screen
     {
         eventAggregator.Publish<ExitApplicationCommand>();
     }
-
-
+    
     // Suppressing NotAccessedField.Global 
     // Fields are used via Caliburn.Micro 
     [SuppressMessage("ReSharper", "NotAccessedField.Global")]
@@ -140,7 +155,7 @@ public class SelectItemsViewModel : Screen
         public Visibility CheckBoxVisible;
         public string UninstallText;
         public Visibility UninstallVisible;
-
+        
         public void Uninstall()
         {
             var uninstallCommand = new UninstallProductCommand

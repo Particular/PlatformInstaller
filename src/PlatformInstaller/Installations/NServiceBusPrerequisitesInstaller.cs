@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 
@@ -57,39 +58,34 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
         throw new NotSupportedException();
     }
 
-    public Task Execute(Action<string> logOutput, Action<string> logError)
+    public async Task Execute(Action<string> logOutput, Action<string> logError)
     {
         eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent
-                                          {
-                                              Name = "NServiceBus Prerequisites - Microsoft Message Queue (MSMQ)"
-                                          });
-        if (!MsmqSetupStep(logOutput, logError))
         {
-            return Task.FromResult(0);
-        }
+            Name = "NServiceBus Prerequisites - Microsoft Message Queue (MSMQ)"
+        });
+
+        await Task.Run(() => { MsmqSetupStep(logOutput, logError); }).ConfigureAwait(false);
+
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
 
         eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent
-                                          {
-                                              Name = "NServiceBus Prerequisites - Distributed Transaction Coordinator"
-                                          });
-        if (!DtcSetupStep(logOutput, logError))
         {
-            return Task.FromResult(0);
-        }
+            Name = "NServiceBus Prerequisites - Distributed Transaction Coordinator"
+        });
+
+        await Task.Run(() => { DtcSetupStep(logOutput, logError); }).ConfigureAwait(false);
+
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
 
-        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent
-                                          {
-                                              Name = "NServiceBus Prerequisites - Performance Counters"
-                                          });
-        if (!PerfCounterSetupStep(logOutput, logError))
-        {
-            return Task.FromResult(0);
-        }
+        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent{Name = "NServiceBus Prerequisites - Performance Counters"});
+
+        await Task.Run(() => { PerfCounterSetupStep(logOutput, logError); }).ConfigureAwait(false);
+
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
-        
-        return Task.FromResult(0);
+
+        await Task.Delay(2000); //Give the user a chance to see the final text
+
     }
 
     public bool Installed()
@@ -97,7 +93,7 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
         return false;
     }
 
-    bool PerfCounterSetupStep(Action<string> logOutput, Action<string> logError)
+    void PerfCounterSetupStep(Action<string> logOutput, Action<string> logError)
     {
         try
         {
@@ -108,7 +104,7 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
             if (allCountersExist)
             {
                 logOutput("Performance Counters OK");
-                return true;
+                return;
             }
             logOutput("Adding NServiceBus Performance Counters");
             if (setup.DoesCategoryExist())
@@ -121,13 +117,13 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
         {
             logError("NServiceBus Performance Counters install failed:");
             logError($"{ex}");
-            return false;
         }
-        return true;
+
     }
 
-    bool DtcSetupStep(Action<string> logOutput, Action<string> logError)
+    void DtcSetupStep(Action<string> logOutput, Action<string> logError)
     {
+       
         try
         {
             var dtc = new DtcInstaller(logOutput);
@@ -135,22 +131,21 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
             {
                 dtc.ReconfigureAndRestartDtcIfNecessary();
             }
+            
         }
         catch (Exception ex)
         {
             logError("DTC install has failed:");
             logError($"{ex}");
-            return false;
         }
-        return true;
+        Thread.Sleep(2000);
     }
 
-    bool MsmqSetupStep(Action<string> logOutput, Action<string> logError)
+    void MsmqSetupStep(Action<string> logOutput, Action<string> logError)
     {
         try
         {
             var msmq = new MsmqInstaller(logOutput);
-
             if (msmq.IsInstalled())
             {
                 if (msmq.IsInstallationGood())
@@ -161,7 +156,7 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
                 {
                     logError("MSMQ is already installed but has unsupported options enabled.");
                     logError($"To use NServiceBus please disable any of the following MSMQ components:\r\n {string.Join(",\r\n", msmq.UnsupportedComponents())} \r\n");
-                    return false;
+                    return;
                 }
             }
             else
@@ -173,16 +168,12 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
             {
                 logError("MSMQ Service did not start");
                 eventAggregator.Publish<RebootRequiredEvent>();
-                return false;
             }
         }
         catch (Exception ex)
         {
             logError("MSMQ install has failed:");
             logError($"{ex}");
-            return false;
         }
-        return true;
     }
-
 }

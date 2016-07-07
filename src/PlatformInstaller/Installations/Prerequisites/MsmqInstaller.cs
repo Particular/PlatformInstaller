@@ -49,7 +49,6 @@ public class MsmqInstaller
 
     public async Task<bool> StartMsmqIfNecessary()
     {
-        var processUtil = new ProcessUtil();
         try
         {
             using (var controller = new ServiceController("MSMQ"))
@@ -57,7 +56,7 @@ public class MsmqInstaller
                 if (IsStopped(controller))
                 {
                     output("Starting MSMQ Service");
-                    await processUtil.ChangeServiceStatus(controller, ServiceControllerStatus.Running, controller.Start)
+                    await controller.ChangeServiceStatus(ServiceControllerStatus.Running, controller.Start)
                         .ConfigureAwait(false);
                 }
             }

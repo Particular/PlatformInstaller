@@ -3,9 +3,9 @@ using System.ComponentModel;
 using System.ServiceProcess;
 using System.Threading.Tasks;
 
-public class ProcessUtil
+public static class ProcessUtil
 {
-    public async Task ChangeServiceStatus(ServiceController controller, ServiceControllerStatus status, Action changeStatus)
+    public static async Task ChangeServiceStatus(this ServiceController controller, ServiceControllerStatus status, Action changeStatus)
     {
         if (controller.Status == status)
         {
@@ -34,12 +34,7 @@ public class ProcessUtil
         }
     }
 
-    void ThrowUnableToChangeStatus(string serviceName, ServiceControllerStatus status)
-    {
-        ThrowUnableToChangeStatus(serviceName, status, null);
-    }
-
-    static void ThrowUnableToChangeStatus(string serviceName, ServiceControllerStatus status, Exception exception)
+    static void ThrowUnableToChangeStatus(string serviceName, ServiceControllerStatus status, Exception exception = null)
     {
         var message = $"Unable to change {serviceName} status to {Enum.GetName(typeof(ServiceControllerStatus), status)}";
 

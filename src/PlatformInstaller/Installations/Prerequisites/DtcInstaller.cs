@@ -16,16 +16,14 @@ public class DtcInstaller
 
     public async Task ReconfigureAndRestartDtcIfNecessary()
     {
-        var processUtil = new ProcessUtil();
-
         if (DoesSecurityConfigurationRequireRestart(true))
         {
             output("Stopping DTC service");
-            await processUtil.ChangeServiceStatus(Controller, ServiceControllerStatus.Stopped, Controller.Stop)
+            await Controller.ChangeServiceStatus(ServiceControllerStatus.Stopped, Controller.Stop)
                 .ConfigureAwait(false);
         }
         output("Starting DTC service");
-        await processUtil.ChangeServiceStatus(Controller, ServiceControllerStatus.Running, Controller.Start)
+        await Controller.ChangeServiceStatus(ServiceControllerStatus.Running, Controller.Start)
             .ConfigureAwait(false);
     }
 
@@ -78,6 +76,16 @@ public class DtcInstaller
         }
     }
 
-    static ServiceController Controller = new ServiceController { ServiceName = "MSDTC", MachineName = "." };
-    static List<string> RegValues = new List<string>(new[] { "NetworkDtcAccess", "NetworkDtcAccessOutbound", "NetworkDtcAccessTransactions", "XaTransactions" });
+    static ServiceController Controller = new ServiceController
+    {
+        ServiceName = "MSDTC",
+        MachineName = "."
+    };
+    static List<string> RegValues = new List<string>
+    {
+        "NetworkDtcAccess",
+        "NetworkDtcAccessOutbound",
+        "NetworkDtcAccessTransactions",
+        "XaTransactions"
+    };
 }

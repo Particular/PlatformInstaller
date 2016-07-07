@@ -1,10 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ServiceProcess;
+using System.Threading.Tasks;
 
 public class ProcessUtil
 {
-    public void ChangeServiceStatus(ServiceController controller, ServiceControllerStatus status, Action changeStatus)
+    public async Task ChangeServiceStatus(ServiceController controller, ServiceControllerStatus status, Action changeStatus)
     {
         if (controller.Status == status)
         {
@@ -25,7 +26,8 @@ public class ProcessUtil
         }
 
         var timeout = TimeSpan.FromSeconds(10);
-        controller.WaitForStatus(status, timeout);
+        await controller.WaitForStatusAsync(status, timeout)
+            .ConfigureAwait(false);
         if (controller.Status != status)
         {
             ThrowUnableToChangeStatus(controller.ServiceName, status);

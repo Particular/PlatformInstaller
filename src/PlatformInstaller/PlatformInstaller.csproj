@@ -62,6 +62,7 @@
       <DependentUpon>DotNetInstallFailedView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\FailureEvent.cs" />
+    <Compile Include="Installations\Prerequisites\ServiceControllerExtensions.cs" />
     <Compile Include="NativeMethods\NativeConstants.cs" />
     <Compile Include="NativeMethods\ShowWindowCommands.cs" />
     <Compile Include="NativeMethods\Structures.cs" />

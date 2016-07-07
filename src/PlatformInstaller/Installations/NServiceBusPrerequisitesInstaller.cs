@@ -84,7 +84,9 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
 
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
 
-        await Task.Delay(2000); //Give the user a chance to see the final text
+        //Give the user a chance to see the final text
+        await Task.Delay(2000)
+            .ConfigureAwait(false);
 
     }
 
@@ -123,7 +125,7 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
 
     void DtcSetupStep(Action<string> logOutput, Action<string> logError)
     {
-       
+
         try
         {
             var dtc = new DtcInstaller(logOutput);
@@ -131,7 +133,7 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
             {
                 dtc.ReconfigureAndRestartDtcIfNecessary();
             }
-            
+
         }
         catch (Exception ex)
         {

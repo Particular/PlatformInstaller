@@ -27,7 +27,7 @@ public class ProcessUtil
         var timeout = TimeSpan.FromSeconds(10);
         controller.WaitForStatus(status, timeout);
         if (controller.Status != status)
-        { 
+        {
             ThrowUnableToChangeStatus(controller.ServiceName, status);
         }
     }

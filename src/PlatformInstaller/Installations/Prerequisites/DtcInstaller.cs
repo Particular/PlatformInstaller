@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceProcess;
+using System.Threading.Tasks;
 using Microsoft.Win32;
 
 public class DtcInstaller
@@ -13,17 +14,19 @@ public class DtcInstaller
         output("Checking Distributed Transaction Coordinator Configuration");
     }
 
-    public void ReconfigureAndRestartDtcIfNecessary()
+    public async Task ReconfigureAndRestartDtcIfNecessary()
     {
         var processUtil = new ProcessUtil();
 
         if (DoesSecurityConfigurationRequireRestart(true))
         {
             output("Stopping DTC service");
-            processUtil.ChangeServiceStatus(Controller, ServiceControllerStatus.Stopped, Controller.Stop);
+            await processUtil.ChangeServiceStatus(Controller, ServiceControllerStatus.Stopped, Controller.Stop)
+                .ConfigureAwait(false);
         }
         output("Starting DTC service");
-        processUtil.ChangeServiceStatus(Controller, ServiceControllerStatus.Running, Controller.Start);
+        await processUtil.ChangeServiceStatus(Controller, ServiceControllerStatus.Running, Controller.Start)
+            .ConfigureAwait(false);
     }
 
     public bool IsDtcWorking()

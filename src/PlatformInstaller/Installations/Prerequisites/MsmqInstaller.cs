@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.ServiceProcess;
+using System.Threading.Tasks;
 using Microsoft.Win32;
 
 public class MsmqInstaller
@@ -46,7 +47,7 @@ public class MsmqInstaller
         }
     }
 
-    public bool StartMsmqIfNecessary()
+    public async Task<bool> StartMsmqIfNecessary()
     {
         var processUtil = new ProcessUtil();
         try
@@ -56,7 +57,8 @@ public class MsmqInstaller
                 if (IsStopped(controller))
                 {
                     output("Starting MSMQ Service");
-                    processUtil.ChangeServiceStatus(controller, ServiceControllerStatus.Running, controller.Start);
+                    await processUtil.ChangeServiceStatus(controller, ServiceControllerStatus.Running, controller.Start)
+                        .ConfigureAwait(false);
                 }
             }
         }

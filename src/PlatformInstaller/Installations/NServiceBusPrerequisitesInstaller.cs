@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 
@@ -65,7 +64,8 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
             Name = "NServiceBus Prerequisites - Microsoft Message Queue (MSMQ)"
         });
 
-        await Task.Run(() => { MsmqSetupStep(logOutput, logError); }).ConfigureAwait(false);
+        await MsmqSetupStep(logOutput, logError).
+            ConfigureAwait(false);
 
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
 
@@ -74,7 +74,8 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
             Name = "NServiceBus Prerequisites - Distributed Transaction Coordinator"
         });
 
-        await Task.Run(() => { DtcSetupStep(logOutput, logError); }).ConfigureAwait(false);
+        await DtcSetupStep(logOutput, logError)
+            .ConfigureAwait(false);
 
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
 
@@ -123,7 +124,7 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
 
     }
 
-    void DtcSetupStep(Action<string> logOutput, Action<string> logError)
+    async Task DtcSetupStep(Action<string> logOutput, Action<string> logError)
     {
 
         try
@@ -131,7 +132,8 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
             var dtc = new DtcInstaller(logOutput);
             if (!dtc.IsDtcWorking())
             {
-                dtc.ReconfigureAndRestartDtcIfNecessary();
+                await dtc.ReconfigureAndRestartDtcIfNecessary()
+                    .ConfigureAwait(false);
             }
 
         }
@@ -140,10 +142,11 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
             logError("DTC install has failed:");
             logError($"{ex}");
         }
-        Thread.Sleep(2000);
+        await Task.Delay(2000)
+            .ConfigureAwait(false);
     }
 
-    void MsmqSetupStep(Action<string> logOutput, Action<string> logError)
+    async Task MsmqSetupStep(Action<string> logOutput, Action<string> logError)
     {
         try
         {
@@ -166,7 +169,7 @@ public class NServiceBusPrerequisitesInstaller : IInstaller
                 msmq.InstallMsmq();
             }
 
-            if (!msmq.StartMsmqIfNecessary())
+            if (!await msmq.StartMsmqIfNecessary().ConfigureAwait(false))
             {
                 logError("MSMQ Service did not start");
                 eventAggregator.Publish<RebootRequiredEvent>();

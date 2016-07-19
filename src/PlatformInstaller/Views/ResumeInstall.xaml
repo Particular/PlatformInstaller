@@ -18,10 +18,10 @@
         <StackPanel Margin="10">
             <Image Source="pack://application:,,,/PlatformInstaller;component/Images/particularSmall.png" HorizontalAlignment="Left" Stretch="None" />
             <TextBlock Margin="0,10,0,0" FontSize="15" FontWeight="Bold" >Resume the previous installation?</TextBlock>
-            <TextBlock Margin="0,10,0,0" FontSize="13" TextWrapping="Wrap">The Platform Installer has completed the required reboot and you may now resume the installation. Do you wish to continue?"</TextBlock>
+            <TextBlock Margin="0,10,0,0" FontSize="13" TextWrapping="Wrap">The Platform Installer has completed the required reboot and may now resume the installation. Do you wish to continue?"</TextBlock>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0"  FlowDirection="RightToLeft">
-                <Button x:Name="ConfirmCancellation">No cancel the installation</Button>
-                <Button x:Name="ContinueInstallation">Yes continue installing</Button>
+                <Button x:Name="ConfirmCancellation">Cancel</Button>
+                <Button x:Name="ContinueInstallation" Style="{StaticResource HiliteButton}">Continue installation</Button>
             </StackPanel>
         </StackPanel>
     </Border>

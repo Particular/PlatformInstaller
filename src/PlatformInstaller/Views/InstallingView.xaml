@@ -19,10 +19,10 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel >
-        <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Bold">Installing the Particular Service Platform</TextBlock>
-        <TextBlock DockPanel.Dock="Top" Foreground="Gray">This may take a few minutes</TextBlock>
+        <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="DemiBold">Installing the Particular Service Platform</TextBlock>
+        <TextBlock DockPanel.Dock="Top" Foreground="{StaticResource Gray30Brush}">This may take a few minutes</TextBlock>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0 5 0 0">
-            <TextBlock FontSize="12" FontWeight="Bold" Margin="0 0 10 0" >Installing:</TextBlock>
+            <TextBlock FontSize="12" FontWeight="DemiBold" Margin="0 0 10 0" >Installing:</TextBlock>
             <TextBlock Text="{Binding CurrentStatus}" />
         </StackPanel>
         <ProgressBar DockPanel.Dock="Top" Height="20" Margin="0 10 0 0" Minimum="0" Maximum="{Binding InstallCount}" Value="{Binding InstallProgress}" Foreground="#2EA3C4"/>

@@ -3,27 +3,39 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:global="clr-namespace:"
         x:Class="ShellView" WindowStartupLocation="CenterScreen"
-        Title="Particular Platform Installer" Height="450" Width="500" WindowStyle="None" ResizeMode="NoResize" BorderBrush="White" >
+        Title="Particular Platform Installer" Height="600" Width="640" WindowStyle="None" ResizeMode="NoResize" BorderBrush="White" >
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../styles.xaml"/>
+                <ResourceDictionary Source="../Styles/WindowCloseButton.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
     <Border BorderBrush="#20000000" BorderThickness="2">
-        <DockPanel>
-            <WrapPanel DockPanel.Dock="Top"  Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0" >
-                <Button x:Name="Exit" Content="X" HorizontalAlignment="Right"  FontSize="10" Margin="10,0,0,0" FontWeight="Bold" />
-                <TextBlock Margin="10,0,0,0">
-                    <Hyperlink Click="OpenLogDirectory">Log</Hyperlink> 
-                </TextBlock>
-                <TextBlock Margin="10,0,0,0" >
-                    <global:Link NavigateUri="http://docs.particular.net/platform/installer/">Help</global:Link>
-                </TextBlock>
-            </WrapPanel>
-            <Image DockPanel.Dock="Top" Source="pack://application:,,,/PlatformInstaller;component/Images/particularSmall.png" HorizontalAlignment="Left" Margin="20 0 20 0" Stretch="None" />
-            <ContentControl x:Name="ActiveItem" Margin="20 20 20 20" Focusable="False"/>
-        </DockPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0" VerticalAlignment="Top" >
+                    <Button x:Name="Exit"
+                            Style="{StaticResource WindowCloseButtonStyle}"
+                            ToolTip="close">
+                            <ContentControl Width="16"
+                                Height="16"
+                                Foreground="Black"
+                                Template="{StaticResource CloseIcon}" />
+                    </Button>
+
+                    <TextBlock Margin="10,0,0,0" VerticalAlignment="Center">
+                        <Hyperlink Click="OpenLogDirectory">Logs</Hyperlink>
+                    </TextBlock>
+            </StackPanel>
+            <Image Grid.Row="0" Source="pack://application:,,,/PlatformInstaller;component/Images/particularSmall.png" HorizontalAlignment="Left" Margin="20 20 20 0" Stretch="None" />
+            <ContentControl Grid.Row="1" x:Name="ActiveItem" Margin="20,20,20,5" Focusable="False" />
+            <global:Footer Grid.Row="2"/>
+        </Grid>
     </Border>
 </Window>

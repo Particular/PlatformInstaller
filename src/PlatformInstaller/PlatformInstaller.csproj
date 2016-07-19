@@ -88,7 +88,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\Button.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Hyperlink.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Palette.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\WindowCloseButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\FailureView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Footer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -175,14 +195,9 @@
     <Compile Include="Caliburn\CaliburnExtensions.cs" />
     <Compile Include="Caliburn\ViewModelConventions.cs" />
     <Compile Include="Events\CancelInstallCommand.cs" />
-    <Compile Include="Events\NestedInstallStartedEvent.cs" />
-    <Compile Include="Events\NestedInstallCompleteEvent.cs" />
     <Compile Include="Events\UninstallProductCommand.cs" />
     <Compile Include="Installations\AfterInstallAction.cs" />
-    <Compile Include="Installations\Prerequisites\DtcInstaller.cs" />
-    <Compile Include="Installations\Prerequisites\MsmqInstaller.cs" />
-    <Compile Include="Installations\Prerequisites\PerfCountersInstaller.cs" />
-    <Compile Include="Installations\Prerequisites\ProcessUtil.cs" />
+    <Compile Include="Installations\ProcessUtil.cs" />
     <Compile Include="Events\DownloadCompleteEvent.cs" />
     <Compile Include="Events\DownloadProgressEvent.cs" />
     <Compile Include="Events\DownloadStartedEvent.cs" />
@@ -267,6 +282,9 @@
     <Compile Include="DotNetUpgrade\Views\DotNetPreReqViewModel.cs" />
     <Compile Include="Views\FailureView.xaml.cs">
       <DependentUpon>FailureView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Footer.xaml.cs">
+      <DependentUpon>Footer.xaml</DependentUpon>
     </Compile>
     <Compile Include="WpfExtensions\SimpleCommand.cs" />
     <Compile Include="WpfExtensions\ResourceResolver.cs" />

@@ -47,6 +47,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AsyncErrorHandler.cs" />
+    <Compile Include="Controls\LoadingSpinner.xaml.cs">
+      <DependentUpon>LoadingSpinner.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DotNetUpgrade\Events\DotNetInstallComplete.cs" />
     <Compile Include="DotNetUpgrade\Events\DotNetDownloadCompleteEvent.cs" />
     <Compile Include="DotNetUpgrade\Events\DotNetDownloadFailedEvent.cs" />
@@ -72,6 +75,10 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <Page Include="Controls\LoadingSpinner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DotNetUpgrade\Views\DotNetInstallCompleteView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

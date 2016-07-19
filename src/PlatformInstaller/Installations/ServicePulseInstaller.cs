@@ -22,13 +22,15 @@ public class ServicePulseInstaller : IInstaller
 
     public void Init()
     {
-        releases = releaseManager.GetReleasesForProduct("ServicePulse");
+        if (releases == null)
+            releases = releaseManager.GetReleasesForProduct(Name);
+        InstallState = this.ExeInstallState();
     }
 
     public Version CurrentVersion()
     {
         Version version;
-        RegistryFind.TryFindInstalledVersion("ServicePulse", out version);
+        RegistryFind.TryFindInstalledVersion(Name, out version);
         return version;
     }
 
@@ -41,13 +43,7 @@ public class ServicePulseInstaller : IInstaller
         }
         return latest;
     }
-
-    public bool Enabled => LatestAvailableVersion() != CurrentVersion();
-
-    public string ToolTip => "ServicePulse is a web application aimed mainly at administrators";
-
-    public bool SelectedByDefault => LatestAvailableVersion() != CurrentVersion();
-
+    
     public IEnumerable<AfterInstallAction> GetAfterInstallActions()
     {
         yield break;
@@ -62,12 +58,6 @@ public class ServicePulseInstaller : IInstaller
         };
     }
 
-    public int NestedActionCount => 1;
-
-    public string Name => "ServicePulse";
-
-    public string Status => this.ExeInstallerStatus();
-
     public async Task Execute(Action<string> logOutput, Action<string> logError)
     {
         eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = "Run ServicePulse Installation" });
@@ -81,10 +71,8 @@ public class ServicePulseInstaller : IInstaller
             return;
         }
 
-        var log = "particular.servicepulse.installer.log";
-        var fullLogPath = Path.Combine(installer.Directory.FullName, log);
-        File.Delete(fullLogPath);
-
+        var log = Path.Combine(Logging.LogDirectory, "particular.servicepulse.installer.log");
+        File.Delete(log);
         var exitCode = await processRunner.RunProcess(installer.FullName,
             $"/quiet /L*V {log}",
             // ReSharper disable once PossibleNullReferenceException
@@ -99,14 +87,16 @@ public class ServicePulseInstaller : IInstaller
         else
         {
             logError("Installation of ServicePulse failed with exitcode: " + exitCode);
-            logError("The MSI installation log can be found at "+ fullLogPath);
+            logError($"The MSI installation log can be found at {log}");
         }
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
     }
-        
-    public bool Installed()
-    {
-        return CurrentVersion() != null;
-    }
     
+    public string Name => "ServicePulse";
+    public string Description => "Production Monitoring";
+    public int NestedActionCount => 1;
+    public string ImageName => Name;
+    public string Status => this.ExeInstallerStatus();
+    public InstallState InstallState { get; private set; }
+    public bool SelectedByDefault => InstallState == InstallState.Installed;
 }

@@ -45,6 +45,8 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <NoWarn>0067</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>
+    </DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
@@ -67,7 +69,14 @@
       <DependentUpon>DotNetInstallFailedView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\FailureEvent.cs" />
-    <Compile Include="Installations\Prerequisites\ServiceControllerExtensions.cs" />
+    <Compile Include="Events\NestedInstallCompleteEvent.cs" />
+    <Compile Include="Events\NestedInstallStartedEvent.cs" />
+    <Compile Include="Installations\Dism.cs" />
+    <Compile Include="Installations\DtcInstaller.cs" />
+    <Compile Include="Installations\MsmqInstaller.cs" />
+    <Compile Include="Installations\WindowsVersion.cs" />
+    <Compile Include="Installations\PerfCountersInstaller.cs" />
+    <Compile Include="Installations\ServiceControllerExtensions.cs" />
     <Compile Include="NativeMethods\NativeConstants.cs" />
     <Compile Include="NativeMethods\ShowWindowCommands.cs" />
     <Compile Include="NativeMethods\Structures.cs" />
@@ -224,8 +233,7 @@
     <Compile Include="Events\NoInstallAttemptedEvent.cs" />
     <Compile Include="Events\InstallCancelledEvent.cs" />
     <Compile Include="Events\ReportInstallFailedEvent.cs" />
-    <Compile Include="Installations\IRunInstaller.cs" />
-    <Compile Include="Installations\NServiceBusPrerequisitesInstaller.cs" />
+    <Compile Include="Installations\IInstaller.cs" />
     <Compile Include="Installations\ServiceControlInstaller.cs" />
     <Compile Include="Installations\ServiceInsightInstaller.cs" />
     <Compile Include="Installations\ServicePulseInstaller.cs" />

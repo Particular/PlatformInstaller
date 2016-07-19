@@ -26,9 +26,11 @@ public class ServiceControlInstaller : IInstaller
 
     public void Init()
     {
-        releases = releaseManager.GetReleasesForProduct("ServiceControl");
+        if (releases == null)
+            releases = releaseManager.GetReleasesForProduct(Name);
+        InstallState = this.ExeInstallState();
     }
-    
+
     public IEnumerable<DocumentationLink> GetDocumentationLinks()
     {
         yield return new DocumentationLink
@@ -41,7 +43,7 @@ public class ServiceControlInstaller : IInstaller
     public Version CurrentVersion()
     {
         Version version;
-        RegistryFind.TryFindInstalledVersion("ServiceControl", out version);
+        RegistryFind.TryFindInstalledVersion(Name, out version);
         return version;
     }
 
@@ -55,10 +57,6 @@ public class ServiceControlInstaller : IInstaller
         return latest;
     }
     
-    public bool SelectedByDefault => LatestAvailableVersion() != CurrentVersion();
-
-    public bool Enabled => !(LatestAvailableVersion() == CurrentVersion());
-
     public async Task Execute(Action<string> logOutput, Action<string> logError)
     {
         eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent
@@ -74,12 +72,12 @@ public class ServiceControlInstaller : IInstaller
             return;
         }
 
-        var log = "particular.servicecontrol.installer.log";
-        var fullLogPath = Path.Combine(installer.Directory.FullName, log);
-        File.Delete(fullLogPath);
+        var log = Path.Combine(Logging.LogDirectory,"particular.servicecontrol.installer.log");
+        File.Delete(log);
 
         var exitCode = await processRunner.RunProcess(installer.FullName,
             $"/quiet /L*V {log}",
+            // ReSharper disable once PossibleNullReferenceException
             installer.Directory.FullName,
             logOutput,
             logError)
@@ -91,8 +89,8 @@ public class ServiceControlInstaller : IInstaller
         }
         else
         {
-            logError("Installation of ServiceControl failed with exitcode: " + exitCode);
-            logError("The MSI installation log can be found at " + fullLogPath);
+            logError($"Installation of ServiceControl failed with exitcode: {exitCode}");
+            logError($"The MSI installation log can be found at {log}");
         }
 
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
@@ -118,12 +116,7 @@ public class ServiceControlInstaller : IInstaller
             return (string)key?.GetValue(valueName);
         }
     }
-    
-    public bool Installed()
-    {
-        return CurrentVersion() != null;
-    }
-
+   
     public IEnumerable<AfterInstallAction> GetAfterInstallActions()
     {
         yield return new AfterInstallAction
@@ -146,20 +139,12 @@ public class ServiceControlInstaller : IInstaller
         };
     }
 
-    public int NestedActionCount => 1;
-
-    public string Name => "ServiceControl";
-
-    public string Status => this.ExeInstallerStatus();
-
-    public string ToolTip => "ServiceControl is the monitoring brain in the Particular Service Platform";
-    
     string DetermineDetailsOfManagementUtilityNotFound()
     {
         var sb = new StringBuilder();
         sb.AppendLine("ServiceControl Management Utility was not found!");
         sb.AppendLine("Dump of settings related to failure:");
-        sb.AppendLine($"ServiceControl Installed : {Installed()} ");
+        sb.AppendLine($"ServiceControl Installed : {InstallState != InstallState.NotInstalled} ");
         sb.AppendLine($"ServiceControl Version : {CurrentVersion()} ");
         if (Environment.Is64BitOperatingSystem)
         {
@@ -168,8 +153,13 @@ public class ServiceControlInstaller : IInstaller
         sb.AppendLine($"32 Bit Management Path : {ReadRegString(RegistryHive.LocalMachine, RegistryView.Registry32, RegPath, ManagementRegValue)}");
         return sb.ToString();
     }
-}
 
     
-
-   
+    public string Name => "ServiceControl";
+    public string Description => "Activity Information";
+    public int NestedActionCount => 1;
+    public string ImageName => Name;
+    public string Status => this.ExeInstallerStatus();
+    public InstallState InstallState { get; private set; }
+    public bool SelectedByDefault => InstallState == InstallState.Installed;
+}

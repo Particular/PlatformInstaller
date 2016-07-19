@@ -90,7 +90,7 @@ public class DtcInstaller : IInstaller
     public string Description => "Optional Install";
     public int NestedActionCount => 1;
 
-    public string Status => InstallState == InstallState.Installed ? "Installed": "Reconfigure MSDTC to support NServiceBus";
+    public string Status => InstallState == InstallState.Installed ? "Installed": "Configure MSDTC";
     public bool SelectedByDefault => false;
     public InstallState InstallState { get; private set; }
 

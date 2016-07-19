@@ -126,7 +126,7 @@ public class MsmqInstaller : IInstaller
 
     public int NestedActionCount => 1;
     public string Name => "Configure Microsoft Message Queuing";
-    public string Description => "Required for MSMQ Transport Only";
+    public string Description => "Optional - Required for MSMQ Transport Only";
     public string Status => InstallState == InstallState.Installed ? "Installed" : "Install MSMQ";
     public bool SelectedByDefault => false;
 }

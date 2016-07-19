@@ -389,7 +389,7 @@
       <SubType>Designer</SubType>
     </Resource>
     <SplashScreen Include="Splash.png" />
-    <Resource Include="Images\NServiceBus Pre-requisites.png" />
+    <Resource Include="Images\NServiceBus.png" />
     <Resource Include="Images\particularHeader.png" />
     <Resource Include="Images\particularSmall.png" />
     <Resource Include="Images\ServiceControl.png" />

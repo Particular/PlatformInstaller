@@ -370,7 +370,6 @@
     <Resource Include="Images\ServiceControl.png" />
     <Resource Include="Images\ServiceInsight.png" />
     <Resource Include="Images\ServicePulse.png" />
-    <Resource Include="Images\Spinner.gif" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\uninstall.png" />

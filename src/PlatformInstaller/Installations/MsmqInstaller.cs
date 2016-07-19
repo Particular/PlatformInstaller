@@ -55,6 +55,12 @@ public class MsmqInstaller : IInstaller
                     "MSMQ-RoutingServer",
                     "MSMQ-Triggers",
                 };
+
+                // MSMQ-Container is not found on all OSes. Where it exists it's a pre-req for MSMQ-Server
+                // On Win7 DISM does not have the /All command line switch which automatically enables pre-reqs like this so we do it explicitly
+                var msmqCoreContainer  = MSMQFeatures.SingleOrDefault(p => p.Name.Equals("MSMQ-Container"));
+                msmqCoreContainer?.EnableFeature();  
+
                 var msmqServerFeature = MSMQFeatures.Single(p => p.Name.Equals("MSMQ-Server"));
                 if (msmqServerFeature.State != Dism.FeatureState.Enabled && msmqServerFeature.State != Dism.FeatureState.EnablePending)
                 {

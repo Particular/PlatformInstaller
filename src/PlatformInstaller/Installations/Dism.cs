@@ -11,7 +11,7 @@ public class Dism
         public string Name { get; set; }
         public FeatureState State { get; set; }
         string displayName;
-        
+
         public string DisplayName {
             get
             {
@@ -26,29 +26,34 @@ public class Dism
 
             // The DISM command line options here are OS specific
 
-            var dismparams = $"/online /norestart /english /enable-feature /all /featurename:{Name}";
-
-            var operatingSystem = WindowsVersion.GetOperatingSystem();
-
-            switch (operatingSystem)
-            {
-                case Windows.Workstation7:
-                case Windows.Server2008R2:
-                    dismparams = $"/online /norestart /english /enable-feature /featurename:{Name}";
-                    break;
-                case Windows.Unsupported:
-                    throw new Exception($"Unsupported operating system - cannot enable Feature {Name}");
-            }
-            var t = runner.RunProcess("Dism.exe", dismparams, null, s=>{}, null).ConfigureAwait(false);
+            var dismParams = GetDismParams();
+            var t = runner.RunProcess("Dism.exe", dismParams, null, s=>{}, null)
+                .ConfigureAwait(false);
             var exitcode = t.GetAwaiter().GetResult();
             return exitcode == Success || exitcode == Success_And_Reboot_Required;
+        }
+
+        string GetDismParams()
+        {
+            var operatingSystem = WindowsVersion.GetOperatingSystem();
+            if (operatingSystem == Windows.Unsupported)
+            {
+                throw new Exception($"Unsupported operating system - cannot enable Feature {Name}");
+            }
+            if (operatingSystem == Windows.Workstation7 || operatingSystem == Windows.Server2008R2)
+            {
+                return $"/online /norestart /english /enable-feature /featurename:{Name}";
+            }
+            return $"/online /norestart /english /enable-feature /all /featurename:{Name}";
         }
 
         void GetDisplayName()
         {
             if (!string.IsNullOrEmpty(displayName))
+            {
                 return;
-            
+            }
+
             var runner = new ProcessRunner();
             var task = runner.RunProcess("Dism.exe", $"/online /english /get-featureinfo /featurename:{Name}", null, FeatureInfoParser, null).ConfigureAwait(false);
             if (task.GetAwaiter().GetResult() != Success)
@@ -60,8 +65,8 @@ public class Dism
         void FeatureInfoParser(string s)
         {
             const string displayNameLabel = "Display Name : ";
-            
-            if (!string.IsNullOrEmpty(displayName)) 
+
+            if (!string.IsNullOrEmpty(displayName))
                 return;
 
             if (s.StartsWith(displayNameLabel))
@@ -82,11 +87,11 @@ public class Dism
 
     public static bool TryGetFeatures(out List<Feature> features)
     {
-        var dismfeatures = new Dism();
-        features = dismfeatures.features;
+        var dismFeatures = new Dism();
+        features = dismFeatures.features;
         var runner = new ProcessRunner();
-        dismfeatures.features.Clear();
-        var task = runner.RunProcess("Dism.exe", "/online /english /get-features", null, dismfeatures.FeatureParser, null).ConfigureAwait(false);
+        dismFeatures.features.Clear();
+        var task = runner.RunProcess("Dism.exe", "/online /english /get-features", null, dismFeatures.FeatureParser, null).ConfigureAwait(false);
         return task.GetAwaiter().GetResult() == Success;
     }
 
@@ -119,4 +124,3 @@ public class Dism
         features.Add(currentFeature);
     }
 }
-    

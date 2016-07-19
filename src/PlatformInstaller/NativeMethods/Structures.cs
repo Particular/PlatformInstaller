@@ -1,7 +1,8 @@
-﻿using System;
+﻿// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable IdentifierTypo
+using System;
 using System.Runtime.InteropServices;
 using System.Windows;
-// ReSharper disable MemberCanBePrivate.Global
 
 [StructLayout(LayoutKind.Sequential)]
 struct MARGINS

@@ -32,6 +32,10 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<I
     public void Handle(InstallCancelledEvent message)
     {
         // Show the feedback page on every cancelled install
+        if (HasFeebackBeenReportedForThisMachine())
+        {
+            return;
+        }
         RecordInstallationFeeback();
         UrlLauncher.Open(cancelledUrl);
     }

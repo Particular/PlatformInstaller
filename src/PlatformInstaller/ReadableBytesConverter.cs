@@ -13,6 +13,7 @@ public static class ReadableBytesConverter
         var bytes = Math.Abs(byteCount);
         var place = Convert.ToInt32(Math.Floor(Math.Log(bytes, 1024)));
         var num = Math.Round(bytes / Math.Pow(1024, place), 1);
-        return Math.Sign(byteCount) * num + suf[place];
+        var d = Math.Sign(byteCount) * num;
+        return $"{d:0.0}{suf[place]}";
     }
 }

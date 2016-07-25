@@ -1,14 +1,12 @@
-// ReSharper disable NotAccessedField.Global
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Anotar.Serilog;
 using Caliburn.Micro;
 
-public class Installer : 
-    IHandle<CancelInstallCommand>, 
-    IHandle<NestedInstallCompleteEvent>, 
+public class Installer :
+    IHandle<CancelInstallCommand>,
+    IHandle<NestedInstallCompleteEvent>,
     IHandle<NestedInstallProgressEvent>
 {
     public Installer(IEnumerable<IInstaller> installers, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume)
@@ -20,7 +18,7 @@ public class Installer :
 
     PendingRestartAndResume pendingRestartAndResume;
     IEventAggregator eventAggregator;
-    
+
     List<string> errors = new List<string>();
     int installProgress;
     int installCount;
@@ -38,7 +36,7 @@ public class Installer :
 
     public async Task Install(List<string> itemsToInstall)
     {
-        errors.Clear(); 
+        errors.Clear();
         eventAggregator.PublishOnUIThread(new InstallStartedEvent());
         installProgress = 0;
         var installationDefinitions = installers
@@ -51,11 +49,16 @@ public class Installer :
             if (installationDefinitions.Any(p => p.Name.Equals(checkpoint)))
             {
                 // Fast Forward to the step after the last successful step
-                installationDefinitions = installationDefinitions.SkipWhile(p => !p.Name.Equals(checkpoint)).Skip(1).ToList();
+                installationDefinitions = installationDefinitions
+                    .SkipWhile(p => !p.Name.Equals(checkpoint))
+                    .Skip(1)
+                    .ToList();
             }
         }
         pendingRestartAndResume.CleanupResume();
-        installCount = installationDefinitions.Select(p => p.NestedActionCount).Sum();
+        installCount = installationDefinitions
+            .Select(p => p.NestedActionCount)
+            .Sum();
 
         foreach (var definition in installationDefinitions)
         {
@@ -70,7 +73,7 @@ public class Installer :
             {
                 eventAggregator.PublishOnUIThread(new InstallFailedEvent
                 {
-                    Reason = "Failed to install: " + definition.Name,
+                    Reason = $"Failed to install: {definition.Name}",
                     Failures = errors
                 });
                 return;
@@ -96,29 +99,29 @@ public class Installer :
     void PublishProgressEvent()
     {
         eventAggregator.PublishOnUIThread(new InstallProgressEvent
-                                          {
-                                              InstallProgress = installProgress,
-                                              CurrentStatus = currentStatus,
-                                              InstallCount = installCount,
-                                          });
+        {
+            InstallProgress = installProgress,
+            CurrentStatus = currentStatus,
+            InstallCount = installCount,
+        });
     }
 
     void AddOutput(string output)
     {
         eventAggregator.PublishOnUIThread(new InstallerOutputEvent
-            {
-                Text = output
-            });
+        {
+            Text = output
+        });
         LogTo.Information(output);
     }
 
     void AddError(string error)
     {
         eventAggregator.PublishOnUIThread(new InstallerOutputEvent
-            {
-                IsError = true,
-                Text = error
-            });
+        {
+            IsError = true,
+            Text = error
+        });
         errors.Add(error);
         LogTo.Error(error);
     }

@@ -2,7 +2,7 @@
 
 public static class ViewModelConventions
 {
-    
+
     public static Type GetViewForModel(Type type)
     {
         var viewName = type.Name.Replace("Model", "");

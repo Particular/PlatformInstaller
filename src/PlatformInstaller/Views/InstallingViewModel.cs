@@ -1,4 +1,3 @@
-// ReSharper disable NotAccessedField.Global
 using Caliburn.Micro;
 
 public class InstallingViewModel : Screen,

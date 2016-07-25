@@ -2,7 +2,7 @@ using System;
 
 public static class ReadableBytesConverter
 {
-     
+
     public static string ToBytesString(this int byteCount)
     {
         string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" }; //Longs run out around EB

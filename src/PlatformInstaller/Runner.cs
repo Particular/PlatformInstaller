@@ -8,7 +8,7 @@ using Autofac;
 using Caliburn.Micro;
 
 public static class Runner
-{ 
+{
     public static void Run()
     {
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
@@ -18,13 +18,13 @@ public static class Runner
 
         if (!IsAdminChecker.IsAdministrator())
         {
-            RelaunchAsElevatedInstance(); 
+            RelaunchAsElevatedInstance();
         }
         RunSingleInstance();
     }
 
     static void RelaunchAsElevatedInstance()
-    { 
+    {
         const int CancelledByUser = 1223;
         var processStartInfo = new ProcessStartInfo
         {

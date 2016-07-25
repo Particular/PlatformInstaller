@@ -8,7 +8,7 @@ public class LicenseAgreementViewModel : Screen
 
     public LicenseAgreementViewModel()
     {
-        
+
     }
 
     public string License => Resource.AsString("PlatformInstaller.LicenseAgreement.md");

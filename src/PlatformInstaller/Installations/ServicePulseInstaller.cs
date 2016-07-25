@@ -89,7 +89,7 @@ public class ServicePulseInstaller : IInstaller
         }
         else
         {
-            logError("Installation of ServicePulse failed with exitcode: " + exitCode);
+            logError($"Installation of ServicePulse failed with exitcode: {exitCode}");
             logError($"The MSI installation log can be found at {msiLog}");
         }
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());

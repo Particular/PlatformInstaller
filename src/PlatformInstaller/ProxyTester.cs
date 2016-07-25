@@ -18,11 +18,11 @@ public class ProxyTester
         {
             return false;
         }
-        
+
         LogTo.Warning(credentialStore.Credentials == null ? "Failed to connect to the internet using anonymous credentials" : "Failed to connect to the internet using stored credentials");
 
         if (TestCredentials(CredentialCache.DefaultCredentials))
-        { 
+        {
             credentialStore.Credentials = CredentialCache.DefaultCredentials;
             LogTo.Information("Successfully connect to the internet using default credentials");
             return false;

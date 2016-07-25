@@ -24,7 +24,7 @@ public static class ViewTester
     public static void ScreenCapture<T>(T model) where T : INotifyPropertyChanged
     {
         var window = GetWindow(model);
-        var filename = typeof(T).Name.Replace("ViewModel", "") + ".png";
+        var filename = $"{typeof(T).Name.Replace("ViewModel", "")}.png";
         WpfUtils.ScreenCapture(window, filename);
     }
 

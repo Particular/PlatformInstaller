@@ -38,7 +38,7 @@ public class WindowsVersion
                 return Windows.Unsupported;
         }
     }
-    
+
 
     [DllImport("Kernel32", CharSet = CharSet.Auto)]
     static extern bool GetVersionEx([Out] [In] OSVersionInfo versionInformation);

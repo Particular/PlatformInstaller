@@ -46,7 +46,7 @@ public class SelectItemsViewModel : Screen, IHandle<ResumeInstallCommand>
 
     static string GetImage(string name)
     {
-        return ResourceResolver.GetPackUrl("/Images/" + name + ".png");
+        return ResourceResolver.GetPackUrl($"/Images/{name}.png");
     }
 
     public void Install()
@@ -136,7 +136,7 @@ public class SelectItemsViewModel : Screen, IHandle<ResumeInstallCommand>
                 Selected = (x.InstallState != InstallState.Installed) && x.SelectedByDefault,
                 CheckBoxVisible = x.InstallState != InstallState.Installed ? Visibility.Visible : Visibility.Collapsed,
                 UninstallVisible = x.InstallState != InstallState.NotInstalled ? Visibility.Visible : Visibility.Hidden,
-                UninstallText = "Uninstall " + x.Name
+                UninstallText = $"Uninstall {x.Name}"
             }).ToList();
 
         IsInstallEnabled = Items.Any(pd => pd.Selected);

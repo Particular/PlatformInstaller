@@ -4,8 +4,8 @@ using Caliburn.Micro;
 using Microsoft.Win32;
 
 public class PendingRestartAndResume :
-    IHandle<RebootRequiredEvent>, 
-    IHandle<RunInstallEvent>, 
+    IHandle<RebootRequiredEvent>,
+    IHandle<RunInstallEvent>,
     IHandle<CheckPointInstallEvent>
 {
     public virtual bool ResumedFromRestart { private set;  get; }
@@ -18,7 +18,7 @@ public class PendingRestartAndResume :
         using (var runKey = Registry.LocalMachine.OpenSubKey(runKeyPath, false))
         {
             ResumedFromRestart = runKey.GetValueNames().Contains("PlatformInstaller");
-        }     
+        }
     }
 
     public void Handle(RebootRequiredEvent message)

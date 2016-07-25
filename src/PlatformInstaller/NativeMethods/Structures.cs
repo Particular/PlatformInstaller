@@ -89,7 +89,7 @@ struct RECT
         {
             return "RECT {Empty}";
         }
-        return "RECT { left : " + left + " / top : " + top + " / right : " + right + " / bottom : " + bottom + " }";
+        return $"RECT {{ left : {left} / top : {top} / right : {right} / bottom : {bottom} }}";
     }
 
     /// <summary> Determine if 2 RECT are equal (deep compare) </summary>

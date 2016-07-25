@@ -110,7 +110,7 @@ public class ShellViewModel : Conductor<object>,
                 }
             }
         }
-        catch(WebException) 
+        catch(WebException)
         {
         }
 
@@ -165,7 +165,7 @@ public class ShellViewModel : Conductor<object>,
             eventAggregator.PublishOnUIThread(new DotNetInstallFailedEvent());
         }
     }
-    
+
     public void Handle(ExitApplicationCommand message)
     {
         if (!installWasAttempted)
@@ -250,8 +250,8 @@ public class ShellViewModel : Conductor<object>,
 
     public void Handle(FailureEvent message)
     {
-        ActivateModel<FailureViewModel>( 
-            new NamedParameter("FailureDescription", message.FailureDescription), 
+        ActivateModel<FailureViewModel>(
+            new NamedParameter("FailureDescription", message.FailureDescription),
             new NamedParameter("FailureText", message.FailureText));
     }
 }

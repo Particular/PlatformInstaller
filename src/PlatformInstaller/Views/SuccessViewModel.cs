@@ -8,7 +8,7 @@ public class SuccessViewModel : Screen
 {
     public SuccessViewModel()
     {
-        
+
     }
     public SuccessViewModel(IEventAggregator eventAggregator, IEnumerable<IInstaller> installers, List<string> installedItemNames)
     {

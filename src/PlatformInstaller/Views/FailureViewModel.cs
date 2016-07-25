@@ -13,7 +13,7 @@ public class FailureViewModel : Screen
     {
 
     }
-    
+
     public FailureViewModel(IEventAggregator eventAggregator, string FailureDescription, string FailureText)
     {
         this.eventAggregator = eventAggregator;

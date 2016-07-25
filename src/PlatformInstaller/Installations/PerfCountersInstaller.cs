@@ -35,7 +35,7 @@ public class PerfCountersInstaller : IInstaller
 
     public async Task Execute(Action<string> logOutput, Action<string> logError)
     {
-        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = "Install NServiceBus Performance Counters" });
+        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = Name });
         try
         {
             logOutput("Adding NServiceBus Performance Counters");
@@ -48,17 +48,19 @@ public class PerfCountersInstaller : IInstaller
                 var counterCreationCollection = new CounterCreationDataCollection(Counters.ToArray());
                 PerformanceCounterCategory.Create(categoryName, "NServiceBus statistics", PerformanceCounterCategoryType.MultiInstance, counterCreationCollection);
                 PerformanceCounter.CloseSharedResources(); // http://blog.dezfowler.com/2007/08/net-performance-counter-problems.html
-                    
-            });
-            
+            }).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
             logError("NServiceBus Performance Counters install failed:");
             logError($"{ex}");
         }
+        finally
+        {
+            eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
+        }
     }
-    
+
     public IEnumerable<AfterInstallAction> GetAfterInstallActions()
     {
         yield break;
@@ -74,8 +76,9 @@ public class PerfCountersInstaller : IInstaller
     public string Description => "Optional Install";
     public string Status => InstallState == InstallState.Installed ? "Installed" : "Install Counters";
     public bool SelectedByDefault => false;
+    public bool RebootRequired => false;
     const string categoryName = "NServiceBus";
-    
+
     static List<CounterCreationData> Counters = new List<CounterCreationData>
     {
         new CounterCreationData("Critical Time", "Age of the oldest message in the queue.", PerformanceCounterType.NumberOfItems32),

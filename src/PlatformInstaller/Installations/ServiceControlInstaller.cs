@@ -39,7 +39,7 @@ public class ServiceControlInstaller : IInstaller
             Url = "http://docs.particular.net/servicecontrol/"
         };
     }
-    
+
     public Version CurrentVersion()
     {
         Version version;
@@ -56,13 +56,10 @@ public class ServiceControlInstaller : IInstaller
         }
         return latest;
     }
-    
+
     public async Task Execute(Action<string> logOutput, Action<string> logError)
     {
-        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent
-        {
-            Name = "Run ServiceControl Installation"
-        });
+        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = $"Downloading {Name}" });
 
         var release = releases.First();
         var installer = await releaseManager.DownloadRelease(release.Assets.First()).ConfigureAwait(false);
@@ -72,11 +69,14 @@ public class ServiceControlInstaller : IInstaller
             return;
         }
 
-        var log = Path.Combine(Logging.LogDirectory,"particular.servicecontrol.installer.log");
-        File.Delete(log);
+        var msiLog = Path.Combine(Logging.LogDirectory,"particular.servicecontrol.installer.log");
+        File.Delete(msiLog);
+
+        eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
+        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = $"Executing {Name} installation" });
 
         var exitCode = await processRunner.RunProcess(installer.FullName,
-            $"/quiet /L*V {log}",
+            $"/quiet /L*V {msiLog}",
             // ReSharper disable once PossibleNullReferenceException
             installer.Directory.FullName,
             logOutput,
@@ -90,7 +90,7 @@ public class ServiceControlInstaller : IInstaller
         else
         {
             logError($"Installation of ServiceControl failed with exitcode: {exitCode}");
-            logError($"The MSI installation log can be found at {log}");
+            logError($"The MSI installation log can be found at {msiLog}");
         }
 
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
@@ -116,7 +116,7 @@ public class ServiceControlInstaller : IInstaller
             return (string)key?.GetValue(valueName);
         }
     }
-   
+
     public IEnumerable<AfterInstallAction> GetAfterInstallActions()
     {
         yield return new AfterInstallAction
@@ -154,12 +154,12 @@ public class ServiceControlInstaller : IInstaller
         return sb.ToString();
     }
 
-    
     public string Name => "ServiceControl";
     public string Description => "Activity Information";
-    public int NestedActionCount => 1;
+    public int NestedActionCount => 2;  //Download and Install
     public string ImageName => Name;
     public string Status => this.ExeInstallerStatus();
     public InstallState InstallState { get; private set; }
     public bool SelectedByDefault => InstallState == InstallState.Installed;
+    public bool RebootRequired => false;
 }

@@ -16,10 +16,10 @@ public interface IInstaller
     string Name { get; }
     string ImageName { get; }
     string Description { get; }
-
     bool SelectedByDefault { get; }
     InstallState InstallState { get; }
     string Status { get; }
+    bool RebootRequired { get; }
 }
 
 public enum InstallState

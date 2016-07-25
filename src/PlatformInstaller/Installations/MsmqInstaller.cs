@@ -43,69 +43,101 @@ public class MsmqInstaller : IInstaller
 
     public async Task Execute(Action<string> output, Action<string> logError)
     {
-        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent{Name = "Installing Microsoft Message Queue Service (MSMQ)"});
-        await Task.Run(async () => {
-            try
+        try
+        {
+            eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent
             {
-                var unsupportedFeatureNames = new[]
-                {
-                    "MSMQ-ADIntegration",
-                    "MSMQ-DCOMProxy",
-                    "MSMQ-Multicast",
-                    "MSMQ-RoutingServer",
-                    "MSMQ-Triggers",
-                };
-
-                // MSMQ-Container is not found on all OSes. Where it exists it's a pre-req for MSMQ-Server
-                // On Win7 DISM does not have the /All command line switch which automatically enables pre-reqs like this so we do it explicitly
-                var msmqCoreContainer  = MSMQFeatures.SingleOrDefault(p => p.Name.Equals("MSMQ-Container"));
-                msmqCoreContainer?.EnableFeature();  
-
-                var msmqServerFeature = MSMQFeatures.Single(p => p.Name.Equals("MSMQ-Server"));
-                if (msmqServerFeature.State != Dism.FeatureState.Enabled && msmqServerFeature.State != Dism.FeatureState.EnablePending)
-                {
-                    if (!msmqServerFeature.EnableFeature())
-                    {
-                        throw new Exception($"Failed to enable '{msmqServerFeature.DisplayName}' via Windows DISM command line");
-                    }
-                    output($"Enabled '{msmqServerFeature.DisplayName}' via Windows DISM command line.");
-                }
-                var unsupportedFeatures = MSMQFeatures.Where(p => unsupportedFeatureNames.Contains(p.Name)).ToList();
-                var unsupportedFeaturesInstalled = unsupportedFeatures.Where(p => p.State == Dism.FeatureState.EnablePending || p.State == Dism.FeatureState.Enabled).ToList();
-                if (unsupportedFeaturesInstalled.Any())
-                {
-                    var featureList = string.Join("\r\n", unsupportedFeaturesInstalled.Select(p => $" - {p.DisplayName}"));
-                    throw new Exception($"NServiceBus does not support the following  Windows feature(s):\r\n{featureList}\r\nPlease remove them via Windows Add/Remove Features or DISM.exe");
-
-                }
-                if (MSMQFeatures.Any(p => p.State == Dism.FeatureState.EnablePending || p.State == Dism.FeatureState.DisablePending))
-                {
-                    throw new Exception("Windows requires a restart to complete a pending add or removal of an MSMQ component");
-                }
+                Name = Name
+            });
+            await Task.Run(async () =>
+            {
                 try
                 {
-                    using (var controller = new ServiceController("MSMQ"))
+                    output("Started MSMQ Install");
+
+                    var unsupportedFeatureNames = new[]
                     {
-                        if (IsStopped(controller))
+                        "MSMQ-ADIntegration",
+                        "MSMQ-DCOMProxy",
+                        "MSMQ-Multicast",
+                        "MSMQ-RoutingServer",
+                        "MSMQ-Triggers",
+                    };
+
+                    if (MSMQFeatures.Any(p => p.State == Dism.FeatureState.EnablePending || p.State == Dism.FeatureState.DisablePending))
+                    {
+                        await eventAggregator.PublishOnUIThreadAsync(new RebootRequiredEvent { Reason = "Windows requires a restart to complete a pending add or removal of an MSMQ component" });
+                        RebootRequired = true;
+                        return;
+                    }
+
+                    // MSMQ-Container is not found on all OSes. Where it exists it's a pre-req for MSMQ-Server
+                    // On Win7 DISM does not have the /All command line switch which automatically enables pre-reqs like this so we do it explicitly
+                    var msmqCoreContainer = MSMQFeatures.SingleOrDefault(p => p.Name.Equals("MSMQ-Container"));
+                    if (msmqCoreContainer != null)
+                    {
+
+                        if (msmqCoreContainer.State != Dism.FeatureState.Enabled && msmqCoreContainer.State != Dism.FeatureState.EnablePending)
                         {
-                            output("Starting MSMQ Service");
-                            await controller.ChangeServiceStatus(ServiceControllerStatus.Running, controller.Start).ConfigureAwait(false);
-                            output("MSMQ : OK");
+                            if (msmqCoreContainer.EnableFeature())
+                            {
+                                output($"Enabling {msmqCoreContainer.DisplayName}");
+                            }
+                            else
+                            {
+                                throw new Exception($"Failed to enable '{msmqCoreContainer.DisplayName}' via Windows DISM command line");
+                            }
                         }
                     }
-                }
-                catch (InvalidOperationException)
-                {
-                    throw new Exception("Failed to start MSMQ");
-                }
+                    var msmqServerFeature = MSMQFeatures.Single(p => p.Name.Equals("MSMQ-Server"));
+                    if (msmqServerFeature.State != Dism.FeatureState.Enabled && msmqServerFeature.State != Dism.FeatureState.EnablePending)
+                    {
+                        if (msmqServerFeature.EnableFeature())
+                        {
+                            output($"Enabled '{msmqServerFeature.DisplayName}' via Windows DISM command line.");
+                        }
+                        else
+                        {
+                            throw new Exception($"Failed to enable '{msmqServerFeature.DisplayName}' via Windows DISM command line");
+                        }
+                    }
+                    var unsupportedFeatures = MSMQFeatures.Where(p => unsupportedFeatureNames.Contains(p.Name)).ToList();
+                    var unsupportedFeaturesInstalled = unsupportedFeatures.Where(p => p.State == Dism.FeatureState.EnablePending || p.State == Dism.FeatureState.Enabled).ToList();
+                    if (unsupportedFeaturesInstalled.Any())
+                    {
+                        var featureList = string.Join("\r\n", unsupportedFeaturesInstalled.Select(p => $" - {p.DisplayName}"));
+                        throw new Exception($"NServiceBus does not support the following Windows feature(s):\r\n{featureList}\r\nPlease remove them via Windows Add/Remove Features or DISM.exe");
+                    }
 
-            }
-            catch (Exception ex)
-            {
-                logError("${Name} failed:");
-                logError($"{ex}");
-            }
-        }).ConfigureAwait(false);
+                    try
+                    {
+                        using (var controller = new ServiceController("MSMQ"))
+                        {
+                            if (IsStopped(controller))
+                            {
+                                output("Starting MSMQ Service");
+                                await controller.ChangeServiceStatus(ServiceControllerStatus.Running, controller.Start).ConfigureAwait(false);
+                                output("MSMQ : OK");
+                            }
+                        }
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        throw new Exception("Failed to start MSMQ");
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    logError($"{Name} failed:");
+                    logError($"{ex}");
+                }
+            }).ConfigureAwait(false);
+        }
+        finally
+        {
+            eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
+        }
     }
 
 
@@ -124,9 +156,10 @@ public class MsmqInstaller : IInstaller
         yield break;
     }
 
-    public int NestedActionCount => 1;
+    public int NestedActionCount => 2;
     public string Name => "Configure Microsoft Message Queuing";
     public string Description => "Optional - Required for MSMQ Transport Only";
     public string Status => InstallState == InstallState.Installed ? "Installed" : "Install MSMQ";
     public bool SelectedByDefault => false;
+    public bool RebootRequired { get; private set; }
 }

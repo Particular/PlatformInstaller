@@ -11,13 +11,13 @@ public class DtcInstaller : IInstaller
     IEventAggregator eventAggregator;
     const string RegPathDTCSecurity = @"SOFTWARE\Microsoft\MSDTC\Security";
     RegistryView regview;
-    
+
     public DtcInstaller(IEventAggregator eventAggregator)
     {
         this.eventAggregator = eventAggregator;
         regview = Environment.Is64BitOperatingSystem ? RegistryView.Registry64 : RegistryView.Default;
     }
-    
+
     public Version CurrentVersion()
     {
         throw new NotSupportedException();
@@ -43,7 +43,7 @@ public class DtcInstaller : IInstaller
 
     public async Task Execute(Action<string> logOutput, Action<string> logError)
     {
-        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = "Run DTC reconfiguration for NServiceBus" });
+        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = Name});
         try
         {
             using (var localMachine = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, regview))
@@ -54,7 +54,7 @@ public class DtcInstaller : IInstaller
                     throw new Exception($@"Registry key not found: HKEY_LOCAL_MACHINE\{RegPathDTCSecurity}");
                 }
 
-                foreach (var regValue in RegValues.Where(p => (int)dtcKey.GetValue(p, 0) != 1).ToList())
+                foreach (var regValue in RegValues.Where(p => (int) dtcKey.GetValue(p, 0) != 1).ToList())
                 {
                     dtcKey.SetValue(regValue, 1, RegistryValueKind.DWord);
                     logOutput($@"HKEY_LOCAL_MACHINE\{RegPathDTCSecurity}\{regValue} set to 1");
@@ -62,19 +62,21 @@ public class DtcInstaller : IInstaller
             }
             logOutput($"Attempting restart of {Controller.DisplayName}");
             await Controller.ChangeServiceStatus(ServiceControllerStatus.Stopped, Controller.Stop)
-                 .ConfigureAwait(false);
+                .ConfigureAwait(false);
             await Controller.ChangeServiceStatus(ServiceControllerStatus.Running, Controller.Start)
-                 .ConfigureAwait(false);
+                .ConfigureAwait(false);
         }
         catch (Exception ex)
         {
             logError("DTC install has failed:");
             logError($"{ex}");
         }
-     }
+        finally
+        {
+            eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
+        }
+    }
 
-   
-    
     public IEnumerable<AfterInstallAction> GetAfterInstallActions()
     {
         yield break;
@@ -89,7 +91,7 @@ public class DtcInstaller : IInstaller
     public string ImageName => "NServiceBus";
     public string Description => "Optional Install";
     public int NestedActionCount => 1;
-
+    public bool RebootRequired => false;
     public string Status => InstallState == InstallState.Installed ? "Installed": "Configure MSDTC";
     public bool SelectedByDefault => false;
     public InstallState InstallState { get; private set; }

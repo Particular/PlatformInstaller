@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Weavers VerifyAssembly="true">
   <Fielder />
-  <Caseless />
-  <Janitor />
-  <AsyncErrorHandler />
   <PropertyChanged />
-  <Resourcer />
+  <Caseless />
   <Anotar.Serilog />
+  <Janitor />
+  <Resourcer />
+  <AsyncErrorHandler />
 </Weavers>

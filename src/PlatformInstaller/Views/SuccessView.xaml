@@ -11,18 +11,29 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <DataTemplate x:Key="ActionItemTemplate" >
-                <StackPanel Margin="10,0,0,0" >
-                    <TextBlock TextWrapping="WrapWithOverflow" 
-                        Text="{Binding Description}" />
-                    <Button HorizontalAlignment="Right"
-                        Command="{Binding Command}" 
-                        Content="{Binding Text}" />
-                </StackPanel>
+            <DataTemplate x:Key="ActionItemTemplate" DataType="Grid" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.ColumnSpan="2"
+                               TextWrapping="WrapWithOverflow" 
+                               Text="{Binding Description}" Margin="10,0,0,0"/>
+                    <Button Grid.Row="1" Grid.Column="0"
+                            Command="{Binding Command}"
+                            Style="{StaticResource HiliteButton}"
+                            Content="{Binding Text}" Margin="10,5,0,0"/>
+                </Grid>
             </DataTemplate>
+                
             <DataTemplate x:Key="LinkTemplate" >
                 <TextBlock Margin="10,0,0,0" >
-                    <global:Link NavigateUri="{Binding Uri}">
+                    <global:Link NavigateUri="{Binding Uri}" Style="{StaticResource {x:Type Hyperlink}}">
                         <TextBlock Text="{Binding Path=Text}"/>
                     </global:Link>
                 </TextBlock>
@@ -36,28 +47,29 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel>
-            <TextBlock FontSize="18" FontWeight="Bold">Installation Complete</TextBlock>
-            <TextBlock FontSize="12" Margin="0 10 0 0" FontWeight="Bold" Visibility="{Binding FurtherActionsVisible}">Further Actions:</TextBlock>
+            <TextBlock FontSize="18" FontWeight="DemiBold">Installation Complete</TextBlock>
+            <TextBlock Foreground="{StaticResource Gray30Brush}">Thank you for installing the Particular Service Platform.</TextBlock>
+
+            <TextBlock FontSize="12" Margin="0 10 0 0" FontWeight="DemiBold" Visibility="{Binding FurtherActionsVisible}">Further Actions:</TextBlock>
             <ItemsControl 
                 Focusable="False" 
                 Visibility= "{Binding FurtherActionsVisible}"
                 ItemTemplate="{StaticResource ActionItemTemplate}" 
                 ItemsSource="{Binding ActionItems}" 
                 Margin="0 10"/>
-            <TextBlock FontSize="12" Margin="0 10 0 0" FontWeight="Bold">Relevant Links:</TextBlock>
+            <TextBlock FontSize="12" Margin="0 10 0 0" FontWeight="DemiBold">Relevant Links:</TextBlock>
             <ItemsControl 
                 Focusable="False" 
                 ItemTemplate="{StaticResource LinkTemplate}" 
                 ItemsSource="{Binding LinkItems}" 
                 Margin="0 10"/>
         </StackPanel>
-        <StackPanel Grid.Row="1" 
+        
+        <StackPanel Grid.Row="2" 
                     Orientation="Horizontal" 
                     FlowDirection="RightToLeft">
             <Button x:Name="Exit" Content="Exit"/>
-            <Button x:Name="Home" Content="Back to Main"/>
+            <Button x:Name="Home" Content="Back" Style="{StaticResource HiliteButton}"/>
         </StackPanel>
-        <TextBlock Grid.Row="2" Foreground="Gray">Thank you for installing the Particular Service Platform.</TextBlock>
-
     </Grid>
 </UserControl>

@@ -29,7 +29,7 @@ public class RuntimeUpgradeManager
         var assetFolder = Directory.CreateDirectory(Path.Combine(tempFolder.FullName, @"Particular\PlatformInstaller"));
         installer = new FileInfo(Path.Combine(assetFolder.FullName, dotNet452WebInstallerExe));
     }
-    
+
     public bool Is452InstallRequired()
     {
         using (var basekey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32))
@@ -89,7 +89,7 @@ public class RuntimeUpgradeManager
             installer.Directory.FullName,
             s => { },
             s => { }).ConfigureAwait(false);
-        
+
         if (exitCode == 0)
         {
             eventAggregator.PublishOnUIThread(new DotNetInstallCompleteEvent());
@@ -99,12 +99,12 @@ public class RuntimeUpgradeManager
             eventAggregator.PublishOnUIThread(new DotNetInstallFailedEvent());
         }
     }
-    
+
     void PublishFailed()
     {
         eventAggregator.PublishOnUIThread(new DotNetDownloadFailedEvent());
     }
-    
+
     void OnClientOnDownloadFileCompleted(object sender, AsyncCompletedEventArgs args)
     {
         eventAggregator.PublishOnUIThread(new DotNetDownloadCompleteEvent());

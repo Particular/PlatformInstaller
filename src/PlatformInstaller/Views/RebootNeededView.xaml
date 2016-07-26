@@ -16,8 +16,8 @@
     <DockPanel >
         <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Bold">A reboot is needed!</TextBlock>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
-            <Button x:Name="Exit" Content="Exit"/>
-            <Button x:Name="Reboot" Content="Reboot Now"/>
+            <Button x:Name="Exit"  Content="Exit"/>
+            <Button x:Name="Reboot" Style="{StaticResource HiliteButton}" Content="Reboot Now"/>
         </StackPanel>
         <TextBlock Foreground="Gray">Please reboot your machine and restart the platform installer</TextBlock>
     </DockPanel>

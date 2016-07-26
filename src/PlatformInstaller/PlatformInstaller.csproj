@@ -32,6 +32,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <NoWarn>0067</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -44,9 +45,15 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <NoWarn>0067</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>
+    </DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AsyncErrorHandler.cs" />
+    <Compile Include="Controls\LoadingSpinner.xaml.cs">
+      <DependentUpon>LoadingSpinner.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DotNetUpgrade\Events\DotNetInstallComplete.cs" />
     <Compile Include="DotNetUpgrade\Events\DotNetDownloadCompleteEvent.cs" />
     <Compile Include="DotNetUpgrade\Events\DotNetDownloadFailedEvent.cs" />
@@ -62,7 +69,14 @@
       <DependentUpon>DotNetInstallFailedView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\FailureEvent.cs" />
-    <Compile Include="Installations\Prerequisites\ServiceControllerExtensions.cs" />
+    <Compile Include="Events\NestedInstallCompleteEvent.cs" />
+    <Compile Include="Events\NestedInstallStartedEvent.cs" />
+    <Compile Include="Installations\Dism.cs" />
+    <Compile Include="Installations\DtcInstaller.cs" />
+    <Compile Include="Installations\MsmqInstaller.cs" />
+    <Compile Include="Installations\WindowsVersion.cs" />
+    <Compile Include="Installations\PerfCountersInstaller.cs" />
+    <Compile Include="Installations\ServiceControllerExtensions.cs" />
     <Compile Include="NativeMethods\NativeConstants.cs" />
     <Compile Include="NativeMethods\ShowWindowCommands.cs" />
     <Compile Include="NativeMethods\Structures.cs" />
@@ -72,6 +86,10 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <Page Include="Controls\LoadingSpinner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DotNetUpgrade\Views\DotNetInstallCompleteView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -88,28 +106,48 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\Button.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Hyperlink.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Palette.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\WindowCloseButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\FailureView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Reference Include="Anotar.Serilog, Version=0.0.0.0, Culture=neutral, PublicKeyToken=9d5b24f0733c26f7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Anotar.Serilog.Fody.3.0.1\lib\Anotar.Serilog.dll</HintPath>
+    <Page Include="Controls\Footer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Reference Include="Anotar.Serilog, Version=3.1.0.0, Culture=neutral, PublicKeyToken=9d5b24f0733c26f7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Anotar.Serilog.Fody.3.1.0\lib\Anotar.Serilog.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Caliburn.Micro, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.Core.3.0.0\lib\net45\Caliburn.Micro.dll</HintPath>
+    <Reference Include="Caliburn.Micro, Version=3.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.Core.3.0.1\lib\net45\Caliburn.Micro.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Caliburn.Micro.Platform, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.0.0\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+    <Reference Include="Caliburn.Micro.Platform, Version=3.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.0.1\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Caliburn.Micro.Platform.Core, Version=2.0.2.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.0.0\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
+    <Reference Include="Caliburn.Micro.Platform.Core, Version=3.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.0.1\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Janitor, Version=1.2.1.0, Culture=neutral, PublicKeyToken=d34c7d3bba3746e6, processorArchitecture=MSIL">
@@ -121,38 +159,38 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
-    <Reference Include="Mindscape.Raygun4Net, Version=5.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mindscape.Raygun4Net.5.3.0\lib\net40\Mindscape.Raygun4Net.dll</HintPath>
+    <Reference Include="Mindscape.Raygun4Net, Version=5.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mindscape.Raygun4Net.5.3.1\lib\net40\Mindscape.Raygun4Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Mindscape.Raygun4Net4, Version=5.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mindscape.Raygun4Net.5.3.0\lib\net40\Mindscape.Raygun4Net4.dll</HintPath>
+    <Reference Include="Mindscape.Raygun4Net4, Version=5.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mindscape.Raygun4Net.5.3.1\lib\net40\Mindscape.Raygun4Net4.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="ParallelExtensionsExtras, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MSFT.ParallelExtensionsExtras.1.2.0\lib\ParallelExtensionsExtras.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="PropertyChanged, Version=1.51.0.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
-      <HintPath>..\packages\PropertyChanged.Fody.1.51.0\lib\dotnet\PropertyChanged.dll</HintPath>
+    <Reference Include="PropertyChanged, Version=1.51.3.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>..\packages\PropertyChanged.Fody.1.51.3\lib\dotnet\PropertyChanged.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Resourcer">
-      <HintPath>..\packages\Resourcer.Fody.1.4.1\Lib\portable-net45+netcore45+wpa81+wp8\Resourcer.dll</HintPath>
+    <Reference Include="Resourcer, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Resourcer.Fody.1.4.2\lib\portable-net45+netcore45+wpa81+wp8\Resourcer.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.2.0.0\lib\net45\Serilog.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Serilog, Version=1.5.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.1.5.14\lib\net45\Serilog.dll</HintPath>
+    <Reference Include="Serilog.Sinks.File, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.File.2.1.0\lib\net45\Serilog.Sinks.File.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Serilog.FullNetFx, Version=1.5.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.1.5.14\lib\net45\Serilog.FullNetFx.dll</HintPath>
+    <Reference Include="Serilog.Sinks.RollingFile, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.RollingFile.2.1.0\lib\net45\Serilog.Sinks.RollingFile.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -164,7 +202,7 @@
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\Caliburn.Micro.3.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xaml" />
@@ -175,14 +213,9 @@
     <Compile Include="Caliburn\CaliburnExtensions.cs" />
     <Compile Include="Caliburn\ViewModelConventions.cs" />
     <Compile Include="Events\CancelInstallCommand.cs" />
-    <Compile Include="Events\NestedInstallStartedEvent.cs" />
-    <Compile Include="Events\NestedInstallCompleteEvent.cs" />
     <Compile Include="Events\UninstallProductCommand.cs" />
     <Compile Include="Installations\AfterInstallAction.cs" />
-    <Compile Include="Installations\Prerequisites\DtcInstaller.cs" />
-    <Compile Include="Installations\Prerequisites\MsmqInstaller.cs" />
-    <Compile Include="Installations\Prerequisites\PerfCountersInstaller.cs" />
-    <Compile Include="Installations\Prerequisites\ProcessUtil.cs" />
+    <Compile Include="Installations\ProcessUtil.cs" />
     <Compile Include="Events\DownloadCompleteEvent.cs" />
     <Compile Include="Events\DownloadProgressEvent.cs" />
     <Compile Include="Events\DownloadStartedEvent.cs" />
@@ -200,8 +233,7 @@
     <Compile Include="Events\NoInstallAttemptedEvent.cs" />
     <Compile Include="Events\InstallCancelledEvent.cs" />
     <Compile Include="Events\ReportInstallFailedEvent.cs" />
-    <Compile Include="Installations\IRunInstaller.cs" />
-    <Compile Include="Installations\NServiceBusPrerequisitesInstaller.cs" />
+    <Compile Include="Installations\IInstaller.cs" />
     <Compile Include="Installations\ServiceControlInstaller.cs" />
     <Compile Include="Installations\ServiceInsightInstaller.cs" />
     <Compile Include="Installations\ServicePulseInstaller.cs" />
@@ -244,6 +276,7 @@
     <Compile Include="Views\ProxySettingsView.xaml.cs">
       <DependentUpon>ProxySettingsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events\ResumeInstallCommand.cs" />
     <Compile Include="Views\ResumeInstallViewModel.cs" />
     <Compile Include="Views\ResumeInstall.xaml.cs">
       <DependentUpon>ResumeInstall.xaml</DependentUpon>
@@ -267,6 +300,9 @@
     <Compile Include="DotNetUpgrade\Views\DotNetPreReqViewModel.cs" />
     <Compile Include="Views\FailureView.xaml.cs">
       <DependentUpon>FailureView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Footer.xaml.cs">
+      <DependentUpon>Footer.xaml</DependentUpon>
     </Compile>
     <Compile Include="WpfExtensions\SimpleCommand.cs" />
     <Compile Include="WpfExtensions\ResourceResolver.cs" />
@@ -364,18 +400,16 @@
       <SubType>Designer</SubType>
     </Resource>
     <SplashScreen Include="Splash.png" />
-    <Resource Include="Images\NServiceBus Pre-requisites.png" />
+    <Resource Include="Images\NServiceBus.png" />
     <Resource Include="Images\particularHeader.png" />
     <Resource Include="Images\particularSmall.png" />
     <Resource Include="Images\ServiceControl.png" />
     <Resource Include="Images\ServiceInsight.png" />
     <Resource Include="Images\ServicePulse.png" />
-    <Resource Include="Images\Spinner.gif" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\uninstall.png" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)..\BuildSupport\GitVersionTask\Build\GitVersionTask.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

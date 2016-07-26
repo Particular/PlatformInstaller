@@ -1,5 +1,3 @@
-// ReSharper disable NotAccessedField.Global
-
 using Autofac;
 using Caliburn.Micro;
 

@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
 
-public  class DotNetDownloadViewModel : Screen, 
+public  class DotNetDownloadViewModel : Screen,
     IHandle<DotNetDownloadProgressEvent>,
     IHandle<DotNetDownloadStartedEvent>,
     IHandle<DotNetDownloadFailedEvent>,
@@ -32,7 +32,7 @@ public  class DotNetDownloadViewModel : Screen,
         PercentComplete = message.ProgressPercentage;
         Description = $"{((int)message.BytesReceived).ToBytesString()} of {((int)message.TotalBytes).ToBytesString()}";
     }
-    
+
     public void Handle(DotNetDownloadStartedEvent message)
     {
         PercentComplete = 0;

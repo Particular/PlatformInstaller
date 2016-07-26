@@ -1,5 +1,4 @@
 using System.Windows;
-// ReSharper disable NotAccessedField.Global
 using System;
 using System.Collections.Generic;
 using Caliburn.Micro;
@@ -8,8 +7,8 @@ public class FailedInstallationViewModel : Screen
 {
     public FailedInstallationViewModel()
     {
-        
     }
+
     public FailedInstallationViewModel(IEventAggregator eventAggregator, string failureReason, List<string> failures)
     {
         this.eventAggregator = eventAggregator;
@@ -36,7 +35,6 @@ public class FailedInstallationViewModel : Screen
 
     public void ReportError()
     {
-
         var confirmSendExceptionView = new ConfirmSendExceptionView
         {
             Owner = ShellView.CurrentInstance
@@ -47,9 +45,9 @@ public class FailedInstallationViewModel : Screen
         {
             eventAggregator.PublishOnUIThread(new ReportInstallFailedEvent
                                               {
-                                                  Failure = FailuresText, 
+                                                  Failure = FailuresText,
                                                   FailureDetails = FailureDescription
-                                              });    
+                                              });
             MessageBox.Show("Exception Report Sent", "Send Complete", MessageBoxButton.OK);
         }
     }

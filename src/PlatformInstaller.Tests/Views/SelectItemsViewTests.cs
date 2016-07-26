@@ -41,7 +41,6 @@ public class SelectItemsViewTests
                 Name = "NServiceBusPreReqs",
                 ImageUrl = ResourceResolver.GetPackUrl("/Images/NServiceBus Pre-requisites.png"),
                 ToolTip = "NServiceBus",
-                Enabled = true,
                 Status = "The Status"
             },
             new SelectItemsViewModel.Item
@@ -49,7 +48,6 @@ public class SelectItemsViewTests
                 Name = "ServiceControl",
                 ImageUrl = ResourceResolver.GetPackUrl("/Images/ServiceControl.png"),
                 ToolTip = "ServiceControl",
-                Enabled = true,
                 Status = "The Status"
             },
         };

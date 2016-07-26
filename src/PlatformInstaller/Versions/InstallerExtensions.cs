@@ -21,5 +21,21 @@
         }
         return $"Latest is installed - {current}";
     }
+
+    public static InstallState ExeInstallState(this IInstaller runner)
+    {
+        var current = runner.CurrentVersion();
+        var latest = runner.LatestAvailableVersion();
+        if (current == null)
+        {
+            return InstallState.NotInstalled;
+        }
+
+        if (current != latest)
+        {
+            return InstallState.UpgradeAvailable;
+        }
+        return InstallState.Installed;
+    }
 }
 

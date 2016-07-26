@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 
-public class LicenseAgreement 
+public class LicenseAgreement
 {
     public bool HasAgreedToLicense()
     {

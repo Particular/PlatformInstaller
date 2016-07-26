@@ -4,7 +4,7 @@ public class RebootNeededViewModel : Screen
 {
     public RebootNeededViewModel()
     {
-        
+
     }
     public RebootNeededViewModel(IEventAggregator eventAggregator)
     {
@@ -13,7 +13,7 @@ public class RebootNeededViewModel : Screen
     }
 
     IEventAggregator eventAggregator;
-    
+
     public void Exit()
     {
         eventAggregator.Publish<ExitApplicationCommand>();

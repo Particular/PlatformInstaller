@@ -57,6 +57,8 @@ public class ShellViewModel : Conductor<object>,
         RunStartupSequence();
     }
 
+    public string AppVersion { get; set; }
+
     public void ActivateModel<T>(params Parameter[] parameters) where T : Screen
     {
         var activeScreen = ActiveItem;
@@ -108,7 +110,7 @@ public class ShellViewModel : Conductor<object>,
                 }
             }
         }
-        catch(WebException) 
+        catch(WebException)
         {
         }
 
@@ -121,11 +123,11 @@ public class ShellViewModel : Conductor<object>,
 
     }
 
-    public async void Handle(RunInstallEvent message)
+    public void Handle(RunInstallEvent message)
     {
         installWasAttempted = true;
         itemsToInstall = message.SelectedItems;
-        await ActivateInstallingViewModel().ConfigureAwait(false);
+        ActivateInstallingViewModel().ConfigureAwait(false);
     }
 
     Task ActivateInstallingViewModel()
@@ -149,7 +151,12 @@ public class ShellViewModel : Conductor<object>,
         ActivateModel<SelectItemsViewModel>();
     }
 
-    public async void Handle(DotNetStartInstallWizardCommand message)
+    public void Handle(DotNetStartInstallWizardCommand message)
+    {
+        RunWizard().ConfigureAwait(false);
+    }
+
+    async Task RunWizard()
     {
         ActivateModel<DotNetDownloadViewModel>();
         var dotNetIntall = await runtimeUpgradeManager.Download452WebInstaller().ConfigureAwait(false);
@@ -158,7 +165,7 @@ public class ShellViewModel : Conductor<object>,
             eventAggregator.PublishOnUIThread(new DotNetInstallFailedEvent());
         }
     }
-    
+
     public void Handle(ExitApplicationCommand message)
     {
         if (!installWasAttempted)
@@ -243,8 +250,8 @@ public class ShellViewModel : Conductor<object>,
 
     public void Handle(FailureEvent message)
     {
-        ActivateModel<FailureViewModel>( 
-            new NamedParameter("FailureDescription", message.FailureDescription), 
+        ActivateModel<FailureViewModel>(
+            new NamedParameter("FailureDescription", message.FailureDescription),
             new NamedParameter("FailureText", message.FailureText));
     }
 }

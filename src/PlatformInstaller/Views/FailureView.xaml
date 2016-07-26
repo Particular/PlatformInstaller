@@ -17,10 +17,10 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel>
-        <TextBlock DockPanel.Dock="Top" FontSize="14" FontWeight="Bold" Text="{Binding FailureDescription}"/>
+        <TextBlock DockPanel.Dock="Top" FontSize="14" FontWeight="DemiBold" Text="{Binding FailureDescription}"/>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
             <Button x:Name="Exit" Content="Exit"/>
-            <Button x:Name="ReportError" Content="Report Error" />
+            <Button x:Name="ReportError" Style="{StaticResource HiliteButton}" Content="Report Error" />
         </StackPanel>
         <TextBox DockPanel.Dock="Top" HorizontalScrollBarVisibility="Visible" Margin="0 10 0 0" VerticalScrollBarVisibility="Visible" IsReadOnly="True" Text="{Binding FailureText}" Foreground="#2EA3C4" FontSize="10" FontWeight="Medium"/>
     </DockPanel>

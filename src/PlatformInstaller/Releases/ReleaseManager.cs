@@ -21,7 +21,7 @@ public class ReleaseManager
         this.eventAggregator = eventAggregator;
         this.credentialStore = credentialStore;
     }
-    
+
     public Release[] GetReleasesForProduct(string product)
     {
         var uri = $"{BaseUrl}/{product.ToLowerInvariant()}.txt";
@@ -66,7 +66,6 @@ public class ReleaseManager
     public async Task<FileInfo> DownloadRelease(Asset release)
     {
         var tempFolder = new DirectoryInfo(Environment.ExpandEnvironmentVariables("%temp%"));
-
         var assetFolder = Directory.CreateDirectory(Path.Combine(tempFolder.FullName, @"Particular\PlatformInstaller"));
         var localAsset = new FileInfo(Path.Combine(assetFolder.FullName, release.Name));
         if (localAsset.Exists && localAsset.Length == release.Size)

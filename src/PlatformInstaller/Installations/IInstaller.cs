@@ -8,15 +8,25 @@ public interface IInstaller
     Version LatestAvailableVersion();
     void Init();
     Task Execute(Action<string> logOutput, Action<string> logError);
-    bool Installed();
     IEnumerable<AfterInstallAction> GetAfterInstallActions();
     IEnumerable<DocumentationLink> GetDocumentationLinks();
+
     int NestedActionCount { get; }
+
     string Name { get; }
-    string Status { get; }
-    bool Enabled { get; }
-    string ToolTip { get; }
+    string ImageName { get; }
+    string Description { get; }
     bool SelectedByDefault { get; }
+    InstallState InstallState { get; }
+    string Status { get; }
+    bool RebootRequired { get; }
+}
+
+public enum InstallState
+{
+    NotInstalled,
+    Installed,
+    UpgradeAvailable
 }
 
 public class DocumentationLink

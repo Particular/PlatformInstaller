@@ -60,7 +60,7 @@ public class RegistryFind
         }
     }
 
-    
+
 
 
     static IEnumerable<RegistryView> GetViewsToProcess()
@@ -87,5 +87,5 @@ public class RegistryFind
             return product.UninstallString;
         }
         return string.Empty;
-    }   
+    }
 }

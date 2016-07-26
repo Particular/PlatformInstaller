@@ -11,7 +11,7 @@ public class ServiceInsightInstaller : IInstaller
     ReleaseManager releaseManager;
     Release[] releases;
     IEventAggregator eventAggregator;
-    
+
     public ServiceInsightInstaller(ProcessRunner processRunner, ReleaseManager releaseManager, IEventAggregator eventAggregator)
     {
         this.eventAggregator = eventAggregator;
@@ -21,7 +21,9 @@ public class ServiceInsightInstaller : IInstaller
 
     public void Init()
     {
-        releases = releaseManager.GetReleasesForProduct("ServiceInsight");
+        if (releases == null)
+            releases = releaseManager.GetReleasesForProduct(Name);
+        InstallState = this.ExeInstallState();
     }
 
 
@@ -34,10 +36,11 @@ public class ServiceInsightInstaller : IInstaller
         };
     }
 
+
     public Version CurrentVersion()
     {
         Version version;
-        RegistryFind.TryFindInstalledVersion("ServiceInsight", out version);
+        RegistryFind.TryFindInstalledVersion(Name, out version);
         return version;
     }
 
@@ -51,15 +54,11 @@ public class ServiceInsightInstaller : IInstaller
         return latest;
     }
 
-    public bool Enabled => !(LatestAvailableVersion() == CurrentVersion());
-
-    public string ToolTip => "ServiceInsight is a desktop application with features tailored to developers needs";
-
-    public bool SelectedByDefault => LatestAvailableVersion() != CurrentVersion();
 
     public async Task Execute(Action<string> logOutput, Action<string> logError)
     {
-        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = "Run ServiceInsight Installation" });
+        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = $"Downloading {Name}" });
+
         var release = releases.First();
         var installer = await releaseManager.DownloadRelease(release.Assets.Single()).ConfigureAwait(false);
         if (installer == null)
@@ -67,13 +66,15 @@ public class ServiceInsightInstaller : IInstaller
             logError("Failed to download the ServiceInsight Installation from https://github.com/Particular/ServiceInsight/releases/latest. Please manually download and run the install");
             return;
         }
-        
-        var log = "particular.serviceinsight.installer.log";
-        var fullLogPath = Path.Combine(installer.Directory.FullName, log);
-        File.Delete(fullLogPath);
+
+        var msiLog = Path.Combine(Logging.LogDirectory, "particular.serviceinsight.installer.log");
+        File.Delete(msiLog);
+
+        eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
+        eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = $"Executing {Name} installation" });
 
         var exitCode = await processRunner.RunProcess(installer.FullName,
-            $"/quiet /L*V {log}",
+            $"/quiet /L*V {msiLog}",
             // ReSharper disable once PossibleNullReferenceException
             installer.Directory.FullName,
             logOutput,
@@ -86,16 +87,11 @@ public class ServiceInsightInstaller : IInstaller
         }
         else
         {
-            logError("Installation of ServiceInsight failed with exitcode: " + exitCode);
-            logError("The MSI installation log can be found at {0}" + fullLogPath);
+            logError($"Installation of ServiceInsight failed with exitcode {exitCode}");
+            logError($"The MSI installation log can be found at {msiLog}");
         }
 
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
-    }
-
-    public bool Installed()
-    {
-        return CurrentVersion() != null;
     }
 
     public IEnumerable<AfterInstallAction> GetAfterInstallActions()
@@ -103,9 +99,12 @@ public class ServiceInsightInstaller : IInstaller
         yield break;
     }
 
-    public int NestedActionCount => 1;
-
     public string Name => "ServiceInsight";
-
+    public string Description => "Advanced Debugging";
+    public int NestedActionCount => 2;  //Download and Install
+    public string ImageName => Name;
     public string Status => this.ExeInstallerStatus();
+    public bool RebootRequired => false;
+    public InstallState InstallState { get; private set; }
+    public bool SelectedByDefault => InstallState == InstallState.Installed;
 }

@@ -12,7 +12,7 @@ public class RegistryFindTests
         Assert.IsNotEmpty(installedProducts);
         foreach (var product in installedProducts)
         {
-            Debug.WriteLine(product.ProductName + " " + product.Publisher + " " + product.Version);
+            Debug.WriteLine($"{product.ProductName} {product.Publisher} {product.Version}");
         }
     }
 }

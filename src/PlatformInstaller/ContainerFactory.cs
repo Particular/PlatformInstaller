@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Reflection;
 using Autofac;
 using Caliburn.Micro;
 using Mindscape.Raygun4Net;
@@ -9,12 +10,10 @@ public static class ContainerFactory
     {
         var builder = new ContainerBuilder();
         builder.Register<IWindowManager>(c => new WindowManager()).InstancePerLifetimeScope();
-
         builder.RegisterAssemblyTypes(ThisAssembly())
             .Where(ViewModelConventions.IsInstanceViewOrModel)
             .AsSelf()
             .InstancePerDependency();
-
         builder.RegisterType<EventAggregator>()
             .As<IEventAggregator>()
             .SingleInstance();
@@ -46,18 +45,10 @@ public static class ContainerFactory
         builder.RegisterType<AutoSubscriber>();
         builder.RegisterType<PendingRestartAndResume>()
             .SingleInstance();
-        builder.RegisterType<ServicePulseInstaller>()
-            .SingleInstance()
-            .AsImplementedInterfaces();
-        builder.RegisterType<ServiceControlInstaller>()
-            .SingleInstance()
-            .AsImplementedInterfaces();
-        builder.RegisterType<ServiceInsightInstaller>()
-            .SingleInstance()
-            .AsImplementedInterfaces();
-        builder.RegisterType<NServiceBusPrerequisitesInstaller>()
-            .SingleInstance()
-            .AsImplementedInterfaces();
+        builder.RegisterAssemblyTypes(ThisAssembly())
+            .Where(t => t.GetInterfaces()
+            .Any(i => i.IsAssignableFrom(typeof(IInstaller))))
+            .SingleInstance().AsImplementedInterfaces();
         builder.RegisterInstance(new RaygunClient(Program.RaygunApiKey))
             .SingleInstance();
         builder.RegisterType<RuntimeUpgradeManager>()

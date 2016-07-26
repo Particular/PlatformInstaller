@@ -21,7 +21,7 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<I
             LogTo.Information("Install feedback has already been reported no new browser will be popped");
             return;
         }
-        LogTo.Information("Install successfull, new user: " + isNewUserAtStartup);
+        LogTo.Information($"Install successfull, new user: {isNewUserAtStartup}");
         var isNew = isNewUserAtStartup.ToString().ToLowerInvariant();
         var installed = string.Join(";", message.InstalledItems);
         var url = $"http://particular.net/thank-you-for-installing-the-particular-service-platform?new_user={isNew}&installed={installed}&nuget={NugetFlag()}";
@@ -32,6 +32,10 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<I
     public void Handle(InstallCancelledEvent message)
     {
         // Show the feedback page on every cancelled install
+        if (HasFeebackBeenReportedForThisMachine())
+        {
+            return;
+        }
         RecordInstallationFeeback();
         UrlLauncher.Open(cancelledUrl);
     }
@@ -87,8 +91,9 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<I
 
     public static bool CheckRegistryForExistingKeys(RegistryKey regRoot)
     {
-        return regRoot.GetSubKeyNames().All(subKey =>
-            subKey != "NServiceBus" &&
-            subKey != "ParticularSoftware");
+        return regRoot.GetSubKeyNames()
+            .All(subKey =>
+                subKey != "NServiceBus" &&
+                subKey != "ParticularSoftware");
     }
 }

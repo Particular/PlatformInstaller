@@ -7,7 +7,7 @@ using Serilog.Events;
 public static class Logging
 {
     public static string LogDirectory;
-    
+
     public static void Initialise()
     {
         var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -39,7 +39,7 @@ public static class Logging
         }
         catch (Exception exception)
         {
-            throw new Exception("Could no open directory " + LogDirectory, exception);
+            throw new Exception($"Could no open directory {LogDirectory}", exception);
         }
     }
 

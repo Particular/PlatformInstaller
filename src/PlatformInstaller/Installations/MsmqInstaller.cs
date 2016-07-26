@@ -8,7 +8,7 @@ using Caliburn.Micro;
 public class MsmqInstaller : IInstaller
 {
     IEventAggregator eventAggregator;
-    private List<Dism.Feature> MSMQFeatures;
+    List<Dism.Feature> MSMQFeatures;
 
     public MsmqInstaller(IEventAggregator eventAggregator)
     {
@@ -143,7 +143,8 @@ public class MsmqInstaller : IInstaller
 
     static bool IsStopped(ServiceController controller)
     {
-        return controller.Status == ServiceControllerStatus.Stopped || controller.Status == ServiceControllerStatus.StopPending;
+        return controller.Status == ServiceControllerStatus.Stopped ||
+               controller.Status == ServiceControllerStatus.StopPending;
     }
 
     public IEnumerable<AfterInstallAction> GetAfterInstallActions()
@@ -153,7 +154,11 @@ public class MsmqInstaller : IInstaller
 
     public IEnumerable<DocumentationLink> GetDocumentationLinks()
     {
-        yield break;
+        yield return new DocumentationLink
+        {
+            Text = "MSMQ Transport documentation",
+            Url = "http://docs.particular.net/nservicebus/msmq/"
+        };
     }
 
     public int NestedActionCount => 2;

@@ -68,7 +68,11 @@ public class PerfCountersInstaller : IInstaller
 
     public IEnumerable<DocumentationLink> GetDocumentationLinks()
     {
-        yield break;
+        yield return new DocumentationLink
+        {
+            Text = "Performance Counters documentation",
+            Url = "http://docs.particular.net/nservicebus/operations/performance-counters"
+        };
     }
 
     public int NestedActionCount => 1;

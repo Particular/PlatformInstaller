@@ -84,7 +84,11 @@ public class DtcInstaller : IInstaller
 
     public IEnumerable<DocumentationLink> GetDocumentationLinks()
     {
-        yield break;
+        yield return new DocumentationLink
+        {
+            Text = "Transactions and Message Processing Documentation",
+            Url = "http://docs.particular.net/nservicebus/operations/transactions-message-processing"
+        };
     }
 
     public string  Name => "Configure MSDTC for NServiceBus";

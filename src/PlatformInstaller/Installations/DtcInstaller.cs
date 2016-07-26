@@ -86,7 +86,7 @@ public class DtcInstaller : IInstaller
     {
         yield return new DocumentationLink
         {
-            Text = "Transactions and Message Processing Documentation",
+            Text = "Transactions and Message Processing documentation",
             Url = "http://docs.particular.net/nservicebus/operations/transactions-message-processing"
         };
     }

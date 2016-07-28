@@ -9,6 +9,11 @@ using Caliburn.Micro;
 
 public static class ViewTester
 {
+    static ViewTester()
+    {
+        Application.ResourceAssembly = typeof(DotNetDownloadViewModel).Assembly;
+    }
+
     public static void ShowView<T>(T model) where T : INotifyPropertyChanged
     {
         var window = GetWindow(model);

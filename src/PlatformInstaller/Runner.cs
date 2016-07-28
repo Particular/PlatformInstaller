@@ -70,7 +70,6 @@ public static class Runner
         {
             using (var container = ContainerFactory.BuildContainer())
             {
-                container.Resolve<PendingRestartAndResume>().RemovePendingRestart();
                 container.Resolve<AutoSubscriber>().Subscribe();
                 var appBootstrapper = container.Resolve<AppBootstrapper>();
                 appBootstrapper.Initialize();

@@ -17,7 +17,7 @@ public class LicenseAgreement
 
     static RegistryKey GetPlatformInstallerRegistryKey()
     {
-        return Registry.CurrentUser.CreateSubKey(@"Software\ParticularSoftware\PlatformInstaller\");
+        return Registry.CurrentUser.CreateSubKeyEx(@"Software\ParticularSoftware\PlatformInstaller\");
     }
 
     public void Agree()

@@ -6,12 +6,8 @@ public static class SavedCredentials
 {
     public static void SaveCredentials(string userName, SecureString password)
     {
-        using (var credRegKey = Registry.CurrentUser.CreateSubKey(@"Software\Particular\PlatformInstaller\Credentials"))
+        using (var credRegKey = Registry.CurrentUser.CreateSubKeyEx(@"Software\Particular\PlatformInstaller\Credentials"))
         {
-            if (credRegKey == null)
-            {
-                return;
-            }
             credRegKey.SetValue("username", userName);
             var protect = ProtectedData.Protect(password.ToOriginalString().GetBytes(), null, DataProtectionScope.CurrentUser);
             credRegKey.SetValue("password", protect);
@@ -20,7 +16,7 @@ public static class SavedCredentials
 
     public static bool TryRetrieveSavedCredentials(out string username, out SecureString password)
     {
-        using (var credRegKey = Registry.CurrentUser.CreateSubKey(@"Software\Particular\PlatformInstaller\Credentials"))
+        using (var credRegKey = Registry.CurrentUser.CreateSubKeyEx(@"Software\Particular\PlatformInstaller\Credentials"))
         {
             var encryptedPassword = (byte[]) credRegKey?.GetValue("password", null);
             if (encryptedPassword != null)

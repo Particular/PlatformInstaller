@@ -171,7 +171,6 @@ public class SelectItemsViewModel : Screen, IHandle<ResumeInstallCommand>
                 });
             }
             pendingRestartAndResume.CleanupResume();
-            pendingRestartAndResume.RemovePendingRestart();
         }
     }
 

@@ -10,12 +10,12 @@ public class PendingRestartAndResume :
 {
     public virtual bool ResumedFromRestart { private set; get; }
 
-    const string runKeyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
+    const string runOnceKeyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce";
     const string platformInstallerKeyPath = @"SOFTWARE\ParticularSoftware\PlatformInstaller";
 
     public PendingRestartAndResume()
     {
-        using (var runKey = Registry.LocalMachine.OpenSubKeyEx(runKeyPath, false))
+        using (var runKey = Registry.LocalMachine.OpenSubKeyEx(runOnceKeyPath, false))
         {
             ResumedFromRestart = runKey.GetValueNames().Contains("PlatformInstaller");
         }
@@ -29,17 +29,9 @@ public class PendingRestartAndResume :
     public void AddPendingRestart()
     {
         var pathValue = $"\"{AssemblyLocation.ExeFilePath}\"";
-        using (var runKey = Registry.LocalMachine.OpenSubKeyEx(runKeyPath, true))
+        using (var runKey = Registry.LocalMachine.OpenSubKeyEx(runOnceKeyPath, true))
         {
             runKey.SetValue("PlatformInstaller", pathValue, RegistryValueKind.String);
-        }
-    }
-
-    public void RemovePendingRestart()
-    {
-        using (var runKey = Registry.LocalMachine.OpenSubKeyEx(runKeyPath, true))
-        {
-            runKey.DeleteValue("PlatformInstaller", false);
         }
     }
 

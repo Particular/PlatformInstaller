@@ -9,10 +9,4 @@ public class PendingRestartTests
     {
         new PendingRestartAndResume().AddPendingRestart();
     }
-    [Test]
-    [Explicit]
-    public void RemovePendingRestart()
-    {
-        new PendingRestartAndResume().RemovePendingRestart();
-    }
 }

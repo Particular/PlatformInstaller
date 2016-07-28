@@ -53,7 +53,7 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<I
 
     void RecordInstallationFeeback()
     {
-        using (var regRoot = Registry.CurrentUser.CreateSubKey(@"Software\ParticularSoftware\PlatformInstaller\"))
+        using (var regRoot = Registry.CurrentUser.CreateSubKeyEx(@"Software\ParticularSoftware\PlatformInstaller\"))
         {
             // ReSharper disable once PossibleNullReferenceException
             regRoot.SetValue("InstallationFeedbackReported", "true");
@@ -70,7 +70,7 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<I
 
     public bool IsNewUser()
     {
-        using (var regRoot = Registry.CurrentUser.OpenSubKey("Software"))
+        using (var regRoot = Registry.CurrentUser.OpenSubKeyEx("Software", false))
         {
             return CheckRegistryForExistingKeys(regRoot);
         }

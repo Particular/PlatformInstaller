@@ -81,6 +81,7 @@
     <Compile Include="NativeMethods\ShowWindowCommands.cs" />
     <Compile Include="NativeMethods\Structures.cs" />
     <Compile Include="NativeMethods\UnsafeNativeMethods.cs" />
+    <Compile Include="RegistryHelper.cs" />
     <Compile Include="UrlLauncher.cs" />
     <EmbeddedResource Include="LicenseAgreement.md" />
     <None Include="packages.config">

@@ -8,14 +8,14 @@ public class PendingRestartAndResume :
     IHandle<RunInstallEvent>,
     IHandle<CheckPointInstallEvent>
 {
-    public virtual bool ResumedFromRestart { private set;  get; }
+    public virtual bool ResumedFromRestart { private set; get; }
 
     const string runKeyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
     const string platformInstallerKeyPath = @"SOFTWARE\ParticularSoftware\PlatformInstaller";
 
     public PendingRestartAndResume()
     {
-        using (var runKey = Registry.LocalMachine.OpenSubKey(runKeyPath, false))
+        using (var runKey = Registry.LocalMachine.OpenSubKeyEx(runKeyPath, false))
         {
             ResumedFromRestart = runKey.GetValueNames().Contains("PlatformInstaller");
         }
@@ -29,7 +29,7 @@ public class PendingRestartAndResume :
     public void AddPendingRestart()
     {
         var pathValue = $"\"{AssemblyLocation.ExeFilePath}\"";
-        using (var runKey = Registry.LocalMachine.OpenSubKey(runKeyPath, true))
+        using (var runKey = Registry.LocalMachine.OpenSubKeyEx(runKeyPath, true))
         {
             runKey.SetValue("PlatformInstaller", pathValue, RegistryValueKind.String);
         }
@@ -37,7 +37,7 @@ public class PendingRestartAndResume :
 
     public void RemovePendingRestart()
     {
-        using (var runKey = Registry.LocalMachine.OpenSubKey(runKeyPath, true))
+        using (var runKey = Registry.LocalMachine.OpenSubKeyEx(runKeyPath, true))
         {
             runKey.DeleteValue("PlatformInstaller", false);
         }
@@ -45,16 +45,18 @@ public class PendingRestartAndResume :
 
     public List<string> Installs()
     {
-        using (var installerKey = Registry.LocalMachine.CreateSubKey(platformInstallerKeyPath))
+        using (var installerKey = Registry.LocalMachine.CreateSubKeyEx(platformInstallerKeyPath))
         {
-            var items = (string[]) installerKey.GetValue("SelectedInstalls", new string[] {} );
+            var items = (string[]) installerKey.GetValue("SelectedInstalls", new string[]
+            {
+            });
             return items.ToList();
         }
     }
 
     public string Checkpoint()
     {
-        using (var installerKey = Registry.LocalMachine.CreateSubKey(platformInstallerKeyPath))
+        using (var installerKey = Registry.LocalMachine.CreateSubKeyEx(platformInstallerKeyPath))
         {
             return (string) installerKey.GetValue("LastInstallCheckpoint", null);
         }
@@ -63,15 +65,15 @@ public class PendingRestartAndResume :
 
     public void Handle(RunInstallEvent message)
     {
-        using (var installerKey = Registry.LocalMachine.CreateSubKey(platformInstallerKeyPath))
+        using (var installerKey = Registry.LocalMachine.CreateSubKeyEx(platformInstallerKeyPath))
         {
-             installerKey.SetValue("SelectedInstalls", message.SelectedItems.ToArray(), RegistryValueKind.MultiString);
+            installerKey.SetValue("SelectedInstalls", message.SelectedItems.ToArray(), RegistryValueKind.MultiString);
         }
     }
 
     public void Handle(CheckPointInstallEvent message)
     {
-        using (var installerKey = Registry.LocalMachine.CreateSubKey(platformInstallerKeyPath))
+        using (var installerKey = Registry.LocalMachine.CreateSubKeyEx(platformInstallerKeyPath))
         {
             installerKey.SetValue("LastInstallCheckpoint", message.Item, RegistryValueKind.String);
         }
@@ -79,7 +81,7 @@ public class PendingRestartAndResume :
 
     public void CleanupResume()
     {
-        using (var installerKey = Registry.LocalMachine.CreateSubKey(platformInstallerKeyPath))
+        using (var installerKey = Registry.LocalMachine.CreateSubKeyEx(platformInstallerKeyPath))
         {
             installerKey.DeleteValue("LastInstallCheckpoint", false);
             installerKey.DeleteValue("SelectedInstalls", false);

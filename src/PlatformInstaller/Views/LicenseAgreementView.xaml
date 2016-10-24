@@ -17,6 +17,11 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Vertical" FlowDirection="LeftToRight">
+            <Label FontWeight="Bold" FontSize="18">About our License Process</Label>
+            <Label FontSize="16">Your initial trial lasts for 14 days, but after that you can instantly extend it for FREE.</Label>
+            <Label FontWeight="Bold" FontSize="18" Margin="0,18,0,0">Evaluation End User License Agreement</Label>
+        </StackPanel>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft" >
             <Button x:Name="Exit" Content="Exit"/>
             <Button x:Name="Copy" Content="Copy"/>

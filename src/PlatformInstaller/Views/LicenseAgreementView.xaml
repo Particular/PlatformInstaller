@@ -18,8 +18,9 @@
     </UserControl.Resources>
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Vertical" FlowDirection="LeftToRight">
-            <Label FontWeight="Bold" FontSize="18">About our License Process</Label>
-            <Label FontSize="16">Your initial trial lasts for 14 days, but after that you can instantly extend it for FREE.</Label>
+            <TextBlock FontSize="16" Margin="6">
+                Your initial trial lasts for 14 days. When the trial expires we'll provide instructions on how to extend it for <Bold>free</Bold>.
+            </TextBlock>
             <Label FontWeight="Bold" FontSize="18" Margin="0,18,0,0">Evaluation End User License Agreement</Label>
         </StackPanel>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft" >

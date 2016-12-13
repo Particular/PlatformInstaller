@@ -11,7 +11,7 @@ public class LicenseAgreementViewModel : Screen
 
     }
 
-    public string License => Resource.AsString("PlatformInstaller.LicenseAgreement.md");
+    public string License => Resource.AsString("PlatformInstaller.License.rtf");
 
     public LicenseAgreementViewModel(IEventAggregator eventAggregator)
     {

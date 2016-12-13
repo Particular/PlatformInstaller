@@ -1,4 +1,3 @@
-using System.Windows;
 using Caliburn.Micro;
 using Resourcer;
 
@@ -28,11 +27,4 @@ public class LicenseAgreementViewModel : Screen
     {
         eventAggregator.Publish<ExitApplicationCommand>();
     }
-
-
-    public void Copy()
-    {
-        Clipboard.SetText(License);
-    }
-
 }

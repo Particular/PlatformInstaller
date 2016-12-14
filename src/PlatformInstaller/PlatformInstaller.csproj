@@ -51,6 +51,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AsyncErrorHandler.cs" />
+    <Compile Include="Controls\BindableRichText.cs" />
     <Compile Include="Controls\LoadingSpinner.xaml.cs">
       <DependentUpon>LoadingSpinner.xaml</DependentUpon>
     </Compile>
@@ -83,7 +84,7 @@
     <Compile Include="NativeMethods\UnsafeNativeMethods.cs" />
     <Compile Include="RegistryHelper.cs" />
     <Compile Include="UrlLauncher.cs" />
-    <EmbeddedResource Include="LicenseAgreement.md" />
+    <EmbeddedResource Include="License.rtf" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

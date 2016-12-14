@@ -1,4 +1,3 @@
-using System.Windows;
 using Caliburn.Micro;
 using Resourcer;
 
@@ -11,7 +10,7 @@ public class LicenseAgreementViewModel : Screen
 
     }
 
-    public string License => Resource.AsString("PlatformInstaller.LicenseAgreement.md");
+    public string License => Resource.AsString("PlatformInstaller.License.rtf");
 
     public LicenseAgreementViewModel(IEventAggregator eventAggregator)
     {
@@ -28,11 +27,4 @@ public class LicenseAgreementViewModel : Screen
     {
         eventAggregator.Publish<ExitApplicationCommand>();
     }
-
-
-    public void Copy()
-    {
-        Clipboard.SetText(License);
-    }
-
 }

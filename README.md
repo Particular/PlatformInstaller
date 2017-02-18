@@ -12,3 +12,5 @@ Current Prod Release
 Click Once Bootstrapper - https://s3.amazonaws.com/particular.downloads/PlatformInstaller/setup.exe
 or 
 Click Once Bootstrapper - https://s3.amazonaws.com/particular.downloads/PlatformInstaller/ParticularPlatform.exe
+
+

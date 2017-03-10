@@ -40,4 +40,13 @@ public static class StringExtensions
         }
         return secureString;
     }
+
+    public static string QuoteForCommandline(this string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return value;
+        return value.Contains(" ")
+            ? $"\"{value}\""
+            : value;
+    }
 }

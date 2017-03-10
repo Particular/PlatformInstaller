@@ -77,7 +77,7 @@ public class ServicePulseInstaller : IInstaller
         eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = $"Executing {Name} installation" });
 
         var exitCode = await processRunner.RunProcess(installer.FullName,
-            $"/quiet /L*V {msiLog}",
+            $"/quiet /L*V {msiLog.QuoteForCommandline()}",
             // ReSharper disable once PossibleNullReferenceException
             installer.Directory.FullName,
             logOutput,
@@ -90,7 +90,15 @@ public class ServicePulseInstaller : IInstaller
         else
         {
             logError($"Installation of ServicePulse failed with exitcode: {exitCode}");
-            logError($"The MSI installation log can be found at {msiLog}");
+            if (File.Exists(msiLog))
+            {
+                logError($"The MSI installation log can be found at {msiLog}");
+            }
+            else
+            {
+                logError($"No MSI installation log found. Please check the Application log in the Windows Eventlog");
+            }
+
         }
         eventAggregator.PublishOnUIThread(new NestedInstallCompleteEvent());
     }

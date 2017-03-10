@@ -78,7 +78,7 @@ public class ReleaseManager
             client.Proxy.Credentials = credentialStore.Credentials;
             client.DownloadProgressChanged += OnClientOnDownloadProgressChanged;
             client.DownloadFileCompleted += OnClientOnDownloadFileCompleted;
-
+            client.Headers.Add("Accept-Encoding", "gzip, deflate");
             var retries = 0;
             const int maxretries = 5;
             while (true)

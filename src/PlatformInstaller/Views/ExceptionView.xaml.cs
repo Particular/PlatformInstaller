@@ -44,14 +44,17 @@ public partial class ExceptionView
 
     void CopyClick(object sender, RoutedEventArgs e)
     {
-        Clipboard.SetText(exceptonText);
+        if (exceptonText != null)
+        {
+            Clipboard.SetText(exceptonText);
+        }
     }
-
-    void OpenLogsClick(object sender, RoutedEventArgs e)
+    
+    void OpenLogDirectory(object sender, RoutedEventArgs routedEventArgs)
     {
         Logging.OpenLogDirectory();
     }
-
+    
     void SendErrorToRaygunClick(object sender, RoutedEventArgs e)
     {
         var confirmSendExceptionView = new ConfirmSendExceptionView
@@ -63,7 +66,7 @@ public partial class ExceptionView
 
         if (confirmSendExceptionView.SendExceptionReport)
         {
-            var client = new RaygunClient(Program.RaygunApiKey);
+            var client = new RaygunClient(App.RayGunApiKey);
             client.Send(exception);
             MessageBox.Show("Exception Report Sent", "Send Complete", MessageBoxButton.OK);
         }

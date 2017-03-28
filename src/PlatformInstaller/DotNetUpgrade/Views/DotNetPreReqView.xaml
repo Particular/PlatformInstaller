@@ -6,21 +6,14 @@
     <UserControl.DataContext>
         <global:DotNetPreReqViewModel/>
     </UserControl.DataContext>
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Styles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
     <DockPanel >
-        <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Bold">Install .NET Framework 4.5.2</TextBlock>
+        <TextBlock DockPanel.Dock="Top" Style="{StaticResource MaterialDesignTitleTextBlock}">Install .NET Framework 4.5.2</TextBlock>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
             <Button x:Name="Exit" Content="Exit"/>
-            <Button x:Name="Install" Content="Install"/>
+            <Button x:Name="Install" Content="Install" Margin="10,0"/>
         </StackPanel>
         <StackPanel>
-            <TextBlock Foreground="Gray">Please click Install to commence the download and installation of this prerequisite. </TextBlock>
+            <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}">Please click Install to commence the download and installation of this prerequisite. </TextBlock>
         </StackPanel>
     </DockPanel>
 </UserControl>

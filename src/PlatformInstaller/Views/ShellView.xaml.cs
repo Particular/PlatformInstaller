@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 
@@ -9,7 +10,6 @@ public partial class ShellView
     {
         CurrentInstance = this;
         InitializeComponent();
-
     }
 
     public void HideMe()
@@ -47,5 +47,10 @@ public partial class ShellView
     void OpenLogDirectory(object sender, RoutedEventArgs routedEventArgs)
     {
         Logging.OpenLogDirectory();
+    }
+
+    void OpenDocs(object sender, RoutedEventArgs routedEventArgs)
+    {
+        Process.Start("https://docs.particular.net/platform/installer/");
     }
 }

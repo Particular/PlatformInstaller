@@ -2,21 +2,16 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="ConfirmSendExceptionView"  WindowStartupLocation="CenterScreen"
-        Title="Particular Platform Installer" Height="190" Width="400" WindowStyle="None" ResizeMode="NoResize" BorderBrush="White" >
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../styles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
+        Height="190" Width="400" 
+        Style="{StaticResource MaterialDesignWindowStyle}"
+    >
     <Border BorderBrush="#20000000" BorderThickness="2">
         <StackPanel Margin="10" VerticalAlignment="Center">
-            <TextBlock Margin="0,10,0,0" FontSize="15" FontWeight="DemiBold" >Are you sure you want to send the exception report?</TextBlock>
-            <TextBlock Margin="0,10,0,0" FontSize="13" TextWrapping="Wrap">The exception report contains the exception message, stacktrace, application version and basic operating system information.</TextBlock>
+            <TextBlock Margin="0,10,0,0" Style="{StaticResource MaterialDesignTitleTextBlock}">Confirmation - Send report?</TextBlock>
+            <TextBlock Margin="0,10,0,0" Style="{StaticResource MaterialDesignBody1TextBlock}" TextWrapping="Wrap">The exception report contains the exception message, stacktrace, application version and basic operating system information.</TextBlock>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0"  FlowDirection="RightToLeft">
                 <Button Click="CancelClick">Cancel</Button>
-                <Button Click="ConfirmSendClick" Style="{StaticResource HiliteButton}">Send the report</Button>
+                <Button Click="ConfirmSendClick" Margin="10,0">Send the report</Button>
             </StackPanel>
         </StackPanel>
     </Border>

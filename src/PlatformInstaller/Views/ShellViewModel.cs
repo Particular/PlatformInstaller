@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
@@ -57,7 +58,7 @@ public class ShellViewModel : Conductor<object>,
         RunStartupSequence();
     }
 
-    public string AppVersion { get; set; }
+    public string AppVersion => $"Version: {Assembly.GetExecutingAssembly().GetName().Version}";
 
     public void ActivateModel<T>(params Parameter[] parameters) where T : Screen
     {

@@ -6,21 +6,14 @@
     <UserControl.DataContext>
         <global:DotNetInstallCompleteViewModel/>
     </UserControl.DataContext>
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Styles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
-    <DockPanel >
-        <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Bold">.NET Framework 4.5.2 Installation</TextBlock>
+    <DockPanel>
+        <TextBlock DockPanel.Dock="Top" Style="{StaticResource MaterialDesignTitleTextBlock}">.NET Framework 4.5.2 Installation</TextBlock>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
             <Button x:Name="Exit" Content="Exit"/>
-            <Button x:Name="Reboot" Content="Reboot Now"/>
+            <Button x:Name="Reboot" Content="Reboot Now" Margin="10,10"/>
         </StackPanel>
         <StackPanel>
-            <TextBlock Foreground="Gray">Please restart your machine to complete the installation</TextBlock>
+            <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}">Please restart your machine to complete the installation</TextBlock>
         </StackPanel>
     </DockPanel>
 </UserControl>

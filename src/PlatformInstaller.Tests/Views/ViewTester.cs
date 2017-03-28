@@ -1,11 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using ApprovalTests;
 using ApprovalTests.Wpf;
 using ApprovalUtilities.Wpf;
 using Caliburn.Micro;
+using NUnit.Framework;
 
 public static class ViewTester
 {
@@ -29,7 +31,7 @@ public static class ViewTester
     public static void ScreenCapture<T>(T model) where T : INotifyPropertyChanged
     {
         var window = GetWindow(model);
-        var filename = $"{typeof(T).Name.Replace("ViewModel", "")}.png";
+        var filename = Path.Combine(TestContext.CurrentContext.TestDirectory, $"{typeof(T).Name.Replace("ViewModel", "")}.png");
         WpfUtils.ScreenCapture(window, filename);
     }
 

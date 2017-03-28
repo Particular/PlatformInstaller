@@ -8,9 +8,6 @@
     </UserControl.DataContext>
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../styles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
             <DataTemplate x:Key="ActionItemTemplate" DataType="Grid" >
                 <Grid>
                     <Grid.RowDefinitions>
@@ -23,18 +20,17 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Row="0" Grid.ColumnSpan="2"
                                TextWrapping="WrapWithOverflow" 
-                               Text="{Binding Description}" Margin="10,0,0,0"/>
+                               Text="{Binding Description}" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Margin="10,0,0,0"/>
                     <Button Grid.Row="1" Grid.Column="0"
                             Command="{Binding Command}"
-                            Style="{StaticResource HiliteButton}"
                             Content="{Binding Text}" Margin="10,5,0,0"/>
                 </Grid>
             </DataTemplate>
                 
             <DataTemplate x:Key="LinkTemplate" >
                 <TextBlock Margin="10,0,0,0" >
-                    <global:Link NavigateUri="{Binding Uri}" Style="{StaticResource {x:Type Hyperlink}}">
-                        <TextBlock Text="{Binding Path=Text}"/>
+                    <global:Link NavigateUri="{Binding Uri}" >
+                        <TextBlock Text="{Binding Path=Text}" Style="{StaticResource MaterialDesignSubheadingTextBlock}" />
                     </global:Link>
                 </TextBlock>
             </DataTemplate>
@@ -47,17 +43,17 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel>
-            <TextBlock FontSize="18" FontWeight="DemiBold">Installation Complete</TextBlock>
-            <TextBlock Foreground="{StaticResource Gray30Brush}">Thank you for installing the Particular Service Platform.</TextBlock>
+            <TextBlock Style="{StaticResource MaterialDesignTitleTextBlock}">Installation Complete</TextBlock>
+            <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}">Thank you for installing the Particular Service Platform.</TextBlock>
 
-            <TextBlock FontSize="12" Margin="0 10 0 0" FontWeight="DemiBold" Visibility="{Binding FurtherActionsVisible}">Further Actions:</TextBlock>
+            <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Margin="0 10 0 0" Visibility="{Binding FurtherActionsVisible}">Further Actions:</TextBlock>
             <ItemsControl 
                 Focusable="False" 
                 Visibility= "{Binding FurtherActionsVisible}"
                 ItemTemplate="{StaticResource ActionItemTemplate}" 
                 ItemsSource="{Binding ActionItems}" 
                 Margin="0 10"/>
-            <TextBlock FontSize="12" Margin="0 10 0 0" FontWeight="DemiBold">Relevant Links:</TextBlock>
+            <TextBlock Margin="0 10 0 0" Style="{StaticResource MaterialDesignSubheadingTextBlock}">Relevant Links:</TextBlock>
             <ItemsControl 
                 Focusable="False" 
                 ItemTemplate="{StaticResource LinkTemplate}" 
@@ -69,7 +65,7 @@
                     Orientation="Horizontal" 
                     FlowDirection="RightToLeft">
             <Button x:Name="Exit" Content="Exit"/>
-            <Button x:Name="Home" Content="Back" Style="{StaticResource HiliteButton}"/>
+            <Button x:Name="Home" Content="Back"  Margin="10,0"/>
         </StackPanel>
     </Grid>
 </UserControl>

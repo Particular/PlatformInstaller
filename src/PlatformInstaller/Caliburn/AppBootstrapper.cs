@@ -1,18 +1,87 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
+using System.Windows;
 using Autofac;
 using Caliburn.Micro;
+using Mindscape.Raygun4Net;
 
 public class AppBootstrapper : BootstrapperBase
 {
-
     ILifetimeScope lifetimeScope;
 
-    public AppBootstrapper(ILifetimeScope lifetimeScope):base(useApplication: false)
+    public AppBootstrapper()
     {
-        this.lifetimeScope = lifetimeScope;
-        ViewLocator.LocateTypeForModelType = (modelType, dependencyObject, arg3) =>ViewModelConventions.GetViewForModel(modelType);
+        Initialize();
     }
 
+    protected override void Configure()
+    {
+        lifetimeScope = BuildContainer();
+    }
+
+    static Assembly ThisAssembly()
+    {
+        return typeof(AppBootstrapper).Assembly;
+    }
+
+    public static IContainer BuildContainer()
+    {
+        var builder = new ContainerBuilder();
+        builder.Register<IWindowManager>(c => new WindowManager()).InstancePerLifetimeScope();
+        builder.RegisterAssemblyTypes(ThisAssembly())
+            .Where(ViewModelConventions.IsInstanceViewOrModel)
+            .AsSelf()
+            .InstancePerDependency();
+        builder.RegisterType<EventAggregator>()
+            .As<IEventAggregator>()
+            .SingleInstance();
+        builder.RegisterType<WindowManager>()
+            .As<IWindowManager>()
+            .SingleInstance();
+        builder.RegisterType<RebootMachine>()
+            .SingleInstance();
+        builder.RegisterType<AbortInstallationHandler>()
+            .SingleInstance();
+        builder.RegisterType<InstallFeedbackReporter>()
+            .SingleInstance();
+        builder.RegisterType<ShellViewModel>()
+            .SingleInstance();
+        builder.RegisterType<ProcessRunner>()
+            .SingleInstance();
+        builder.RegisterType<CredentialStore>()
+            .SingleInstance();
+        builder.RegisterType<ProxyTester>()
+            .SingleInstance();
+        builder.RegisterType<ReleaseManager>()
+            .SingleInstance();
+        builder.RegisterType<Installer>()
+            .SingleInstance();
+        builder.RegisterType<LicenseAgreement>()
+            .SingleInstance();
+        builder.RegisterType<AutoSubscriber>();
+        builder.RegisterType<PendingRestartAndResume>()
+            .SingleInstance();
+        builder.RegisterAssemblyTypes(ThisAssembly())
+            .Where(t => t.GetInterfaces()
+            .Any(i => i.IsAssignableFrom(typeof(IInstaller))))
+            .SingleInstance().AsImplementedInterfaces();
+        builder.RegisterInstance(new RaygunClient(App.RayGunApiKey))
+            .SingleInstance();
+        builder.RegisterType<RuntimeUpgradeManager>()
+            .SingleInstance();
+        return builder.Build();
+    }
+
+
+    protected override void OnStartup(object sender, StartupEventArgs e)
+    {
+        ViewLocator.LocateTypeForModelType = (modelType, dependencyObject, arg3) => ViewModelConventions.GetViewForModel(modelType);
+        lifetimeScope.Resolve<AutoSubscriber>().Subscribe();
+        lifetimeScope.Resolve<IWindowManager>().ShowDialog(lifetimeScope.Resolve<ShellViewModel>());
+        base.OnStartup(sender, e);
+    }
+    
     protected override object GetInstance(Type service, string key)
     {
         object instance;

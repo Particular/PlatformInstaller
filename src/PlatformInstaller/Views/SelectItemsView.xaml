@@ -9,10 +9,7 @@
     </UserControl.DataContext>
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../styles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-            <DataTemplate x:Key="ItemTemplate">
+           <DataTemplate x:Key="ItemTemplate">
                 <CheckBox 
                     IsEnabled="{Binding Enabled }"
                     IsChecked="{Binding Selected}" >
@@ -33,11 +30,11 @@
                                 </DockPanel.ContextMenu>
                                 <Image Source="{Binding ImageUrl}" Stretch="None" />
                                 <StackPanel Orientation="Vertical" Margin="10,0,0,0">
-                                    <Label Content="{Binding Name}" FontWeight="DemiBold" Foreground="{StaticResource Gray10Brush}" FontSize="18"  Padding="2,2" Margin="0,0"/>
-                                    <Label Content="{Binding Description}" FontSize="12"  Foreground="{StaticResource Gray10Brush}" Padding="2,0" Margin="0,0" />
+                                    <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="DemiBold" Padding="2,2" Margin="0,0"/>
+                                    <TextBlock Text="{Binding Description}" FontSize="12"  Padding="2,0" Margin="0,0" />
                                 </StackPanel>
                                 <CheckBox VerticalAlignment="Center" DockPanel.Dock="Right" IsChecked="{Binding Selected}" Visibility="{Binding CheckBoxVisible}" />
-                                <Label Content="{Binding Status}" Foreground="{StaticResource Gray10Brush}" HorizontalContentAlignment="Right" DockPanel.Dock="Right" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Status}" FontSize="12" Padding="2,0" HorizontalAlignment="Right" DockPanel.Dock="Right" VerticalAlignment="Center" />
                         </DockPanel>
                         </ControlTemplate>
                     </CheckBox.Template>
@@ -53,17 +50,17 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="2" Grid.RowSpan="3" ZIndex="200" Visibility="{Binding LoadingVisibility}" Background="White">
+        <Grid Grid.Row="2" Grid.RowSpan="3" ZIndex="200" Visibility="{Binding LoadingVisibility}" >
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <global:LoadingSpinner/>
-                <TextBlock FontSize="14" FontWeight="DemiBold" Foreground="{StaticResource Gray50Brush}" >Checking for installed components...</TextBlock>
+                <global:LoadingSpinner />
+                <TextBlock  Style="{StaticResource MaterialDesignCaptionTextBlock}" >Checking for installed components...</TextBlock>
             </StackPanel>
         </Grid>
-        <StackPanel Grid.Row="0" Orientation="Vertical"> 
-            <TextBlock FontSize="18" FontWeight="DemiBold">Particular Service Platform Installation</TextBlock>
-            <TextBlock Foreground="{StaticResource Gray30Brush}">Select components to download and install</TextBlock>
+        <StackPanel Grid.Row="0" Orientation="Vertical">
+            <TextBlock Style="{StaticResource MaterialDesignTitleTextBlock}" >Particular Service Platform Installation</TextBlock>
+            <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}">Select components to download and install</TextBlock>
         </StackPanel>
-        <Border Grid.Row="1" BorderBrush="{StaticResource Gray90Brush}" BorderThickness="0,0,0,1" Margin="-20,5"/>
+        <Border Grid.Row="1" BorderThickness="0,0,0,1" Margin="-20,5" BorderBrush="{StaticResource MaterialDesignDivider}"/>
             <ItemsControl 
             Grid.Row="2" 
             Focusable="False" 
@@ -76,11 +73,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Button 
-                Grid.Column="1" 
-                x:Name="Install"
-                IsEnabled="{Binding IsInstallEnabled}" 
-                Content="Install" Style="{StaticResource HiliteButton}"/>
+            <Button Grid.Column="1" x:Name="Install" IsEnabled="{Binding IsInstallEnabled}" Content="Install" Margin="10,0"/>
             <Button Grid.Column="2" x:Name="Exit" Content="Exit" />
         </Grid>
     </Grid>

@@ -6,18 +6,11 @@
     <UserControl.DataContext>
         <global:DotNetInstallFailedViewModel/>
     </UserControl.DataContext>
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Styles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
     <DockPanel >
-        <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Bold">Failed to Download or Install .NET Framework 4.5.2</TextBlock>
+        <TextBlock DockPanel.Dock="Top" Style="{StaticResource MaterialDesignTitleTextBlock}">Failed to Download or Install .NET Framework 4.5.2</TextBlock>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
             <Button x:Name="Exit" Content="Exit"/>
         </StackPanel>
-        <TextBlock Foreground="Gray">Please install .NET Framework 4.5.2 manually. The installation can be found on the <global:Link NavigateUri="https://www.microsoft.com/en-us/download/details.aspx?id=42642">Microsoft Download Site</global:Link>.</TextBlock>
+        <TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}">Please install .NET Framework 4.5.2 manually. The installation can be found on the <global:Link NavigateUri="https://www.microsoft.com/en-us/download/details.aspx?id=42642">Microsoft Download Site</global:Link>.</TextBlock>
     </DockPanel>
 </UserControl>

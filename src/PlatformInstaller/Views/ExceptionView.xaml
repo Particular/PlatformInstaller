@@ -1,26 +1,31 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         x:Class="ExceptionView"  WindowStartupLocation="CenterScreen"
-        Title="Particular Platform Installer" Height="500" Width="400" WindowStyle="None" ResizeMode="NoResize" BorderBrush="White" >
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../styles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
+        Title="Particular Platform Installer" Height="500" Width="500" WindowStyle="None" ResizeMode="NoResize" BorderBrush="White" >
+    
+    
     <Border BorderBrush="#20000000" BorderThickness="2">
-        <DockPanel Margin="10">
-            <Image DockPanel.Dock="Top" Source="pack://application:,,,/PlatformInstaller;component/Images/particularSmall.png" HorizontalAlignment="Left" Stretch="None" />
-            <TextBlock Margin="0,10,0,0" DockPanel.Dock="Top" FontSize="15" FontWeight="Bold" >Exception occurred</TextBlock>
-            <StackPanel DockPanel.Dock="Bottom"  Orientation="Horizontal"  FlowDirection="RightToLeft">
-                <Button Click="ExitClick">Exit</Button>
-                <Button Click="CopyClick">Copy</Button>
-                <Button Click="OpenLogsClick">Open Logs</Button>
-                <Button Click="SendErrorToRaygunClick" Style="{StaticResource HiliteButton}">Send Exception Report</Button>
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0" VerticalAlignment="Top" >
+                <Button x:Name="Exit" Style="{StaticResource WindowCloseButtonStyle}" ToolTip="Close" Click="ExitClick">
+                    <ContentControl Width="16" Height="16" Foreground="Black" Template="{StaticResource CloseIcon}" />
+                </Button>
+                <Button Style="{StaticResource MaterialDesignFlatButton}" HorizontalAlignment="Left" Click="OpenLogDirectory">
+                    <StackPanel Orientation="Horizontal"> <TextBlock Margin="4,0" FontSize="10">Logs</TextBlock><materialDesign:PackIcon Kind="Magnify" RenderSize="16,16"/></StackPanel>
+                </Button>
             </StackPanel>
-            <TextBox x:Name="ExceptionTextBox"  Margin="10" IsReadOnly="True" Background="#E7E7E7"/>
+            <Image DockPanel.Dock="Top" Source="pack://application:,,,/PlatformInstaller;component/Images/particularSmall.png" HorizontalAlignment="Left" Stretch="None" Margin="10,0"/>
+            <TextBlock Margin="10,10,0,0" DockPanel.Dock="Top" Style="{StaticResource MaterialDesignSubheadingTextBlock}" >An exception occurred</TextBlock>
+            <StackPanel DockPanel.Dock="Bottom"  Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,5,10,10">
+                <Button Click="ExitClick" Margin="5">Exit</Button>
+                <Button Click="CopyClick" Margin="5">Copy to Clipboard</Button>
+                <Button Click="SendErrorToRaygunClick" Margin="5">Report Exception</Button>
+            </StackPanel>
+            <ScrollViewer>
+                <TextBlock x:Name="ExceptionTextBox" Margin="10"  TextWrapping="Wrap" />
+            </ScrollViewer>
         </DockPanel>
     </Border>
 </Window>

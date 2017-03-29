@@ -6,13 +6,6 @@
     <UserControl.DataContext>
         <global:DotNetDownloadViewModel/>
     </UserControl.DataContext>
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Styles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
     <DockPanel>
         <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Bold">Downloading .NET Framework 4.5.2</TextBlock>
         <Grid DockPanel.Dock="Top" Margin="0 10 0 0">

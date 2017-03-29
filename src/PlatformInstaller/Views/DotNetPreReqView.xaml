@@ -6,13 +6,6 @@
     <UserControl.DataContext>
         <global:DotNetPreReqViewModel/>
     </UserControl.DataContext>
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Styles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
     <DockPanel >
         <TextBlock DockPanel.Dock="Top" FontSize="18" FontWeight="Bold">Install .NET Framework 4.5.2</TextBlock>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">

@@ -5,9 +5,9 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/PlatformInstaller;component/styles/Palette.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/PlatformInstaller;component/styles/WindowCloseButton.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/PlatformInstaller;component/styles/Hyperlink.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/PlatformInstaller;component/styles/Palette.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/PlatformInstaller;component/styles/Button.xaml"/>
                 <ResourceDictionary>
                     <Style x:Key="PlatformInstallerWindowStyle" TargetType="Window">

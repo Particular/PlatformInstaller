@@ -71,7 +71,7 @@ public class PerfCountersInstaller : IInstaller
         yield return new DocumentationLink
         {
             Text = "Performance Counters documentation",
-            Url = "http://docs.particular.net/nservicebus/operations/performance-counters"
+            Url = "https://docs.particular.net/nservicebus/operations/performance-counters"
         };
     }
 

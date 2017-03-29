@@ -9,9 +9,6 @@
     </UserControl.DataContext>
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../styles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
             <DataTemplate x:Key="ItemTemplate">
                 <CheckBox 
                     IsEnabled="{Binding Enabled }"

@@ -50,23 +50,27 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AsyncErrorHandler.cs" />
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Framework\AsyncErrorHandler.cs" />
+    <Compile Include="Framework\Caliburn\AppBootstrapper.cs" />
     <Compile Include="Controls\BindableRichText.cs" />
     <Compile Include="Controls\LoadingSpinner.xaml.cs">
       <DependentUpon>LoadingSpinner.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DotNetUpgrade\Events\DotNetInstallComplete.cs" />
-    <Compile Include="DotNetUpgrade\Events\DotNetDownloadCompleteEvent.cs" />
-    <Compile Include="DotNetUpgrade\Events\DotNetDownloadFailedEvent.cs" />
-    <Compile Include="DotNetUpgrade\Events\DotNetDownloadProgressEvent.cs" />
-    <Compile Include="DotNetUpgrade\Events\DotNetDownloadStartedEvent.cs" />
-    <Compile Include="DotNetUpgrade\Events\DotNetInstallFailed.cs" />
-    <Compile Include="DotNetUpgrade\RuntimeUpgradeManager.cs" />
-    <Compile Include="DotNetUpgrade\Events\DotNetStartInstallWizardCommand.cs" />
-    <Compile Include="DotNetUpgrade\Views\DotNetInstallCompleteView.xaml.cs">
+    <Compile Include="Events\DotNetInstallComplete.cs" />
+    <Compile Include="Events\DotNetDownloadCompleteEvent.cs" />
+    <Compile Include="Events\DotNetDownloadFailedEvent.cs" />
+    <Compile Include="Events\DotNetDownloadProgressEvent.cs" />
+    <Compile Include="Events\DotNetDownloadStartedEvent.cs" />
+    <Compile Include="Events\DotNetInstallFailed.cs" />
+    <Compile Include="Installations\RuntimeUpgradeManager.cs" />
+    <Compile Include="Events\DotNetStartInstallWizardCommand.cs" />
+    <Compile Include="Views\DotNetInstallCompleteView.xaml.cs">
       <DependentUpon>DotNetInstallCompleteView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DotNetUpgrade\Views\DotNetInstallFailedView.xaml.cs">
+    <Compile Include="Views\DotNetInstallFailedView.xaml.cs">
       <DependentUpon>DotNetInstallFailedView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\FailureEvent.cs" />
@@ -78,33 +82,37 @@
     <Compile Include="Installations\WindowsVersion.cs" />
     <Compile Include="Installations\PerfCountersInstaller.cs" />
     <Compile Include="Installations\ServiceControllerExtensions.cs" />
-    <Compile Include="NativeMethods\NativeConstants.cs" />
-    <Compile Include="NativeMethods\ShowWindowCommands.cs" />
-    <Compile Include="NativeMethods\Structures.cs" />
-    <Compile Include="NativeMethods\UnsafeNativeMethods.cs" />
-    <Compile Include="RegistryHelper.cs" />
-    <Compile Include="UrlLauncher.cs" />
-    <EmbeddedResource Include="License.rtf" />
+    <Compile Include="Framework\NativeMethods\NativeConstants.cs" />
+    <Compile Include="Framework\NativeMethods\ShowWindowCommands.cs" />
+    <Compile Include="Framework\NativeMethods\Structures.cs" />
+    <Compile Include="Framework\NativeMethods\UnsafeNativeMethods.cs" />
+    <Compile Include="Framework\Misc\RegistryHelper.cs" />
+    <Compile Include="Framework\Misc\UrlLauncher.cs" />
+    <EmbeddedResource Include="License\License.rtf" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <Page Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\LoadingSpinner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DotNetUpgrade\Views\DotNetInstallCompleteView.xaml">
+    <Page Include="Views\DotNetInstallCompleteView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="DotNetUpgrade\Views\DotNetInstallFailedView.xaml">
+    <Page Include="Views\DotNetInstallFailedView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="DotNetUpgrade\Views\DotNetDownloadView.xaml">
+    <Page Include="Views\DotNetDownloadView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="DotNetUpgrade\Views\DotNetPreReqView.xaml">
+    <Page Include="Views\DotNetPreReqView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -128,32 +136,28 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Footer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Reference Include="Anotar.Serilog, Version=3.1.0.0, Culture=neutral, PublicKeyToken=9d5b24f0733c26f7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Anotar.Serilog.Fody.3.1.0\lib\Anotar.Serilog.dll</HintPath>
+    <Reference Include="Anotar.Serilog, Version=3.2.0.0, Culture=neutral, PublicKeyToken=9d5b24f0733c26f7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Anotar.Serilog.Fody.3.2.0\Lib\Anotar.Serilog.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
-    </Reference>
-    <Reference Include="Caliburn.Micro, Version=3.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.Core.3.0.1\lib\net45\Caliburn.Micro.dll</HintPath>
+    <Reference Include="Autofac, Version=4.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.4.0\lib\net45\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Caliburn.Micro.Platform, Version=3.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.0.1\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+    <Reference Include="Caliburn.Micro, Version=3.0.3.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.Core.3.0.3\lib\net45\Caliburn.Micro.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Caliburn.Micro.Platform.Core, Version=3.0.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.0.1\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
+    <Reference Include="Caliburn.Micro.Platform, Version=3.0.3.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.0.3\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Janitor, Version=1.2.1.0, Culture=neutral, PublicKeyToken=d34c7d3bba3746e6, processorArchitecture=MSIL">
-      <HintPath>..\packages\Janitor.Fody.1.2.1.0\lib\dotnet\Janitor.dll</HintPath>
+    <Reference Include="Caliburn.Micro.Platform.Core, Version=3.0.3.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.0.3\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Janitor, Version=1.2.2.0, Culture=neutral, PublicKeyToken=d34c7d3bba3746e6, processorArchitecture=MSIL">
+      <HintPath>..\packages\Janitor.Fody.1.2.2.0\Lib\dotnet\Janitor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -161,38 +165,38 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
-    <Reference Include="Mindscape.Raygun4Net, Version=5.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mindscape.Raygun4Net.5.3.1\lib\net40\Mindscape.Raygun4Net.dll</HintPath>
+    <Reference Include="Mindscape.Raygun4Net, Version=5.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mindscape.Raygun4Net.5.4.1\lib\net40\Mindscape.Raygun4Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Mindscape.Raygun4Net4, Version=5.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mindscape.Raygun4Net.5.3.1\lib\net40\Mindscape.Raygun4Net4.dll</HintPath>
+    <Reference Include="Mindscape.Raygun4Net4, Version=5.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mindscape.Raygun4Net.5.4.1\lib\net40\Mindscape.Raygun4Net4.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="PropertyChanged, Version=1.51.3.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
-      <HintPath>..\packages\PropertyChanged.Fody.1.51.3\lib\dotnet\PropertyChanged.dll</HintPath>
+    <Reference Include="PropertyChanged, Version=1.52.1.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>..\packages\PropertyChanged.Fody.1.52.1\Lib\netstandard10\PropertyChanged.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Resourcer, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Resourcer.Fody.1.4.2\lib\portable-net45+netcore45+wpa81+wp8\Resourcer.dll</HintPath>
+    <Reference Include="Resourcer, Version=0.0.0.0, Culture=neutral, PublicKeyToken=409b3227471b0f0d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Resourcer.Fody.1.4.3\Lib\portable-net45+netcore45+wpa81+wp8\Resourcer.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.2.0.0\lib\net45\Serilog.dll</HintPath>
+      <HintPath>..\packages\Serilog.2.4.0\lib\net45\Serilog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Serilog.Sinks.File, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Sinks.File.2.1.0\lib\net45\Serilog.Sinks.File.dll</HintPath>
+      <HintPath>..\packages\Serilog.Sinks.File.3.2.0\lib\net45\Serilog.Sinks.File.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Serilog.Sinks.RollingFile, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Sinks.RollingFile.2.1.0\lib\net45\Serilog.Sinks.RollingFile.dll</HintPath>
+      <HintPath>..\packages\Serilog.Sinks.RollingFile.3.3.0\lib\net45\Serilog.Sinks.RollingFile.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -204,16 +208,16 @@
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Caliburn.Micro.3.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\Caliburn.Micro.3.0.3\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
-    <Compile Include="AutoSubscriber.cs" />
-    <Compile Include="Caliburn\CaliburnExtensions.cs" />
-    <Compile Include="Caliburn\ViewModelConventions.cs" />
+    <Compile Include="Framework\Caliburn\AutoSubscriber.cs" />
+    <Compile Include="Framework\Caliburn\CaliburnExtensions.cs" />
+    <Compile Include="Framework\Caliburn\ViewModelConventions.cs" />
     <Compile Include="Events\CancelInstallCommand.cs" />
     <Compile Include="Events\UninstallProductCommand.cs" />
     <Compile Include="Installations\AfterInstallAction.cs" />
@@ -221,16 +225,16 @@
     <Compile Include="Events\DownloadCompleteEvent.cs" />
     <Compile Include="Events\DownloadProgressEvent.cs" />
     <Compile Include="Events\DownloadStartedEvent.cs" />
-    <Compile Include="ProxyTester.cs" />
-    <Compile Include="Releases\CredentialStore.cs" />
-    <Compile Include="SavedCredentials.cs" />
-    <Compile Include="StringExtensions.cs" />
-    <Compile Include="Versions\InstalledProduct.cs" />
-    <Compile Include="Versions\RegistryFind.cs" />
-    <Compile Include="Versions\InstallerExtensions.cs" />
-    <Compile Include="Releases\Asset.cs" />
-    <Compile Include="Releases\ReleaseManager.cs" />
-    <Compile Include="Releases\Release.cs" />
+    <Compile Include="Framework\Proxy\ProxyTester.cs" />
+    <Compile Include="Installations\Releases\CredentialStore.cs" />
+    <Compile Include="Framework\Proxy\SavedCredentials.cs" />
+    <Compile Include="Framework\Misc\StringExtensions.cs" />
+    <Compile Include="Installations\Versions\InstalledProduct.cs" />
+    <Compile Include="Installations\Versions\RegistryFind.cs" />
+    <Compile Include="Installations\Versions\InstallerExtensions.cs" />
+    <Compile Include="Installations\Releases\Asset.cs" />
+    <Compile Include="Installations\Releases\ReleaseManager.cs" />
+    <Compile Include="Installations\Releases\Release.cs" />
     <Compile Include="Events\CheckPointInstallEvent.cs" />
     <Compile Include="Events\NoInstallAttemptedEvent.cs" />
     <Compile Include="Events\InstallCancelledEvent.cs" />
@@ -239,22 +243,17 @@
     <Compile Include="Installations\ServiceControlInstaller.cs" />
     <Compile Include="Installations\ServiceInsightInstaller.cs" />
     <Compile Include="Installations\ServicePulseInstaller.cs" />
-    <Compile Include="ReadableBytesConverter.cs" />
-    <Compile Include="ProductInstallException.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Runner.cs" />
+    <Compile Include="Framework\Misc\ReadableBytesConverter.cs" />
+    <Compile Include="Installations\ProductInstallException.cs" />
     <Compile Include="Events\InstallFailedEvent.cs" />
     <Compile Include="Events\RebootRequiredEvent.cs" />
-    <Compile Include="IsAdminChecker.cs" />
-    <Compile Include="AutofacExtensions.cs" />
-    <Compile Include="PendingRestartAndResume.cs" />
-    <Compile Include="Splash.cs" />
-    <Compile Include="VersionFinder.cs" />
-    <Compile Include="ContainerFactory.cs" />
-    <Compile Include="Caliburn\AppBootstrapper.cs" />
-    <Compile Include="AssemblyLocation.cs" />
-    <Compile Include="ExceptionHandler.cs" />
-    <Compile Include="Logging.cs" />
+    <Compile Include="Framework\Misc\IsAdminChecker.cs" />
+    <Compile Include="Framework\Autofac\AutofacExtensions.cs" />
+    <Compile Include="Installations\PendingRestartAndResume.cs" />
+    <Compile Include="Framework\Misc\VersionFinder.cs" />
+    <Compile Include="Framework\Misc\AssemblyLocation.cs" />
+    <Compile Include="Framework\ExceptionHandler.cs" />
+    <Compile Include="Framework\Logging.cs" />
     <Compile Include="Events\AgreedToLicenseEvent.cs" />
     <Compile Include="Events\ExitApplicationEvent.cs" />
     <Compile Include="Events\NavigateHomeCommand.cs" />
@@ -263,17 +262,17 @@
       <DependentUpon>ConfirmSendExceptionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\InstallerOutputEvent.cs" />
-    <Compile Include="Installer.cs" />
+    <Compile Include="Installations\Installer.cs" />
     <Compile Include="Events\InstallProgressEvent.cs" />
     <Compile Include="Events\RequestExitApplicationEvent.cs" />
     <Compile Include="Views\AbortInstallationHandler.cs" />
     <Compile Include="Events\InstallStartedEvent.cs" />
-    <Compile Include="DotNetUpgrade\Views\DotNetDownloadView.xaml.cs">
+    <Compile Include="Views\DotNetDownloadView.xaml.cs">
       <DependentUpon>DotNetDownloadView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DotNetUpgrade\Views\DotNetDownloadViewModel.cs" />
-    <Compile Include="DotNetUpgrade\Views\DotNetInstallCompleteViewModel.cs" />
-    <Compile Include="DotNetUpgrade\Views\DotNetInstallFailedViewModel.cs" />
+    <Compile Include="Views\DotNetDownloadViewModel.cs" />
+    <Compile Include="Views\DotNetInstallCompleteViewModel.cs" />
+    <Compile Include="Views\DotNetInstallFailedViewModel.cs" />
     <Compile Include="Views\FailureViewModel.cs" />
     <Compile Include="Views\ProxySettingsView.xaml.cs">
       <DependentUpon>ProxySettingsView.xaml</DependentUpon>
@@ -295,19 +294,16 @@
       <DependentUpon>RebootNeededView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RebootNeededViewModel.cs" />
-    <Compile Include="RebootMachine.cs" />
-    <Compile Include="DotNetUpgrade\Views\DotNetPreReqView.xaml.cs">
+    <Compile Include="Framework\Misc\RebootMachine.cs" />
+    <Compile Include="Views\DotNetPreReqView.xaml.cs">
       <DependentUpon>DotNetPreReqView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DotNetUpgrade\Views\DotNetPreReqViewModel.cs" />
+    <Compile Include="Views\DotNetPreReqViewModel.cs" />
     <Compile Include="Views\FailureView.xaml.cs">
       <DependentUpon>FailureView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Footer.xaml.cs">
-      <DependentUpon>Footer.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WpfExtensions\SimpleCommand.cs" />
-    <Compile Include="WpfExtensions\ResourceResolver.cs" />
+    <Compile Include="Framework\Wpf\SimpleCommand.cs" />
+    <Compile Include="Framework\Wpf\ResourceResolver.cs" />
     <Compile Include="Views\InstallingViewModel.cs" />
     <Compile Include="Events\InstallSucceededEvent.cs" />
     <Compile Include="Views\LicenseAgreementView.xaml.cs">
@@ -316,7 +312,7 @@
     <Compile Include="Views\InstallingView.xaml.cs">
       <DependentUpon>InstallingView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LicenseAgreement.cs" />
+    <Compile Include="License\LicenseAgreement.cs" />
     <Compile Include="Views\ExceptionView.xaml.cs">
       <DependentUpon>ExceptionView.xaml</DependentUpon>
     </Compile>
@@ -328,20 +324,16 @@
       <DependentUpon>SelectItemsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\RunInstallEvent.cs" />
-    <Compile Include="WpfExtensions\GifImage.cs" />
-    <Compile Include="WpfExtensions\Link.cs" />
+    <Compile Include="Framework\Wpf\GifImage.cs" />
+    <Compile Include="Framework\Wpf\Link.cs" />
     <Compile Include="Views\LicenseAgreementViewModel.cs" />
     <Compile Include="Views\SelectItemsViewModel.cs" />
     <Compile Include="Views\ShellViewModel.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WpfExtensions\MultiInstanceBinder.cs" />
-    <Compile Include="InstallFeedbackReporter.cs" />
-    <Page Include="Styles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Compile Include="Framework\Wpf\MultiInstanceBinder.cs" />
+    <Compile Include="Installations\InstallFeedbackReporter.cs" />
     <Page Include="Views\ConfirmSendExceptionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -401,7 +393,7 @@
     <Resource Include="FodyWeavers.xml">
       <SubType>Designer</SubType>
     </Resource>
-    <SplashScreen Include="Splash.png" />
+    <SplashScreen Include="Images\Splash.png" />
     <Resource Include="Images\NServiceBus.png" />
     <Resource Include="Images\particularHeader.png" />
     <Resource Include="Images\particularSmall.png" />
@@ -412,6 +404,7 @@
   <ItemGroup>
     <Resource Include="Images\uninstall.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)..\BuildSupport\GitVersionTask\Build\GitVersionTask.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

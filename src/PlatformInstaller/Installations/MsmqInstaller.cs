@@ -157,7 +157,7 @@ public class MsmqInstaller : IInstaller
         yield return new DocumentationLink
         {
             Text = "MSMQ Transport documentation",
-            Url = "http://docs.particular.net/nservicebus/msmq/"
+            Url = "https://docs.particular.net/nservicebus/msmq/"
         };
     }
 

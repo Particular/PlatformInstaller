@@ -63,7 +63,7 @@ public partial class ExceptionView
 
         if (confirmSendExceptionView.SendExceptionReport)
         {
-            var client = new RaygunClient(Program.RaygunApiKey);
+            var client = new RaygunClient(App.RayGunApiKey);
             client.Send(exception);
             MessageBox.Show("Exception Report Sent", "Send Complete", MessageBoxButton.OK);
         }

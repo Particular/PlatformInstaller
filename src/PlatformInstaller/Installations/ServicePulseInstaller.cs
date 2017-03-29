@@ -53,7 +53,7 @@ public class ServicePulseInstaller : IInstaller
         yield return new DocumentationLink
         {
             Text = "ServicePulse documentation",
-            Url = "http://docs.particular.net/servicepulse/"
+            Url = "https://docs.particular.net/servicepulse/"
         };
     }
 

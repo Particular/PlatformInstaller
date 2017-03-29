@@ -1,0 +1,25 @@
+﻿<Application x:Class="App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:global="clr-namespace:">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/PlatformInstaller;component/styles/Palette.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/PlatformInstaller;component/styles/WindowCloseButton.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/PlatformInstaller;component/styles/Hyperlink.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/PlatformInstaller;component/styles/Button.xaml"/>
+                <ResourceDictionary>
+                    <Style x:Key="PlatformInstallerWindowStyle" TargetType="Window">
+                        <Setter Property="Title" Value="Particular Platform Installer" />
+                        <Setter Property="ResizeMode" Value="NoResize" />
+                        <Setter Property="BorderBrush" Value="White" />
+                        <Setter Property="WindowStyle" Value="None" />
+                    </Style>
+                    <BooleanToVisibilityConverter x:Key="BoolToVis" />
+                    <global:AppBootstrapper x:Key="Bootstrapper" />
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

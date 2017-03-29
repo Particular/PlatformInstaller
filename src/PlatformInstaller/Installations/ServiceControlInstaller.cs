@@ -36,7 +36,7 @@ public class ServiceControlInstaller : IInstaller
         yield return new DocumentationLink
         {
             Text = "ServiceControl documentation",
-            Url = "http://docs.particular.net/servicecontrol/"
+            Url = "https://docs.particular.net/servicecontrol/"
         };
     }
 

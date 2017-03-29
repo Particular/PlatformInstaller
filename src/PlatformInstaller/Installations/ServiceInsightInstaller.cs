@@ -32,7 +32,7 @@ public class ServiceInsightInstaller : IInstaller
         yield return new DocumentationLink
         {
             Text = "ServiceInsight documentation",
-            Url = "http://docs.particular.net/serviceinsight/"
+            Url = "https://docs.particular.net/serviceinsight/"
         };
     }
 

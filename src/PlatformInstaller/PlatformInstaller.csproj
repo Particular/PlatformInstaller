@@ -50,23 +50,27 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AsyncErrorHandler.cs" />
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Framework\AsyncErrorHandler.cs" />
+    <Compile Include="Framework\Caliburn\AppBootstrapper.cs" />
     <Compile Include="Controls\BindableRichText.cs" />
     <Compile Include="Controls\LoadingSpinner.xaml.cs">
       <DependentUpon>LoadingSpinner.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DotNetUpgrade\Events\DotNetInstallComplete.cs" />
-    <Compile Include="DotNetUpgrade\Events\DotNetDownloadCompleteEvent.cs" />
-    <Compile Include="DotNetUpgrade\Events\DotNetDownloadFailedEvent.cs" />
-    <Compile Include="DotNetUpgrade\Events\DotNetDownloadProgressEvent.cs" />
-    <Compile Include="DotNetUpgrade\Events\DotNetDownloadStartedEvent.cs" />
-    <Compile Include="DotNetUpgrade\Events\DotNetInstallFailed.cs" />
-    <Compile Include="DotNetUpgrade\RuntimeUpgradeManager.cs" />
-    <Compile Include="DotNetUpgrade\Events\DotNetStartInstallWizardCommand.cs" />
-    <Compile Include="DotNetUpgrade\Views\DotNetInstallCompleteView.xaml.cs">
+    <Compile Include="Events\DotNetInstallComplete.cs" />
+    <Compile Include="Events\DotNetDownloadCompleteEvent.cs" />
+    <Compile Include="Events\DotNetDownloadFailedEvent.cs" />
+    <Compile Include="Events\DotNetDownloadProgressEvent.cs" />
+    <Compile Include="Events\DotNetDownloadStartedEvent.cs" />
+    <Compile Include="Events\DotNetInstallFailed.cs" />
+    <Compile Include="Installations\RuntimeUpgradeManager.cs" />
+    <Compile Include="Events\DotNetStartInstallWizardCommand.cs" />
+    <Compile Include="Views\DotNetInstallCompleteView.xaml.cs">
       <DependentUpon>DotNetInstallCompleteView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DotNetUpgrade\Views\DotNetInstallFailedView.xaml.cs">
+    <Compile Include="Views\DotNetInstallFailedView.xaml.cs">
       <DependentUpon>DotNetInstallFailedView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\FailureEvent.cs" />
@@ -78,33 +82,37 @@
     <Compile Include="Installations\WindowsVersion.cs" />
     <Compile Include="Installations\PerfCountersInstaller.cs" />
     <Compile Include="Installations\ServiceControllerExtensions.cs" />
-    <Compile Include="NativeMethods\NativeConstants.cs" />
-    <Compile Include="NativeMethods\ShowWindowCommands.cs" />
-    <Compile Include="NativeMethods\Structures.cs" />
-    <Compile Include="NativeMethods\UnsafeNativeMethods.cs" />
-    <Compile Include="RegistryHelper.cs" />
-    <Compile Include="UrlLauncher.cs" />
-    <EmbeddedResource Include="License.rtf" />
+    <Compile Include="Framework\NativeMethods\NativeConstants.cs" />
+    <Compile Include="Framework\NativeMethods\ShowWindowCommands.cs" />
+    <Compile Include="Framework\NativeMethods\Structures.cs" />
+    <Compile Include="Framework\NativeMethods\UnsafeNativeMethods.cs" />
+    <Compile Include="Framework\Misc\RegistryHelper.cs" />
+    <Compile Include="Framework\Misc\UrlLauncher.cs" />
+    <EmbeddedResource Include="License\License.rtf" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <Page Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\LoadingSpinner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DotNetUpgrade\Views\DotNetInstallCompleteView.xaml">
+    <Page Include="Views\DotNetInstallCompleteView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="DotNetUpgrade\Views\DotNetInstallFailedView.xaml">
+    <Page Include="Views\DotNetInstallFailedView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="DotNetUpgrade\Views\DotNetDownloadView.xaml">
+    <Page Include="Views\DotNetDownloadView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="DotNetUpgrade\Views\DotNetPreReqView.xaml">
+    <Page Include="Views\DotNetPreReqView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -125,10 +133,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FailureView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Footer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -211,9 +215,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
-    <Compile Include="AutoSubscriber.cs" />
-    <Compile Include="Caliburn\CaliburnExtensions.cs" />
-    <Compile Include="Caliburn\ViewModelConventions.cs" />
+    <Compile Include="Framework\Caliburn\AutoSubscriber.cs" />
+    <Compile Include="Framework\Caliburn\CaliburnExtensions.cs" />
+    <Compile Include="Framework\Caliburn\ViewModelConventions.cs" />
     <Compile Include="Events\CancelInstallCommand.cs" />
     <Compile Include="Events\UninstallProductCommand.cs" />
     <Compile Include="Installations\AfterInstallAction.cs" />
@@ -221,16 +225,16 @@
     <Compile Include="Events\DownloadCompleteEvent.cs" />
     <Compile Include="Events\DownloadProgressEvent.cs" />
     <Compile Include="Events\DownloadStartedEvent.cs" />
-    <Compile Include="ProxyTester.cs" />
-    <Compile Include="Releases\CredentialStore.cs" />
-    <Compile Include="SavedCredentials.cs" />
-    <Compile Include="StringExtensions.cs" />
-    <Compile Include="Versions\InstalledProduct.cs" />
-    <Compile Include="Versions\RegistryFind.cs" />
-    <Compile Include="Versions\InstallerExtensions.cs" />
-    <Compile Include="Releases\Asset.cs" />
-    <Compile Include="Releases\ReleaseManager.cs" />
-    <Compile Include="Releases\Release.cs" />
+    <Compile Include="Framework\Proxy\ProxyTester.cs" />
+    <Compile Include="Installations\Releases\CredentialStore.cs" />
+    <Compile Include="Framework\Proxy\SavedCredentials.cs" />
+    <Compile Include="Framework\Misc\StringExtensions.cs" />
+    <Compile Include="Installations\Versions\InstalledProduct.cs" />
+    <Compile Include="Installations\Versions\RegistryFind.cs" />
+    <Compile Include="Installations\Versions\InstallerExtensions.cs" />
+    <Compile Include="Installations\Releases\Asset.cs" />
+    <Compile Include="Installations\Releases\ReleaseManager.cs" />
+    <Compile Include="Installations\Releases\Release.cs" />
     <Compile Include="Events\CheckPointInstallEvent.cs" />
     <Compile Include="Events\NoInstallAttemptedEvent.cs" />
     <Compile Include="Events\InstallCancelledEvent.cs" />
@@ -239,22 +243,17 @@
     <Compile Include="Installations\ServiceControlInstaller.cs" />
     <Compile Include="Installations\ServiceInsightInstaller.cs" />
     <Compile Include="Installations\ServicePulseInstaller.cs" />
-    <Compile Include="ReadableBytesConverter.cs" />
-    <Compile Include="ProductInstallException.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Runner.cs" />
+    <Compile Include="Framework\Misc\ReadableBytesConverter.cs" />
+    <Compile Include="Installations\ProductInstallException.cs" />
     <Compile Include="Events\InstallFailedEvent.cs" />
     <Compile Include="Events\RebootRequiredEvent.cs" />
-    <Compile Include="IsAdminChecker.cs" />
-    <Compile Include="AutofacExtensions.cs" />
-    <Compile Include="PendingRestartAndResume.cs" />
-    <Compile Include="Splash.cs" />
-    <Compile Include="VersionFinder.cs" />
-    <Compile Include="ContainerFactory.cs" />
-    <Compile Include="Caliburn\AppBootstrapper.cs" />
-    <Compile Include="AssemblyLocation.cs" />
-    <Compile Include="ExceptionHandler.cs" />
-    <Compile Include="Logging.cs" />
+    <Compile Include="Framework\Misc\IsAdminChecker.cs" />
+    <Compile Include="Framework\Autofac\AutofacExtensions.cs" />
+    <Compile Include="Installations\PendingRestartAndResume.cs" />
+    <Compile Include="Framework\Misc\VersionFinder.cs" />
+    <Compile Include="Framework\Misc\AssemblyLocation.cs" />
+    <Compile Include="Framework\ExceptionHandler.cs" />
+    <Compile Include="Framework\Logging.cs" />
     <Compile Include="Events\AgreedToLicenseEvent.cs" />
     <Compile Include="Events\ExitApplicationEvent.cs" />
     <Compile Include="Events\NavigateHomeCommand.cs" />
@@ -263,17 +262,17 @@
       <DependentUpon>ConfirmSendExceptionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\InstallerOutputEvent.cs" />
-    <Compile Include="Installer.cs" />
+    <Compile Include="Installations\Installer.cs" />
     <Compile Include="Events\InstallProgressEvent.cs" />
     <Compile Include="Events\RequestExitApplicationEvent.cs" />
     <Compile Include="Views\AbortInstallationHandler.cs" />
     <Compile Include="Events\InstallStartedEvent.cs" />
-    <Compile Include="DotNetUpgrade\Views\DotNetDownloadView.xaml.cs">
+    <Compile Include="Views\DotNetDownloadView.xaml.cs">
       <DependentUpon>DotNetDownloadView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DotNetUpgrade\Views\DotNetDownloadViewModel.cs" />
-    <Compile Include="DotNetUpgrade\Views\DotNetInstallCompleteViewModel.cs" />
-    <Compile Include="DotNetUpgrade\Views\DotNetInstallFailedViewModel.cs" />
+    <Compile Include="Views\DotNetDownloadViewModel.cs" />
+    <Compile Include="Views\DotNetInstallCompleteViewModel.cs" />
+    <Compile Include="Views\DotNetInstallFailedViewModel.cs" />
     <Compile Include="Views\FailureViewModel.cs" />
     <Compile Include="Views\ProxySettingsView.xaml.cs">
       <DependentUpon>ProxySettingsView.xaml</DependentUpon>
@@ -295,19 +294,16 @@
       <DependentUpon>RebootNeededView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RebootNeededViewModel.cs" />
-    <Compile Include="RebootMachine.cs" />
-    <Compile Include="DotNetUpgrade\Views\DotNetPreReqView.xaml.cs">
+    <Compile Include="Framework\Misc\RebootMachine.cs" />
+    <Compile Include="Views\DotNetPreReqView.xaml.cs">
       <DependentUpon>DotNetPreReqView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DotNetUpgrade\Views\DotNetPreReqViewModel.cs" />
+    <Compile Include="Views\DotNetPreReqViewModel.cs" />
     <Compile Include="Views\FailureView.xaml.cs">
       <DependentUpon>FailureView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Footer.xaml.cs">
-      <DependentUpon>Footer.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WpfExtensions\SimpleCommand.cs" />
-    <Compile Include="WpfExtensions\ResourceResolver.cs" />
+    <Compile Include="Framework\Wpf\SimpleCommand.cs" />
+    <Compile Include="Framework\Wpf\ResourceResolver.cs" />
     <Compile Include="Views\InstallingViewModel.cs" />
     <Compile Include="Events\InstallSucceededEvent.cs" />
     <Compile Include="Views\LicenseAgreementView.xaml.cs">
@@ -316,7 +312,7 @@
     <Compile Include="Views\InstallingView.xaml.cs">
       <DependentUpon>InstallingView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LicenseAgreement.cs" />
+    <Compile Include="License\LicenseAgreement.cs" />
     <Compile Include="Views\ExceptionView.xaml.cs">
       <DependentUpon>ExceptionView.xaml</DependentUpon>
     </Compile>
@@ -328,20 +324,16 @@
       <DependentUpon>SelectItemsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\RunInstallEvent.cs" />
-    <Compile Include="WpfExtensions\GifImage.cs" />
-    <Compile Include="WpfExtensions\Link.cs" />
+    <Compile Include="Framework\Wpf\GifImage.cs" />
+    <Compile Include="Framework\Wpf\Link.cs" />
     <Compile Include="Views\LicenseAgreementViewModel.cs" />
     <Compile Include="Views\SelectItemsViewModel.cs" />
     <Compile Include="Views\ShellViewModel.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WpfExtensions\MultiInstanceBinder.cs" />
-    <Compile Include="InstallFeedbackReporter.cs" />
-    <Page Include="Styles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Compile Include="Framework\Wpf\MultiInstanceBinder.cs" />
+    <Compile Include="Installations\InstallFeedbackReporter.cs" />
     <Page Include="Views\ConfirmSendExceptionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -401,7 +393,7 @@
     <Resource Include="FodyWeavers.xml">
       <SubType>Designer</SubType>
     </Resource>
-    <SplashScreen Include="Splash.png" />
+    <SplashScreen Include="Images\Splash.png" />
     <Resource Include="Images\NServiceBus.png" />
     <Resource Include="Images\particularHeader.png" />
     <Resource Include="Images\particularSmall.png" />
@@ -412,6 +404,7 @@
   <ItemGroup>
     <Resource Include="Images\uninstall.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)..\BuildSupport\GitVersionTask\Build\GitVersionTask.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

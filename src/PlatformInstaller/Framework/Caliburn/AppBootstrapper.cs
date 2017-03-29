@@ -1,11 +1,30 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
+using System.Windows;
 using Autofac;
 using Caliburn.Micro;
 using Mindscape.Raygun4Net;
 
-public static class ContainerFactory
+public class AppBootstrapper : BootstrapperBase
 {
+    ILifetimeScope lifetimeScope;
+
+    public AppBootstrapper()
+    {
+        Initialize();
+    }
+
+    protected override void Configure()
+    {
+        lifetimeScope = BuildContainer();
+    }
+
+    static Assembly ThisAssembly()
+    {
+        return typeof(AppBootstrapper).Assembly;
+    }
+
     public static IContainer BuildContainer()
     {
         var builder = new ContainerBuilder();
@@ -40,8 +59,6 @@ public static class ContainerFactory
             .SingleInstance();
         builder.RegisterType<LicenseAgreement>()
             .SingleInstance();
-        builder.RegisterType<AppBootstrapper>()
-            .SingleInstance();
         builder.RegisterType<AutoSubscriber>();
         builder.RegisterType<PendingRestartAndResume>()
             .SingleInstance();
@@ -49,15 +66,39 @@ public static class ContainerFactory
             .Where(t => t.GetInterfaces()
             .Any(i => i.IsAssignableFrom(typeof(IInstaller))))
             .SingleInstance().AsImplementedInterfaces();
-        builder.RegisterInstance(new RaygunClient(Program.RaygunApiKey))
+        builder.RegisterInstance(new RaygunClient(App.RayGunApiKey))
             .SingleInstance();
         builder.RegisterType<RuntimeUpgradeManager>()
             .SingleInstance();
         return builder.Build();
     }
 
-    static Assembly ThisAssembly()
+
+    protected override void OnStartup(object sender, StartupEventArgs e)
     {
-        return typeof(ContainerFactory).Assembly;
+        ViewLocator.LocateTypeForModelType = (modelType, dependencyObject, arg3) => ViewModelConventions.GetViewForModel(modelType);
+        lifetimeScope.Resolve<AutoSubscriber>().Subscribe();
+        lifetimeScope.Resolve<IWindowManager>().ShowDialog(lifetimeScope.Resolve<ShellViewModel>());
+        base.OnStartup(sender, e);
+    }
+    
+    protected override object GetInstance(Type service, string key)
+    {
+        object instance;
+        if (string.IsNullOrWhiteSpace(key))
+        {
+            if (lifetimeScope.TryResolve(service, out instance))
+            {
+                return instance;
+            }
+        }
+        else
+        {
+            if (lifetimeScope.TryResolveNamed(key, service, out instance))
+            {
+                return instance;
+            }
+        }
+        throw new Exception($"Could not locate any instances of contract {key ?? service.Name}.");
     }
 }

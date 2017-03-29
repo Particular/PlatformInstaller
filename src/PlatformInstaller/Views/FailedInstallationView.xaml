@@ -10,13 +10,6 @@
     <UserControl.DataContext>
         <global:FailedInstallationViewModel/>
     </UserControl.DataContext>
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../styles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
     <DockPanel >
         <TextBlock DockPanel.Dock="Top" FontSize="14" FontWeight="DemiBold" Text="{Binding FailureDescription}"/>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">

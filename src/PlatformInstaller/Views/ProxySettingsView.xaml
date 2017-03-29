@@ -1,15 +1,11 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        x:Class="ProxySettingsView"  WindowStartupLocation="CenterScreen"
-        Title="Particular Platform Installer" Height="275" Width="300" WindowStyle="None" ResizeMode="NoResize" BorderBrush="White" >
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../styles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
+        x:Class="ProxySettingsView"  
+        WindowStartupLocation="CenterScreen"
+        Height="275" Width="300"  
+        Style="{StaticResource PlatformInstallerWindowStyle}"
+    >
     <Border BorderBrush="#20000000" BorderThickness="2">
         <StackPanel Margin="10">
             <Image Source="pack://application:,,,/PlatformInstaller;component/Images/particularSmall.png" HorizontalAlignment="Left" Stretch="None" Margin="0,0,0,10"/>

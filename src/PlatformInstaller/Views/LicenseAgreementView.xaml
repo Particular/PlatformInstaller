@@ -9,16 +9,9 @@
     <UserControl.DataContext>
         <global:LicenseAgreementViewModel/>
     </UserControl.DataContext>
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../styles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Vertical" FlowDirection="LeftToRight">
-            <TextBlock FontSize="16" Margin="6">
+            <TextBlock FontSize="16" Margin="6" TextWrapping="Wrap">
                 Your initial trial lasts for 14 days. When the trial expires we'll provide instructions on how to extend it for <Bold>free</Bold>.
             </TextBlock>
         </StackPanel>

@@ -19,6 +19,7 @@
     <WarningLevel>4</WarningLevel>
     <GitVersionAppendRevision>true</GitVersionAppendRevision>
     <NuGetPackageImportStamp>4bb16029</NuGetPackageImportStamp>
+    <AllowedReferenceRelatedFileExtensions>.pdb</AllowedReferenceRelatedFileExtensions>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>

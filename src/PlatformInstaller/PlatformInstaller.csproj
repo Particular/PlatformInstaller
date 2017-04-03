@@ -19,6 +19,7 @@
     <GitVersionAppendRevision>true</GitVersionAppendRevision>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <AllowedReferenceRelatedFileExtensions>.pdb</AllowedReferenceRelatedFileExtensions>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -387,9 +388,6 @@
       <SubType>Code</SubType>
     </Compile>
     <AppDesigner Include="Properties\" />
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
     <Resource Include="FodyWeavers.xml">
       <SubType>Designer</SubType>
     </Resource>

@@ -412,4 +412,14 @@
     <Error Condition="!Exists('..\packages\Fody.1.29.4\build\dotnet\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.29.4\build\dotnet\Fody.targets'))" />
   </Target>
   <Import Project="..\packages\Fody.1.29.4\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.1.29.4\build\dotnet\Fody.targets')" />
+
+  <Target Name="AfterBuild" Condition=" '$(Configuration)' == 'Release' ">
+    
+    <!-- Thumbprint is for the NServiceBus Code Signing Certificate -->
+    <PropertyGroup>
+      <Thumbprint>BE71091FDBC50425DDAC13EDD5629B0A3B240985</Thumbprint>
+      <TimeStampUrl>http://timestamp.globalsign.com/scripts/timstamp.dll</TimeStampUrl>
+    </PropertyGroup>
+    <SignFile CertificateThumbprint="$(Thumbprint)" SigningTarget="$(OutputPath)$(AssemblyName).exe" TimestampUrl="$(TimeStampUrl)"/>
+  </Target>
 </Project>

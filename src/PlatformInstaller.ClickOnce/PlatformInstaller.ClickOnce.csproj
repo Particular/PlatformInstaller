@@ -56,7 +56,6 @@
     <PropertyGroup>
       <ThumbPrint>BE71091FDBC50425DDAC13EDD5629B0A3B240985</ThumbPrint>
       <Publisher>Particular Software</Publisher>
-      <TimeStampUrl>http://timestamp.globalsign.com/scripts/timstamp.dll</TimeStampUrl>
       <AppManifest>PlatformInstaller.exe.manifest</AppManifest>
       <ProdDeployManifest>PlatformInstaller.application</ProdDeployManifest>
       <TestDeployManifest>Test-PlatformInstaller.application</TestDeployManifest>

@@ -147,19 +147,12 @@
       <OutputFiles Include="$(OutputPath)**\*.*"  />
     </ItemGroup>
     <Delete Files="@(OutputFiles)" />
-    <MakeDir Directories="$(OutputPath)Test\" />
-    <MakeDir Directories="$(OutputPath)Prod\" />
-
+    
     <ItemGroup>
-      <TestFiles Include="*.*" Exclude="*.csproj;$(ProdDeployManifest)"/>
+      <ReleaseFiles Include="*.*" Exclude="*.csproj;"/>
     </ItemGroup>
-    <Copy SourceFiles="@(TestFiles)" DestinationFolder="$(OutputPath)Test\" />
-
-    <ItemGroup>
-      <ProdFiles Include="*.*" Exclude="*.csproj;$(TestDeployManifest)"/>
-    </ItemGroup>
-    <Copy SourceFiles="@(ProdFiles)" DestinationFolder="$(OutputPath)Prod\" />
-
+    <Copy SourceFiles="@(ReleaseFiles)" DestinationFolder="$(OutputPath)" />
+    
     <GenerateBootstrapper
       ApplicationFile="$(TestDeployManifest)"
       ApplicationName="Test PlatformInstaller"
@@ -167,10 +160,10 @@
       Culture="en"
       Path="C:\Program Files (x86)\Microsoft SDKs\ClickOnce Bootstrapper"
       BootstrapperItems="@(BootstrapperFile)"
-      OutputPath="$(OutputPath)Test\"
+      OutputPath="$(OutputPath)"
     />
-    <Move SourceFiles="$(OutputPath)Test\setup.exe" DestinationFiles="$(OutputPath)Test\Test-ParticularPlatform.exe" />
-    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(OutputPath)Test\Test-ParticularPlatform.exe" />
+    <Move SourceFiles="$(OutputPath)setup.exe" DestinationFiles="$(OutputPath)Test-ParticularPlatform.exe" />
+    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(OutputPath)Test-ParticularPlatform.exe" />
         
     <GenerateBootstrapper
       ApplicationFile="$(ProdDeployManifest)"
@@ -178,10 +171,10 @@
       ApplicationUrl="$(ProdDeployUrl)"
       Path="C:\Program Files (x86)\Microsoft SDKs\ClickOnce Bootstrapper"
       BootstrapperItems="@(BootstrapperFile)" 
-      OutputPath="$(OutputPath)Prod\"
+      OutputPath="$(OutputPath)"
     />
-    <Move SourceFiles="$(OutputPath)Prod\setup.exe" DestinationFiles="$(OutputPath)Prod\ParticularPlatform.exe" />
-    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(OutputPath)Prod\ParticularPlatform.exe"  />
+    <Move SourceFiles="$(OutputPath)setup.exe" DestinationFiles="$(OutputPath)ParticularPlatform.exe" />
+    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(OutputPath)ParticularPlatform.exe"  />
     
   </Target>
 

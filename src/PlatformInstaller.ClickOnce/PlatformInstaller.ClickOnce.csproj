@@ -55,14 +55,13 @@
   <Target Name="AfterBuild">
     <PropertyGroup>
       <ThumbPrint>BE71091FDBC50425DDAC13EDD5629B0A3B240985</ThumbPrint>
-      <Publisher>"Particular Software"</Publisher>
+      <Publisher>Particular Software</Publisher>
       <TimeStampUrl>http://timestamp.globalsign.com/scripts/timstamp.dll</TimeStampUrl>
       <AppManifest>PlatformInstaller.exe.manifest</AppManifest>
       <ProdDeployManifest>PlatformInstaller.application</ProdDeployManifest>
-      <ProdDeployUrl>https://s3.amazonaws.com/particular.downloads/PlatformInstaller/</ProdDeployUrl>
       <TestDeployManifest>Test-PlatformInstaller.application</TestDeployManifest>
+      <ProdDeployUrl>https://s3.amazonaws.com/particular.downloads/PlatformInstaller/</ProdDeployUrl>
       <TestDeployUrl>https://particulartest.blob.core.windows.net/platforminstaller/</TestDeployUrl>
-
     </PropertyGroup>
     <ItemGroup>
       <CleanFiles Include="*.*" Exclude="*.csproj" />
@@ -89,15 +88,14 @@
         Description="Platform Installer" 
         EntryPoint="PlatformInstaller.exe" 
         Files="@(File)" 
-        Publisher="Particular Software" 
+        Publisher="$(Publisher)" 
         IconFile="particular.ico" 
         OutputManifest="$(AppManifest)"
-        SuiteName="Particular Software"
         TargetFrameworkVersion="$(TargetFrameworkVersion)"
         TargetFrameworkProfile="Full"
     />
     
-    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(AppManifest)" TimestampUrl="$(TimeStampUrl)" />
+    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(AppManifest)"  />
 
     <GenerateDeploymentManifest 
         AssemblyName="Test-PlatformInstaller.app" 
@@ -109,16 +107,15 @@
         Install="true"
         Product="Test PlatformInstaller"
         Publisher="$(Publisher)"
-        SuiteName="Particular Software"
         UpdateEnabled="true"
         UpdateMode="Foreground"
         UpdateUnit="Hours"
         UpdateInterval="1"
         TargetFrameworkVersion="$(TargetFrameworkVersion)"
-        TargetFrameworkMoniker=".NETFramework,Version=v4.0"
+        TargetFrameworkMoniker=".NETFramework,Version=v4.5"
     />
 
-    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(TestDeployManifest)" TimestampUrl="$(TimeStampUrl)" />
+    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(TestDeployManifest)" />
     
     <GenerateDeploymentManifest
         AssemblyName="PlatformInstaller.app" 
@@ -130,16 +127,15 @@
         Install="true"
         Product="PlatformInstaller"
         Publisher="$(Publisher)"
-        SuiteName="Particular Software"
         UpdateEnabled="true"
         UpdateMode="Foreground"
         UpdateUnit="Hours"
         UpdateInterval="1"
         TargetFrameworkVersion="$(TargetFrameworkVersion)"
-        TargetFrameworkMoniker=".NETFramework,Version=v4.0"
+        TargetFrameworkMoniker=".NETFramework,Version=v4.5"
     />
     
-    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(ProdDeployManifest)" TimestampUrl="$(TimeStampUrl)" />
+    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(ProdDeployManifest)"  />
 
     <ItemGroup>
       <BootstrapperFile Include=".NETFramework,Version=v4.5.2">
@@ -148,21 +144,21 @@
     </ItemGroup>
 
     <ItemGroup>
-      <OutputFiles Include="$(OutputPath)\**\*.*"  />
+      <OutputFiles Include="$(OutputPath)**\*.*"  />
     </ItemGroup>
     <Delete Files="@(OutputFiles)" />
-    <MakeDir Directories="$(OutputPath)\Test\" />
-    <MakeDir Directories="$(OutputPath)\Prod\" />
+    <MakeDir Directories="$(OutputPath)Test\" />
+    <MakeDir Directories="$(OutputPath)Prod\" />
 
     <ItemGroup>
       <TestFiles Include="*.*" Exclude="*.csproj;$(ProdDeployManifest)"/>
     </ItemGroup>
-    <Copy SourceFiles="@(TestFiles)" DestinationFolder="$(OutputPath)\Test\" />
+    <Copy SourceFiles="@(TestFiles)" DestinationFolder="$(OutputPath)Test\" />
 
     <ItemGroup>
       <ProdFiles Include="*.*" Exclude="*.csproj;$(TestDeployManifest)"/>
     </ItemGroup>
-    <Copy SourceFiles="@(ProdFiles)" DestinationFolder="$(OutputPath)\Prod\" />
+    <Copy SourceFiles="@(ProdFiles)" DestinationFolder="$(OutputPath)Prod\" />
 
     <GenerateBootstrapper
       ApplicationFile="$(TestDeployManifest)"
@@ -171,20 +167,22 @@
       Culture="en"
       Path="C:\Program Files (x86)\Microsoft SDKs\ClickOnce Bootstrapper"
       BootstrapperItems="@(BootstrapperFile)"
-      OutputPath="$(OutputPath)\Test\"
+      OutputPath="$(OutputPath)Test\"
     />
-    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(OutputPath)\Test\setup.exe" TimestampUrl="$(TimeStampUrl)" />
-    
+    <Move SourceFiles="$(OutputPath)Test\setup.exe" DestinationFiles="$(OutputPath)Test\Test-ParticularPlatform.exe" />
+    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(OutputPath)Test\Test-ParticularPlatform.exe" />
+        
     <GenerateBootstrapper
       ApplicationFile="$(ProdDeployManifest)"
       ApplicationName="PlatformInstaller"
       ApplicationUrl="$(ProdDeployUrl)"
       Path="C:\Program Files (x86)\Microsoft SDKs\ClickOnce Bootstrapper"
       BootstrapperItems="@(BootstrapperFile)" 
-      OutputPath="$(OutputPath)\Prod\"
+      OutputPath="$(OutputPath)Prod\"
     />
-
-    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(OutputPath)\Prod\setup.exe" TimestampUrl="$(TimeStampUrl)" />
+    <Move SourceFiles="$(OutputPath)Prod\setup.exe" DestinationFiles="$(OutputPath)Prod\ParticularPlatform.exe" />
+    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(OutputPath)Prod\ParticularPlatform.exe"  />
+    
   </Target>
 
   <Target Name="FinalCleanup" AfterTargets="AfterBuild">

@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7D72E93B-0F5B-4B82-BDC3-E29F9BEBA7D5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PlatformInstaller.ClickOnce</RootNamespace>
+    <AssemblyName>PlatformInstaller.ClickOnce</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  
+  <!-- Click Once -->
+  <Target Name="AfterBuild">
+    <PropertyGroup>
+      <ThumbPrint>BE71091FDBC50425DDAC13EDD5629B0A3B240985</ThumbPrint>
+      <Publisher>Particular Software</Publisher>
+      <AppManifest>PlatformInstaller.exe.manifest</AppManifest>
+      <ProdDeployManifest>PlatformInstaller.application</ProdDeployManifest>
+      <TestDeployManifest>Test-PlatformInstaller.application</TestDeployManifest>
+      <ProdDeployUrl>https://s3.amazonaws.com/particular.downloads/PlatformInstaller/</ProdDeployUrl>
+      <TestDeployUrl>https://particulartest.blob.core.windows.net/platforminstaller/</TestDeployUrl>
+    </PropertyGroup>
+    <ItemGroup>
+      <CleanFiles Include="*.*" Exclude="*.csproj" />
+    </ItemGroup>
+    <Delete Files="@(CleanFiles)" />
+    <ItemGroup>
+      <SrcFiles Include="..\PlatformInstaller\bin\release\*.*" />
+    </ItemGroup>
+    <ItemGroup>
+      <IconFile Include="..\particular.ico" />
+    </ItemGroup>
+    <Copy SourceFiles="@(SrcFiles)" DestinationFolder="." />
+    <Copy SourceFiles="@(IconFile)" DestinationFolder="." />
+    <ItemGroup>
+      <Dependency Include="*.dll" />
+    </ItemGroup>
+    <ItemGroup>
+      <File Include="*.pdb;*.ico" />
+    </ItemGroup>
+    
+    <GenerateApplicationManifest 
+        AssemblyName="PlatformInstaller.exe" 
+        Dependencies="@(Dependency)" 
+        Description="Platform Installer" 
+        EntryPoint="PlatformInstaller.exe" 
+        Files="@(File)" 
+        Publisher="$(Publisher)" 
+        IconFile="particular.ico" 
+        OutputManifest="$(AppManifest)"
+        TargetFrameworkVersion="$(TargetFrameworkVersion)"
+        TargetFrameworkProfile="Full"
+    />
+    
+    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(AppManifest)"  />
+
+    <GenerateDeploymentManifest 
+        AssemblyName="Test-PlatformInstaller.app" 
+        DeploymentUrl="$(TestDeployUrl)$(TestDeployManifest)" 
+        Description="Test Deployment" 
+        OutputManifest="$(TestDeployManifest)"
+        CreateDesktopShortcut="true"
+        EntryPoint="$(AppManifest)"
+        Install="true"
+        Product="Test PlatformInstaller"
+        Publisher="$(Publisher)"
+        UpdateEnabled="true"
+        UpdateMode="Foreground"
+        UpdateUnit="Hours"
+        UpdateInterval="1"
+        TargetFrameworkVersion="$(TargetFrameworkVersion)"
+        TargetFrameworkMoniker=".NETFramework,Version=v4.5"
+    />
+
+    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(TestDeployManifest)" />
+    
+    <GenerateDeploymentManifest
+        AssemblyName="PlatformInstaller.app" 
+        DeploymentUrl="$(ProdDeployUrl)$(ProdDeployManifest)" 
+        Description="Production Deployment"
+        OutputManifest="$(ProdDeployManifest)"
+        CreateDesktopShortcut="true"
+        EntryPoint="$(AppManifest)"
+        Install="true"
+        Product="PlatformInstaller"
+        Publisher="$(Publisher)"
+        UpdateEnabled="true"
+        UpdateMode="Foreground"
+        UpdateUnit="Hours"
+        UpdateInterval="1"
+        TargetFrameworkVersion="$(TargetFrameworkVersion)"
+        TargetFrameworkMoniker=".NETFramework,Version=v4.5"
+    />
+    
+    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(ProdDeployManifest)"  />
+
+    <ItemGroup>
+      <BootstrapperFile Include=".NETFramework,Version=v4.5.2">
+        <ProductName>.NET Framework 4.5.2</ProductName>
+      </BootstrapperFile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <OutputFiles Include="$(OutputPath)**\*.*"  />
+    </ItemGroup>
+    <Delete Files="@(OutputFiles)" />
+    
+    <ItemGroup>
+      <ReleaseFiles Include="*.*" Exclude="*.csproj;"/>
+    </ItemGroup>
+    <Copy SourceFiles="@(ReleaseFiles)" DestinationFolder="$(OutputPath)" />
+    
+    <GenerateBootstrapper
+      ApplicationFile="$(TestDeployManifest)"
+      ApplicationName="Test PlatformInstaller"
+      ApplicationUrl="$(TestDeployUrl)"
+      Culture="en"
+      Path="C:\Program Files (x86)\Microsoft SDKs\ClickOnce Bootstrapper"
+      BootstrapperItems="@(BootstrapperFile)"
+      OutputPath="$(OutputPath)"
+    />
+    <Move SourceFiles="$(OutputPath)setup.exe" DestinationFiles="$(OutputPath)Test-ParticularPlatform.exe" />
+    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(OutputPath)Test-ParticularPlatform.exe" />
+        
+    <GenerateBootstrapper
+      ApplicationFile="$(ProdDeployManifest)"
+      ApplicationName="PlatformInstaller"
+      ApplicationUrl="$(ProdDeployUrl)"
+      Path="C:\Program Files (x86)\Microsoft SDKs\ClickOnce Bootstrapper"
+      BootstrapperItems="@(BootstrapperFile)" 
+      OutputPath="$(OutputPath)"
+    />
+    <Move SourceFiles="$(OutputPath)setup.exe" DestinationFiles="$(OutputPath)ParticularPlatform.exe" />
+    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(OutputPath)ParticularPlatform.exe"  />
+    
+  </Target>
+
+  <Target Name="FinalCleanup" AfterTargets="AfterBuild">
+     <ItemGroup>
+       <FinalCleanFiles Include="*.*" Exclude="*.csproj" />
+    </ItemGroup>
+    <Delete Files="@(FinalCleanFiles)" />
+  </Target>
+  
+</Project>

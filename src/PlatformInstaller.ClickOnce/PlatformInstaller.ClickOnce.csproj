@@ -50,6 +50,22 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
+   <UsingTask TaskName="GetFileVersion" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+      <ParameterGroup>
+        <AssemblyPath ParameterType="System.String" Required="true" />
+      <Version ParameterType="System.String" Output="true" />
+      </ParameterGroup>
+      <Task>
+        <Using Namespace="System.Diagnostics" />
+        <Code Type="Fragment" Language="cs">
+          <![CDATA[
+        Log.LogMessage("Getting version details of assembly at: " + this.AssemblyPath, MessageImportance.High);
+        this.Version = FileVersionInfo.GetVersionInfo(this.AssemblyPath).FileVersion;  
+      ]]>
+        </Code>
+      </Task>
+    </UsingTask>
   
   <!-- Click Once -->
   <Target Name="AfterBuild">
@@ -80,20 +96,23 @@
     <ItemGroup>
       <File Include="*.pdb;*.ico" />
     </ItemGroup>
-    
-    <GenerateApplicationManifest 
-        AssemblyName="PlatformInstaller.exe" 
-        Dependencies="@(Dependency)" 
-        Description="Platform Installer" 
-        EntryPoint="PlatformInstaller.exe" 
-        Files="@(File)" 
-        Publisher="$(Publisher)" 
-        IconFile="particular.ico" 
+
+    <GetFileVersion AssemblyPath="PlatformInstaller.exe">
+      <Output TaskParameter="Version" PropertyName="PlatformInstallerVersion" />
+    </GetFileVersion>
+
+    <GenerateApplicationManifest
+        AssemblyName="PlatformInstaller.exe"
+        Dependencies="@(Dependency)"
+        Description="Platform Installer"
+        EntryPoint="PlatformInstaller.exe"
+        Files="@(File)"
+        Publisher="$(Publisher)"
+        IconFile="particular.ico"
         OutputManifest="$(AppManifest)"
         TargetFrameworkVersion="$(TargetFrameworkVersion)"
-        TargetFrameworkProfile="Full"
+        TargetFrameworkProfile="Full" 
     />
-    
     <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(AppManifest)"  />
 
     <GenerateDeploymentManifest 
@@ -112,8 +131,8 @@
         UpdateInterval="1"
         TargetFrameworkVersion="$(TargetFrameworkVersion)"
         TargetFrameworkMoniker=".NETFramework,Version=v4.5"
+        MinimumRequiredVersion="$(PlatformInstallerVersion)"
     />
-
     <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(TestDeployManifest)" />
     
     <GenerateDeploymentManifest
@@ -132,8 +151,8 @@
         UpdateInterval="1"
         TargetFrameworkVersion="$(TargetFrameworkVersion)"
         TargetFrameworkMoniker=".NETFramework,Version=v4.5"
+        MinimumRequiredVersion="$(PlatformInstallerVersion)"
     />
-    
     <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(ProdDeployManifest)"  />
 
     <ItemGroup>

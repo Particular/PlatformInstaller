@@ -81,7 +81,6 @@
     <Compile Include="Installations\DtcInstaller.cs" />
     <Compile Include="Installations\MsmqInstaller.cs" />
     <Compile Include="Installations\WindowsVersion.cs" />
-    <Compile Include="Installations\PerfCountersInstaller.cs" />
     <Compile Include="Installations\ServiceControllerExtensions.cs" />
     <Compile Include="Framework\NativeMethods\NativeConstants.cs" />
     <Compile Include="Framework\NativeMethods\ShowWindowCommands.cs" />

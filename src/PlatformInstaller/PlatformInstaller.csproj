@@ -249,7 +249,6 @@
     <Compile Include="Events\AgreedToLicenseEvent.cs" />
     <Compile Include="Events\ExitApplicationEvent.cs" />
     <Compile Include="Events\NavigateHomeCommand.cs" />
-    <Compile Include="Events\RebootMachineCommand.cs" />
     <Compile Include="Views\ConfirmSendExceptionView.xaml.cs">
       <DependentUpon>ConfirmSendExceptionView.xaml</DependentUpon>
     </Compile>

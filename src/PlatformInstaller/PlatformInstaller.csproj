@@ -277,10 +277,6 @@
     <Compile Include="Views\FailedInstallationView.xaml.cs">
       <DependentUpon>FailedInstallationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\RebootNeededView.xaml.cs">
-      <DependentUpon>RebootNeededView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RebootNeededViewModel.cs" />
     <Compile Include="Views\DotNetPreReqView.xaml.cs">
       <DependentUpon>DotNetPreReqView.xaml</DependentUpon>
     </Compile>
@@ -333,10 +329,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\FailedInstallationView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\RebootNeededView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

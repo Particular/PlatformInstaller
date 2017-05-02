@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -19,7 +18,6 @@ public class ShellViewModel : Conductor<object>,
     IHandle<RunInstallEvent>,
     IHandle<InstallSucceededEvent>,
     IHandle<InstallFailedEvent>,
-    IHandle<RebootRequiredEvent>,
     IHandle<ExitApplicationCommand>,
     IHandle<UninstallProductCommand>,
     IHandle<NavigateHomeCommand>,
@@ -142,11 +140,6 @@ public class ShellViewModel : Conductor<object>,
         ActivateModel<SuccessViewModel>(new NamedParameter("installedItemNames", itemsToInstall));
     }
 
-    public void Handle(RebootRequiredEvent message)
-    {
-        ActivateModel<RebootNeededViewModel>();
-    }
-
     public void Handle(NavigateHomeCommand message)
     {
         ActivateModel<SelectItemsViewModel>();
@@ -178,13 +171,6 @@ public class ShellViewModel : Conductor<object>,
 
     public void Handle(InstallFailedEvent message)
     {
-        var reboot = message.Failures.FirstOrDefault(f => f.Contains("reboot is required"));
-        if (reboot != null)
-        {
-            eventAggregator.Publish<RebootRequiredEvent>();
-            return;
-        }
-
         ActivateModel<FailedInstallationViewModel>(new NamedParameter("failureReason", message.Reason), new NamedParameter("failures", message.Failures));
     }
 

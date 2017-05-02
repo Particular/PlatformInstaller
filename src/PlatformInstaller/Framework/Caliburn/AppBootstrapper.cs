@@ -39,8 +39,6 @@ public class AppBootstrapper : BootstrapperBase
         builder.RegisterType<WindowManager>()
             .As<IWindowManager>()
             .SingleInstance();
-        builder.RegisterType<RebootMachine>()
-            .SingleInstance();
         builder.RegisterType<AbortInstallationHandler>()
             .SingleInstance();
         builder.RegisterType<InstallFeedbackReporter>()
@@ -60,8 +58,6 @@ public class AppBootstrapper : BootstrapperBase
         builder.RegisterType<LicenseAgreement>()
             .SingleInstance();
         builder.RegisterType<AutoSubscriber>();
-        builder.RegisterType<PendingRestartAndResume>()
-            .SingleInstance();
         builder.RegisterAssemblyTypes(ThisAssembly())
             .Where(t => t.GetInterfaces()
             .Any(i => i.IsAssignableFrom(typeof(IInstaller))))

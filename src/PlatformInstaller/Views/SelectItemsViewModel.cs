@@ -16,12 +16,11 @@ public class SelectItemsViewModel : Screen, IHandle<ResumeInstallCommand>
 
     }
 
-    public SelectItemsViewModel(IEnumerable<IInstaller> installers, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume, ILifetimeScope lifetimeScope, IWindowManager windowManager)
+    public SelectItemsViewModel(IEnumerable<IInstaller> installers, IEventAggregator eventAggregator, ILifetimeScope lifetimeScope, IWindowManager windowManager)
     {
         DisplayName = "Selected Items";
         this.installers = installers.ToList();
         this.eventAggregator = eventAggregator;
-        this.pendingRestartAndResume = pendingRestartAndResume;
         this.windowManager = windowManager;
         this.lifetimeScope = lifetimeScope;
     }
@@ -34,7 +33,6 @@ public class SelectItemsViewModel : Screen, IHandle<ResumeInstallCommand>
     public bool IsInstallEnabled { get; set; }
     public Visibility LoadingVisibility { get; set; }
     public List<Item> Items { get; set; }
-    public PendingRestartAndResume pendingRestartAndResume { get; set; }
     public string AppVersion { get; set; }
 
     protected override void OnInitialize()
@@ -147,31 +145,6 @@ public class SelectItemsViewModel : Screen, IHandle<ResumeInstallCommand>
         }, "Selected");
 
         LoadingVisibility = Visibility.Collapsed;
-
-        if (pendingRestartAndResume.ResumedFromRestart)
-        {
-            var pendingInstalls = pendingRestartAndResume.Installs();
-            if (pendingInstalls.Count > 0)
-            {
-                foreach (var item in Items)
-                {
-                    if (pendingInstalls.Contains(item.Name) && item.CheckBoxVisible == Visibility.Visible)
-                    {
-                        item.Selected = true;
-                    }
-                    else
-                    {
-                        item.Selected = false;
-                    }
-                }
-
-                eventAggregator.PublishOnUIThread(new ResumeInstallCommand
-                {
-                    Installs = pendingInstalls
-                });
-            }
-            pendingRestartAndResume.CleanupResume();
-        }
     }
 
     public void Handle(ResumeInstallCommand message)

@@ -77,11 +77,6 @@
     <Compile Include="Events\FailureEvent.cs" />
     <Compile Include="Events\NestedInstallCompleteEvent.cs" />
     <Compile Include="Events\NestedInstallStartedEvent.cs" />
-    <Compile Include="Installations\Dism.cs" />
-    <Compile Include="Installations\DtcInstaller.cs" />
-    <Compile Include="Installations\MsmqInstaller.cs" />
-    <Compile Include="Installations\WindowsVersion.cs" />
-    <Compile Include="Installations\ServiceControllerExtensions.cs" />
     <Compile Include="Framework\NativeMethods\NativeConstants.cs" />
     <Compile Include="Framework\NativeMethods\ShowWindowCommands.cs" />
     <Compile Include="Framework\NativeMethods\Structures.cs" />
@@ -221,7 +216,6 @@
     <Compile Include="Events\CancelInstallCommand.cs" />
     <Compile Include="Events\UninstallProductCommand.cs" />
     <Compile Include="Installations\AfterInstallAction.cs" />
-    <Compile Include="Installations\ProcessUtil.cs" />
     <Compile Include="Events\DownloadCompleteEvent.cs" />
     <Compile Include="Events\DownloadProgressEvent.cs" />
     <Compile Include="Events\DownloadStartedEvent.cs" />
@@ -246,10 +240,8 @@
     <Compile Include="Framework\Misc\ReadableBytesConverter.cs" />
     <Compile Include="Installations\ProductInstallException.cs" />
     <Compile Include="Events\InstallFailedEvent.cs" />
-    <Compile Include="Events\RebootRequiredEvent.cs" />
     <Compile Include="Framework\Misc\IsAdminChecker.cs" />
     <Compile Include="Framework\Autofac\AutofacExtensions.cs" />
-    <Compile Include="Installations\PendingRestartAndResume.cs" />
     <Compile Include="Framework\Misc\VersionFinder.cs" />
     <Compile Include="Framework\Misc\AssemblyLocation.cs" />
     <Compile Include="Framework\ExceptionHandler.cs" />
@@ -294,7 +286,6 @@
       <DependentUpon>RebootNeededView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RebootNeededViewModel.cs" />
-    <Compile Include="Framework\Misc\RebootMachine.cs" />
     <Compile Include="Views\DotNetPreReqView.xaml.cs">
       <DependentUpon>DotNetPreReqView.xaml</DependentUpon>
     </Compile>

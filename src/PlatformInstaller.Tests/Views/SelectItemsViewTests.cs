@@ -26,7 +26,7 @@ public class SelectItemsViewTests
     static SelectItemsViewModel GetModel()
     {
         //todo: create a fake runner
-        return new SelectItemsViewModel(new List<IInstaller>(), new FakeEventAggregator(), null, null)
+        return new SelectItemsViewModel(new List<IInstaller>(), new FakeEventAggregator())
             {
                 Items = GetItems()
             };

@@ -269,7 +269,6 @@
     <Compile Include="Views\ProxySettingsView.xaml.cs">
       <DependentUpon>ProxySettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Events\ResumeInstallCommand.cs" />
     <Compile Include="Views\ResumeInstallViewModel.cs" />
     <Compile Include="Views\ResumeInstall.xaml.cs">
       <DependentUpon>ResumeInstall.xaml</DependentUpon>

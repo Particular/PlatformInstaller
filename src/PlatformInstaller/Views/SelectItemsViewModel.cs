@@ -1,5 +1,4 @@
 using System;
-using Autofac;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
@@ -9,24 +8,20 @@ using Caliburn.Micro;
 using System.Windows;
 using Anotar.Serilog;
 
-public class SelectItemsViewModel : Screen, IHandle<ResumeInstallCommand>
+public class SelectItemsViewModel : Screen
 {
     public SelectItemsViewModel()
     {
 
     }
 
-    public SelectItemsViewModel(IEnumerable<IInstaller> installers, IEventAggregator eventAggregator, ILifetimeScope lifetimeScope, IWindowManager windowManager)
+    public SelectItemsViewModel(IEnumerable<IInstaller> installers, IEventAggregator eventAggregator)
     {
         DisplayName = "Selected Items";
         this.installers = installers.ToList();
         this.eventAggregator = eventAggregator;
-        this.windowManager = windowManager;
-        this.lifetimeScope = lifetimeScope;
     }
 
-    IWindowManager windowManager;
-    ILifetimeScope lifetimeScope;
     List<IInstaller> installers;
     IEventAggregator eventAggregator;
 
@@ -147,20 +142,4 @@ public class SelectItemsViewModel : Screen, IHandle<ResumeInstallCommand>
         LoadingVisibility = Visibility.Collapsed;
     }
 
-    public void Handle(ResumeInstallCommand message)
-    {
-        using (var beginLifetimeScope = lifetimeScope.BeginLifetimeScope())
-        {
-            var resumeInstallModel = beginLifetimeScope.Resolve<ResumeInstallViewModel>();
-            windowManager.ShowDialog(resumeInstallModel);
-            if (!resumeInstallModel.AbortInstallation)
-            {
-                var runInstallEvent = new RunInstallEvent
-                {
-                    SelectedItems = message.Installs
-                };
-                eventAggregator.PublishOnUIThread(runInstallEvent);
-            }
-        }
-    }
 }

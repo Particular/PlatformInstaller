@@ -1,4 +1,0 @@
-1.0.0
-
-
-<Import Project="$(SolutionDir)..\BuildSupport\GitVersionTask\Build\GitVersionTask.targets" />

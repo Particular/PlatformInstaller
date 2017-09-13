@@ -62,7 +62,9 @@
           <![CDATA[
 		       var message = "Getting version details of assembly at: " + this.AssemblyPath;
                Log.LogMessage(MessageImportance.High, message);
-			   this.Version = FileVersionInfo.GetVersionInfo(this.AssemblyPath).FileVersion;			   
+			   var versionInfo = FileVersionInfo.GetVersionInfo(this.AssemblyPath);
+			   Log.LogMessage(MessageImportance.High, versionInfo.ToString());
+			   this.Version = versionInfo.FileVersion;			   
            ]]>
         </Code>
       </Task>
@@ -99,12 +101,10 @@
       <File Include="*.pdb;*.ico" />
     </ItemGroup>
 
-	
-	
-    <GetFileVersion AssemblyPath="$(SolutionDir)PlatformInstaller\$(OutputPath)PlatformInstaller.exe">
+	<GetFileVersion AssemblyPath="$(SolutionDir)PlatformInstaller\$(OutputPath)PlatformInstaller.exe">
       <Output TaskParameter="Version" PropertyName="PlatformInstallerVersion" />
     </GetFileVersion>
-
+	
     <GenerateApplicationManifest
         AssemblyName="PlatformInstaller.exe"
         Dependencies="@(Dependency)"
@@ -117,7 +117,8 @@
         TargetFrameworkVersion="$(TargetFrameworkVersion)"
         TargetFrameworkProfile="Full" 
     />
-    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(AppManifest)"  />
+	
+	<SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(AppManifest)"  />
 
     <GenerateDeploymentManifest 
         AssemblyName="Test-PlatformInstaller.app" 
@@ -137,7 +138,8 @@
         TargetFrameworkMoniker=".NETFramework,Version=v4.5"
         MinimumRequiredVersion="$(PlatformInstallerVersion)"
     />
-    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(TestDeployManifest)" />
+    
+	<SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(TestDeployManifest)" />
     
     <GenerateDeploymentManifest
         AssemblyName="PlatformInstaller.app" 
@@ -157,7 +159,8 @@
         TargetFrameworkMoniker=".NETFramework,Version=v4.5"
         MinimumRequiredVersion="$(PlatformInstallerVersion)"
     />
-    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(ProdDeployManifest)"  />
+    
+	<SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(ProdDeployManifest)"  />
 
     <ItemGroup>
       <BootstrapperFile Include=".NETFramework,Version=v4.5.2">

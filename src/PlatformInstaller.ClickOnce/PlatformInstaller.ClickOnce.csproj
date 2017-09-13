@@ -54,22 +54,24 @@
    <UsingTask TaskName="GetFileVersion" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
       <ParameterGroup>
         <AssemblyPath ParameterType="System.String" Required="true" />
-      <Version ParameterType="System.String" Output="true" />
+        <Version ParameterType="System.String" Output="true" />
       </ParameterGroup>
       <Task>
         <Using Namespace="System.Diagnostics" />
         <Code Type="Fragment" Language="cs">
           <![CDATA[
-        Log.LogMessage("Getting version details of assembly at: " + this.AssemblyPath, MessageImportance.High);
-        this.Version = FileVersionInfo.GetVersionInfo(this.AssemblyPath).FileVersion;  
-      ]]>
+		       var message = "Getting version details of assembly at: " + this.AssemblyPath;
+               Log.LogMessage(MessageImportance.High, message);
+			   this.Version = FileVersionInfo.GetVersionInfo(this.AssemblyPath).FileVersion;			   
+           ]]>
         </Code>
       </Task>
     </UsingTask>
   
   <!-- Click Once -->
   <Target Name="AfterBuild">
-    <PropertyGroup>
+  
+	<PropertyGroup>
       <ThumbPrint>BE71091FDBC50425DDAC13EDD5629B0A3B240985</ThumbPrint>
       <Publisher>Particular Software</Publisher>
       <AppManifest>PlatformInstaller.exe.manifest</AppManifest>
@@ -83,7 +85,7 @@
     </ItemGroup>
     <Delete Files="@(CleanFiles)" />
     <ItemGroup>
-      <SrcFiles Include="..\PlatformInstaller\bin\release\*.*" />
+      <SrcFiles Include="..\PlatformInstaller\bin\$(Configuration)\*.*" />
     </ItemGroup>
     <ItemGroup>
       <IconFile Include="..\particular.ico" />
@@ -97,7 +99,9 @@
       <File Include="*.pdb;*.ico" />
     </ItemGroup>
 
-    <GetFileVersion AssemblyPath="PlatformInstaller.exe">
+	
+	
+    <GetFileVersion AssemblyPath="$(SolutionDir)PlatformInstaller\$(OutputPath)PlatformInstaller.exe">
       <Output TaskParameter="Version" PropertyName="PlatformInstallerVersion" />
     </GetFileVersion>
 

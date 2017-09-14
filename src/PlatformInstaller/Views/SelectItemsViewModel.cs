@@ -1,5 +1,4 @@
 using System;
-using Autofac;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
@@ -9,32 +8,26 @@ using Caliburn.Micro;
 using System.Windows;
 using Anotar.Serilog;
 
-public class SelectItemsViewModel : Screen, IHandle<ResumeInstallCommand>
+public class SelectItemsViewModel : Screen
 {
     public SelectItemsViewModel()
     {
 
     }
 
-    public SelectItemsViewModel(IEnumerable<IInstaller> installers, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume, ILifetimeScope lifetimeScope, IWindowManager windowManager)
+    public SelectItemsViewModel(IEnumerable<IInstaller> installers, IEventAggregator eventAggregator)
     {
         DisplayName = "Selected Items";
         this.installers = installers.ToList();
         this.eventAggregator = eventAggregator;
-        this.pendingRestartAndResume = pendingRestartAndResume;
-        this.windowManager = windowManager;
-        this.lifetimeScope = lifetimeScope;
     }
 
-    IWindowManager windowManager;
-    ILifetimeScope lifetimeScope;
     List<IInstaller> installers;
     IEventAggregator eventAggregator;
 
     public bool IsInstallEnabled { get; set; }
     public Visibility LoadingVisibility { get; set; }
     public List<Item> Items { get; set; }
-    public PendingRestartAndResume pendingRestartAndResume { get; set; }
     public string AppVersion { get; set; }
 
     protected override void OnInitialize()
@@ -147,47 +140,6 @@ public class SelectItemsViewModel : Screen, IHandle<ResumeInstallCommand>
         }, "Selected");
 
         LoadingVisibility = Visibility.Collapsed;
-
-        if (pendingRestartAndResume.ResumedFromRestart)
-        {
-            var pendingInstalls = pendingRestartAndResume.Installs();
-            if (pendingInstalls.Count > 0)
-            {
-                foreach (var item in Items)
-                {
-                    if (pendingInstalls.Contains(item.Name) && item.CheckBoxVisible == Visibility.Visible)
-                    {
-                        item.Selected = true;
-                    }
-                    else
-                    {
-                        item.Selected = false;
-                    }
-                }
-
-                eventAggregator.PublishOnUIThread(new ResumeInstallCommand
-                {
-                    Installs = pendingInstalls
-                });
-            }
-            pendingRestartAndResume.CleanupResume();
-        }
     }
 
-    public void Handle(ResumeInstallCommand message)
-    {
-        using (var beginLifetimeScope = lifetimeScope.BeginLifetimeScope())
-        {
-            var resumeInstallModel = beginLifetimeScope.Resolve<ResumeInstallViewModel>();
-            windowManager.ShowDialog(resumeInstallModel);
-            if (!resumeInstallModel.AbortInstallation)
-            {
-                var runInstallEvent = new RunInstallEvent
-                {
-                    SelectedItems = message.Installs
-                };
-                eventAggregator.PublishOnUIThread(runInstallEvent);
-            }
-        }
-    }
 }

@@ -21,9 +21,4 @@ public class DotNetInstallCompleteViewModel : Screen
         eventAggregator.Publish<ExitApplicationCommand>();
     }
 
-    public void Reboot()
-    {
-        eventAggregator.Publish<RebootMachineCommand>();
-        eventAggregator.Publish<ExitApplicationCommand>();
-    }
 }

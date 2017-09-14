@@ -77,11 +77,6 @@
     <Compile Include="Events\FailureEvent.cs" />
     <Compile Include="Events\NestedInstallCompleteEvent.cs" />
     <Compile Include="Events\NestedInstallStartedEvent.cs" />
-    <Compile Include="Installations\Dism.cs" />
-    <Compile Include="Installations\DtcInstaller.cs" />
-    <Compile Include="Installations\MsmqInstaller.cs" />
-    <Compile Include="Installations\WindowsVersion.cs" />
-    <Compile Include="Installations\ServiceControllerExtensions.cs" />
     <Compile Include="Framework\NativeMethods\NativeConstants.cs" />
     <Compile Include="Framework\NativeMethods\ShowWindowCommands.cs" />
     <Compile Include="Framework\NativeMethods\Structures.cs" />
@@ -201,19 +196,14 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Security" />
-    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.3.0.3\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
     <Compile Include="Framework\Caliburn\AutoSubscriber.cs" />
     <Compile Include="Framework\Caliburn\CaliburnExtensions.cs" />
@@ -221,7 +211,6 @@
     <Compile Include="Events\CancelInstallCommand.cs" />
     <Compile Include="Events\UninstallProductCommand.cs" />
     <Compile Include="Installations\AfterInstallAction.cs" />
-    <Compile Include="Installations\ProcessUtil.cs" />
     <Compile Include="Events\DownloadCompleteEvent.cs" />
     <Compile Include="Events\DownloadProgressEvent.cs" />
     <Compile Include="Events\DownloadStartedEvent.cs" />
@@ -246,10 +235,8 @@
     <Compile Include="Framework\Misc\ReadableBytesConverter.cs" />
     <Compile Include="Installations\ProductInstallException.cs" />
     <Compile Include="Events\InstallFailedEvent.cs" />
-    <Compile Include="Events\RebootRequiredEvent.cs" />
     <Compile Include="Framework\Misc\IsAdminChecker.cs" />
     <Compile Include="Framework\Autofac\AutofacExtensions.cs" />
-    <Compile Include="Installations\PendingRestartAndResume.cs" />
     <Compile Include="Framework\Misc\VersionFinder.cs" />
     <Compile Include="Framework\Misc\AssemblyLocation.cs" />
     <Compile Include="Framework\ExceptionHandler.cs" />
@@ -257,7 +244,6 @@
     <Compile Include="Events\AgreedToLicenseEvent.cs" />
     <Compile Include="Events\ExitApplicationEvent.cs" />
     <Compile Include="Events\NavigateHomeCommand.cs" />
-    <Compile Include="Events\RebootMachineCommand.cs" />
     <Compile Include="Views\ConfirmSendExceptionView.xaml.cs">
       <DependentUpon>ConfirmSendExceptionView.xaml</DependentUpon>
     </Compile>
@@ -277,11 +263,6 @@
     <Compile Include="Views\ProxySettingsView.xaml.cs">
       <DependentUpon>ProxySettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Events\ResumeInstallCommand.cs" />
-    <Compile Include="Views\ResumeInstallViewModel.cs" />
-    <Compile Include="Views\ResumeInstall.xaml.cs">
-      <DependentUpon>ResumeInstall.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ConfirmAbortInstallView.xaml.cs">
       <DependentUpon>ConfirmAbortInstallView.xaml</DependentUpon>
     </Compile>
@@ -290,11 +271,6 @@
     <Compile Include="Views\FailedInstallationView.xaml.cs">
       <DependentUpon>FailedInstallationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\RebootNeededView.xaml.cs">
-      <DependentUpon>RebootNeededView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RebootNeededViewModel.cs" />
-    <Compile Include="Framework\Misc\RebootMachine.cs" />
     <Compile Include="Views\DotNetPreReqView.xaml.cs">
       <DependentUpon>DotNetPreReqView.xaml</DependentUpon>
     </Compile>
@@ -342,19 +318,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ResumeInstall.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\ConfirmAbortInstallView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\FailedInstallationView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\RebootNeededView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

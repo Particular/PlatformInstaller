@@ -9,14 +9,12 @@ public class Installer :
     IHandle<NestedInstallCompleteEvent>,
     IHandle<NestedInstallProgressEvent>
 {
-    public Installer(IEnumerable<IInstaller> installers, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume)
+    public Installer(IEnumerable<IInstaller> installers, IEventAggregator eventAggregator)
     {
         this.installers = installers.ToList();
         this.eventAggregator = eventAggregator;
-        this.pendingRestartAndResume = pendingRestartAndResume;
     }
 
-    PendingRestartAndResume pendingRestartAndResume;
     IEventAggregator eventAggregator;
 
     List<string> errors = new List<string>();
@@ -43,19 +41,6 @@ public class Installer :
             .Where(p => itemsToInstall.Contains(p.Name))
             .OrderBy(p => p.Name).ToList();
 
-        if (pendingRestartAndResume.ResumedFromRestart)
-        {
-            var checkpoint = pendingRestartAndResume.Checkpoint();
-            if (installationDefinitions.Any(p => p.Name.Equals(checkpoint)))
-            {
-                // Fast Forward to the step after the last successful step
-                installationDefinitions = installationDefinitions
-                    .SkipWhile(p => !p.Name.Equals(checkpoint))
-                    .Skip(1)
-                    .ToList();
-            }
-        }
-        pendingRestartAndResume.CleanupResume();
         installCount = installationDefinitions
             .Select(p => p.NestedActionCount)
             .Sum();

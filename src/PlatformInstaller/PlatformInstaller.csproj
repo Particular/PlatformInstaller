@@ -414,7 +414,7 @@
   <Target Name="AfterBuild" Condition=" '$(Configuration)' == 'Release' ">
     <!-- Thumbprint is for the NServiceBus Code Signing Certificate -->
     <PropertyGroup>
-      <Thumbprint>BE71091FDBC50425DDAC13EDD5629B0A3B240985</Thumbprint>
+      <Thumbprint>28c81319c47f3afccb075cf5f97a58981972b73f</Thumbprint>
       <TimeStampURL>http://timestamp.globalsign.com/scripts/timstamp.dll</TimeStampURL>
     </PropertyGroup>
     <SignFile CertificateThumbprint="$(Thumbprint)" SigningTarget="$(OutputPath)$(AssemblyName).exe" TimestampUrl="$(TimeStampURL)" />

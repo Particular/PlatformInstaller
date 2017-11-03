@@ -74,7 +74,7 @@
   <Target Name="AfterBuild">
   
 	<PropertyGroup>
-      <ThumbPrint>BE71091FDBC50425DDAC13EDD5629B0A3B240985</ThumbPrint>
+      <ThumbPrint>28c81319c47f3afccb075cf5f97a58981972b73f</ThumbPrint>
       <Publisher>Particular Software</Publisher>
       <AppManifest>PlatformInstaller.exe.manifest</AppManifest>
       <ProdDeployManifest>PlatformInstaller.application</ProdDeployManifest>

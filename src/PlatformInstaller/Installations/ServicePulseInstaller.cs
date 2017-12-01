@@ -77,7 +77,7 @@ public class ServicePulseInstaller : IInstaller
         eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = $"Executing {Name} installation" });
 
         var exitCode = await processRunner.RunProcess(installer.FullName,
-            $"/quiet /L*V {msiLog.QuoteForCommandline()}",
+            $"/L*V {msiLog.QuoteForCommandline()}",
             // ReSharper disable once PossibleNullReferenceException
             installer.Directory.FullName,
             logOutput,

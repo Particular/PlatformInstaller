@@ -1,2 +1,2 @@
-assembly-versioning-scheme: MajorMinorPatchTag
-next-version: 1.0.0.594
+assembly-versioning-scheme: MajorMinorPatch
+next-version: 1.0.1

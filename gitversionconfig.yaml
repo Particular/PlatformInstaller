@@ -1,2 +1,3 @@
 assembly-versioning-scheme: MajorMinorPatch
+increment: Patch
 next-version: 1.0.1

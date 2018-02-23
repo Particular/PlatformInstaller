@@ -18,6 +18,7 @@ public class ReleaseManager
 
     public ReleaseManager(IEventAggregator eventAggregator, CredentialStore credentialStore)
     {
+        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         this.eventAggregator = eventAggregator;
         this.credentialStore = credentialStore;
     }

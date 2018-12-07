@@ -21,7 +21,7 @@ public class SelectItemsViewModel : Screen, IHandle<ResumeInstallCommand>
         DisplayName = "Selected Items";
         this.installers = installers.ToList();
         this.eventAggregator = eventAggregator;
-        this.pendingRestartAndResume = pendingRestartAndResume;
+        this.PendingRestartAndResume = pendingRestartAndResume;
         this.windowManager = windowManager;
         this.lifetimeScope = lifetimeScope;
     }
@@ -34,7 +34,7 @@ public class SelectItemsViewModel : Screen, IHandle<ResumeInstallCommand>
     public bool IsInstallEnabled { get; set; }
     public Visibility LoadingVisibility { get; set; }
     public List<Item> Items { get; set; }
-    public PendingRestartAndResume pendingRestartAndResume { get; set; }
+    public PendingRestartAndResume PendingRestartAndResume { get; set; }
     public string AppVersion { get; set; }
 
     protected override void OnInitialize()
@@ -148,9 +148,9 @@ public class SelectItemsViewModel : Screen, IHandle<ResumeInstallCommand>
 
         LoadingVisibility = Visibility.Collapsed;
 
-        if (pendingRestartAndResume.ResumedFromRestart)
+        if (PendingRestartAndResume.ResumedFromRestart)
         {
-            var pendingInstalls = pendingRestartAndResume.Installs();
+            var pendingInstalls = PendingRestartAndResume.Installs();
             if (pendingInstalls.Count > 0)
             {
                 foreach (var item in Items)
@@ -170,7 +170,7 @@ public class SelectItemsViewModel : Screen, IHandle<ResumeInstallCommand>
                     Installs = pendingInstalls
                 });
             }
-            pendingRestartAndResume.CleanupResume();
+            PendingRestartAndResume.CleanupResume();
         }
     }
 

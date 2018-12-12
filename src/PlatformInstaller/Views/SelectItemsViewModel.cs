@@ -16,17 +16,19 @@ public class SelectItemsViewModel : Screen, IHandle<ResumeInstallCommand>
 
     }
 
-    public SelectItemsViewModel(IEnumerable<IInstaller> installers, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume, ILifetimeScope lifetimeScope, IWindowManager windowManager)
+    public SelectItemsViewModel(IEnumerable<IInstaller> installers, IEventAggregator eventAggregator, PendingRestartAndResume pendingRestartAndResume, ILifetimeScope lifetimeScope, IWindowManager windowManager, InstallActionValidator installActionValidator)
     {
         DisplayName = "Selected Items";
         this.installers = installers.ToList();
         this.eventAggregator = eventAggregator;
         this.PendingRestartAndResume = pendingRestartAndResume;
         this.windowManager = windowManager;
+        this.installActionValidator = installActionValidator;
         this.lifetimeScope = lifetimeScope;
     }
 
     IWindowManager windowManager;
+    readonly InstallActionValidator installActionValidator;
     ILifetimeScope lifetimeScope;
     List<IInstaller> installers;
     IEventAggregator eventAggregator;
@@ -51,10 +53,27 @@ public class SelectItemsViewModel : Screen, IHandle<ResumeInstallCommand>
 
     public void Install()
     {
-        var selectedItems = Items.Where(p => p.Selected).OrderBy(p => p.Order).Select(x => x.Name).ToList();
+        var selectedItems = Items.Where(p => p.Selected).ToList();
+
+        var selectedInstallers = selectedItems.Select(x => x.Installer).ToList();
+
+        if (!installActionValidator.ValidateInstallationProposal(selectedInstallers, out var problems))
+        {
+            using (var scope = lifetimeScope.BeginLifetimeScope())
+            {
+                var acceptWarnings = scope.Resolve<AcceptWarningsViewModel>();
+                acceptWarnings.Problems = problems;
+                windowManager.ShowDialog(acceptWarnings);
+                if (acceptWarnings.AbortInstallation)
+                {
+                    return;
+                }
+            }
+        }
+
         var runInstallEvent = new RunInstallEvent
         {
-            SelectedItems = selectedItems
+            SelectedItems = selectedItems.OrderBy(p => p.Order).Select(x => x.Name).ToList()
         };
         eventAggregator.PublishOnUIThread(runInstallEvent);
     }
@@ -93,6 +112,7 @@ public class SelectItemsViewModel : Screen, IHandle<ResumeInstallCommand>
         public Visibility UninstallVisible;
         public string Description;
         public int Order;
+        public IInstaller Installer;
 
         public void Uninstall()
         {
@@ -136,7 +156,8 @@ public class SelectItemsViewModel : Screen, IHandle<ResumeInstallCommand>
                 Selected = (x.InstallState != InstallState.Installed) && x.SelectedByDefault,
                 CheckBoxVisible = x.InstallState != InstallState.Installed ? Visibility.Visible : Visibility.Collapsed,
                 UninstallVisible = x.InstallState != InstallState.NotInstalled ? Visibility.Visible : Visibility.Hidden,
-                UninstallText = $"Uninstall {x.Name}"
+                UninstallText = $"Uninstall {x.Name}",
+                Installer = x
             }).ToList();
 
         IsInstallEnabled = Items.Any(pd => pd.Selected);

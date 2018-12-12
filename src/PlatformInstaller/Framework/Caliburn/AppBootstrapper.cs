@@ -70,6 +70,8 @@ public class AppBootstrapper : BootstrapperBase
             .SingleInstance();
         builder.RegisterType<RuntimeUpgradeManager>()
             .SingleInstance();
+        builder.RegisterType<InstallActionValidator>()
+            .SingleInstance();
         return builder.Build();
     }
 

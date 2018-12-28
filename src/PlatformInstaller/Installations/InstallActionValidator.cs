@@ -28,7 +28,7 @@ public class InstallActionValidator
 
         if (installingPulseWithoutControl)
         {
-            yield return "The installation of ServicePulse requires a ServiceControl instance. ServiceControl is not installed on this machine.";
+            yield return "The installation of ServicePulse requires a ServiceControl instance. If you’re installing ServiceControl on this machine or another one, make sure the connection details entered during the installation of ServicePulse are the same that will be used for ServiceControl.";
         }
     }
 }

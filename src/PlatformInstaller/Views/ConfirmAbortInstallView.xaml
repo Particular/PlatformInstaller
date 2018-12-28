@@ -1,15 +1,16 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        x:Class="ConfirmAbortInstallView"  WindowStartupLocation="CenterScreen"
+        x:Class="ConfirmAbortInstallView" WindowStartupLocation="CenterScreen"
+        SizeToContent="WidthAndHeight"
         Height="190" 
         Style="{StaticResource PlatformInstallerWindowStyle}">
     <Border BorderBrush="#20000000" BorderThickness="2">
-        <StackPanel Margin="10" VerticalAlignment="Center">
+        <StackPanel Margin="25,20,25,25" VerticalAlignment="Center">
 
-            <TextBlock Margin="0,10,0,0" FontSize="15" FontWeight="DemiBold" >Exit Confirmation</TextBlock>
-            <TextBlock Margin="0,10,0,0" FontSize="13" TextWrapping="Wrap">Are you sure you wish to close the installer while an installation running? Some components may be left in an unknown state.</TextBlock>
-            <StackPanel Orientation="Horizontal" Margin="0,10,0,0"  FlowDirection="RightToLeft">
+            <TextBlock Margin="0,10,0,0" FontSize="16" FontWeight="DemiBold">Confirm Exit</TextBlock>
+            <TextBlock Margin="0,10,0,0" FontSize="14" TextWrapping="Wrap">Are you sure you wish to close the installer while an installation running? Some components may be left in an unknown state.</TextBlock>
+            <StackPanel Orientation="Horizontal" Margin="0,25,0,0"  FlowDirection="RightToLeft">
                 <Button x:Name="ConfirmCancellation">Exit</Button>
                 <Button x:Name="ContinueInstallation" Style="{StaticResource HiliteButton}">Back</Button>
             </StackPanel>

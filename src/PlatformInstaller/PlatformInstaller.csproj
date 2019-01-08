@@ -16,7 +16,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <ApplicationIcon>$(SolutionDir)particular.ico</ApplicationIcon>
     <NoWin32Manifest>true</NoWin32Manifest>
-	<GitVersionAppendRevision>true</GitVersionAppendRevision>
+    <GitVersionAppendRevision>true</GitVersionAppendRevision>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <AllowedReferenceRelatedFileExtensions>.pdb</AllowedReferenceRelatedFileExtensions>
@@ -66,8 +66,14 @@
     <Compile Include="Events\DotNetDownloadProgressEvent.cs" />
     <Compile Include="Events\DotNetDownloadStartedEvent.cs" />
     <Compile Include="Events\DotNetInstallFailed.cs" />
+    <Compile Include="Framework\Misc\ListExtensions.cs" />
+    <Compile Include="Views\AcceptWarningsViewModel.cs" />
+    <Compile Include="Installations\InstallActionValidator.cs" />
     <Compile Include="Installations\RuntimeUpgradeManager.cs" />
     <Compile Include="Events\DotNetStartInstallWizardCommand.cs" />
+    <Compile Include="Views\AcceptWarningsView.xaml.cs">
+      <DependentUpon>AcceptWarningsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DotNetInstallCompleteView.xaml.cs">
       <DependentUpon>DotNetInstallCompleteView.xaml</DependentUpon>
     </Compile>
@@ -99,6 +105,10 @@
     <Page Include="Controls\LoadingSpinner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AcceptWarningsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\DotNetInstallCompleteView.xaml">
       <Generator>MSBuild:Compile</Generator>

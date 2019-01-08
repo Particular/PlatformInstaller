@@ -161,7 +161,7 @@ public class ServiceControlInstaller : IInstaller
     }
 
     public string Name => "ServiceControl";
-    public string Description => "Activity Information";
+    public string Description => "Activity Information - Required for ServiceInsight and ServicePulse";
     public int NestedActionCount => 2;  //Download and Install
     public string ImageName => Name;
     public string Status => this.ExeInstallerStatus();

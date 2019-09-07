@@ -7,7 +7,7 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<I
 {
     bool isNewUserAtStartup;
 
-    const string cancelledUrl = "http://particular.net/platform-installation-cancelled";
+    const string cancelledUrl = "https://particular.net/platform-installation-cancelled";
 
     public InstallFeedbackReporter()
     {
@@ -24,7 +24,7 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<I
         LogTo.Information($"Install successfull, new user: {isNewUserAtStartup}");
         var isNew = isNewUserAtStartup.ToString().ToLowerInvariant();
         var installed = string.Join(";", message.InstalledItems);
-        var url = $"http://particular.net/thank-you-for-installing-the-particular-service-platform?new_user={isNew}&installed={installed}&nuget={NugetFlag()}";
+        var url = $"https://particular.net/thank-you-for-installing-the-particular-service-platform?new_user={isNew}&installed={installed}&nuget={NugetFlag()}";
         RecordInstallationFeeback();
         UrlLauncher.Open(url);
     }

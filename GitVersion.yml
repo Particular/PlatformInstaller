@@ -1,3 +1,4 @@
 assembly-versioning-scheme: MajorMinorPatch
+assembly-file-versioning-format: '{Major}.{Minor}.{Patch}.{CommitsSinceVersionSource}'
 increment: Patch
 next-version: 1.0.2

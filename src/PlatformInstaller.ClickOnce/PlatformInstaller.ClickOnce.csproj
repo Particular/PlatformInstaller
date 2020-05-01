@@ -51,29 +51,29 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 
-   <UsingTask TaskName="GetFileVersion" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
-      <ParameterGroup>
-        <AssemblyPath ParameterType="System.String" Required="true" />
-        <Version ParameterType="System.String" Output="true" />
-      </ParameterGroup>
-      <Task>
-        <Using Namespace="System.Diagnostics" />
-        <Code Type="Fragment" Language="cs">
-          <![CDATA[
-		       var message = "Getting version details of assembly at: " + this.AssemblyPath;
-               Log.LogMessage(MessageImportance.High, message);
-			   var versionInfo = FileVersionInfo.GetVersionInfo(this.AssemblyPath);
-			   Log.LogMessage(MessageImportance.High, versionInfo.ToString());
-			   this.Version = versionInfo.FileVersion;			   
+  <UsingTask TaskName="GetFileVersion" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+    <ParameterGroup>
+      <AssemblyPath ParameterType="System.String" Required="true" />
+      <Version ParameterType="System.String" Output="true" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System.Diagnostics" />
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+            var message = "Getting version details of assembly at: " + this.AssemblyPath;
+            Log.LogMessage(MessageImportance.High, message);
+            var versionInfo = FileVersionInfo.GetVersionInfo(this.AssemblyPath);
+            Log.LogMessage(MessageImportance.High, versionInfo.ToString());
+            this.Version = versionInfo.FileVersion;
            ]]>
-        </Code>
-      </Task>
-    </UsingTask>
-  
+      </Code>
+    </Task>
+  </UsingTask>
+
   <!-- Click Once -->
   <Target Name="AfterBuild">
-  
-	<PropertyGroup>
+
+    <PropertyGroup>
       <ThumbPrint>28c81319c47f3afccb075cf5f97a58981972b73f</ThumbPrint>
       <Publisher>Particular Software</Publisher>
       <AppManifest>PlatformInstaller.exe.manifest</AppManifest>
@@ -101,10 +101,10 @@
       <File Include="*.pdb;*.ico" />
     </ItemGroup>
 
-	<GetFileVersion AssemblyPath="$(SolutionDir)PlatformInstaller\$(OutputPath)PlatformInstaller.exe">
+    <GetFileVersion AssemblyPath="$(SolutionDir)PlatformInstaller\$(OutputPath)PlatformInstaller.exe">
       <Output TaskParameter="Version" PropertyName="PlatformInstallerVersion" />
     </GetFileVersion>
-	
+
     <GenerateApplicationManifest
         AssemblyName="PlatformInstaller.exe"
         Dependencies="@(Dependency)"
@@ -115,15 +115,15 @@
         IconFile="particular.ico"
         OutputManifest="$(AppManifest)"
         TargetFrameworkVersion="$(TargetFrameworkVersion)"
-        TargetFrameworkProfile="Full" 
+        TargetFrameworkProfile="Full"
     />
-	
-	<SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(AppManifest)"  />
 
-    <GenerateDeploymentManifest 
-        AssemblyName="Test-PlatformInstaller.app" 
-        DeploymentUrl="$(TestDeployUrl)$(TestDeployManifest)" 
-        Description="Test Deployment" 
+    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(AppManifest)"  />
+
+    <GenerateDeploymentManifest
+        AssemblyName="Test-PlatformInstaller.app"
+        DeploymentUrl="$(TestDeployUrl)$(TestDeployManifest)"
+        Description="Test Deployment"
         OutputManifest="$(TestDeployManifest)"
         CreateDesktopShortcut="true"
         EntryPoint="$(AppManifest)"
@@ -138,12 +138,12 @@
         TargetFrameworkMoniker=".NETFramework,Version=v4.5"
         MinimumRequiredVersion="$(PlatformInstallerVersion)"
     />
-    
-	<SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(TestDeployManifest)" />
-    
+
+    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(TestDeployManifest)" />
+
     <GenerateDeploymentManifest
-        AssemblyName="PlatformInstaller.app" 
-        DeploymentUrl="$(ProdDeployUrl)$(ProdDeployManifest)" 
+        AssemblyName="PlatformInstaller.app"
+        DeploymentUrl="$(ProdDeployUrl)$(ProdDeployManifest)"
         Description="Production Deployment"
         OutputManifest="$(ProdDeployManifest)"
         CreateDesktopShortcut="true"
@@ -159,8 +159,8 @@
         TargetFrameworkMoniker=".NETFramework,Version=v4.5"
         MinimumRequiredVersion="$(PlatformInstallerVersion)"
     />
-    
-	<SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(ProdDeployManifest)"  />
+
+    <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(ProdDeployManifest)"  />
 
     <ItemGroup>
       <BootstrapperFile Include=".NETFramework,Version=v4.5.2">
@@ -172,12 +172,12 @@
       <OutputFiles Include="$(OutputPath)**\*.*"  />
     </ItemGroup>
     <Delete Files="@(OutputFiles)" />
-    
+
     <ItemGroup>
       <ReleaseFiles Include="*.*" Exclude="*.csproj;"/>
     </ItemGroup>
     <Copy SourceFiles="@(ReleaseFiles)" DestinationFolder="$(OutputPath)" />
-    
+
     <GenerateBootstrapper
       ApplicationFile="$(TestDeployManifest)"
       ApplicationName="Test PlatformInstaller"
@@ -189,25 +189,25 @@
     />
     <Move SourceFiles="$(OutputPath)setup.exe" DestinationFiles="$(OutputPath)Test-ParticularPlatform.exe" />
     <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(OutputPath)Test-ParticularPlatform.exe" />
-        
+
     <GenerateBootstrapper
       ApplicationFile="$(ProdDeployManifest)"
       ApplicationName="PlatformInstaller"
       ApplicationUrl="$(ProdDeployUrl)"
       Path="C:\Program Files (x86)\Microsoft SDKs\ClickOnce Bootstrapper"
-      BootstrapperItems="@(BootstrapperFile)" 
+      BootstrapperItems="@(BootstrapperFile)"
       OutputPath="$(OutputPath)"
     />
     <Move SourceFiles="$(OutputPath)setup.exe" DestinationFiles="$(OutputPath)ParticularPlatform.exe" />
     <SignFile CertificateThumbprint="$(ThumbPrint)" SigningTarget="$(OutputPath)ParticularPlatform.exe"  />
-    
+
   </Target>
 
   <Target Name="FinalCleanup" AfterTargets="AfterBuild">
-     <ItemGroup>
-       <FinalCleanFiles Include="*.*" Exclude="*.csproj" />
+    <ItemGroup>
+      <FinalCleanFiles Include="*.*" Exclude="*.csproj" />
     </ItemGroup>
     <Delete Files="@(FinalCleanFiles)" />
   </Target>
-  
+
 </Project>

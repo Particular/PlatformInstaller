@@ -80,7 +80,7 @@
       <ProdDeployManifest>PlatformInstaller.application</ProdDeployManifest>
       <TestDeployManifest>Test-PlatformInstaller.application</TestDeployManifest>
       <ProdDeployUrl>https://s3.amazonaws.com/particular.downloads/PlatformInstaller/</ProdDeployUrl>
-      <TestDeployUrl>https://platforminstallerstaging.blob.core.windows.net/platforminstaller/Test-ParticularPlatform.exe</TestDeployUrl>
+      <TestDeployUrl>https://platforminstallerstaging.blob.core.windows.net/platforminstaller/</TestDeployUrl>
     </PropertyGroup>
     <ItemGroup>
       <CleanFiles Include="*.*" Exclude="*.csproj" />

@@ -33,8 +33,7 @@
             <StackPanel Grid.Row="1" Background="Gold" Margin="2,20,2,2">
                 <StackPanel Margin="10">
                     <TextBlock FontWeight="Bold" >WARNING: The Platform Installer is no longer maintained.</TextBlock>
-                    <TextBlock TextWrapping="Wrap">To update or install new software, please use the individual product installers available in the
-                    <global:Link FontWeight="Bold" TextDecorations="Underline" Foreground="#00729C" NavigateUri="https://particular.net/downloads">downloads page</global:Link>.</TextBlock>
+                    <TextBlock TextWrapping="Wrap">To update or install new software, please use the <global:Link FontWeight="Bold" TextDecorations="Underline" Foreground="#00729C" NavigateUri="https://particular.net/downloads">individual product installers</global:Link>.</TextBlock>
                 </StackPanel>
             </StackPanel>
             <ContentControl Grid.Row="2" x:Name="ActiveItem" Margin="20,20,20,5" Focusable="False" />

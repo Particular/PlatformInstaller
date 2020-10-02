@@ -19,4 +19,3 @@ public static class CaliburnExtensions
         return screen.GetType().GetInterfaces().Any(x => x.Name.Contains("IHandle"));
     }
 }
-

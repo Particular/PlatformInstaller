@@ -1,6 +1,4 @@
-﻿// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable IdentifierTypo
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 

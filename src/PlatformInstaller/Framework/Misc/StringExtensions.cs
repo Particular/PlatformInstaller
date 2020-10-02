@@ -36,7 +36,7 @@ public static class StringExtensions
         var secureString = new SecureString();
         foreach (var ch in value)
         {
-            secureString .AppendChar(ch);
+            secureString.AppendChar(ch);
         }
         return secureString;
     }

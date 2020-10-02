@@ -1,5 +1,4 @@
-﻿// ReSharper disable IdentifierTypo
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 
 static class UnsafeNativeMethods

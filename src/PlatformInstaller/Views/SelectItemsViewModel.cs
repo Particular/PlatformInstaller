@@ -43,7 +43,7 @@ public class SelectItemsViewModel : Screen, IHandle<ResumeInstallCommand>
     {
         LoadingVisibility = Visibility.Visible;
         base.OnInitialize();
-        Task.Run(() => { Init(); });
+        _ = Task.Run(() => { Init(); });
     }
 
     static string GetImage(string name)
@@ -93,9 +93,6 @@ public class SelectItemsViewModel : Screen, IHandle<ResumeInstallCommand>
         eventAggregator.Publish<ExitApplicationCommand>();
     }
 
-    // Suppressing NotAccessedField.Global
-    // Fields are used via Caliburn.Micro
-    [SuppressMessage("ReSharper", "NotAccessedField.Global")]
     public class Item : INotifyPropertyChanged
     {
         public IEventAggregator EventAggregator;

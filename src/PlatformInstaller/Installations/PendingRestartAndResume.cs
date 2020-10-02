@@ -8,7 +8,7 @@ public class PendingRestartAndResume :
     IHandle<RunInstallEvent>,
     IHandle<CheckPointInstallEvent>
 {
-    public virtual bool ResumedFromRestart { private set; get; }
+    public virtual bool ResumedFromRestart { get; private set; }
 
     const string runOnceKeyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce";
     const string platformInstallerKeyPath = @"SOFTWARE\ParticularSoftware\PlatformInstaller";

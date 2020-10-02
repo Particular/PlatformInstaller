@@ -85,7 +85,6 @@ public class RuntimeUpgradeManager
 
         var exitCode = await processRunner.RunProcess(installer.FullName,
             "/passive",
-            // ReSharper disable once PossibleNullReferenceException
             installer.Directory.FullName,
             s => { },
             s => { }).ConfigureAwait(false);

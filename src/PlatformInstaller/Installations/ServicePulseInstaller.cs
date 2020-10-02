@@ -78,7 +78,6 @@ public class ServicePulseInstaller : IInstaller
 
         var exitCode = await processRunner.RunProcess(installer.FullName,
             $"/L*V {msiLog.QuoteForCommandline()}",
-            // ReSharper disable once PossibleNullReferenceException
             installer.Directory.FullName,
             logOutput,
             logError).ConfigureAwait(false);

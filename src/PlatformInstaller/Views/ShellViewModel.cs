@@ -111,7 +111,7 @@ public class ShellViewModel : Conductor<object>,
                 }
             }
         }
-        catch(WebException)
+        catch (WebException)
         {
         }
 

@@ -14,20 +14,19 @@ class GifImage : Image
 
     public int FrameIndex
     {
-        get { return (int) GetValue(FrameIndexProperty); }
+        get { return (int)GetValue(FrameIndexProperty); }
         set { SetValue(FrameIndexProperty, value); }
     }
 
     void Initialize()
     {
         gifDecoder = new GifBitmapDecoder(new Uri(GifSource), BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
-// ReSharper disable once PossibleLossOfFraction
-        var timeSpan = new TimeSpan(0, 0, 0, gifDecoder.Frames.Count/10, (int) ((gifDecoder.Frames.Count/10.0 - gifDecoder.Frames.Count/10)*1000));
+        var timeSpan = new TimeSpan(0, 0, 0, gifDecoder.Frames.Count / 10, (int)(((gifDecoder.Frames.Count / 10.0) - (gifDecoder.Frames.Count / 10)) * 1000));
         var duration = new Duration(timeSpan);
         animation = new Int32Animation(0, gifDecoder.Frames.Count - 1, duration)
-            {
-                RepeatBehavior = RepeatBehavior.Forever
-            };
+        {
+            RepeatBehavior = RepeatBehavior.Forever
+        };
         Source = gifDecoder.Frames[0];
 
         isInitialized = true;
@@ -40,8 +39,8 @@ class GifImage : Image
 
     static void VisibilityPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
-        var gifImage = (GifImage) sender;
-        if ((Visibility) e.NewValue == Visibility.Visible)
+        var gifImage = (GifImage)sender;
+        if ((Visibility)e.NewValue == Visibility.Visible)
         {
             gifImage.StartAnimation();
         }
@@ -56,13 +55,13 @@ class GifImage : Image
 
     static void ChangingFrameIndex(DependencyObject obj, DependencyPropertyChangedEventArgs ev)
     {
-        var gifImage = (GifImage) obj;
-        gifImage.Source = gifImage.gifDecoder.Frames[(int) ev.NewValue];
+        var gifImage = (GifImage)obj;
+        gifImage.Source = gifImage.gifDecoder.Frames[(int)ev.NewValue];
     }
 
     public bool AutoStart
     {
-        get { return (bool) GetValue(AutoStartProperty); }
+        get { return (bool)GetValue(AutoStartProperty); }
         set { SetValue(AutoStartProperty, value); }
     }
 
@@ -70,17 +69,16 @@ class GifImage : Image
 
     static void AutoStartPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
-        if ((bool) e.NewValue)
+        if ((bool)e.NewValue)
         {
-            var gifImage = (GifImage) sender;
+            var gifImage = (GifImage)sender;
             gifImage.StartAnimation();
         }
     }
 
     string GifSource
     {
-        get { return (string) GetValue(GifSourceProperty); }
-// ReSharper disable once UnusedMember.Local
+        get => (string)GetValue(GifSourceProperty);
         set
         {
             SetValue(GifSourceProperty, value);
@@ -99,7 +97,7 @@ class GifImage : Image
 
     static void GifSourcePropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
-        var gifImage = (GifImage) sender;
+        var gifImage = (GifImage)sender;
         gifImage.Initialize();
     }
 

@@ -75,7 +75,6 @@ public class ServiceInsightInstaller : IInstaller
 
         var exitCode = await processRunner.RunProcess(installer.FullName,
             $"/quiet /L*V {msiLog.QuoteForCommandline()}",
-            // ReSharper disable once PossibleNullReferenceException
             installer.Directory.FullName,
             logOutput,
             logError)

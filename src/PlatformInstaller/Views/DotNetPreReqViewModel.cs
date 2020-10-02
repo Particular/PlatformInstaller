@@ -24,5 +24,3 @@ public  class DotNetPreReqViewModel : Screen
         eventAggregator.Publish<DotNetStartInstallWizardCommand>();
     }
 }
-
-

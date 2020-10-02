@@ -55,7 +55,6 @@ public class InstallFeedbackReporter : IHandle<InstallSucceededEvent>, IHandle<I
     {
         using (var regRoot = Registry.CurrentUser.CreateSubKeyEx(@"Software\ParticularSoftware\PlatformInstaller\"))
         {
-            // ReSharper disable once PossibleNullReferenceException
             regRoot.SetValue("InstallationFeedbackReported", "true");
         }
     }

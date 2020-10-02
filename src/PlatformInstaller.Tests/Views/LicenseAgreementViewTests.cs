@@ -28,4 +28,3 @@ public class LicenseAgreementViewTests
         return new LicenseAgreementViewModel(new FakeEventAggregator());
     }
 }
-

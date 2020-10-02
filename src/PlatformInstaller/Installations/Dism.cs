@@ -12,7 +12,8 @@ public class Dism
         public FeatureState State { get; set; }
         string displayName;
 
-        public string DisplayName {
+        public string DisplayName
+        {
             get
             {
                 GetDisplayName();
@@ -25,9 +26,8 @@ public class Dism
             var runner = new ProcessRunner();
 
             // The DISM command line options here are OS specific
-
             var dismParams = GetDismParams();
-            var t = runner.RunProcess("Dism.exe", dismParams, null, s=>{}, null)
+            var t = runner.RunProcess("Dism.exe", dismParams, null, s => { }, null)
                 .ConfigureAwait(false);
             var exitcode = t.GetAwaiter().GetResult();
             return exitcode == Success || exitcode == Success_And_Reboot_Required;

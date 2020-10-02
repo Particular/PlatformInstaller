@@ -3,4 +3,3 @@
     public string Failure;
     public string FailureDetails;
 }
-

@@ -30,7 +30,7 @@ public class WindowsVersion
                 }
                 if (Environment.OSVersion.Version.Minor == 2 || Environment.OSVersion.Version.Minor == 3)
                 {
-                    return osVersionInfoEx.ProductType == VER_NT_WORKSTATION ? Windows.Workstation8 :Windows.Server2012;
+                    return osVersionInfoEx.ProductType == VER_NT_WORKSTATION ? Windows.Workstation8 : Windows.Server2012;
                 }
                 return Windows.Unsupported;
 
@@ -41,12 +41,9 @@ public class WindowsVersion
 
 
     [DllImport("Kernel32", CharSet = CharSet.Auto)]
-    static extern bool GetVersionEx([Out] [In] OSVersionInfo versionInformation);
+    static extern bool GetVersionEx([Out][In] OSVersionInfo versionInformation);
 
 
-    // ReSharper disable UnusedField.Compiler
-    // ReSharper disable NotAccessedField.Local
-    // ReSharper disable UnassignedField.Compiler
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
     class OSVersionInfoEx : OSVersionInfo
     {
@@ -60,7 +57,6 @@ public class WindowsVersion
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
     class OSVersionInfo
     {
-        // ReSharper disable once NotAccessedField.Global
         public uint OSVersionInfoSize =
             (uint)Marshal.SizeOf(typeof(OSVersionInfo));
 

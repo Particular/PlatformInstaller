@@ -76,7 +76,6 @@ public class ServiceControlInstaller : IInstaller
         eventAggregator.PublishOnUIThread(new NestedInstallProgressEvent { Name = $"Executing {Name} installation" });
         var exitCode = await processRunner.RunProcess(installer.FullName,
             $"/quiet /L*V {msiLog.QuoteForCommandline()}",
-            // ReSharper disable once PossibleNullReferenceException
             installer.Directory.FullName,
             logOutput,
             logError)
@@ -135,7 +134,7 @@ public class ServiceControlInstaller : IInstaller
                 var value = GetManagementPath();
                 if (File.Exists(value))
                 {
-                    processRunner.RunProcess(value, "", Path.GetDirectoryName(value), s => { }, s => { });
+                    _ = processRunner.RunProcess(value, "", Path.GetDirectoryName(value), s => { }, s => { });
                 }
                 else
                 {

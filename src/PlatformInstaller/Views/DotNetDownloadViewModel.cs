@@ -49,5 +49,3 @@ public  class DotNetDownloadViewModel : Screen,
         Description = "Download failed. Retrying...";
     }
 }
-
-

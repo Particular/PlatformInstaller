@@ -1,5 +1,4 @@
-﻿  
-public partial class LoadingSpinner 
+﻿public partial class LoadingSpinner 
 {
     public LoadingSpinner()
     {
